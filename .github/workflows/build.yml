@@ -17,12 +17,19 @@ jobs:
           MYSQL_PASSWORD: laravel
           MYSQL_DATABASE: laravel
         ports:
-          - 3307
+          - 3307/3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
       redis:
         image: redis:latest
         ports:
-          - 3308
+          - 32574:3306
     steps:
+      - name: Verify MySQL connection from host
+        run: |
+          sudo apt-get install -y mysql-client
+          mysql --host 127.0.0.1 --port 3307 -ularavel -plaravel -e "SHOW DATABASES"
+
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
