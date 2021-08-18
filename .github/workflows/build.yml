@@ -39,7 +39,7 @@ jobs:
 
       - name: Verify MySQL connection from host
         run: |
-          mysql --host 127.0.0.1 --port 3306 -ularavel -plaravel -e "SHOW DATABASES"
+          mysql --host 127.0.0.1 --port 3307 -ularavel -plaravel -e "SHOW DATABASES"
 
       - name: Setup application
         if: success()
