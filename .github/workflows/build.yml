@@ -10,7 +10,7 @@ jobs:
     runs-on: [ X64 ]
     services:
       mysql:
-        image: mysql:latest
+        image: mysql:5.7
         env:
           MYSQL_ROOT_PASSWORD: laravel
           MYSQL_USER: laravel
