@@ -17,13 +17,11 @@ jobs:
           MYSQL_PASSWORD: laravel
           MYSQL_DATABASE: laravel
         ports:
-          - 3307:3308
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3 -h 127.0.0.1
+          - 3307/tcp
       redis:
         image: redis:latest
         ports:
-          - 3308:6379
-        options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
+          - 3308/tcp
     steps:
       - uses: actions/checkout@v2
         with:
