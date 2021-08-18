@@ -47,6 +47,7 @@ jobs:
 
       - name: Prepare application
         run: |
+          ping -c 3 mysql
           php artisan config:clear
           php artisan migrate:fresh
 
