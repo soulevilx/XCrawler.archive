@@ -46,7 +46,7 @@ jobs:
       - name: Prepare application
         run: |
           php artisan config:clear
-          php artisan migrate:fresh
+          php test.php
 
       - name: Lint
         run: composer lint
