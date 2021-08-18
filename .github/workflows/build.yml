@@ -28,6 +28,7 @@ jobs:
       - name: Verify MySQL connection from host
         run: |
           mysql --host 127.0.0.1 --port 3307 -ularavel -plaravel -e "SHOW DATABASES"
+
       - name: Setup PHP with coverage driver
         uses: shivammathur/setup-php@v2
         with:
@@ -39,9 +40,10 @@ jobs:
     needs: setup
     runs-on: [ X64 ]
     steps:
-        - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
         with:
           fetch-depth: 0
+
       - name: Setup application
         if: success()
         run: |
@@ -52,6 +54,7 @@ jobs:
           php artisan config:clear
           php artisan migrate:fresh
 
+
       - name: Lint
         run: composer lint
 
@@ -59,6 +62,7 @@ jobs:
         if: success()
         run: |
           composer test-coverage
+
 
       - name: Coverage
         uses: actions/upload-artifact@v2
