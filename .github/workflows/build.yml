@@ -17,11 +17,11 @@ jobs:
           MYSQL_PASSWORD: laravel
           MYSQL_DATABASE: laravel
         ports:
-          - 3307/tcp
+          - 3307
       redis:
         image: redis:latest
         ports:
-          - 3308/tcp
+          - 3308
     steps:
       - uses: actions/checkout@v2
         with:
