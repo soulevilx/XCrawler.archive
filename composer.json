@@ -24,6 +24,7 @@
         "jooservices/xcrawler-client": "^0.5",
         "kevinrob/guzzle-cache-middleware": "^3.4",
         "laravel/framework": "^8",
+        "laravel/sanctum": "^2.11",
         "laravel/slack-notification-channel": "^2.3",
         "laravel/tinker": "^2.6",
         "sentry/sentry-laravel": "^2.7",
@@ -69,6 +70,9 @@
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "@php artisan ide-helper:generate",
             "@php artisan ide-helper:meta"
+        ],
+        "lint": [
+            "@php vendor/bin/phpstan analyze --level=0 app"
         ],
         "test-coverage": [
             "@php vendor/bin/phpunit --testsuite=Unit,Feature --coverage-clover coverage.xml"
