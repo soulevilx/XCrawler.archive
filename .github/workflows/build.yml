@@ -1,0 +1,51 @@
+name: XCrawler - Build & Tests
+
+on:
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  build:
+    # Test on Workstation
+    runs-on: [ X64 ]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+        if: success()
+
+      - name: Setup PHP with coverage driver
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0.5'
+          coverage: pcov
+          tools: php-cs-fixer, phpunit
+
+      - name: setup application
+        if: success()
+        run: |
+          php -r "file_exists('.env') || copy('.env.example', '.env');"
+          composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+          touch coverage.xml # since we always() upload let's make sure the file exists even if we don't run the tests
+          php artisan key:generate
+          chmod -R 777 storage bootstrap/cache
+
+      - name: Lint
+        run: composer lint
+
+      - name: Execute tests (Unit and Feature tests) via PHPUnit
+        if: success()
+        run: |
+          composer test-coverage
+
+      - name: Coverage
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: coverage
+          path: coverage.xml
+
+      - name: upload coverage to codecov.io
+        uses: codecov/codecov-action@v1
+        with:
+          file: ./coverage.xml
