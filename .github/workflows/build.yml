@@ -20,15 +20,10 @@ jobs:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
-      redis:
-        image: redis:latest
-        ports:
-          - 32574:3306
     steps:
       - name: Verify MySQL connection from host
         run: |
-          sudo apt-get install -y mysql-client
-          mysql --host 127.0.0.1 --port 3306 -ularavel -plaravel -e "SHOW DATABASES"
+          mysql --host mysql --port 3306 -ularavel -plaravel -e "SHOW DATABASES"
 
       - uses: actions/checkout@v2
         with:
