@@ -36,18 +36,21 @@ jobs:
           coverage: pcov
           tools: php-cs-fixer, phpunit
 
-      - name: setup application
+      - name: Setup application
         if: success()
         run: |
           php -r "file_exists('.env') || copy('.env.example', '.env');"
           composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-          touch coverage.xml # since we always() upload let's make sure the file exists even if we don't run the tests
           php artisan key:generate
           chmod -R 777 storage bootstrap/cache
-          php artisan migrate -v
+
+      - name: Prepare application
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
           REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+        run: |
+          php artisan config:clear
+          php artisan migrate:fresh
 
       - name: Lint
         run: composer lint
@@ -59,12 +62,13 @@ jobs:
 
       - name: Coverage
         uses: actions/upload-artifact@v2
-        if: always()
+        if: success()
         with:
           name: coverage
           path: coverage.xml
 
       - name: upload coverage to codecov.io
         uses: codecov/codecov-action@v1
+        if: success()
         with:
           file: ./coverage.xml
