@@ -5,7 +5,7 @@ on:
     branches: [ develop, master ]
 
 jobs:
-  build:
+  setup:
     # Test on Workstation
     runs-on: [ X64 ]
     services:
@@ -25,21 +25,23 @@ jobs:
           - 3308:6379
         options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
+      - name: Verify MySQL connection from host
+        run: |
+          mysql --host 127.0.0.1 --port 3307 -ularavel -plaravel -e "SHOW DATABASES"
       - name: Setup PHP with coverage driver
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.0.9'
           coverage: pcov
           tools: php-cs-fixer, phpunit
-
-      - name: Verify MySQL connection from host
-        run: |
-          mysql --host 127.0.0.1 --port 3307 -ularavel -plaravel -e "SHOW DATABASES"
-
+  build:
+    # Test on Workstation
+    needs: setup
+    runs-on: [ X64 ]
+    steps:
+        - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Setup application
         if: success()
         run: |
