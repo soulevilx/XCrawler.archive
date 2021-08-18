@@ -10,7 +10,7 @@ jobs:
     runs-on: [ X64 ]
     services:
       mysql:
-        image: mysql:latest
+        image: mariadb:10.5.8
         env:
           MYSQL_USER: laravel
           MYSQL_PASSWORD: laravel
