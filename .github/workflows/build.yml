@@ -23,7 +23,7 @@ jobs:
     steps:
       - name: Verify MySQL connection from host
         run: |
-          mysql --host mysql --port 3306 -ularavel -plaravel -e "SHOW DATABASES"
+          mysql --host 127.0.0.1 --port 3306 -ularavel -plaravel -e "SHOW DATABASES"
 
       - uses: actions/checkout@v2
         with:
