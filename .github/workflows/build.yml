@@ -17,14 +17,14 @@ jobs:
           MYSQL_PASSWORD: laravel
           MYSQL_DATABASE: laravel
         ports:
-          - 3306:3306
+          - 3307:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
+      redis:
+        image: redis
+        ports:
+          - 3308:6379
+        options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
-      - name: Verify MySQL connection from host
-        run: |
-          mysql --host 127.0.0.1 --port 3306 -ularavel -plaravel -e "SHOW DATABASES"
-
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
@@ -37,6 +37,10 @@ jobs:
           coverage: pcov
           tools: php-cs-fixer, phpunit
 
+      - name: Verify MySQL connection from host
+        run: |
+          mysql --host 127.0.0.1 --port 3306 -ularavel -plaravel -e "SHOW DATABASES"
+
       - name: Setup application
         if: success()
         run: |
@@ -48,7 +52,7 @@ jobs:
       - name: Prepare application
         run: |
           php artisan config:clear
-          php test.php
+          php artisan migrate:fresh
 
       - name: Lint
         run: composer lint
