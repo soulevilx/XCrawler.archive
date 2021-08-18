@@ -12,16 +12,16 @@ jobs:
       mysql:
         image: mysql:latest
         env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: false
-          MYSQL_ROOT_PASSWORD: root
+          MYSQL_USER: laravel
+          MYSQL_PASSWORD: laravel
           MYSQL_DATABASE: laravel
         ports:
-          - 3306/tcp
+          - 3307:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
       redis:
         image: redis
         ports:
-          - 6379/tcp
+          - 3308:6379
         options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
       - uses: actions/checkout@v2
