@@ -47,6 +47,10 @@ jobs:
           touch coverage.xml # since we always() upload let's make sure the file exists even if we don't run the tests
           php artisan key:generate
           chmod -R 777 storage bootstrap/cache
+          php artisan migrate -v
+        env:
+          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+          REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
 
       - name: Lint
         run: composer lint
