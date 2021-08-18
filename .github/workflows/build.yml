@@ -10,13 +10,14 @@ jobs:
     runs-on: [ X64 ]
     services:
       mysql:
-        image: mariadb:10.5.8
+        image: mysql:latest
         env:
+          MYSQL_ROOT_PASSWORD: laravel
           MYSQL_USER: laravel
           MYSQL_PASSWORD: laravel
           MYSQL_DATABASE: laravel
         ports:
-          - 3307:3306
+          - 3307:3308
       redis:
         image: redis
         ports:
