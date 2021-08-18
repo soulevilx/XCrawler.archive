@@ -1,0 +1,10 @@
+parameters:
+    level: 0
+    paths:
+        - app
+    inferPrivatePropertyTypeFromConstructor: true
+    excludes_analyse:
+        - */Tests/*
+        - */Database/*
+        - */Routes/*
+        - 'rector.php'
