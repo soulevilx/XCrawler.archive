@@ -1,5 +1,6 @@
 <?php
 
+use App\Core\Providers\CoreEventServiceProvider;
 use App\Core\Providers\CoreServiceProvider;
 
 return [
@@ -170,6 +171,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         CoreServiceProvider::class,
+        CoreEventServiceProvider::class
     ],
 
     /*

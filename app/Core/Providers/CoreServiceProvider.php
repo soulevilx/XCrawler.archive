@@ -2,6 +2,8 @@
 
 namespace App\Core\Providers;
 
+use App\Core\Listeners\ClientRequestEventSubscriber;
+
 class CoreServiceProvider extends BaseServiceProvider
 {
     public function boot()
