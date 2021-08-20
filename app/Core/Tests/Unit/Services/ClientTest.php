@@ -4,7 +4,10 @@ namespace App\Core\Tests\Unit\Services;
 
 use App\Core\Client;
 use App\Core\Events\ClientRequested;
+use App\Core\Notifications\ClientRequestFailedNotification;
+use Illuminate\Notifications\AnonymousNotifiable;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Notification;
 use Jooservices\XcrawlerClient\Interfaces\ResponseInterface;
 use Jooservices\XcrawlerClient\Response\DomResponse;
 use Jooservices\XcrawlerClient\XCrawlerClient;
@@ -49,7 +52,6 @@ class ClientTest extends TestCase
 
     public function testClientServiceRequestFailed()
     {
-        Event::fake();
         $this->mocker->shouldReceive('get')
             ->andReturn($this->getErrorMockedResponse())
         ;
@@ -64,5 +66,25 @@ class ClientTest extends TestCase
             'base_uri' => 'https://fake.com',
             'is_succeed' => false,
         ]);
+
+        Notification::assertSentTo(new AnonymousNotifiable, ClientRequestFailedNotification::class);
+    }
+
+    public function testClientServiceRequestFailedTriggerNotification()
+    {
+        $this->mocker->shouldReceive('get')
+            ->andReturn($this->getErrorMockedResponse())
+        ;
+        app()->instance(XCrawlerClient::class, $this->mocker);
+        $client = app(Client::class)->init('test', new DomResponse());
+        $client->request($this->faker->slug);
+
+        $this->assertDatabaseHas('client_requests', [
+            'service' => 'test',
+            'base_uri' => 'https://fake.com',
+            'is_succeed' => false,
+        ]);
+
+        Notification::assertSentTo(new AnonymousNotifiable, ClientRequestFailedNotification::class);
     }
 }
