@@ -58,7 +58,6 @@ jobs:
         run: |
           composer test-coverage
 
-
       - name: Coverage
         uses: actions/upload-artifact@v2
         if: success()

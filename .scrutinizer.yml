@@ -1,0 +1,36 @@
+build:
+  environment:
+    php: '8.0'
+    mysql: '5.7'
+    node: '8.1'
+    hosts:
+      laravel.dev: '127.0.0.1'
+    variables:
+      APP_KEY: 'base64:OYl4Bk9ekouOUIRXyeTD0FVi+cJ9D+HMyDJBgSBSUuI='
+      APP_ENV: 'testing'
+      APP_URL: 'http://laravel.dev'
+      API_HOST: 'laravel.dev'
+      DB_HOST: '127.0.0.1'
+      DB_DATABASE: 'scrutinizer'
+      DB_USERNAME: 'root'
+      DB_PASSWORD: ''
+      MAIL_DRIVER: 'log'
+  cache:
+    directories:
+      - node_modules
+      - vendor/
+      - ~/.composer/cache/
+  dependencies:
+    before:
+      - mysql -uroot -e 'CREATE DATABASE scrutinizer'
+  tests:
+    before:
+      - chmod -R 777 storage
+      - chmod -R 777 bootstrap/cache
+      - npm run production
+    override:
+      -
+        command: vendor/bin/phpunit --testsuite=Unit,Feature --coverage-clover coverage.xml
+        coverage:
+          file: coverage
+          format: clover
