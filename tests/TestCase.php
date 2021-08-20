@@ -28,10 +28,10 @@ abstract class TestCase extends BaseTestCase
         Notification::fake();
     }
 
-    protected function getFixture(string $path): string
+    protected function getFixture(?string $path): ?string
     {
-        if (!file_exists($this->fixtures.'/'.$path)) {
-            return '';
+        if (!$path || !file_exists($this->fixtures.'/'.$path)) {
+            return null;
         }
 
         return file_get_contents($this->fixtures.'/'.$path);
@@ -40,11 +40,12 @@ abstract class TestCase extends BaseTestCase
     /**
      * Get Successful Mocked External Service Response.
      */
-    protected function getSuccessfulMockedResponse(string $path): ResponseInterface
+    protected function getSuccessfulMockedResponse(string $path = null): ResponseInterface
     {
         $clientResponse = app(ResponseInterface::class);
+        $clientResponse->endpoint = $this->faker->slug;
         $clientResponse->responseSuccess = true;
-        $clientResponse->body = $this->getFixture($path);
+        $clientResponse->body = $this->getFixture($path) ?? '';
         $clientResponse->loadData();
 
         return $clientResponse;
@@ -56,11 +57,10 @@ abstract class TestCase extends BaseTestCase
     protected function getErrorMockedResponse(string $path = null): ResponseInterface
     {
         $clientResponse = app(ResponseInterface::class);
+        $clientResponse->endpoint = $this->faker->slug;
         $clientResponse->responseSuccess = false;
-        if ($path) {
-            $clientResponse->body = $this->getFixture($path);
-            $clientResponse->loadData();
-        }
+        $clientResponse->body = $this->getFixture($path) ?? '';
+        $clientResponse->loadData();
 
         return $clientResponse;
     }
