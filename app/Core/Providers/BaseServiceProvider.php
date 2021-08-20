@@ -9,23 +9,25 @@ use Throwable;
 
 class BaseServiceProvider extends ServiceProvider
 {
+    protected array $migrations = [
+    ];
+
+    protected array $configs = [
+    ];
+
     public function boot()
     {
         $this->testCacheConnection();
         $this->loadMigrations();
+        $this->loadConfigs();
     }
 
     /**
      * @return $this
      */
-    public function loadMigrations()
+    protected function loadMigrations()
     {
-        $dirs = [
-            __DIR__.'/../Database/Migrations',
-            __DIR__.'/../Database/Seeders',
-        ];
-
-        foreach ($dirs as $dir) {
+        foreach ($this->migrations as $dir) {
             if (!file_exists($dir)) {
                 continue;
             }
@@ -41,14 +43,16 @@ class BaseServiceProvider extends ServiceProvider
      *
      * @return $this
      */
-    protected function loadConfigs(string $dir, array $configs)
+    protected function loadConfigs()
     {
-        foreach ($configs as $config) {
-            $configFile = $dir.'/'.$config.'.php';
-            if (!file_exists($configFile)) {
-                continue;
+        foreach ($this->configs as $dir => $configs) {
+            foreach ($configs as $config) {
+                $configFile = $dir.'/'.$config.'.php';
+                if (!file_exists($configFile)) {
+                    continue;
+                }
+                $this->mergeConfigFrom($configFile, $config);
             }
-            $this->mergeConfigFrom($configFile, $config);
         }
 
         return $this;
