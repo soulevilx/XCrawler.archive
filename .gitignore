@@ -15,4 +15,7 @@ yarn-error.log
 /.vscode
 /.phpstorm.meta.php
 /_ide_helper.php
+ /data/
+/.php-cs-fixer.cache
+/coverage.xml
 /data/
