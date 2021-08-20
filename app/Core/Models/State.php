@@ -39,4 +39,6 @@ class State extends Model
         'entity' => 'string',
         'state' => 'string',
     ];
+
+    protected $table = 'states';
 }
