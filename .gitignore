@@ -18,3 +18,4 @@ yarn-error.log
  /data/
 /.php-cs-fixer.cache
 /coverage.xml
+/data/
