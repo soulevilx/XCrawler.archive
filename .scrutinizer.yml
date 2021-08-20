@@ -30,5 +30,5 @@ build:
       -
         command: vendor/bin/phpunit --testsuite=Unit,Feature --coverage-clover coverage.xml
         coverage:
-          file: coverage
+          file: coverage.xml
           format: clover
