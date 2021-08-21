@@ -2,10 +2,12 @@
 
 namespace App\Jav\Services\Movie;
 
+use App\Jav\Events\MovieCreated;
 use App\Jav\Models\Genre;
 use App\Jav\Models\Interfaces\MovieInterface;
 use App\Jav\Models\Movie;
 use App\Jav\Models\Performer;
+use Illuminate\Support\Facades\Event;
 
 class MovieService
 {
@@ -35,6 +37,6 @@ class MovieService
         $this->movie->genres()->syncWithoutDetaching($genreIds);
         $this->movie->performers()->syncWithoutDetaching($actorIds);
 
-        //Event::dispatch(new MovieCreated($this->movie));
+        Event::dispatch(new MovieCreated($this->movie));
     }
 }

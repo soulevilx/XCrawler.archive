@@ -2,13 +2,11 @@
 
 namespace App\Jav\Tests\Unit\Crawlers;
 
-use App\Jav\Crawlers\OnejavCrawler;
 use App\Jav\Models\Onejav;
 use App\Jav\Tests\JavTestCase;
+use App\Jav\Tests\Traits\HasOnejav;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
-use Jooservices\XcrawlerClient\Response\DomResponse;
-use Jooservices\XcrawlerClient\XCrawlerClient;
 use Mockery\MockInterface;
 
 /**
@@ -17,83 +15,15 @@ use Mockery\MockInterface;
  */
 class OnejavCrawlerTest extends JavTestCase
 {
-    protected MockInterface $mocker;
+    use HasOnejav;
 
-    private OnejavCrawler $crawler;
+    protected MockInterface $mocker;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $now = Carbon::now()->format(Onejav::DAILY_FORMAT);
-
-        $this->mocker = $this->getClientMock();
-        $this->mocker
-            ->shouldReceive('get')
-            ->with('invalid_date', [])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021_date.html'))
-        ;
-
-        $this->mocker
-            ->shouldReceive('get')
-            ->with('failed', [])
-            ->andReturn($this->getErrorMockedResponse(app(DomResponse::class)))
-        ;
-
-        $this->mocker
-            ->shouldReceive('get')
-            ->with($now, [])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021.html'))
-        ;
-        $this->mocker
-            ->shouldReceive('get')
-            ->with($now, ['page' => 2])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021_page_2.html'))
-        ;
-        $this->mocker
-            ->shouldReceive('get')
-            ->with($now, ['page' => 3])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021_page_3.html'))
-        ;
-        $this->mocker
-            ->shouldReceive('get')
-            ->with($now, ['page' => 4])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021_page_4.html'))
-        ;
-        $this->mocker
-            ->shouldReceive('get')
-            ->with($now, ['page' => 5])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021_page_5.html'))
-        ;
-
-        $this->mocker
-            ->shouldReceive('get')
-            ->with('/popular', [])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/popular.html'))
-        ;
-        $this->mocker
-            ->shouldReceive('get')
-            ->with('/popular', ['page' => 2])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/popular_page_2.html'))
-        ;
-        $this->mocker
-            ->shouldReceive('get')
-            ->with('/popular', ['page' => 3])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/popular_page_3.html'))
-        ;
-        $this->mocker
-            ->shouldReceive('get')
-            ->with('/popular', ['page' => 4])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/popular_page_4.html'))
-        ;
-        $this->mocker
-            ->shouldReceive('get')
-            ->with('/popular', ['page' => 5])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/popular_page_5.html'))
-        ;
-
-        app()->instance(XCrawlerClient::class, $this->mocker);
-        $this->crawler = app(OnejavCrawler::class);
+        $this->loadOnejavMock();
     }
 
     public function testGetItemsOnPage()

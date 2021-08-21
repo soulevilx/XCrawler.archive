@@ -40,7 +40,7 @@ class OnejavCrawler
     public function popular(): Collection
     {
         $items = collect();
-        $this->getItemsRecursive($items, '/popular');
+        $this->getItemsRecursive($items, 'popular');
 
         return $items;
     }
@@ -89,7 +89,10 @@ class OnejavCrawler
     private function parse(Crawler $crawler): ArrayObject
     {
         $item = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
-        $item->url = trim($crawler->filter('h5.title a')->attr('href'));
+
+        if ($crawler->filter('h5.title a')->count()) {
+            $item->url = trim($crawler->filter('h5.title a')->attr('href'));
+        }
 
         if ($crawler->filter('.columns img.image')->count()) {
             $item->cover = trim($crawler->filter('.columns img.image')->attr('src'));

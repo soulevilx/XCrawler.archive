@@ -17,6 +17,5 @@ class OnejavModelTest extends TestCase
         $this->assertEquals($onejav->genres, $onejav->movie->genres->pluck('name')->toArray());
         $this->assertEquals($onejav->performers, $onejav->movie->performers->pluck('name')->toArray());
         $this->assertTrue($onejav->movie->is_downloadable);
-
     }
 }
