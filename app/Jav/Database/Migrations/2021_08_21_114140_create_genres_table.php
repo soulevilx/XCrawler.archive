@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOnejavsTable extends Migration
+class CreateGenresTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,12 @@ class CreateOnejavsTable extends Migration
      */
     public function up()
     {
-        Schema::create('onejavs', function (Blueprint $table) {
+        Schema::create('genres', function (Blueprint $table) {
             $table->id();
+            $table->string('name')->unique();
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -26,6 +29,6 @@ class CreateOnejavsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('onejavs');
+        Schema::dropIfExists('genres');
     }
 }

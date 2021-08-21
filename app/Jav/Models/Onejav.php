@@ -3,24 +3,28 @@
 namespace App\Jav\Models;
 
 use App\Core\Models\Traits\HasFactory;
-use App\Core\Models\Traits\HasMovieObserver;
 use App\Jav\Crawlers\OnejavCrawler;
 use App\Jav\Models\Interfaces\MovieInterface;
-use App\Jav\Models\Traits\DefaultMovie;
+use App\Jav\Models\Traits\HasDefaultMovie;
+use App\Jav\Models\Traits\HasMovieObserver;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property string url
  */
-class Onejav extends Model
+class Onejav extends Model implements MovieInterface
 {
     use HasFactory;
     use SoftDeletes;
+    use HasMovieObserver;
+    use HasDefaultMovie;
 
     public const SERVICE = 'onejav';
     public const BASE_URL = 'https://onejav.com';
     public const DAILY_FORMAT = 'Y/m/d';
+
+    protected $table = 'onejav';
 
     protected $fillable = [
         'url',
@@ -52,9 +56,15 @@ class Onejav extends Model
         'date',
     ];
 
-    protected $table = 'onejav';
-
     public function isDownloadable(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Onejav have no state.
+     */
+    public function isCompletedState(): bool
     {
         return true;
     }

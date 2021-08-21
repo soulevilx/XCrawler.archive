@@ -5,13 +5,53 @@
          colors="true"
 >
     <testsuites>
+        <testsuite name="Aspire">
+            <directory suffix="Test.php">./app/*/Tests</directory>
+            <exclude>./app/*/Tests/External</exclude>
+        </testsuite>
+        <testsuite name="Quick">
+            <directory suffix="Test.php">./app/*/Tests/Quick</directory>
+        </testsuite>
         <testsuite name="Unit">
-            <directory suffix="Test.php">./tests/Unit</directory>
+            <directory suffix="Test.php">./app/*/Tests/Unit</directory>
         </testsuite>
         <testsuite name="Feature">
-            <directory suffix="Test.php">./tests/Feature</directory>
+            <directory suffix="Test.php">./app/*/Tests/Feature</directory>
+        </testsuite>
+        <testsuite name="Integration">
+            <directory suffix="Test.php">./app/*/Tests/Integration</directory>
+        </testsuite>
+        <testsuite name="External">
+            <directory suffix="Test.php">./app/*/Tests/External</directory>
+        </testsuite>
+        <testsuite name="Services">
+            <directory suffix="Test.php">./app/*/Tests/Unit/Services</directory>
+        </testsuite>
+        <testsuite name="Http">
+            <directory suffix="Test.php">./app/*/Tests/Feature/Http</directory>
+        </testsuite>
+        <testsuite name="V1">
+            <directory suffix="Test.php">./app/*/Tests/Feature/Http/V1</directory>
+        </testsuite>
+        <testsuite name="Dashboard">
+            <directory suffix="Test.php">./app/*/Tests/Feature/Http/Dashboard</directory>
+        </testsuite>
+        <testsuite name="Risk">
+            <directory suffix="Test.php">./app/*/Tests/Feature/Http/Risk</directory>
+        </testsuite>
+        <testsuite name="Invest">
+            <directory suffix="Test.php">./app/*/Tests/Feature/Http/Invest</directory>
+        </testsuite>
+        <testsuite name="Finance">
+            <directory suffix="Test.php">./app/Finance/Tests</directory>
         </testsuite>
     </testsuites>
+    <groups>
+        <exclude>
+            <group>External</group>
+            <group>Todo</group>
+        </exclude>
+    </groups>
     <coverage processUncoveredFiles="true">
         <include>
             <directory suffix=".php">./app</directory>
@@ -28,6 +68,7 @@
             <directory suffix=".php">./app/*/Tests</directory>
         </exclude>
     </coverage>
+
     <php>
         <server name="APP_ENV" value="testing"/>
         <server name="BCRYPT_ROUNDS" value="4"/>

@@ -35,7 +35,7 @@ class ClientTest extends TestCase
     {
         Event::fake();
         $this->mocker->shouldReceive('get')
-            ->andReturn($this->getSuccessfulMockedResponse())
+            ->andReturn($this->getSuccessfulMockedResponse(new DomResponse()))
         ;
         app()->instance(XCrawlerClient::class, $this->mocker);
         $client = app(Client::class)->init('test', new DomResponse());
@@ -53,13 +53,11 @@ class ClientTest extends TestCase
     public function testClientServiceRequestFailed()
     {
         $this->mocker->shouldReceive('get')
-            ->andReturn($this->getErrorMockedResponse())
+            ->andReturn($this->getErrorMockedResponse(new DomResponse()))
         ;
         app()->instance(XCrawlerClient::class, $this->mocker);
         $client = app(Client::class)->init('test', new DomResponse());
         $client->request($this->faker->slug);
-
-        Event::assertDispatched(ClientRequested::class);
 
         $this->assertDatabaseHas('client_requests', [
             'service' => 'test',
@@ -67,13 +65,13 @@ class ClientTest extends TestCase
             'is_succeed' => false,
         ]);
 
-        Notification::assertSentTo(new AnonymousNotifiable, ClientRequestFailedNotification::class);
+        Notification::assertSentTo(new AnonymousNotifiable(), ClientRequestFailedNotification::class);
     }
 
     public function testClientServiceRequestFailedTriggerNotification()
     {
         $this->mocker->shouldReceive('get')
-            ->andReturn($this->getErrorMockedResponse())
+            ->andReturn($this->getErrorMockedResponse(new DomResponse()))
         ;
         app()->instance(XCrawlerClient::class, $this->mocker);
         $client = app(Client::class)->init('test', new DomResponse());
@@ -85,6 +83,6 @@ class ClientTest extends TestCase
             'is_succeed' => false,
         ]);
 
-        Notification::assertSentTo(new AnonymousNotifiable, ClientRequestFailedNotification::class);
+        Notification::assertSentTo(new AnonymousNotifiable(), ClientRequestFailedNotification::class);
     }
 }
