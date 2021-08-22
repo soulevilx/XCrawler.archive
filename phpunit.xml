@@ -5,18 +5,51 @@
          colors="true"
 >
     <testsuites>
+        <testsuite name="Quick">
+            <directory suffix="Test.php">./app/*/Tests/Quick</directory>
+        </testsuite>
         <testsuite name="Unit">
-            <directory suffix="Test.php">./tests/Unit</directory>
+            <directory suffix="Test.php">./app/*/Tests/Unit</directory>
         </testsuite>
         <testsuite name="Feature">
-            <directory suffix="Test.php">./tests/Feature</directory>
+            <directory suffix="Test.php">./app/*/Tests/Feature</directory>
+        </testsuite>
+        <testsuite name="FeatureLive">
+            <directory suffix="TestLive.php">./app/*/Tests/Feature</directory>
+        </testsuite>
+        <testsuite name="Integration">
+            <directory suffix="Test.php">./app/*/Tests/Integration</directory>
+        </testsuite>
+        <testsuite name="External">
+            <directory suffix="Test.php">./app/*/Tests/External</directory>
+        </testsuite>
+        <testsuite name="Services">
+            <directory suffix="Test.php">./app/*/Tests/Unit/Services</directory>
         </testsuite>
     </testsuites>
+    <groups>
+        <exclude>
+            <group>External</group>
+            <group>Todo</group>
+        </exclude>
+    </groups>
     <coverage processUncoveredFiles="true">
         <include>
             <directory suffix=".php">./app</directory>
         </include>
+        <exclude>
+            <directory suffix=".php">./app/*/Database</directory>
+            <directory suffix=".php">./app/*/Events</directory>
+            <directory suffix=".php">./app/*/Exceptions</directory>
+            <directory suffix=".php">./app/*/Http/Requests</directory>
+            <directory suffix=".php">./app/*/Http/Resources</directory>
+            <directory suffix=".php">./app/*/Notifications</directory>
+            <directory suffix=".php">./app/*/Providers</directory>
+            <directory suffix=".php">./app/*/Routes</directory>
+            <directory suffix=".php">./app/*/Tests</directory>
+        </exclude>
     </coverage>
+
     <php>
         <server name="APP_ENV" value="testing"/>
         <server name="BCRYPT_ROUNDS" value="4"/>

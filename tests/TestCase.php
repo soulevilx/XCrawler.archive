@@ -10,6 +10,8 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Support\Facades\Notification;
 use Jooservices\XcrawlerClient\Interfaces\ResponseInterface;
+use Jooservices\XcrawlerClient\XCrawlerClient;
+use Mockery\MockInterface;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -28,6 +30,20 @@ abstract class TestCase extends BaseTestCase
         Notification::fake();
     }
 
+    /**
+     * @return MockInterface
+     */
+    protected function getClientMock(): MockInterface
+    {
+        $mocker = \Mockery::mock(XCrawlerClient::class);
+        $mocker->shouldReceive('setService')->andReturnSelf();
+        $mocker->shouldReceive('init')->andReturnSelf();
+        $mocker->shouldReceive('setHeaders')->andReturnSelf();
+        $mocker->shouldReceive('setContentType')->andReturnSelf();
+
+        return $mocker;
+    }
+
     protected function getFixture(?string $path): ?string
     {
         if (!$path || !file_exists($this->fixtures.'/'.$path)) {
@@ -40,29 +56,27 @@ abstract class TestCase extends BaseTestCase
     /**
      * Get Successful Mocked External Service Response.
      */
-    protected function getSuccessfulMockedResponse(string $path = null): ResponseInterface
+    protected function getSuccessfulMockedResponse(ResponseInterface $response, string $path = null): ResponseInterface
     {
-        $clientResponse = app(ResponseInterface::class);
-        $clientResponse->endpoint = $this->faker->slug;
-        $clientResponse->responseSuccess = true;
-        $clientResponse->body = $this->getFixture($path) ?? '';
-        $clientResponse->loadData();
+        $response->endpoint = $this->faker->slug;
+        $response->responseSuccess = true;
+        $response->body = $this->getFixture($path) ?? '';
+        $response->loadData();
 
-        return $clientResponse;
+        return $response;
     }
 
     /**
      * Get Successful Mocked External Service Response.
      */
-    protected function getErrorMockedResponse(string $path = null): ResponseInterface
+    protected function getErrorMockedResponse(ResponseInterface $response, ?string $path = null): ResponseInterface
     {
-        $clientResponse = app(ResponseInterface::class);
-        $clientResponse->endpoint = $this->faker->slug;
-        $clientResponse->responseSuccess = false;
-        $clientResponse->body = $this->getFixture($path) ?? '';
-        $clientResponse->loadData();
+        $response->endpoint = $this->faker->slug;
+        $response->responseSuccess = false;
+        $response->body = $this->getFixture($path) ?? '';
+        $response->loadData();
 
-        return $clientResponse;
+        return $response;
     }
 
     protected function refreshTestDatabase()

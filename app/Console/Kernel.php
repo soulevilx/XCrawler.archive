@@ -20,7 +20,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('jav:onejav release')->everyFiveMinutes();
+        $schedule->command('jav:onejav daily')->dailyAt('12:00');
     }
 
     /**
@@ -28,7 +29,11 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load([
+            __DIR__.'/Commands',
+            __DIR__.'/../Core/Console/Commands',
+            __DIR__.'/../Jav/Console/Commands',
+        ]);
 
         require base_path('routes/console.php');
     }

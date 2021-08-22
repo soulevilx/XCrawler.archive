@@ -2,14 +2,16 @@
 
 namespace App\Core\Providers;
 
-use App\Core\Listeners\ClientRequestEventSubscriber;
-
 class CoreServiceProvider extends BaseServiceProvider
 {
-    public function boot()
-    {
-        parent::boot();
+    protected array $migrations = [
+        __DIR__.'/../Database/Migrations',
+        __DIR__.'/../Database/Seeders',
+    ];
 
-        $this->loadConfigs(__DIR__.'/../Config', ['services']);
-    }
+    protected array $configs = [
+        __DIR__.'/../Config' => [
+            'services',
+        ],
+    ];
 }

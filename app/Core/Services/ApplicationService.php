@@ -57,6 +57,11 @@ class ApplicationService
         return app(ApplicationService::class)->get($name, $key, $default);
     }
 
+    public static function setConfig(string $name, string $key, $value)
+    {
+        return app(ApplicationService::class)->save($name, $key, $value);
+    }
+
     public function refresh()
     {
         $this->models = Application::all()->keyBy('name');

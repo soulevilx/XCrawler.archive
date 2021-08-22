@@ -100,7 +100,7 @@ class Client
 
     public function request(string $endpoint, array $payload = [], string $method = 'GET')
     {
-        $response = $this->client->{strtolower($method)}($endpoint, $payload, $method);
+        $response = $this->client->{strtolower($method)}($endpoint, $payload);
         Event::dispatch(new ClientRequested($response));
 
         ClientRequest::create([
