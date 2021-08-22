@@ -19,3 +19,4 @@ yarn-error.log
 /.php-cs-fixer.cache
 /coverage.xml
 /data/
+/public/vendor/

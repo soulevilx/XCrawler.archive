@@ -3,7 +3,6 @@
 use Illuminate\Support\Str;
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Horizon Domain
@@ -186,5 +185,16 @@ return [
     ],
 
     'environments' => [
+        'staging' => [
+            'crawling' => [
+                'connection' => 'redis',
+                'queue' => ['crawling'],
+                'balance' => 'auto',
+                'maxProcesses' => 2,
+                'memory' => 2048,
+                'tries' => 3,
+                'nice' => 0,
+            ],
+        ],
     ],
 ];
