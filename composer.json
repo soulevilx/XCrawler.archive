@@ -36,10 +36,9 @@
         "beyondcode/laravel-dump-server": "^1.7",
         "facade/ignition": "^2",
         "fakerphp/faker": "^1.9.1",
-        "laravel/sail": "^1",
+        "friendsofphp/php-cs-fixer": "^3.0",
         "mockery/mockery": "^1.4",
         "nunomaduro/collision": "^5",
-        "friendsofphp/php-cs-fixer": "^3.0",
         "phpstan/phpstan": "^0.12.94",
         "phpunit/phpunit": "^9.5",
         "squizlabs/php_codesniffer": "^3.6"
