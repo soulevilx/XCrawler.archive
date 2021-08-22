@@ -60,5 +60,6 @@ jobs:
           composer test-live
 
       - name: Deploy
+        if: success()
         run: |
           run: ~/deployer.sh -s
