@@ -67,4 +67,4 @@ jobs:
       - name: Deploy
         if: success()
         run: |
-          run: ~/deployer.sh -s
+          ~/deployer.sh -s
