@@ -13,9 +13,9 @@ class R18Crawler
     {
     }
 
-    public function getItem(string $url, array $payload = []): ?array
+    public function getItem(string $contentId, array $payload = []): ?array
     {
-        $response = $this->jsonClient->get($url, $payload);
+        $response = $this->jsonClient->get(R18::MOVIE_DETAIL_ENDPOINT.'/'.$contentId, $payload);
 
         if (!$response->isSuccessful()) {
             return null;
