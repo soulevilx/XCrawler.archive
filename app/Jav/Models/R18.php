@@ -44,11 +44,6 @@ class R18 extends Model implements MovieInterface
     public const MOVIE_RANKING_URL = '/videos/rankings/movies/type=daily';
     public const MOVIE_DETAIL_ENDPOINT = '/api/v4f/contents';
 
-    public const STATE_INIT = 'R1IN';
-    public const STATE_PENDING = 'R1PE';
-    public const STATE_PROCESSING = 'R1PR';
-    public const STATE_COMPLETED = 'R1CE';
-
     protected $table = 'r18';
 
     protected $fillable = [

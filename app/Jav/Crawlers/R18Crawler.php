@@ -3,6 +3,7 @@
 namespace App\Jav\Crawlers;
 
 use App\Core\Client;
+use App\Jav\Models\R18;
 use Exception;
 use Illuminate\Support\Collection;
 
@@ -44,7 +45,7 @@ class R18Crawler
                 $itemId = $el->attr('data-content_id');
 
                 return [
-                    'url' => 'https://www.r18.com/videos/vod/movies/detail/-/id='.$itemId,
+                    'url' => R18::BASE_URL.'/videos/vod/movies/detail/-/id='.$itemId,
                     'content_id' => $itemId,
                 ];
             }

@@ -23,7 +23,6 @@ class R18CrawlerTest extends JavTestCase
 
     public function testGetLinks()
     {
-
         $items = $this->crawler->getItemLinks(R18::MOVIE_LIST_URL);
 
         $this->assertEquals(
@@ -34,7 +33,6 @@ class R18CrawlerTest extends JavTestCase
 
     public function testGetPages()
     {
-
         $pages = $this->crawler->getPages(R18::MOVIE_LIST_URL);
 
         $this->assertEquals(1667, $pages);
@@ -42,7 +40,6 @@ class R18CrawlerTest extends JavTestCase
 
     public function testGetItem()
     {
-
         $item = $this->crawler->getItem('api/v4f/contents/rki00506');
 
         $this->assertIsArray($item);

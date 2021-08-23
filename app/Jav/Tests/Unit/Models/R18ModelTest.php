@@ -14,6 +14,9 @@ class R18ModelTest extends TestCase
 {
     public function testModel()
     {
+        /**
+         * @var R18 $r18
+         */
         $r18 = R18::factory()->create();
 
         $this->assertNull($r18->movie);
