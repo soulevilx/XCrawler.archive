@@ -37,17 +37,17 @@ class ItemFetch implements ShouldQueue
 
     public function middleware()
     {
-        if ('testing' !== config('app.env')) {
-            $rateLimitedMiddleware = (new RateLimited())
-                ->allow(2) // Allow 2 jobs
-                ->everySecond() // In second
-                ->releaseAfterMinutes(15) // Release back to pool after 15 minutes
-            ;
-
-            return [$rateLimitedMiddleware];
+        if ('testing' === config('app.env')) {
+            return [];
         }
 
-        return [];
+        $rateLimitedMiddleware = (new RateLimited())
+            ->allow(2) // Allow 2 jobs
+            ->everySecond() // In second
+            ->releaseAfterMinutes(15) // Release back to pool after 15 minutes
+        ;
+
+        return [$rateLimitedMiddleware];
     }
 
     public function handle(R18Service $service)
