@@ -7,7 +7,6 @@ use App\Jav\Tests\JavTestCase;
 use App\Jav\Tests\Traits\HasOnejav;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
-use Mockery\MockInterface;
 
 /**
  * @internal
@@ -16,8 +15,6 @@ use Mockery\MockInterface;
 class OnejavCrawlerTest extends JavTestCase
 {
     use HasOnejav;
-
-    protected MockInterface $mocker;
 
     public function setUp(): void
     {
