@@ -13,6 +13,9 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  */
 class WordPressPostModelTest extends JavTestCase
 {
+    /**
+     * @covers \App\Core\Models\WordPressPost
+     */
     public function testModel()
     {
         $movie = Movie::factory()->create();
