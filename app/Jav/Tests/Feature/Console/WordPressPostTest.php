@@ -31,7 +31,9 @@ class WordPressPostTest extends JavTestCase
 
         $this->artisan('jav:email-wordpress');
 
-        Mail::assertSent(WordPressPost::class);
+        Mail::assertSent(WordPressPost::class, function ($mail) use ($movie) {
+            return $mail->movie->is($movie);
+        });
         $this->assertEquals(State::STATE_COMPLETED, $movie->wordpress->refresh()->state_code);
     }
 }

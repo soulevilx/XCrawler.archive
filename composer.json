@@ -81,6 +81,9 @@
         "test-coverage": [
             "@php vendor/bin/phpunit --testsuite=Unit,Feature --coverage-clover coverage.xml"
         ],
+        "test-coverage-html": [
+            "@php vendor/bin/phpunit --testsuite=Unit,Feature --coverage-html coverage"
+        ],
         "test-live": [
             "@php vendor/bin/phpunit --testsuite=FeatureLive"
         ]
