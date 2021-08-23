@@ -14,6 +14,13 @@ use Illuminate\Support\Facades\Mail;
  */
 class WordPressPostTest extends JavTestCase
 {
+    public function testSendmailNothing()
+    {
+        $this->artisan('jav:email-wordpress');
+
+        Mail::assertNothingSent();
+    }
+
     public function testSendmail()
     {
         $movie = Movie::factory()->create();
