@@ -43,6 +43,9 @@ class OnejavModelTest extends JavTestCase
         );
     }
 
+    /**
+     * @covers \App\Jav\Models\Onejav
+     */
     public function testModelRefetch()
     {
         $this->mocker = $this->getClientMock();
