@@ -28,84 +28,38 @@ trait OnejavMocker
             ->andReturn($this->getErrorMockedResponse(app(DomResponse::class)))
         ;
 
-        // New
-        $this->mocker
-            ->shouldReceive('get')
-            ->with('new', ['page' => 1])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021.html'))
-        ;
-        $this->mocker
-            ->shouldReceive('get')
-            ->with('new', ['page' => 2])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021_page_2.html'))
-        ;
-        $this->mocker
-            ->shouldReceive('get')
-            ->with('new', ['page' => 3])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021_page_3.html'))
-        ;
-        $this->mocker
-            ->shouldReceive('get')
-            ->with('new', ['page' => 4])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021_page_4.html'))
-        ;
-        $this->mocker
-            ->shouldReceive('get')
-            ->with('new', ['page' => 5])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021_page_5.html'))
-        ;
+        for ($index = 1; $index <= 5; ++$index) {
+            $fileName = 1 === $index ? 'Onejav/july_22_2021.html' : 'Onejav/july_22_2021_page_'.$index.'.html';
+            $this->mocker
+                ->shouldReceive('get')
+                ->with('new', ['page' => $index])
+                ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), $fileName))
+            ;
 
-        $this->mocker
-            ->shouldReceive('get')
-            ->with($now, [])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021.html'))
-        ;
-        $this->mocker
-            ->shouldReceive('get')
-            ->with($now, ['page' => 2])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021_page_2.html'))
-        ;
-        $this->mocker
-            ->shouldReceive('get')
-            ->with($now, ['page' => 3])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021_page_3.html'))
-        ;
-        $this->mocker
-            ->shouldReceive('get')
-            ->with($now, ['page' => 4])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021_page_4.html'))
-        ;
-        $this->mocker
-            ->shouldReceive('get')
-            ->with($now, ['page' => 5])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021_page_5.html'))
-        ;
-
-        $this->mocker
-            ->shouldReceive('get')
-            ->with('popular', [])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/popular.html'))
-        ;
-        $this->mocker
-            ->shouldReceive('get')
-            ->with('popular', ['page' => 2])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/popular_page_2.html'))
-        ;
-        $this->mocker
-            ->shouldReceive('get')
-            ->with('popular', ['page' => 3])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/popular_page_3.html'))
-        ;
-        $this->mocker
-            ->shouldReceive('get')
-            ->with('popular', ['page' => 4])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/popular_page_4.html'))
-        ;
-        $this->mocker
-            ->shouldReceive('get')
-            ->with('popular', ['page' => 5])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/popular_page_5.html'))
-        ;
+            if (1 === $index) {
+                $this->mocker
+                    ->shouldReceive('get')
+                    ->with($now, [])
+                    ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), $fileName))
+                ;
+                $this->mocker
+                    ->shouldReceive('get')
+                    ->with('popular', [])
+                    ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/popular.html'))
+                ;
+            } else {
+                $this->mocker
+                    ->shouldReceive('get')
+                    ->with($now, ['page' => $index])
+                    ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), $fileName))
+                ;
+                $this->mocker
+                    ->shouldReceive('get')
+                    ->with('popular', ['page' => $index])
+                    ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/popular_page_'.$index.'.html'))
+                ;
+            }
+        }
 
         app()->instance(XCrawlerClient::class, $this->mocker);
         $this->crawler = app(OnejavCrawler::class);
