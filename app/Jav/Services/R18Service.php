@@ -42,6 +42,11 @@ class R18Service
         return $this->model;
     }
 
+    public function item(R18 $model)
+    {
+        return $model->refetch();
+    }
+
     public function release()
     {
         /**

@@ -8,6 +8,10 @@ use App\Jav\Tests\JavTestCase;
 use App\Jav\Tests\Traits\OnejavMocker;
 use Illuminate\Support\Facades\Queue;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class OnejavTest extends JavTestCase
 {
     use OnejavMocker;
@@ -23,12 +27,16 @@ class OnejavTest extends JavTestCase
     public function testOnejavDaily()
     {
         $this->artisan('jav:onejav daily');
-        Queue::assertPushed(DailyFetch::class);
+        Queue::assertPushed(function (DailyFetch $job) {
+            return 'crawling' === $job->queue;
+        });
     }
 
     public function testOnejavRelease()
     {
         $this->artisan('jav:onejav release');
-        Queue::assertPushed(ReleaseFetch::class);
+        Queue::assertPushed(function (ReleaseFetch $job) {
+            return 'crawling' === $job->queue;
+        });
     }
 }
