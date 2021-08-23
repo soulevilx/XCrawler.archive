@@ -50,6 +50,7 @@ class Movie extends Model
         'gallery' => 'array',
         'images' => 'array',
         'sample' => 'array',
+        'series' => 'array',
         'is_downloadable' => 'boolean',
     ];
 

@@ -20,8 +20,13 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        // Onejav
         $schedule->command('jav:onejav release')->everyFiveMinutes();
         $schedule->command('jav:onejav daily')->dailyAt('12:00');
+
+        // R18
+        $schedule->command('jav:r18 release')->everyFiveMinutes();
+        $schedule->command('jav:r18 item');
     }
 
     /**

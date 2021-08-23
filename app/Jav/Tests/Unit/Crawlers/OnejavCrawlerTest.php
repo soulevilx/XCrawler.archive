@@ -4,10 +4,9 @@ namespace App\Jav\Tests\Unit\Crawlers;
 
 use App\Jav\Models\Onejav;
 use App\Jav\Tests\JavTestCase;
-use App\Jav\Tests\Traits\HasOnejav;
+use App\Jav\Tests\Traits\OnejavMocker;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
-use Mockery\MockInterface;
 
 /**
  * @internal
@@ -15,9 +14,7 @@ use Mockery\MockInterface;
  */
 class OnejavCrawlerTest extends JavTestCase
 {
-    use HasOnejav;
-
-    protected MockInterface $mocker;
+    use OnejavMocker;
 
     public function setUp(): void
     {
