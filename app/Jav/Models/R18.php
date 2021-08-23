@@ -135,6 +135,7 @@ class R18 extends Model implements MovieInterface
         }
 
         $item['url'] = $item['detail_url'];
+        $item['cover'] = $item['cover'] ?? $item['images']['jacket_image']['large'];
 
         if ($item) {
             $this->update($item);

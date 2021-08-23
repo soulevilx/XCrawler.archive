@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Jooservices\XcrawlerClient\Interfaces\ResponseInterface;
 use Jooservices\XcrawlerClient\XCrawlerClient;
@@ -28,6 +29,7 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
 
         Notification::fake();
+        Mail::fake();
     }
 
     /**

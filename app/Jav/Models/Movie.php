@@ -3,8 +3,10 @@
 namespace App\Jav\Models;
 
 use App\Core\Models\Traits\HasFactory;
+use App\Core\Models\WordPressPost;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 
@@ -51,6 +53,7 @@ class Movie extends Model
         'images' => 'array',
         'sample' => 'array',
         'series' => 'array',
+        'director' => 'string',
         'is_downloadable' => 'boolean',
     ];
 
@@ -69,18 +72,18 @@ class Movie extends Model
         return $this->belongsToMany(Performer::class, 'movie_performers')->withTimestamps();
     }
 
-//    public function wordpress()
-//    {
-//        return $this->hasOne(WordPressPost::class, 'title', 'dvd_id');
-//    }
-//
-//    public function onejav(): HasOne
-//    {
-//        return $this->hasOne(Onejav::class, 'dvd_id', 'dvd_id');
-//    }
-//
-//    public function r18(): HasOne
-//    {
-//        return $this->hasOne(R18::class, 'dvd_id', 'dvd_id');
-//    }
+    public function wordpress()
+    {
+        return $this->morphOne(WordPressPost::class, 'model');
+    }
+
+    public function onejav(): HasOne
+    {
+        return $this->hasOne(Onejav::class, 'dvd_id', 'dvd_id');
+    }
+
+    public function r18(): HasOne
+    {
+        return $this->hasOne(R18::class, 'dvd_id', 'dvd_id');
+    }
 }

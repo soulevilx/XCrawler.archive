@@ -73,6 +73,7 @@ class OnejavServiceTest extends JavTestCase
 
         $this->assertDatabaseCount('onejav', $items->count());
         $this->assertDatabaseCount('movies', $items->count());
+        $this->assertDatabaseCount('wordpress_posts', $items->count());
     }
 
     public function testRelease()
@@ -84,6 +85,7 @@ class OnejavServiceTest extends JavTestCase
 
         $this->assertDatabaseCount('onejav', $items->count());
         $this->assertDatabaseCount('movies', $items->count());
+        $this->assertDatabaseCount('wordpress_posts', $items->count());
 
         $this->assertEquals(2, ApplicationService::getConfig('onejav', 'current_page'));
     }
