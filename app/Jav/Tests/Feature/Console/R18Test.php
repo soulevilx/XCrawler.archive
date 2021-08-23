@@ -25,6 +25,12 @@ class R18Test extends JavTestCase
         Queue::fake();
     }
 
+    public function testR18InvalidTask()
+    {
+        $this->artisan('jav:r18 fake');
+        Queue::assertNothingPushed();
+    }
+
     public function testR18Release()
     {
         $this->artisan('jav:r18 release');

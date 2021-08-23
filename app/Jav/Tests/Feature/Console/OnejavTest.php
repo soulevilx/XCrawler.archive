@@ -24,6 +24,12 @@ class OnejavTest extends JavTestCase
         Queue::fake();
     }
 
+    public function testOnejavInvalidTask()
+    {
+        $this->artisan('jav:onejav fake');
+        Queue::assertNothingPushed();
+    }
+
     public function testOnejavDaily()
     {
         $this->artisan('jav:onejav daily');
