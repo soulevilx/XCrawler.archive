@@ -40,7 +40,7 @@ class R18CrawlerTest extends JavTestCase
 
     public function testGetItem()
     {
-        $item = $this->crawler->getItem('api/v4f/contents/rki00506');
+        $item = $this->crawler->getItem('rki00506');
 
         $this->assertIsArray($item);
         $this->assertArrayHasKey('content_id', $item);

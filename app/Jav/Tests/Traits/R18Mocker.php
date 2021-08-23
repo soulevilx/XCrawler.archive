@@ -34,7 +34,7 @@ trait R18Mocker
 
         $this->mocker
             ->shouldReceive('get')
-            ->with('api/v4f/contents/rki00506', [])
+            ->with('/api/v4f/contents/rki00506', [])
             ->andReturn($this->getSuccessfulMockedResponse(app(JsonResponse::class), 'R18/item.json'))
         ;
 
