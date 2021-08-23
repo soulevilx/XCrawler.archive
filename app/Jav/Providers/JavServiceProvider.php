@@ -10,7 +10,6 @@ use App\Jav\Models\Onejav;
 use App\Jav\Models\R18;
 use Jooservices\XcrawlerClient\Response\DomResponse;
 use Jooservices\XcrawlerClient\Response\JsonResponse;
-use Jooservices\XcrawlerClient\Settings\RequestOptions;
 
 class JavServiceProvider extends BaseServiceProvider
 {

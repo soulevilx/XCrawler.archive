@@ -7,7 +7,7 @@ use App\Jav\Events\MovieCreated;
 use App\Jav\Models\Movie;
 use App\Jav\Services\OnejavService;
 use App\Jav\Tests\JavTestCase;
-use App\Jav\Tests\Traits\HasOnejav;
+use App\Jav\Tests\Traits\OnejavMocker;
 use Illuminate\Support\Facades\Event;
 
 /**
@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Event;
  */
 class OnejavServiceTest extends JavTestCase
 {
-    use HasOnejav;
+    use OnejavMocker;
 
     protected OnejavService $service;
 

@@ -9,5 +9,5 @@ return [
     ],
     'r18' => [
         'base_url' => R18::BASE_URL,
-    ]
+    ],
 ];

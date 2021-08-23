@@ -2,6 +2,7 @@
 
 use App\Core\Providers\CoreEventServiceProvider;
 use App\Core\Providers\CoreServiceProvider;
+use App\Jav\Providers\JavEventServiceProvider;
 use App\Jav\Providers\JavServiceProvider;
 
 return [
@@ -175,6 +176,7 @@ return [
         CoreServiceProvider::class,
         CoreEventServiceProvider::class,
         JavServiceProvider::class,
+        JavEventServiceProvider::class
     ],
 
     /*

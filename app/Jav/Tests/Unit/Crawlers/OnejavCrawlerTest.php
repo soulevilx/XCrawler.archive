@@ -4,7 +4,7 @@ namespace App\Jav\Tests\Unit\Crawlers;
 
 use App\Jav\Models\Onejav;
 use App\Jav\Tests\JavTestCase;
-use App\Jav\Tests\Traits\HasOnejav;
+use App\Jav\Tests\Traits\OnejavMocker;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
@@ -14,7 +14,7 @@ use Illuminate\Support\Collection;
  */
 class OnejavCrawlerTest extends JavTestCase
 {
-    use HasOnejav;
+    use OnejavMocker;
 
     public function setUp(): void
     {

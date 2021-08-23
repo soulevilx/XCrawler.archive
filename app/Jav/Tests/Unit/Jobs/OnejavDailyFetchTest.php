@@ -6,11 +6,11 @@ use App\Core\Services\ApplicationService;
 use App\Jav\Jobs\Onejav\DailyFetch;
 use App\Jav\Jobs\Onejav\ReleaseFetch;
 use App\Jav\Tests\JavTestCase;
-use App\Jav\Tests\Traits\HasOnejav;
+use App\Jav\Tests\Traits\OnejavMocker;
 
 class OnejavDailyFetchTest extends JavTestCase
 {
-    use HasOnejav;
+    use OnejavMocker;
 
     public function setUp(): void
     {

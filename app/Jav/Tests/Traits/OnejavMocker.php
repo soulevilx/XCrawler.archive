@@ -8,7 +8,7 @@ use Carbon\Carbon;
 use Jooservices\XcrawlerClient\Response\DomResponse;
 use Jooservices\XcrawlerClient\XCrawlerClient;
 
-trait HasOnejav
+trait OnejavMocker
 {
     protected OnejavCrawler $crawler;
 

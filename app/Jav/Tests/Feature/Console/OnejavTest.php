@@ -5,12 +5,12 @@ namespace App\Jav\Tests\Feature\Console;
 use App\Jav\Jobs\Onejav\DailyFetch;
 use App\Jav\Jobs\Onejav\ReleaseFetch;
 use App\Jav\Tests\JavTestCase;
-use App\Jav\Tests\Traits\HasOnejav;
+use App\Jav\Tests\Traits\OnejavMocker;
 use Illuminate\Support\Facades\Queue;
 
 class OnejavTest extends JavTestCase
 {
-    use HasOnejav;
+    use OnejavMocker;
 
     public function setUp(): void
     {
