@@ -2,14 +2,20 @@
 
 namespace App\Jav\Tests\Unit\Models;
 
+use App\Core\Models\State;
 use App\Jav\Models\Movie;
 use App\Jav\Models\Onejav;
+use App\Jav\Notifications\MovieCreatedNotification;
 use App\Jav\Tests\JavTestCase;
-use App\Jav\Tests\Traits\OnejavMocker;
+use Illuminate\Notifications\AnonymousNotifiable;
+use Illuminate\Support\Facades\Notification;
 use Jooservices\XcrawlerClient\Response\DomResponse;
 use Jooservices\XcrawlerClient\XCrawlerClient;
-use Tests\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class OnejavModelTest extends JavTestCase
 {
     public function testModel()
@@ -21,8 +27,24 @@ class OnejavModelTest extends JavTestCase
         $this->assertEquals($onejav->genres, $onejav->movie->genres->pluck('name')->toArray());
         $this->assertEquals($onejav->performers, $onejav->movie->performers->pluck('name')->toArray());
         $this->assertTrue($onejav->movie->is_downloadable);
+
+        $this->assertDatabaseHas('wordpress_posts', [
+            'title' => $onejav->dvd_id,
+            'state_code' => State::STATE_INIT,
+        ]);
+
+        Notification::assertSentTo(
+            new AnonymousNotifiable(),
+            MovieCreatedNotification::class,
+            function ($notification) use ($onejav) {
+                return $notification->movie->is($onejav->movie);
+            }
+        );
     }
 
+    /**
+     * @covers \App\Jav\Models\Onejav
+     */
     public function testModelRefetch()
     {
         $this->mocker = $this->getClientMock();

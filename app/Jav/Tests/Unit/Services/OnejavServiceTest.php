@@ -73,8 +73,12 @@ class OnejavServiceTest extends JavTestCase
 
         $this->assertDatabaseCount('onejav', $items->count());
         $this->assertDatabaseCount('movies', $items->count());
+        $this->assertDatabaseCount('wordpress_posts', $items->count());
     }
 
+    /**
+     * @covers \App\Jav\Services\OnejavService
+     */
     public function testRelease()
     {
         ApplicationService::setConfig('onejav', 'total_pages', 2);
@@ -84,6 +88,7 @@ class OnejavServiceTest extends JavTestCase
 
         $this->assertDatabaseCount('onejav', $items->count());
         $this->assertDatabaseCount('movies', $items->count());
+        $this->assertDatabaseCount('wordpress_posts', $items->count());
 
         $this->assertEquals(2, ApplicationService::getConfig('onejav', 'current_page'));
     }

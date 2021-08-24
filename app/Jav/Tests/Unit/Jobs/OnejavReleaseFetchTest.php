@@ -22,6 +22,9 @@ class OnejavReleaseFetchTest extends JavTestCase
         $this->loadOnejavMock();
     }
 
+    /**
+     * @covers \App\Jav\Jobs\Onejav\ReleaseFetch
+     */
     public function testReleaseFetchJob()
     {
         ReleaseFetch::dispatch();

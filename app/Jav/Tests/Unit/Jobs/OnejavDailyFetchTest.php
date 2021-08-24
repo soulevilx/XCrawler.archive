@@ -21,11 +21,9 @@ class OnejavDailyFetchTest extends JavTestCase
 
     public function testReleaseFetchJob()
     {
-        ReleaseFetch::dispatch();
+        DailyFetch::dispatch();
 
-        $this->assertDatabaseCount('onejav', 10);
-        $this->assertDatabaseCount('movies', 10);
-
-        $this->assertEquals(1, ApplicationService::getConfig('onejav', 'current_page'));
+        $this->assertDatabaseCount('onejav', 42);
+        $this->assertDatabaseCount('movies', 42);
     }
 }

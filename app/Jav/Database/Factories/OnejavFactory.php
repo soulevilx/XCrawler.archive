@@ -20,16 +20,15 @@ class OnejavFactory extends Factory
             'genres' => [
                 $this->faker->unique->word,
                 $this->faker->unique->word,
-                $this->faker->unique->word
+                $this->faker->unique->word,
             ],
             'performers' => [
                 $this->faker->unique->name,
                 $this->faker->unique->name,
-                $this->faker->unique->name
+                $this->faker->unique->name,
             ],
             'description' => $this->faker->text,
             'torrent' => $this->faker->unique->url,
         ];
     }
 }
-
