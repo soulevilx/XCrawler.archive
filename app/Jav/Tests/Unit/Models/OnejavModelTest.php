@@ -3,7 +3,6 @@
 namespace App\Jav\Tests\Unit\Models;
 
 use App\Core\Models\State;
-use App\Core\Models\WordPressPost;
 use App\Jav\Models\Movie;
 use App\Jav\Models\Onejav;
 use App\Jav\Notifications\MovieCreatedNotification;
