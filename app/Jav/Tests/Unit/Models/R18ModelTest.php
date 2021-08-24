@@ -4,6 +4,7 @@ namespace App\Jav\Tests\Unit\Models;
 
 use App\Core\Models\State;
 use App\Jav\Models\R18;
+use App\Jav\Services\Movie\Observers\MovieObserver;
 use Tests\TestCase;
 
 /**
@@ -21,6 +22,9 @@ class R18ModelTest extends TestCase
 
         $this->assertNull($r18->movie);
 
+        /**
+         * @covers MovieObserver
+         */
         $r18->update([
             'state_code' => State::STATE_COMPLETED,
         ]);
