@@ -4,7 +4,6 @@ namespace App\Jav\Notifications;
 
 use App\Jav\Models\Movie;
 use App\Jav\Models\Onejav;
-use App\Jav\Models\R18;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
