@@ -76,6 +76,9 @@ class OnejavServiceTest extends JavTestCase
         $this->assertDatabaseCount('wordpress_posts', $items->count());
     }
 
+    /**
+     * @coversDefaultClass \App\Jav\Services\OnejavService
+     */
     public function testRelease()
     {
         ApplicationService::setConfig('onejav', 'total_pages', 2);
