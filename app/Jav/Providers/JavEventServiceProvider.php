@@ -3,8 +3,11 @@
 namespace App\Jav\Providers;
 
 use App\Jav\Listeners\MovieEventSubscriber;
+use App\Jav\Listeners\XCityIdolEventSubscriber;
 use App\Jav\Models\R18;
+use App\Jav\Models\XCityIdol;
 use App\Jav\Observers\R18Observer;
+use App\Jav\Observers\XCityIdolObserver;
 use App\Providers\EventServiceProvider;
 
 class JavEventServiceProvider extends EventServiceProvider
@@ -16,6 +19,7 @@ class JavEventServiceProvider extends EventServiceProvider
      */
     protected $subscribe = [
         MovieEventSubscriber::class,
+        XCityIdolEventSubscriber::class
     ];
 
     public function boot()
@@ -23,5 +27,6 @@ class JavEventServiceProvider extends EventServiceProvider
         parent::boot();
 
         R18::observe(R18Observer::class);
+        XCityIdol::observe(XCityIdolObserver::class);
     }
 }

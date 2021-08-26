@@ -4,6 +4,8 @@ namespace App\Jav\Models;
 
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
+use App\Jav\Models\Interfaces\MovieInterface;
+use App\Jav\Models\Traits\HasDefaultMovie;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -41,7 +43,7 @@ class XCityIdol extends Model
     public const STATE_PROCESSING = 'XCPR';
     public const STATE_COMPLETED = 'XCCE';
 
-    protected $table = 'x_city_idols';
+    protected $table = 'xcity_idols';
 
     protected $fillable = [
         'url',
@@ -55,6 +57,8 @@ class XCityIdol extends Model
         'breast',
         'waist',
         'hips',
+        'skill',
+        'other',
         'state_code',
     ];
 
@@ -70,6 +74,13 @@ class XCityIdol extends Model
         'breast' => 'integer',
         'waist' => 'integer',
         'hips' => 'integer',
+        'skill' => 'string',
+        'other' => 'string',
         'state_code' => 'string',
     ];
+
+    public function refetch(): MovieInterface
+    {
+        return $this;
+    }
 }
