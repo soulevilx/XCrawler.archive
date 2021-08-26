@@ -34,7 +34,7 @@ class State extends Model
         'state',
     ];
 
-    protected $casts= [
+    protected $casts = [
         'reference_code' => 'string',
         'entity' => 'string',
         'state' => 'string',

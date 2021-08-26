@@ -77,7 +77,7 @@ class OnejavServiceTest extends JavTestCase
     }
 
     /**
-     * @covers \App\Jav\Services\OnejavService
+     * @coversDefaultClass \App\Jav\Services\OnejavService
      */
     public function testRelease()
     {

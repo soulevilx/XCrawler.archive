@@ -26,6 +26,7 @@
         "laravel/horizon": "^5.7",
         "laravel/sanctum": "^2.11",
         "laravel/slack-notification-channel": "^2.3",
+        "laravel/telescope": "^4.6",
         "laravel/tinker": "^2.6",
         "sentry/sentry-laravel": "^2.7",
         "spatie/laravel-rate-limited-job-middleware": "^1.5"
@@ -76,16 +77,17 @@
         ],
         "test": [
             "@php vendor/bin/phpunit --testsuite=Unit",
-            "@php vendor/bin/phpunit --testsuite=Feature"
+            "@php vendor/bin/phpunit --testsuite=Feature",
+            "@php vendor/bin/phpunit --testsuite=Services"
         ],
         "test-coverage": [
-            "@php vendor/bin/phpunit --testsuite=Unit,Feature --coverage-clover coverage.xml"
+            "@php vendor/bin/phpunit --testsuite=Unit,Feature,Services --coverage-clover coverage.xml"
         ],
         "test-coverage-html": [
-            "@php vendor/bin/phpunit --testsuite=Unit,Feature --coverage-html coverage"
+            "@php vendor/bin/phpunit --testsuite=Unit,Feature,Services --coverage-html coverage"
         ],
         "test-coverage-text": [
-            "@php vendor/bin/phpunit --testsuite=Unit,Feature --coverage-text=coverage.txt"
+            "@php vendor/bin/phpunit --testsuite=Unit,Feature,Services --coverage-text=coverage.txt"
         ],
         "test-live": [
             "@php vendor/bin/phpunit --testsuite=FeatureLive"

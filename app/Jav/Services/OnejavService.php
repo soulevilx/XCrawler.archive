@@ -61,9 +61,6 @@ class OnejavService
         $this->service->refresh();
         $currentPage = $this->service->get('onejav', 'current_page', 1);
         $items = $this->crawler->getItems('new', ['page' => $currentPage]);
-        if ($items->isEmpty()) {
-            return $items;
-        }
 
         $items->each(function ($item) {
             Onejav::updateOrCreate(
