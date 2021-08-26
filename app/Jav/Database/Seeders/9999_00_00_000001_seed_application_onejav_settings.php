@@ -35,7 +35,7 @@ class SeedApplicationOnejavSettings extends Migration
             ;
 
             if ($application) {
-                $settings = $application['settings'];
+                $settings = json_decode($application->settings, true);
             }
 
             foreach ($settingNew as $key => $value) {
