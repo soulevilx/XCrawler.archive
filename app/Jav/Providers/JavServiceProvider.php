@@ -6,20 +6,22 @@ use App\Core\Client;
 use App\Core\Providers\BaseServiceProvider;
 use App\Jav\Crawlers\OnejavCrawler;
 use App\Jav\Crawlers\R18Crawler;
+use App\Jav\Crawlers\XCityIdolCrawler;
 use App\Jav\Models\Onejav;
 use App\Jav\Models\R18;
+use App\Jav\Models\XCityIdol;
 use Jooservices\XcrawlerClient\Response\DomResponse;
 use Jooservices\XcrawlerClient\Response\JsonResponse;
 
 class JavServiceProvider extends BaseServiceProvider
 {
     protected array $migrations = [
-        __DIR__.'/../Database/Migrations',
-        __DIR__.'/../Database/Seeders',
+        __DIR__ . '/../Database/Migrations',
+        __DIR__ . '/../Database/Seeders',
     ];
 
     protected array $configs = [
-        __DIR__.'/../Config' => [
+        __DIR__ . '/../Config' => [
             'services',
         ],
     ];
@@ -33,8 +35,7 @@ class JavServiceProvider extends BaseServiceProvider
                 ->init(
                     Onejav::SERVICE,
                     new DomResponse(),
-                )
-            ;
+                );
 
             return new OnejavCrawler($client);
         });
@@ -44,17 +45,25 @@ class JavServiceProvider extends BaseServiceProvider
                 ->init(
                     R18::SERVICE,
                     new DomResponse(),
-                )
-            ;
+                );
 
             $jsonClient = app(Client::class)
                 ->init(
                     R18::SERVICE,
                     new JsonResponse(),
-                )
-            ;
+                );
 
             return new R18Crawler($domClient, $jsonClient);
+        });
+
+        $this->app->bind(XCityIdolCrawler::class, function () {
+            $client = app(Client::class)
+                ->init(
+                    XCityIdol::SERVICE,
+                    new DomResponse(),
+                );
+
+            return new XCityIdolCrawler($client);
         });
     }
 }
