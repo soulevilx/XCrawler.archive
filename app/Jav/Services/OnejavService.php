@@ -5,26 +5,15 @@ namespace App\Jav\Services;
 use App\Core\Services\ApplicationService;
 use App\Jav\Crawlers\OnejavCrawler;
 use App\Jav\Models\Onejav;
+use App\Jav\Services\Traits\HasAttributes;
 
 class OnejavService
 {
-    protected array $attributes;
+    use HasAttributes;
     protected Onejav $model;
 
     public function __construct(protected OnejavCrawler $crawler, protected ApplicationService $service)
     {
-    }
-
-    public function setAttributes(array $attributes): self
-    {
-        $this->attributes = $attributes;
-
-        return $this;
-    }
-
-    public function getAttributes(): array
-    {
-        return $this->attributes;
     }
 
     public function create(): Onejav

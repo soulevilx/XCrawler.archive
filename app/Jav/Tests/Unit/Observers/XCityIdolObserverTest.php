@@ -7,10 +7,7 @@ use App\Jav\Models\Performer;
 use App\Jav\Models\XCityIdol;
 use App\Jav\Tests\JavTestCase;
 
-/**
- * @internal
- * @coversNothing
- */
+
 class XCityIdolObserverTest extends JavTestCase
 {
     public function testOnIdolCompleted()

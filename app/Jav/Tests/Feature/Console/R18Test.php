@@ -9,10 +9,7 @@ use App\Jav\Tests\JavTestCase;
 use App\Jav\Tests\Traits\R18Mocker;
 use Illuminate\Support\Facades\Queue;
 
-/**
- * @internal
- * @coversNothing
- */
+
 class R18Test extends JavTestCase
 {
     use R18Mocker;

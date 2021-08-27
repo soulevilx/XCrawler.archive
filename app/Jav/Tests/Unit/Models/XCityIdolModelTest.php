@@ -8,10 +8,7 @@ use App\Jav\Models\XCityIdol;
 use App\Jav\Tests\JavTestCase;
 use Illuminate\Support\Facades\Event;
 
-/**
- * @internal
- * @coversNothing
- */
+
 class XCityIdolModelTest extends JavTestCase
 {
     public function testModel()

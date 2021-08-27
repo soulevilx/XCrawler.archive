@@ -12,10 +12,7 @@ use App\Jav\Tests\Traits\R18Mocker;
 use Jooservices\XcrawlerClient\Response\JsonResponse;
 use Jooservices\XcrawlerClient\XCrawlerClient;
 
-/**
- * @internal
- * @coversNothing
- */
+
 class R18ItemFetchTest extends JavTestCase
 {
     use R18Mocker;

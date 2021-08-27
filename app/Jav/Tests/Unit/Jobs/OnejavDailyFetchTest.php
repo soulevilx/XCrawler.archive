@@ -19,7 +19,7 @@ class OnejavDailyFetchTest extends JavTestCase
         $this->loadOnejavMock();
     }
 
-    public function testReleaseFetchJob()
+    public function testDailyFetchJob()
     {
         DailyFetch::dispatch();
 

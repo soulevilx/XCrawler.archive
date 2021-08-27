@@ -6,31 +6,22 @@ use App\Core\Models\State;
 use App\Core\Services\ApplicationService;
 use App\Jav\Crawlers\R18Crawler;
 use App\Jav\Models\R18;
+use App\Jav\Services\Traits\HasAttributes;
 
 class R18Service
 {
-    protected array $attributes;
+    use HasAttributes;
+
     protected R18 $model;
 
     public function __construct(protected R18Crawler $crawler, protected ApplicationService $application)
     {
     }
 
-    public function setAttributes(array $attributes): self
-    {
-        $this->attributes = $attributes;
-
-        return $this;
-    }
-
-    public function getAttributes(): array
-    {
-        return $this->attributes;
-    }
-
     public function create(): R18
     {
-        $this->attributes['state_code'] = $this->attributes['state_code'] ?? State::STATE_INIT;
+        $this->defaultAttribute('state_code', State::STATE_INIT);
+
         $this->model = R18::firstOrCreate(
             [
                 'url' => $this->attributes['url'],

@@ -8,28 +8,18 @@ use App\Jav\Crawlers\XCityIdolCrawler;
 use App\Jav\Jobs\XCity\GetIdolItemLinks;
 use App\Jav\Jobs\XCity\InitIdolIndex;
 use App\Jav\Models\XCityIdol;
+use App\Jav\Services\Traits\HasAttributes;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Cache;
 
 class XCityService
 {
-    private array $attributes;
+    use HasAttributes;
+
     protected XCityIdol $idol;
 
     public function __construct(protected XCityIdolCrawler $crawler, protected ApplicationService $service)
     {
-    }
-
-    public function setAttributes(array $attributes): self
-    {
-        $this->attributes = $attributes;
-
-        return $this;
-    }
-
-    public function getAttributes(): array
-    {
-        return $this->attributes;
     }
 
     public function getSubPages()
@@ -74,7 +64,7 @@ class XCityService
 
     public function create()
     {
-        $this->attributes['state_code'] = $this->attributes['state_code'] ?? State::STATE_INIT;
+        $this->defaultAttribute('state_code', State::STATE_INIT);
 
         $this->idol = XCityIdol::firstOrCreate([
             'url' => $this->attributes['url'],

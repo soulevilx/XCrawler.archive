@@ -7,10 +7,7 @@ use App\Jav\Models\R18;
 use App\Jav\Services\Movie\Observers\MovieObserver;
 use Tests\TestCase;
 
-/**
- * @internal
- * @coversNothing
- */
+
 class R18ModelTest extends TestCase
 {
     public function testModel()

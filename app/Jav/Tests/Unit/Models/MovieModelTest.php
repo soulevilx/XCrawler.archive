@@ -8,10 +8,7 @@ use App\Jav\Models\Onejav;
 use App\Jav\Models\R18;
 use App\Jav\Tests\JavTestCase;
 
-/**
- * @internal
- * @coversNothing
- */
+
 class MovieModelTest extends JavTestCase
 {
     public function testModel()

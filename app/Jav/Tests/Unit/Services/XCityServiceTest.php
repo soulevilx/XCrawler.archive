@@ -33,6 +33,21 @@ class XCityServiceTest extends JavTestCase
         $this->assertDatabaseCount('xcity_idols', 30);
     }
 
+    public function testReleaseAtEndOfPages()
+    {
+        foreach ($this->kanas as $kana) {
+            ApplicationService::setConfig('xcity', $kana.'_total_pages', 1);
+        }
+
+        $this->service->release();
+        foreach ($this->kanas as $kana) {
+            $this->assertEquals(1, ApplicationService::getConfig('xcity', $kana.'_total_pages'));
+            $this->assertEquals(1, ApplicationService::getConfig('xcity', $kana.'_current_page'));
+        }
+
+        $this->assertDatabaseCount('xcity_idols', 30);
+    }
+
     public function testDaily()
     {
         $this->service->daily();

@@ -7,14 +7,18 @@ use Spatie\RateLimitedMiddleware\RateLimited;
 trait HasCrawlingMiddleware
 {
     /**
-     * Determine the time at which the job should timeout.
+     * The number of times the job may be attempted.
      *
-     * @return \DateTime
+     * @var int
      */
-    public function retryUntil()
-    {
-        return now()->addHour();
-    }
+    public $tries = 5;
+
+    /**
+     * The maximum number of unhandled exceptions to allow before failing.
+     *
+     * @var int
+     */
+    public $maxExceptions = 3;
 
     public function middleware()
     {

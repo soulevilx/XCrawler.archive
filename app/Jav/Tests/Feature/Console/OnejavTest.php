@@ -8,10 +8,7 @@ use App\Jav\Tests\JavTestCase;
 use App\Jav\Tests\Traits\OnejavMocker;
 use Illuminate\Support\Facades\Queue;
 
-/**
- * @internal
- * @coversNothing
- */
+
 class OnejavTest extends JavTestCase
 {
     use OnejavMocker;

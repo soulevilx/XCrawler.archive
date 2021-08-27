@@ -5,10 +5,7 @@ namespace App\Jav\Tests\Unit\Crawlers;
 use App\Jav\Tests\JavTestCase;
 use App\Jav\Tests\Traits\XCityIdolMocker;
 
-/**
- * @internal
- * @coversNothing
- */
+
 class XCityIdolCrawlerTest extends JavTestCase
 {
     use XCityIdolMocker;
