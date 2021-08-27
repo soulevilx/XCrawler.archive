@@ -182,15 +182,6 @@ return [
             'tries' => 1,
             'nice' => 0,
         ],
-        'crawling-low' => [
-            'connection' => 'redis',
-            'queue' => ['crawling-low'],
-            'balance' => 'auto',
-            'maxProcesses' => 1,
-            'memory' => 2048,
-            'tries' => 1,
-            'nice' => 0,
-        ],
     ],
 
     'environments' => [
@@ -204,15 +195,6 @@ return [
                 'tries' => 3,
                 'nice' => 0,
             ],
-            'crawling-low' => [
-                'connection' => 'redis',
-                'queue' => ['crawling-low'],
-                'balance' => 'auto',
-                'maxProcesses' => 2,
-                'memory' => 2048,
-                'tries' => 3,
-                'nice' => 0,
-            ]
         ],
     ],
 ];

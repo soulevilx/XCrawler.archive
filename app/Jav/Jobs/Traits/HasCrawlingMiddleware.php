@@ -21,7 +21,7 @@ trait HasCrawlingMiddleware
     public $maxExceptions = 3;
 
     protected int $allow = 1;
-    protected int $releaseAfterSeconds = 60;
+    protected int $releaseAfterSeconds = 2;
 
     public function retryUntil(): \DateTime
     {
@@ -35,7 +35,7 @@ trait HasCrawlingMiddleware
         }
 
         $rateLimitedMiddleware = (new RateLimited())
-            ->allow($this->allow) // Allow 1 jobs
+            ->allow($this->allow) // Allow 1 job
             ->everySecond() // In second
             ->releaseAfterSeconds($this->releaseAfterSeconds) // Release back to pool
             ->releaseAfterBackoff($this->attempts())

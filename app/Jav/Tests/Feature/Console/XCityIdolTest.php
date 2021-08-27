@@ -37,8 +37,9 @@ class XCityIdolTest extends JavTestCase
         Queue::fake();
         $this->artisan('jav:xcity-idol release');
 
-        Queue::assertPushed(InitIdolIndex::class);
-        Queue::assertPushed(GetIdolItemLinks::class);
+        Queue::assertPushedWithChain(InitIdolIndex::class, [
+            GetIdolItemLinks::class,
+        ]);
     }
 
     public function testItem()
