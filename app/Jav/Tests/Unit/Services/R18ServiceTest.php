@@ -6,10 +6,13 @@ use App\Core\Models\State;
 use App\Core\Services\ApplicationService;
 use App\Jav\Events\MovieCreated;
 use App\Jav\Models\Movie;
+use App\Jav\Models\R18;
 use App\Jav\Services\R18Service;
 use App\Jav\Tests\JavTestCase;
 use App\Jav\Tests\Traits\R18Mocker;
 use Illuminate\Support\Facades\Event;
+use Jooservices\XcrawlerClient\Response\DomResponse;
+use Jooservices\XcrawlerClient\XCrawlerClient;
 
 class R18ServiceTest extends JavTestCase
 {
@@ -17,16 +20,11 @@ class R18ServiceTest extends JavTestCase
 
     protected R18Service $service;
 
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->loadR18Mocker();
-        $this->service = app(R18Service::class);
-    }
-
     public function testCreateR18()
     {
+        $this->loadR18Mocker();
+        $this->service = app(R18Service::class);
+
         Event::fake([MovieCreated::class]);
         $r18Url = $this->faker->unique->url;
         $r18 = $this->service->setAttributes([
@@ -97,23 +95,43 @@ class R18ServiceTest extends JavTestCase
 
     public function testRelease()
     {
+        $this->loadR18Mocker();
+        $this->service = app(R18Service::class);
+
         ApplicationService::setConfig('r18', 'total_pages', 2);
         $items = $this->service->release();
 
         $this->assertEquals(30, $items->count());
-
         $this->assertDatabaseCount('r18', $items->count());
-
         $this->assertEquals(2, ApplicationService::getConfig('r18', 'current_page'));
     }
 
     public function testReleaseAtEndOfPages()
     {
+        $this->loadR18Mocker();
+        $this->service = app(R18Service::class);
         ApplicationService::setConfig('r18', 'total_pages', 2);
         $this->service->release();
         $this->assertEquals(2, ApplicationService::getConfig('r18', 'current_page'));
 
         $this->service->release();
         $this->assertEquals(1, ApplicationService::getConfig('r18', 'current_page'));
+    }
+
+    public function testReleaseFailed()
+    {
+        ApplicationService::setConfig('r18', 'current_page', 10);
+        $mocker = $this->getClientMock();
+        $mocker
+            ->shouldReceive('get')
+            ->with(R18::MOVIE_LIST_URL.'/page=10', [])
+            ->andReturn($this->getErrorMockedResponse(app(DomResponse::class)))
+        ;
+        app()->instance(XCrawlerClient::class, $mocker);
+        $this->service = app(R18Service::class);
+
+        $this->service->release();
+        $this->assertDatabaseCount('r18', 0);
+        $this->assertEquals(10, ApplicationService::getConfig('r18', 'current_page'));
     }
 }

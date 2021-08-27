@@ -45,6 +45,7 @@ class R18Service
          */
         $currentPage = $this->application->get('r18', 'current_page', 1);
         $url = R18::MOVIE_LIST_URL.'/page='.$currentPage;
+
         $items = $this->crawler->getItemLinks($url);
 
         if ($items->isEmpty()) {
