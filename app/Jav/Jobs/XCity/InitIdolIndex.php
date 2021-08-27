@@ -21,9 +21,6 @@ class InitIdolIndex implements ShouldQueue
     use Queueable;
     use HasCrawlingMiddleware;
 
-    protected int $allow = 1;
-    protected int $releaseAfterMinutes = 5;
-
     public function __construct(public string $kana, public int $page = 1)
     {
     }

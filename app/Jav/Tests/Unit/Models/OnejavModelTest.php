@@ -37,11 +37,11 @@ class OnejavModelTest extends JavTestCase
                 return $notification->movie->is($onejav->movie);
             }
         );
+
+        $this->assertTrue($onejav->isDownloadable());
+        $this->assertNull($onejav->getName());
     }
 
-    /**
-     * @covers \App\Jav\Models\Onejav
-     */
     public function testModelRefetch()
     {
         $this->mocker = $this->getClientMock();
@@ -54,5 +54,11 @@ class OnejavModelTest extends JavTestCase
         $onejav->refetch();
 
         $this->assertEquals('WAAA-088', $onejav->dvd_id);
+    }
+
+    public function testFindByDvdId()
+    {
+        $onejav = Onejav::factory()->create();
+        $this->assertTrue($onejav->is(Onejav::findByDvdId($onejav->dvd_id)));
     }
 }

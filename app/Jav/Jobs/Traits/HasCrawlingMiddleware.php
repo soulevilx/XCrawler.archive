@@ -20,6 +20,14 @@ trait HasCrawlingMiddleware
      */
     public $maxExceptions = 3;
 
+    protected int $allow = 1;
+    protected int $releaseAfterSeconds = 2;
+
+    public function retryUntil(): \DateTime
+    {
+        return now()->addDay();
+    }
+
     public function middleware()
     {
         if ('testing' === config('app.env')) {
@@ -27,9 +35,10 @@ trait HasCrawlingMiddleware
         }
 
         $rateLimitedMiddleware = (new RateLimited())
-            ->allow($this->allow) // Allow 1 jobs
+            ->allow($this->allow) // Allow 1 job
             ->everySecond() // In second
-            ->releaseAfterMinutes($this->releaseAfterMinutes) // Release back to pool after 5 minutes
+            ->releaseAfterSeconds($this->releaseAfterSeconds) // Release back to pool
+            ->releaseAfterBackoff($this->attempts())
         ;
 
         return [$rateLimitedMiddleware];

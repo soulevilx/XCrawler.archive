@@ -19,9 +19,6 @@ class GetIdolItemLinks implements ShouldQueue
     use Queueable;
     use HasCrawlingMiddleware;
 
-    protected int $allow = 1;
-    protected int $releaseAfterMinutes = 5;
-
     public function __construct(public string $kana, public int $page = 1, public bool $updateCurrentPage = true)
     {
     }
@@ -29,7 +26,7 @@ class GetIdolItemLinks implements ShouldQueue
     public function handle(XCityIdolCrawler $crawler, XCityService $service)
     {
         $configKey = $this->kana.'_current_page';
-        $totalPages = ApplicationService::getConfig('xcity', $this->kana.'_total_pages', $this->page);
+        $totalPages = (int) ApplicationService::getConfig('xcity', $this->kana.'_total_pages', 1);
 
         $this->page = $this->updateCurrentPage
             ? ApplicationService::getConfig('xcity', $configKey, $this->page)
@@ -40,8 +37,7 @@ class GetIdolItemLinks implements ShouldQueue
         $links->each(function ($link) use ($service) {
             $service->setAttributes([
                 'url' => $link,
-            ]);
-            $service->create();
+            ])->create();
         });
 
         if (!$this->updateCurrentPage) {

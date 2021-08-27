@@ -55,7 +55,7 @@ class XCityService implements ServiceInterface
          * - Get links and update current page.
          */
         $subPages = $this->getSubPages();
-        foreach ($subPages as $subPage) {
+        foreach ($subPages as $index => $subPage) {
             $kana = str_replace('/idol/?kana=', '', $subPage);
             Bus::chain([
                 new InitIdolIndex($kana),

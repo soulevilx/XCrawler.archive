@@ -5,19 +5,23 @@ namespace App\Jav\Services;
 use App\Core\Services\ApplicationService;
 use App\Jav\Crawlers\OnejavCrawler;
 use App\Jav\Models\Onejav;
+use App\Jav\Services\Interfaces\ServiceInterface;
 use App\Jav\Services\Traits\HasAttributes;
+use Illuminate\Database\Eloquent\Model;
 
-class OnejavService
+class OnejavService implements ServiceInterface
 {
     use HasAttributes;
+
     protected Onejav $model;
 
     public function __construct(protected OnejavCrawler $crawler, protected ApplicationService $service)
     {
     }
 
-    public function create(): Onejav
+    public function create(array $attribute = []): Onejav
     {
+        $this->attributes = array_merge($this->attributes, $attribute);
         $this->model = Onejav::firstOrCreate(
             ['dvd_id' => $this->attributes['dvd_id']],
             $this->attributes
@@ -34,12 +38,7 @@ class OnejavService
         }
 
         $items->each(function ($item) {
-            Onejav::updateOrCreate(
-                [
-                    'url' => $item->url,
-                ],
-                $item->getArrayCopy()
-            );
+            $this->update($item);
         });
 
         return $items;
@@ -52,12 +51,7 @@ class OnejavService
         $items = $this->crawler->getItems('new', ['page' => $currentPage]);
 
         $items->each(function ($item) {
-            Onejav::updateOrCreate(
-                [
-                    'url' => $item->url,
-                ],
-                $item->getArrayCopy()
-            );
+            $this->update($item);
         });
 
         ++$currentPage;
@@ -69,5 +63,18 @@ class OnejavService
         $this->service->save('onejav', 'current_page', $currentPage);
 
         return $items;
+    }
+
+    public function item(Model $model): Onejav
+    {
+        return $model->refetch();
+    }
+
+    private function update(\ArrayObject $item)
+    {
+        Onejav::updateOrCreate(
+            ['url' => $item->url],
+            $item->getArrayCopy()
+        );
     }
 }

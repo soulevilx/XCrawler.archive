@@ -18,10 +18,6 @@ class ItemFetch implements ShouldQueue
     use InteractsWithQueue;
     use Queueable;
     use SerializesModels;
-    use HasCrawlingMiddleware;
-
-    protected int $allow = 1;
-    protected int $releaseAfterMinutes = 5;
 
     public function __construct(public XCityIdol $model)
     {
