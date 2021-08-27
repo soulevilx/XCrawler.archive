@@ -20,6 +20,9 @@ class ItemFetch implements ShouldQueue
     use SerializesModels;
     use HasCrawlingMiddleware;
 
+    protected int $allow = 1;
+    protected int $releaseAfterMinutes = 5;
+
     public function __construct(public R18 $model)
     {
         $model->setState(State::STATE_PROCESSING);
