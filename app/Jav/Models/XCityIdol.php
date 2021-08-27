@@ -78,7 +78,7 @@ class XCityIdol extends Model
         'state_code' => 'string',
     ];
 
-    public function refetch(): MovieInterface
+    public function refetch()
     {
         return $this;
     }
