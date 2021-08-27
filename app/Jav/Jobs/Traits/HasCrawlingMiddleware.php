@@ -29,7 +29,7 @@ trait HasCrawlingMiddleware
         $rateLimitedMiddleware = (new RateLimited())
             ->allow($this->allow) // Allow 1 jobs
             ->everySecond() // In second
-            ->releaseAfterMinutes($this->releaseAfterMinutes) // Release back to pool after 5 minutes
+            ->releaseAfterSeconds(60) // Release back to pool after 5 minutes
         ;
 
         return [$rateLimitedMiddleware];

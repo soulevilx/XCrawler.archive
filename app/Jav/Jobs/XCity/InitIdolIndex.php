@@ -4,7 +4,7 @@ namespace App\Jav\Jobs\XCity;
 
 use App\Core\Services\ApplicationService;
 use App\Jav\Crawlers\XCityIdolCrawler;
-use App\Jav\Jobs\Traits\HasCrawlingMiddleware;
+use App\Jav\Jobs\Middleware\XCityLimited;
 use App\Jav\Models\XCityIdol;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -19,13 +19,19 @@ class InitIdolIndex implements ShouldQueue
     use Dispatchable;
     use InteractsWithQueue;
     use Queueable;
-    use HasCrawlingMiddleware;
-
-    protected int $allow = 1;
-    protected int $releaseAfterMinutes = 5;
 
     public function __construct(public string $kana, public int $page = 1)
     {
+    }
+
+    /**
+     * Get the middleware the job should pass through.
+     *
+     * @return array
+     */
+    public function middleware()
+    {
+        return [new XCityLimited()];
     }
 
     public function handle(XCityIdolCrawler $crawler)
