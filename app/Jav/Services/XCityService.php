@@ -11,7 +11,6 @@ use App\Jav\Models\XCityIdol;
 use App\Jav\Services\Interfaces\ServiceInterface;
 use App\Jav\Services\Traits\HasAttributes;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Cache;
 
 class XCityService implements ServiceInterface
@@ -55,10 +54,10 @@ class XCityService implements ServiceInterface
          * - Get links and update current page.
          */
         $subPages = $this->getSubPages();
-        foreach ($subPages as $subPage) {
+        foreach ($subPages as $index => $subPage) {
             $kana = str_replace('/idol/?kana=', '', $subPage);
-            InitIdolIndex::dispatch($kana)->onQueue('crawling');
-            GetIdolItemLinks::dispatch($kana)->onQueue('crawling');
+            InitIdolIndex::dispatch($kana)->onQueue('crawling')->delay($index * 2);
+            GetIdolItemLinks::dispatch($kana)->onQueue('crawling')->delay($index * 3);
         }
     }
 

@@ -97,6 +97,12 @@ class OnejavCrawlerTest extends JavTestCase
         $this->assertEquals(50, $items->count());
     }
 
+    public function testSearch()
+    {
+        $items = $this->crawler->search('test');
+        $this->assertEquals(50, $items->count());
+    }
+
     private function assertKey(array $item)
     {
         $this->assertArrayHasKey('url', $item);

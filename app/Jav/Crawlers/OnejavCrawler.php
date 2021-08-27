@@ -48,7 +48,7 @@ class OnejavCrawler
     public function search(string $keyword, string $by = 'search')
     {
         $items = collect();
-        $this->getItemsRecursive($items, '/'.$by.'/'.urlencode($keyword));
+        $this->getItemsRecursive($items, $by.'/'.urlencode($keyword));
 
         return $items;
     }

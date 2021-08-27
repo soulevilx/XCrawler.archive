@@ -46,6 +46,11 @@ trait OnejavMocker
                     ->with('popular', [])
                     ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/popular.html'))
                 ;
+                $this->mocker
+                    ->shouldReceive('get')
+                    ->with('search/test', [])
+                    ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/popular.html'))
+                ;
             } else {
                 $this->mocker
                     ->shouldReceive('get')
@@ -55,6 +60,11 @@ trait OnejavMocker
                 $this->mocker
                     ->shouldReceive('get')
                     ->with('popular', ['page' => $index])
+                    ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/popular_page_'.$index.'.html'))
+                ;
+                $this->mocker
+                    ->shouldReceive('get')
+                    ->with('search/test', ['page' => $index])
                     ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/popular_page_'.$index.'.html'))
                 ;
             }

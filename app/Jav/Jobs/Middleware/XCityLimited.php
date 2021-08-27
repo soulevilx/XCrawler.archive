@@ -7,13 +7,13 @@ use Illuminate\Support\Facades\Redis;
 class XCityLimited
 {
     protected int $allow = 1;
-    protected int $everySeconds = 5;
+    protected int $everySeconds = 1;
     protected int $releaseAfterSeconds = 10;
 
     /**
      * Process the queued job.
      *
-     * @param mixed $job
+     * @param mixed    $job
      * @param callable $next
      *
      * @return mixed
@@ -28,6 +28,7 @@ class XCityLimited
                 $next($job);
             }, function () use ($job) {
                 $job->release($this->releaseAfterSeconds);
-            });
+            })
+        ;
     }
 }

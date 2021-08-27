@@ -10,18 +10,22 @@ use App\Jav\Crawlers\XCityIdolCrawler;
 use App\Jav\Models\Onejav;
 use App\Jav\Models\R18;
 use App\Jav\Models\XCityIdol;
+use Illuminate\Queue\Events\JobFailed;
+use Illuminate\Queue\Events\JobProcessed;
+use Illuminate\Queue\Events\JobProcessing;
+use Illuminate\Support\Facades\Queue;
 use Jooservices\XcrawlerClient\Response\DomResponse;
 use Jooservices\XcrawlerClient\Response\JsonResponse;
 
 class JavServiceProvider extends BaseServiceProvider
 {
     protected array $migrations = [
-        __DIR__ . '/../Database/Migrations',
-        __DIR__ . '/../Database/Seeders',
+        __DIR__.'/../Database/Migrations',
+        __DIR__.'/../Database/Seeders',
     ];
 
     protected array $configs = [
-        __DIR__ . '/../Config' => [
+        __DIR__.'/../Config' => [
             'services',
         ],
     ];
@@ -35,7 +39,8 @@ class JavServiceProvider extends BaseServiceProvider
                 ->init(
                     Onejav::SERVICE,
                     new DomResponse(),
-                );
+                )
+            ;
 
             return new OnejavCrawler($client);
         });
@@ -45,13 +50,15 @@ class JavServiceProvider extends BaseServiceProvider
                 ->init(
                     R18::SERVICE,
                     new DomResponse(),
-                );
+                )
+            ;
 
             $jsonClient = app(Client::class)
                 ->init(
                     R18::SERVICE,
                     new JsonResponse(),
-                );
+                )
+            ;
 
             return new R18Crawler($domClient, $jsonClient);
         });
@@ -61,9 +68,33 @@ class JavServiceProvider extends BaseServiceProvider
                 ->init(
                     XCityIdol::SERVICE,
                     new DomResponse(),
-                );
+                )
+            ;
 
             return new XCityIdolCrawler($client);
+        });
+    }
+
+    /**
+     * Bootstrap any application services.
+     */
+    public function boot()
+    {
+        Queue::before(function (JobProcessing $event) {
+            // $event->connectionName
+            // $event->job
+            // $event->job->payload()
+        });
+
+        Queue::after(function (JobProcessed $event) {
+            // $event->connectionName
+            // $event->job
+            // $event->job->payload()
+        });
+        Queue::failing(function (JobFailed $event) {
+            // $event->connectionName
+            // $event->job
+            // $event->exception
         });
     }
 }
