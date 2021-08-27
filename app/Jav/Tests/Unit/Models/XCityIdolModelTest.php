@@ -4,6 +4,7 @@ namespace App\Jav\Tests\Unit\Models;
 
 use App\Core\Models\State;
 use App\Jav\Events\XCityIdolCompleted;
+use App\Jav\Models\Performer;
 use App\Jav\Models\XCityIdol;
 use App\Jav\Tests\JavTestCase;
 use App\Jav\Tests\Traits\XCityIdolMocker;
@@ -35,5 +36,15 @@ class XCityIdolModelTest extends JavTestCase
 
         $idol->refetch();
         $this->assertEquals('Yuna Ogura', $idol->name);
+    }
+
+    public function testGetPerformer()
+    {
+        $idol = XCityIdol::factory()->create();
+        $idol->update([
+            'state_code' => State::STATE_COMPLETED,
+        ]);
+
+        $this->assertInstanceOf(Performer::class, $idol->performer);
     }
 }

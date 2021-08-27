@@ -11,7 +11,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * @property string url
+ * @property string $url
+ * @property string $torrent
  */
 class Onejav extends Model implements MovieInterface
 {
@@ -52,10 +53,6 @@ class Onejav extends Model implements MovieInterface
         'created_at' => 'datetime:Y-m-d H:m:s',
     ];
 
-    protected $dates = [
-        'date',
-    ];
-
     public function isDownloadable(): bool
     {
         return true;
@@ -73,6 +70,7 @@ class Onejav extends Model implements MovieInterface
     {
         $crawler = app(OnejavCrawler::class);
         $item = $crawler->getItems($this->url)->first();
+
         $this->update($item->getArrayCopy());
 
         return $this->refresh();

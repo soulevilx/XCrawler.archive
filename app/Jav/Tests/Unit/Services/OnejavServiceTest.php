@@ -5,10 +5,13 @@ namespace App\Jav\Tests\Unit\Services;
 use App\Core\Services\ApplicationService;
 use App\Jav\Events\MovieCreated;
 use App\Jav\Models\Movie;
+use App\Jav\Models\Onejav;
 use App\Jav\Services\OnejavService;
 use App\Jav\Tests\JavTestCase;
 use App\Jav\Tests\Traits\OnejavMocker;
 use Illuminate\Support\Facades\Event;
+use Jooservices\XcrawlerClient\Response\DomResponse;
+use Jooservices\XcrawlerClient\XCrawlerClient;
 
 class OnejavServiceTest extends JavTestCase
 {
@@ -72,9 +75,24 @@ class OnejavServiceTest extends JavTestCase
         $this->assertDatabaseCount('wordpress_posts', $items->count());
     }
 
-    /**
-     * @coversDefaultClass \App\Jav\Services\OnejavService
-     */
+    public function testDailyFailed()
+    {
+        $mocker = $this->getClientMock();
+        $mocker
+            ->shouldReceive('get')
+            ->andReturn($this->getErrorMockedResponse(app(DomResponse::class)))
+        ;
+        app()->instance(XCrawlerClient::class, $mocker);
+        $this->service = app(OnejavService::class);
+
+        $items = $this->service->daily();
+        $this->assertTrue($items->isEmpty());
+
+        $this->assertDatabaseCount('onejav', 0);
+        $this->assertDatabaseCount('movies', 0);
+        $this->assertDatabaseCount('wordpress_posts', 0);
+    }
+
     public function testRelease()
     {
         ApplicationService::setConfig('onejav', 'total_pages', 2);
@@ -97,5 +115,24 @@ class OnejavServiceTest extends JavTestCase
 
         $this->service->release();
         $this->assertEquals(1, ApplicationService::getConfig('onejav', 'current_page'));
+    }
+
+    public function testItem()
+    {
+        $onejav = Onejav::factory()->create();
+
+        $mocker = $this->getClientMock();
+        $mocker
+            ->shouldReceive('get')
+            ->with($onejav->url, [])
+            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021.html'))
+        ;
+        app()->instance(XCrawlerClient::class, $mocker);
+
+        $this->service = app(OnejavService::class);
+
+        $this->service->item($onejav);
+
+        $this->assertEquals('WAAA-088', $onejav->refresh()->dvd_id);
     }
 }

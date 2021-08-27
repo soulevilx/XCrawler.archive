@@ -45,8 +45,8 @@ trait HasDefaultMovie
         return $this->belongsTo(Movie::class, 'dvd_id', 'dvd_id');
     }
 
-    public static function findByDvdId(Builder $builder, string $dvdId)
+    public static function findByDvdId(string $dvdId)
     {
-        return $builder->where(['dvd_id' => $dvdId]);
+        return self::where(['dvd_id' => $dvdId])->first();
     }
 }

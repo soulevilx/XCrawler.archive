@@ -7,21 +7,23 @@ use App\Core\Models\Traits\HasStates;
 use App\Jav\Crawlers\XCityIdolCrawler;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * @property string $url
- * @property string $name
- * @property string $cover
- * @property int    $favorite
- * @property string $birthday
- * @property string $blood_type
- * @property string $city
- * @property int    $height
- * @property int    $breast
- * @property int    $waist
- * @property int    $hips
- * @property string $state_code
+ * @property string    $url
+ * @property string    $name
+ * @property string    $cover
+ * @property int       $favorite
+ * @property string    $birthday
+ * @property string    $blood_type
+ * @property string    $city
+ * @property int       $height
+ * @property int       $breast
+ * @property int       $waist
+ * @property int       $hips
+ * @property string    $state_code
+ * @property Performer $performer
  *
  * @method static Builder|XCityIdol byState (string $state)
  */
@@ -36,11 +38,6 @@ class XCityIdol extends Model
     public const BASE_URL = 'https://xxx.xcity.jp';
     public const INDEX_URL = 'idol/';
     public const PER_PAGE = 30;
-
-    public const STATE_INIT = 'XCIN';
-    public const STATE_PENDING = 'XCPE';
-    public const STATE_PROCESSING = 'XCPR';
-    public const STATE_COMPLETED = 'XCCE';
 
     protected $table = 'xcity_idols';
 
@@ -88,5 +85,10 @@ class XCityIdol extends Model
         }
 
         return $this->refresh();
+    }
+
+    public function performer(): BelongsTo
+    {
+        return $this->belongsTo(Performer::class, 'name', 'name');
     }
 }
