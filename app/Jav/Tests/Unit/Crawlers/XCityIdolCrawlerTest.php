@@ -22,10 +22,10 @@ class XCityIdolCrawlerTest extends JavTestCase
 
     public function testGetSubPages()
     {
-        $idols = $this->crawler->getSubPages();
+        $pages = $this->crawler->getSubPages();
 
-        $this->assertCount(10, $idols);
-        $this->assertEquals(json_decode($this->getFixture('XCity/idol.json')), $idols->toArray());
+        $this->assertCount(10, $pages);
+        $this->assertEquals(json_decode($this->getFixture('XCity/idol.json')), $pages->toArray());
     }
 
     public function testGetItem()
@@ -54,7 +54,7 @@ class XCityIdolCrawlerTest extends JavTestCase
 
     public function testGetPages()
     {
-        $pages = $this->crawler->getPages('idol/', ['kana' => '%E3%81%82']);
+        $pages = $this->crawler->getPages('idol/', ['kana' => 'あ']);
         $this->assertEquals(112, $pages);
     }
 }

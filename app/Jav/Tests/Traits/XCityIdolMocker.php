@@ -10,6 +10,8 @@ trait XCityIdolMocker
 {
     protected XCityIdolCrawler $crawler;
 
+    protected $kanas = ['あ', 'か', 'さ', 'た', 'な', 'は', 'ま', 'や', 'ら', 'わ'];
+
     protected function loadXCityIdolMocker()
     {
         $this->mocker
@@ -18,11 +20,19 @@ trait XCityIdolMocker
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'XCity/idol.html'))
         ;
 
-        $this->mocker
-            ->shouldReceive('get')
-            ->with('idol/', ['kana' =>'%E3%81%82'])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'XCity/idols.html'))
-        ;
+        foreach ($this->kanas as $kana) {
+            $this->mocker
+                ->shouldReceive('get')
+                ->with('idol/', ['kana' => $kana])
+                ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'XCity/idols.html'))
+            ;
+
+            $this->mocker
+                ->shouldReceive('get')
+                ->with('idol/', ['kana' => $kana, 'page' => 1])
+                ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'XCity/idols.html'))
+            ;
+        }
 
         foreach ([5750, 7794, 12519, 13125, 16821] as $idol) {
             $this->mocker

@@ -11,10 +11,6 @@ use App\Jav\Tests\JavTestCase;
 use App\Jav\Tests\Traits\R18Mocker;
 use Illuminate\Support\Facades\Event;
 
-/**
- * @internal
- * @coversNothing
- */
 class R18ServiceTest extends JavTestCase
 {
     use R18Mocker;

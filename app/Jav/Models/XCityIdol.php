@@ -5,7 +5,6 @@ namespace App\Jav\Models;
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
 use App\Jav\Models\Interfaces\MovieInterface;
-use App\Jav\Models\Traits\HasDefaultMovie;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
