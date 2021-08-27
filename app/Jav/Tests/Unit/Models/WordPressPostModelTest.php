@@ -7,10 +7,7 @@ use App\Jav\Models\Movie;
 use App\Jav\Tests\JavTestCase;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
-/**
- * @internal
- * @coversNothing
- */
+
 class WordPressPostModelTest extends JavTestCase
 {
     /**

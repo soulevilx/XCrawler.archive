@@ -10,10 +10,6 @@ use App\Jav\Tests\JavTestCase;
 use App\Jav\Tests\Traits\OnejavMocker;
 use Illuminate\Support\Facades\Event;
 
-/**
- * @internal
- * @coversNothing
- */
 class OnejavServiceTest extends JavTestCase
 {
     use OnejavMocker;

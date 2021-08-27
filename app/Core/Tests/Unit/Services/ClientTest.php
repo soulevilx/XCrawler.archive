@@ -13,10 +13,7 @@ use Jooservices\XcrawlerClient\Response\DomResponse;
 use Jooservices\XcrawlerClient\XCrawlerClient;
 use Tests\TestCase;
 
-/**
- * @internal
- * @coversNothing
- */
+
 class ClientTest extends TestCase
 {
     public function setUp(): void

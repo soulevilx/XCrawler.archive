@@ -15,7 +15,6 @@ trait OnejavMocker
     protected function loadOnejavMock()
     {
         $now = Carbon::now()->format(Onejav::DAILY_FORMAT);
-        $this->mocker = $this->getClientMock();
         $this->mocker
             ->shouldReceive('get')
             ->with('invalid_date', [])

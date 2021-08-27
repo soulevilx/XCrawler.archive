@@ -10,10 +10,6 @@ use Mockery\LegacyMockInterface;
 use Mockery\MockInterface;
 use Tests\TestCase;
 
-/**
- * @internal
- * @coversNothing
- */
 class JavTestCase extends TestCase
 {
     protected MockInterface $mocker;

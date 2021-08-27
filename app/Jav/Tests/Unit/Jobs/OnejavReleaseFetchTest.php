@@ -7,10 +7,6 @@ use App\Jav\Jobs\Onejav\ReleaseFetch;
 use App\Jav\Tests\JavTestCase;
 use App\Jav\Tests\Traits\OnejavMocker;
 
-/**
- * @internal
- * @coversNothing
- */
 class OnejavReleaseFetchTest extends JavTestCase
 {
     use OnejavMocker;
@@ -22,9 +18,6 @@ class OnejavReleaseFetchTest extends JavTestCase
         $this->loadOnejavMock();
     }
 
-    /**
-     * @covers \App\Jav\Jobs\Onejav\ReleaseFetch
-     */
     public function testReleaseFetchJob()
     {
         ReleaseFetch::dispatch();

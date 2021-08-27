@@ -9,10 +9,7 @@ use App\Jav\Models\R18;
 use App\Jav\Tests\JavTestCase;
 use App\Jav\Tests\Traits\R18Mocker;
 
-/**
- * @internal
- * @coversNothing
- */
+
 class R18ReleaseFetchTest extends JavTestCase
 {
     use R18Mocker;

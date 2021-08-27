@@ -6,10 +6,7 @@ use App\Core\Models\Application;
 use App\Core\Services\ApplicationService;
 use Tests\TestCase;
 
-/**
- * @internal
- * @coversNothing
- */
+
 class ApplicationServiceTest extends TestCase
 {
     public function testSettings()

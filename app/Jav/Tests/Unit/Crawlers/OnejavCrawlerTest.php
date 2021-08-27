@@ -8,10 +8,7 @@ use App\Jav\Tests\Traits\OnejavMocker;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
-/**
- * @internal
- * @coversNothing
- */
+
 class OnejavCrawlerTest extends JavTestCase
 {
     use OnejavMocker;

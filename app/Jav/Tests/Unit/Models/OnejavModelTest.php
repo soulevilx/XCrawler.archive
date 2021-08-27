@@ -12,10 +12,7 @@ use Illuminate\Support\Facades\Notification;
 use Jooservices\XcrawlerClient\Response\DomResponse;
 use Jooservices\XcrawlerClient\XCrawlerClient;
 
-/**
- * @internal
- * @coversNothing
- */
+
 class OnejavModelTest extends JavTestCase
 {
     public function testModel()
