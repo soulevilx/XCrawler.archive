@@ -80,6 +80,7 @@ class JavServiceProvider extends BaseServiceProvider
      */
     public function boot()
     {
+        parent::boot();
         Queue::before(function (JobProcessing $event) {
             // $event->connectionName
             // $event->job
