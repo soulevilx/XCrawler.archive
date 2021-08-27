@@ -4,7 +4,6 @@ namespace App\Jav\Jobs\XCity;
 
 use App\Core\Services\ApplicationService;
 use App\Jav\Crawlers\XCityIdolCrawler;
-use App\Jav\Jobs\Middleware\XCityLimited;
 use App\Jav\Jobs\Traits\HasCrawlingMiddleware;
 use App\Jav\Models\XCityIdol;
 use App\Jav\Services\XCityService;
@@ -12,6 +11,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
+use Spatie\RateLimitedMiddleware\RateLimited;
 
 class GetIdolItemLinks implements ShouldQueue
 {
@@ -22,6 +22,11 @@ class GetIdolItemLinks implements ShouldQueue
 
     public function __construct(public string $kana, public int $page = 1, public bool $updateCurrentPage = true)
     {
+    }
+
+    public function retryUntil(): \DateTime
+    {
+        return now()->addMinute();
     }
 
     /**
@@ -35,7 +40,15 @@ class GetIdolItemLinks implements ShouldQueue
             return [];
         }
 
-        return [new XCityLimited()];
+        $rateLimitedMiddleware = (new RateLimited())
+            ->key('xcity')
+            ->allow(1)
+            ->everySeconds(1)
+            ->releaseAfterSeconds(60)
+            ->releaseAfterBackoff($this->attempts())
+        ;
+
+        return [$rateLimitedMiddleware];
     }
 
     public function handle(XCityIdolCrawler $crawler, XCityService $service)

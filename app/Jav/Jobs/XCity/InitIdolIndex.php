@@ -4,12 +4,12 @@ namespace App\Jav\Jobs\XCity;
 
 use App\Core\Services\ApplicationService;
 use App\Jav\Crawlers\XCityIdolCrawler;
-use App\Jav\Jobs\Middleware\XCityLimited;
 use App\Jav\Models\XCityIdol;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
+use Spatie\RateLimitedMiddleware\RateLimited;
 
 /**
  * This job will be used to fetch total pages of an index view.
@@ -24,6 +24,11 @@ class InitIdolIndex implements ShouldQueue
     {
     }
 
+    public function retryUntil(): \DateTime
+    {
+        return now()->addMinute();
+    }
+
     /**
      * Get the middleware the job should pass through.
      *
@@ -35,7 +40,15 @@ class InitIdolIndex implements ShouldQueue
             return [];
         }
 
-        return [new XCityLimited()];
+        $rateLimitedMiddleware = (new RateLimited())
+            ->key('xcity')
+            ->allow(1)
+            ->everySeconds(1)
+            ->releaseAfterSeconds(60)
+            ->releaseAfterBackoff($this->attempts())
+        ;
+
+        return [$rateLimitedMiddleware];
     }
 
     public function handle(XCityIdolCrawler $crawler)

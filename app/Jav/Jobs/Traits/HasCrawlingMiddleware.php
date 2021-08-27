@@ -20,6 +20,11 @@ trait HasCrawlingMiddleware
      */
     public $maxExceptions = 3;
 
+    public function retryUntil(): \DateTime
+    {
+        return now()->addMinutes(5);
+    }
+
     public function middleware()
     {
         if ('testing' === config('app.env')) {
