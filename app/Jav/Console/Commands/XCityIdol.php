@@ -2,6 +2,8 @@
 
 namespace App\Jav\Console\Commands;
 
+use App\Core\Models\State;
+use App\Jav\Jobs\XCity\ItemFetch;
 use App\Jav\Services\XCityService;
 use Illuminate\Console\Command;
 
@@ -28,8 +30,16 @@ class XCityIdol extends Command
                 $service->release();
 
                 break;
+
             case 'daily':
                 $service->daily();
+
+                break;
+
+            case 'item':
+                if ($model = \App\Jav\Models\XCityIdol::byState(State::STATE_INIT)->first()) {
+                    ItemFetch::dispatch($model)->onQueue('crawling');
+                }
 
                 break;
         }

@@ -4,7 +4,7 @@ namespace App\Jav\Models;
 
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
-use App\Jav\Models\Interfaces\MovieInterface;
+use App\Jav\Crawlers\XCityIdolCrawler;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -80,6 +80,13 @@ class XCityIdol extends Model
 
     public function refetch()
     {
-        return $this;
+        $crawler = app(XCityIdolCrawler::class);
+
+        $id = trim(str_replace('detail/', '', $this->url), '/');
+        if ($item = $crawler->getItem($id)) {
+            $this->update($item->getArrayCopy());
+        }
+
+        return $this->refresh();
     }
 }

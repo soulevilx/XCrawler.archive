@@ -8,11 +8,13 @@ use App\Jav\Crawlers\XCityIdolCrawler;
 use App\Jav\Jobs\XCity\GetIdolItemLinks;
 use App\Jav\Jobs\XCity\InitIdolIndex;
 use App\Jav\Models\XCityIdol;
+use App\Jav\Services\Interfaces\ServiceInterface;
 use App\Jav\Services\Traits\HasAttributes;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Cache;
 
-class XCityService
+class XCityService implements ServiceInterface
 {
     use HasAttributes;
 
@@ -62,12 +64,19 @@ class XCityService
         }
     }
 
-    public function create()
+    public function create(): XCityIdol
     {
         $this->defaultAttribute('state_code', State::STATE_INIT);
 
         $this->idol = XCityIdol::firstOrCreate([
             'url' => $this->attributes['url'],
         ], $this->attributes);
+
+        return $this->idol;
+    }
+
+    public function item(Model $model): XCityIdol
+    {
+        return $model->refetch();
     }
 }

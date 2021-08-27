@@ -3,6 +3,7 @@
 namespace App\Jav\Console\Commands;
 
 use App\Core\Models\State;
+use App\Jav\Jobs\R18\DailyFetch;
 use App\Jav\Jobs\R18\ItemFetch;
 use App\Jav\Jobs\R18\ReleaseFetch;
 use App\Jav\Models\R18 as R18Model;
@@ -32,11 +33,18 @@ class R18 extends Command
 
                 break;
 
+            case 'daily':
+                DailyFetch::dispatch()->onQueue('crawling');
+
+                break;
+
             case 'item':
                 $model = R18Model::byState(State::STATE_INIT)->first();
                 if ($model) {
                     ItemFetch::dispatch($model)->onQueue('crawling');
                 }
+
+                break;
         }
     }
 }

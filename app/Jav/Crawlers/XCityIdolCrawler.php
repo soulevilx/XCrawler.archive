@@ -38,15 +38,14 @@ class XCityIdolCrawler
      */
     public function getItem(int $id, array $payload = []): ?ArrayObject
     {
-        $url = XCityIdol::INDEX_URL.'detail/'.$id;
-        $response = $this->client->get($url, $payload);
+        $response = $this->client->get(XCityIdol::INDEX_URL.'detail/'.$id, $payload);
 
         if (!$response->isSuccessful()) {
             return null;
         }
 
         $item = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
-        $item->url = $url;
+        $item->url = 'detail/'.$id;
         if (0 === $response->getData()->filter('.itemBox h1')->count()) {
             return null;
         }

@@ -6,9 +6,11 @@ use App\Core\Models\State;
 use App\Core\Services\ApplicationService;
 use App\Jav\Crawlers\R18Crawler;
 use App\Jav\Models\R18;
+use App\Jav\Services\Interfaces\ServiceInterface;
 use App\Jav\Services\Traits\HasAttributes;
+use Illuminate\Database\Eloquent\Model;
 
-class R18Service
+class R18Service implements ServiceInterface
 {
     use HasAttributes;
 
@@ -33,7 +35,7 @@ class R18Service
         return $this->model;
     }
 
-    public function item(R18 $model)
+    public function item(Model $model): R18
     {
         return $model->refetch();
     }
@@ -62,6 +64,24 @@ class R18Service
         }
 
         $this->application->save('r18', 'current_page', $currentPage);
+
+        return $items;
+    }
+
+    public function daily()
+    {
+        /**
+         * Make sure we fetch page 1 to get latest release while `release` fetching older.
+         */
+        $items = $this->crawler->getItemLinks(R18::MOVIE_LIST_URL.'/page=1');
+
+        if ($items->isEmpty()) {
+            return $items;
+        }
+
+        $items->each(function ($item) {
+            $this->setAttributes($item)->create();
+        });
 
         return $items;
     }

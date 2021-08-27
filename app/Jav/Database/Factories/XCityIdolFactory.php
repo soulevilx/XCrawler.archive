@@ -13,7 +13,7 @@ class XCityIdolFactory extends Factory
     public function definition()
     {
         return [
-            'url' => $this->faker->url,
+            'url' => 'detail/'.$this->faker->randomElement([5750, 7794, 12519, 13125, 16821]),
             'name' => $this->faker->name,
             'cover' => $this->faker->url,
             'favorite' => $this->faker->numerify,
