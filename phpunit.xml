@@ -48,6 +48,7 @@
             <directory suffix=".php">./app/*/Providers</directory>
             <directory suffix=".php">./app/*/Routes</directory>
             <directory suffix=".php">./app/*/Tests</directory>
+            <directory suffix=".php">./app/Console/Kernel.php</directory>
         </exclude>
     </coverage>
 
