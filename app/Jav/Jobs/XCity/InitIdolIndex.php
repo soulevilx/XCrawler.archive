@@ -26,7 +26,7 @@ class InitIdolIndex implements ShouldQueue
 
     public function retryUntil(): \DateTime
     {
-        return now()->addMinute();
+        return now()->addDay();
     }
 
     /**
