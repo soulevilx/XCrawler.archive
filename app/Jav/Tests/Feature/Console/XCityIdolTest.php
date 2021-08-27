@@ -10,10 +10,6 @@ use App\Jav\Tests\JavTestCase;
 use App\Jav\Tests\Traits\XCityIdolMocker;
 use Illuminate\Support\Facades\Queue;
 
-/**
- * @internal
- * @coversNothing
- */
 class XCityIdolTest extends JavTestCase
 {
     use XCityIdolMocker;
