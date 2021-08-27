@@ -31,13 +31,17 @@ class GetIdolItemLinks implements ShouldQueue
      */
     public function middleware()
     {
+        if ('testing' === config('app.env')) {
+            return [];
+        }
+
         return [new XCityLimited()];
     }
 
     public function handle(XCityIdolCrawler $crawler, XCityService $service)
     {
         $configKey = $this->kana.'_current_page';
-        $totalPages = ApplicationService::getConfig('xcity', $this->kana.'_total_pages', $this->page);
+        $totalPages = (int) ApplicationService::getConfig('xcity', $this->kana.'_total_pages', 1);
 
         $this->page = $this->updateCurrentPage
             ? ApplicationService::getConfig('xcity', $configKey, $this->page)
@@ -48,8 +52,7 @@ class GetIdolItemLinks implements ShouldQueue
         $links->each(function ($link) use ($service) {
             $service->setAttributes([
                 'url' => $link,
-            ]);
-            $service->create();
+            ])->create();
         });
 
         if (!$this->updateCurrentPage) {

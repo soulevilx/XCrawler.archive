@@ -44,7 +44,7 @@ class XCityGetIdolItemLinksTest extends JavTestCase
         $this->assertEquals(30, XCityIdol::byState(State::STATE_INIT)->count());
 
         GetIdolItemLinks::dispatch($kana);
-        $this->assertEquals(1, ApplicationService::getConfig('xcity', $kana.'_current_page'));
+        $this->assertEquals(2, ApplicationService::getConfig('xcity', $kana.'_current_page'));
     }
 
     public function testGetIdolItemLinksWithoutUpdateCurrentPage()
