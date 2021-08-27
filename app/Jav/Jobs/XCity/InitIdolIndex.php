@@ -31,6 +31,10 @@ class InitIdolIndex implements ShouldQueue
      */
     public function middleware()
     {
+        if ('testing' === config('app.env')) {
+            return [];
+        }
+
         return [new XCityLimited()];
     }
 
