@@ -57,7 +57,7 @@ class XCityService implements ServiceInterface
         $subPages = $this->getSubPages();
         foreach ($subPages as $index => $subPage) {
             $kana = str_replace('/idol/?kana=', '', $subPage);
-            InitIdolIndex::dispatch($kana)->onQueue('crawling-low');
+            InitIdolIndex::dispatch($kana)->onQueue('crawling');
             GetIdolItemLinks::dispatch($kana)->onQueue('crawling');
         }
     }

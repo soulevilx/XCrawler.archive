@@ -20,6 +20,13 @@ class InitIdolIndex implements ShouldQueue
     use InteractsWithQueue;
     use Queueable;
 
+    /**
+     * The number of times the job may be attempted.
+     *
+     * @var int
+     */
+    public $tries = 5;
+
     public function __construct(public string $kana, public int $page = 1)
     {
     }

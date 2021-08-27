@@ -16,9 +16,6 @@ class ReleaseFetch implements ShouldQueue
     use Queueable;
     use HasCrawlingMiddleware;
 
-    protected int $allow = 1;
-    protected int $releaseAfterMinutes = 5;
-
     public function handle(R18Service $service)
     {
         $service->release();

@@ -24,33 +24,6 @@ class GetIdolItemLinks implements ShouldQueue
     {
     }
 
-    public function retryUntil(): \DateTime
-    {
-        return now()->addMinute();
-    }
-
-    /**
-     * Get the middleware the job should pass through.
-     *
-     * @return array
-     */
-    public function middleware()
-    {
-        if ('testing' === config('app.env')) {
-            return [];
-        }
-
-        $rateLimitedMiddleware = (new RateLimited())
-            ->key('xcity')
-            ->allow(1)
-            ->everySeconds(1)
-            ->releaseAfterSeconds(60)
-            ->releaseAfterBackoff($this->attempts())
-        ;
-
-        return [$rateLimitedMiddleware];
-    }
-
     public function handle(XCityIdolCrawler $crawler, XCityService $service)
     {
         $configKey = $this->kana.'_current_page';
