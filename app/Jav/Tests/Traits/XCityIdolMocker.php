@@ -32,6 +32,11 @@ trait XCityIdolMocker
                 ->with('idol/', ['kana' => $kana, 'page' => 1])
                 ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'XCity/idols.html'))
             ;
+            $this->mocker
+                ->shouldReceive('get')
+                ->with('idol/', ['kana' => $kana, 'page' => 2])
+                ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'XCity/idols.html'))
+            ;
         }
 
         foreach ([5750, 7794, 12519, 13125, 16821] as $idol) {

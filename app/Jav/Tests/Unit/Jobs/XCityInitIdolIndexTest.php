@@ -7,7 +7,7 @@ use App\Jav\Jobs\XCity\InitIdolIndex;
 use App\Jav\Tests\JavTestCase;
 use App\Jav\Tests\Traits\XCityIdolMocker;
 
-class InitIdolIndexTest extends JavTestCase
+class XCityInitIdolIndexTest extends JavTestCase
 {
     use XCityIdolMocker;
 
