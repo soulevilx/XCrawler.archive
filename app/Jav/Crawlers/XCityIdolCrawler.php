@@ -100,7 +100,7 @@ class XCityIdolCrawler
                     case 'favorite':
                         $item->{$label} = (int) $value;
 
-                        break;
+                        return;
 
                     case 'date_of_birth':
                         $value = Carbon::createFromFormat('Y M d', $value);

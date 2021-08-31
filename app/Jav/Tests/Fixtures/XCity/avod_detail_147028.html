@@ -1,0 +1,723 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<!--mfunc-->
+<!--/mfunc-->
+<!--mfunc-->
+<!--/mfunc-->
+
+<head>
+    <meta charset="UTF-8"><script type="text/javascript">(window.NREUM||(NREUM={})).loader_config={licenseKey:"f54f642737",applicationID:"487596947"};window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){var i=e[n]={exports:{}};t[n][0].call(i.exports,function(e){var i=t[n][1][e];return r(i||e)},i,i.exports)}return e[n].exports}if("function"==typeof __nr_require)return __nr_require;for(var i=0;i<n.length;i++)r(n[i]);return r}({1:[function(t,e,n){function r(){}function i(t,e,n){return function(){return o(t,[u.now()].concat(f(arguments)),e?null:this,n),e?void 0:this}}var o=t("handle"),a=t(8),f=t(9),c=t("ee").get("tracer"),u=t("loader"),s=NREUM;"undefined"==typeof window.newrelic&&(newrelic=s);var d=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],p="api-",l=p+"ixn-";a(d,function(t,e){s[e]=i(p+e,!0,"api")}),s.addPageAction=i(p+"addPageAction",!0),s.setCurrentRouteName=i(p+"routeName",!0),e.exports=newrelic,s.interaction=function(){return(new r).get()};var m=r.prototype={createTracer:function(t,e){var n={},r=this,i="function"==typeof e;return o(l+"tracer",[u.now(),t,n],r),function(){if(c.emit((i?"":"no-")+"fn-start",[u.now(),r,i],n),i)try{return e.apply(this,arguments)}catch(t){throw c.emit("fn-err",[arguments,this,t],n),t}finally{c.emit("fn-end",[u.now()],n)}}}};a("actionText,setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(t,e){m[e]=i(l+e)}),newrelic.noticeError=function(t,e){"string"==typeof t&&(t=new Error(t)),o("err",[t,u.now(),!1,e])}},{}],2:[function(t,e,n){function r(t){if(NREUM.init){for(var e=NREUM.init,n=t.split("."),r=0;r<n.length-1;r++)if(e=e[n[r]],"object"!=typeof e)return;return e=e[n[n.length-1]]}}e.exports={getConfiguration:r}},{}],3:[function(t,e,n){function r(){return f.exists&&performance.now?Math.round(performance.now()):(o=Math.max((new Date).getTime(),o))-a}function i(){return o}var o=(new Date).getTime(),a=o,f=t(10);e.exports=r,e.exports.offset=a,e.exports.getLastTimestamp=i},{}],4:[function(t,e,n){function r(t){return!(!t||!t.protocol||"file:"===t.protocol)}e.exports=r},{}],5:[function(t,e,n){function r(t,e){var n=t.getEntries();n.forEach(function(t){"first-paint"===t.name?d("timing",["fp",Math.floor(t.startTime)]):"first-contentful-paint"===t.name&&d("timing",["fcp",Math.floor(t.startTime)])})}function i(t,e){var n=t.getEntries();n.length>0&&d("lcp",[n[n.length-1]])}function o(t){t.getEntries().forEach(function(t){t.hadRecentInput||d("cls",[t])})}function a(t){if(t instanceof m&&!g){var e=Math.round(t.timeStamp),n={type:t.type};e<=p.now()?n.fid=p.now()-e:e>p.offset&&e<=Date.now()?(e-=p.offset,n.fid=p.now()-e):e=p.now(),g=!0,d("timing",["fi",e,n])}}function f(t){"hidden"===t&&d("pageHide",[p.now()])}if(!("init"in NREUM&&"page_view_timing"in NREUM.init&&"enabled"in NREUM.init.page_view_timing&&NREUM.init.page_view_timing.enabled===!1)){var c,u,s,d=t("handle"),p=t("loader"),l=t(7),m=NREUM.o.EV;if("PerformanceObserver"in window&&"function"==typeof window.PerformanceObserver){c=new PerformanceObserver(r);try{c.observe({entryTypes:["paint"]})}catch(v){}u=new PerformanceObserver(i);try{u.observe({entryTypes:["largest-contentful-paint"]})}catch(v){}s=new PerformanceObserver(o);try{s.observe({type:"layout-shift",buffered:!0})}catch(v){}}if("addEventListener"in document){var g=!1,h=["click","keydown","mousedown","pointerdown","touchstart"];h.forEach(function(t){document.addEventListener(t,a,!1)})}l(f)}},{}],6:[function(t,e,n){function r(t,e){if(!i)return!1;if(t!==i)return!1;if(!e)return!0;if(!o)return!1;for(var n=o.split("."),r=e.split("."),a=0;a<r.length;a++)if(r[a]!==n[a])return!1;return!0}var i=null,o=null,a=/Version\/(\S+)\s+Safari/;if(navigator.userAgent){var f=navigator.userAgent,c=f.match(a);c&&f.indexOf("Chrome")===-1&&f.indexOf("Chromium")===-1&&(i="Safari",o=c[1])}e.exports={agent:i,version:o,match:r}},{}],7:[function(t,e,n){function r(t){function e(){t(a&&document[a]?document[a]:document[i]?"hidden":"visible")}"addEventListener"in document&&o&&document.addEventListener(o,e,!1)}e.exports=r;var i,o,a;"undefined"!=typeof document.hidden?(i="hidden",o="visibilitychange",a="visibilityState"):"undefined"!=typeof document.msHidden?(i="msHidden",o="msvisibilitychange"):"undefined"!=typeof document.webkitHidden&&(i="webkitHidden",o="webkitvisibilitychange",a="webkitVisibilityState")},{}],8:[function(t,e,n){function r(t,e){var n=[],r="",o=0;for(r in t)i.call(t,r)&&(n[o]=e(r,t[r]),o+=1);return n}var i=Object.prototype.hasOwnProperty;e.exports=r},{}],9:[function(t,e,n){function r(t,e,n){e||(e=0),"undefined"==typeof n&&(n=t?t.length:0);for(var r=-1,i=n-e||0,o=Array(i<0?0:i);++r<i;)o[r]=t[e+r];return o}e.exports=r},{}],10:[function(t,e,n){e.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],ee:[function(t,e,n){function r(){}function i(t){function e(t){return t&&t instanceof r?t:t?u(t,c,a):a()}function n(n,r,i,o,a){if(a!==!1&&(a=!0),!l.aborted||o){t&&a&&t(n,r,i);for(var f=e(i),c=v(n),u=c.length,s=0;s<u;s++)c[s].apply(f,r);var p=d[w[n]];return p&&p.push([b,n,r,f]),f}}function o(t,e){y[t]=v(t).concat(e)}function m(t,e){var n=y[t];if(n)for(var r=0;r<n.length;r++)n[r]===e&&n.splice(r,1)}function v(t){return y[t]||[]}function g(t){return p[t]=p[t]||i(n)}function h(t,e){l.aborted||s(t,function(t,n){e=e||"feature",w[n]=e,e in d||(d[e]=[])})}var y={},w={},b={on:o,addEventListener:o,removeEventListener:m,emit:n,get:g,listeners:v,context:e,buffer:h,abort:f,aborted:!1};return b}function o(t){return u(t,c,a)}function a(){return new r}function f(){(d.api||d.feature)&&(l.aborted=!0,d=l.backlog={})}var c="nr@context",u=t("gos"),s=t(8),d={},p={},l=e.exports=i();e.exports.getOrSetContext=o,l.backlog=d},{}],gos:[function(t,e,n){function r(t,e,n){if(i.call(t,e))return t[e];var r=n();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(t,e,{value:r,writable:!0,enumerable:!1}),r}catch(o){}return t[e]=r,r}var i=Object.prototype.hasOwnProperty;e.exports=r},{}],handle:[function(t,e,n){function r(t,e,n,r){i.buffer([t],r),i.emit(t,e,n)}var i=t("ee").get("handle");e.exports=r,r.ee=i},{}],id:[function(t,e,n){function r(t){var e=typeof t;return!t||"object"!==e&&"function"!==e?-1:t===window?0:a(t,o,function(){return i++})}var i=1,o="nr@id",a=t("gos");e.exports=r},{}],loader:[function(t,e,n){function r(){if(!R++){var t=M.info=NREUM.info,e=v.getElementsByTagName("script")[0];if(setTimeout(u.abort,3e4),!(t&&t.licenseKey&&t.applicationID&&e))return u.abort();c(E,function(e,n){t[e]||(t[e]=n)});var n=a();f("mark",["onload",n+M.offset],null,"api"),f("timing",["load",n]);var r=v.createElement("script");0===t.agent.indexOf("http://")||0===t.agent.indexOf("https://")?r.src=t.agent:r.src=l+"://"+t.agent,e.parentNode.insertBefore(r,e)}}function i(){"complete"===v.readyState&&o()}function o(){f("mark",["domContent",a()+M.offset],null,"api")}var a=t(3),f=t("handle"),c=t(8),u=t("ee"),s=t(6),d=t(4),p=t(2),l=p.getConfiguration("ssl")===!1?"http":"https",m=window,v=m.document,g="addEventListener",h="attachEvent",y=m.XMLHttpRequest,w=y&&y.prototype,b=!d(m.location);NREUM.o={ST:setTimeout,SI:m.setImmediate,CT:clearTimeout,XHR:y,REQ:m.Request,EV:m.Event,PR:m.Promise,MO:m.MutationObserver};var x=""+location,E={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1210.min.js"},O=y&&w&&w[g]&&!/CriOS/.test(navigator.userAgent),M=e.exports={offset:a.getLastTimestamp(),now:a,origin:x,features:{},xhrWrappable:O,userAgent:s,disabled:b};if(!b){t(1),t(5),v[g]?(v[g]("DOMContentLoaded",o,!1),m[g]("load",r,!1)):(v[h]("onreadystatechange",i),m[h]("onload",r)),f("mark",["firstbyte",a.getLastTimestamp()],null,"api");var R=0}},{}],"wrap-function":[function(t,e,n){function r(t,e){function n(e,n,r,c,u){function nrWrapper(){var o,a,s,p;try{a=this,o=d(arguments),s="function"==typeof r?r(o,a):r||{}}catch(l){i([l,"",[o,a,c],s],t)}f(n+"start",[o,a,c],s,u);try{return p=e.apply(a,o)}catch(m){throw f(n+"err",[o,a,m],s,u),m}finally{f(n+"end",[o,a,p],s,u)}}return a(e)?e:(n||(n=""),nrWrapper[p]=e,o(e,nrWrapper,t),nrWrapper)}function r(t,e,r,i,o){r||(r="");var f,c,u,s="-"===r.charAt(0);for(u=0;u<e.length;u++)c=e[u],f=t[c],a(f)||(t[c]=n(f,s?c+r:r,i,c,o))}function f(n,r,o,a){if(!m||e){var f=m;m=!0;try{t.emit(n,r,o,e,a)}catch(c){i([c,n,r,o],t)}m=f}}return t||(t=s),n.inPlace=r,n.flag=p,n}function i(t,e){e||(e=s);try{e.emit("internal-error",t)}catch(n){}}function o(t,e,n){if(Object.defineProperty&&Object.keys)try{var r=Object.keys(t);return r.forEach(function(n){Object.defineProperty(e,n,{get:function(){return t[n]},set:function(e){return t[n]=e,e}})}),e}catch(o){i([o],n)}for(var a in t)l.call(t,a)&&(e[a]=t[a]);return e}function a(t){return!(t&&t instanceof Function&&t.apply&&!t[p])}function f(t,e){var n=e(t);return n[p]=t,o(t,n,s),n}function c(t,e,n){var r=t[e];t[e]=f(r,n)}function u(){for(var t=arguments.length,e=new Array(t),n=0;n<t;++n)e[n]=arguments[n];return e}var s=t("ee"),d=t(9),p="nr@original",l=Object.prototype.hasOwnProperty,m=!1;e.exports=r,e.exports.wrapFunction=f,e.exports.wrapInPlace=c,e.exports.argsToArray=u},{}]},{},["loader"]);</script>
+    <meta name="viewport" content="width=1150">
+
+    <meta name="robots" content="index,follow">
+    <meta name="msvalidate.01" content="E0B78919FCA9C3A3984D41F14374ABA2">
+
+    <title>Too Young My Father&#8217;s Second Wife, Kaho Imai | Adult Video &quot;Hot Japanese JAV Online XCITY&quot;</title>
+
+
+
+    <link rel="stylesheet" href="https://xxx.xcity.jp/wp-content/themes/xcity-ja/style.css?ver=1596595825" media="screen,tv">
+    <link rel="stylesheet" href="/css_en/jquery.ui.autocomplete.min.css" media="screen,tv">
+    <link rel="pingback" href="https://xxx.xcity.jp/xmlrpc.php">
+    <link rel="icon" type="image/x-icon" href="//faws.xcity.jp/image/parts/favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="//faws.xcity.jp/image/parts/favicon/apple-touch-icon-180x180.png">
+    <meta name="msapplication-TileColor" content="#b91d47">
+    <meta name="msapplication-TileImage" content="//faws.xcity.jp/image/parts/favicon/mstile-144x144.png">
+    <meta name="msapplication-config" content="//faws.xcity.jp/image/parts/favicon/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="manifest" href="/manifest.json">
+
+
+    <link rel='dns-prefetch' href='//xaws.xcity.jp' />
+    <link rel='dns-prefetch' href='//s.w.org' />
+    <link rel="stylesheet" href="https://xaws.xcity.jp/wp-content/themes/xcity-ja/flexslider/flexslider.css?ver=1542090734" media="screen,tv">
+    <link rel="stylesheet" href="https://xaws.xcity.jp/wp-content/themes/xcity-ja/lightbox2/css/lightbox.min.css?ver=1484277779" media="screen,tv">
+    <link rel="stylesheet" href="https://xaws.xcity.jp/wp-content/themes/xcity-ja/program-detail.css?ver=1587710902" media="screen,tv">
+    <link rel="stylesheet" href="https://xaws.xcity.jp/wp-content/themes/xcity-ja/seen.css?ver=1517297031" media="screen,tv">
+    <link rel="stylesheet" href="https://xaws.xcity.jp/wp-content/themes/xcity-ja/avod.css?ver=1540537464" media="screen,tv">
+    <!--mfunc-->
+    <!--/mfunc--><!--mfunc-->
+    <!--/mfunc--><script type='text/javascript' src='https://xaws.xcity.jp/wp-content/themes/xcity-ja/js/jquery-1.12.4.min.js?ver=4.9.13'></script>
+    <script type='text/javascript' src='https://xaws.xcity.jp/wp-content/themes/xcity-ja/js/lodash.min.js?ver=4.9.13'></script>
+    <script type='text/javascript' src='https://xaws.xcity.jp/wp-content/themes/xcity-ja/flexslider/jquery.flexslider-min.js?ver=4.9.13'></script>
+    <script type='text/javascript' src='https://xaws.xcity.jp/wp-content/themes/xcity-ja/lightbox2/js/lightbox.min.js?ver=2.9.0'></script>
+    <script type='text/javascript' src='https://xxx.xcity.jp/js_en/program_detail.js?ver=3'></script>
+    <script type='text/javascript' src='https://xxx.xcity.jp/js_en/sp_common.js?ver=1'></script>
+    <script type='text/javascript' src='https://xaws.xcity.jp/wp-content/themes/xcity-ja/js/program-detail-hbox.js?ver=1.10'></script>
+    <script type='text/javascript' src='https://xaws.xcity.jp/wp-content/themes/xcity-ja/js/SeenPickUpper2.js?ver=1.1'></script>
+    <script type='text/javascript' src='https://xxx.xcity.jp/wp-content/plugins/xcity-rest/xcity-rest.js?ver=4.9.13'></script>
+    <script type='text/javascript' src='https://xxx.xcity.jp/js_en/jquery.ui.autocomplete.min.js?ver=4.9.13'></script>
+    <link rel='https://api.w.org/' href='https://xxx.xcity.jp/wp-json/' />
+    <link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://xxx.xcity.jp/xmlrpc.php?rsd" />
+    <link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://xxx.xcity.jp/wp-includes/wlwmanifest.xml" />
+    <meta name="generator" content="WordPress 4.9.13" />
+    <link rel='shortlink' href='https://xxx.xcity.jp/?p=17' />
+    <link rel="alternate" type="application/json+oembed" href="https://xxx.xcity.jp/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fxxx.xcity.jp%2Favod%2Fdetail%2F" />
+    <link rel="alternate" type="text/xml+oembed" href="https://xxx.xcity.jp/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fxxx.xcity.jp%2Favod%2Fdetail%2F&#038;format=xml" />
+    <link rel='canonical' href='https://xxx.xcity.jp/avod/detail/?id=147028'>
+    <meta name="description" content="若すぎる父の後妻 今井夏帆">
+    <meta name="keywords" content="若すぎる父の後妻 今井夏帆,今井夏帆,BIRDMAN鉄平,プラネットプラス,七狗留">
+    <meta property="og:site_name" content="Adult Video &quot;Hot Japanese JAV Online XCITY&quot;">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://xxx.xcity.jp/avod/detail/?id=147028">
+    <meta property="og:image" content="https://faws.xcity.jp/package/medium/image/maker/planetplus/nacr292/f_1582251836_1.jpg">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@XCITYjp">
+    <script>
+        function getDomain(){
+            var nowUrl = location.href;
+            var arr_uri = nowUrl.match(/^(.*?:\/\/)(.*?)([a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,6})[\:[0-9]*]?([\/].*?)?$/i);
+            return arr_uri[3];
+        }
+
+        //<!--mfunc-->
+
+        var dataLayer = dataLayer || [];
+        dataLayer.push({
+            'dimension1': 'false',
+            'dimension3': 'none'
+        });//<!--/mfunc-->
+
+        $(function() {
+            $loginEle = $('#login');
+            if($loginEle.hasClass('paidMember')) {
+                $('.visible-paidMember').show();
+            } else if($loginEle.hasClass('freeMember')) {
+                $('.visible-freeMember').show();
+            } else {
+                $('.visible-nonMember').show();
+            }
+
+            $('#search_word_autocomplete').autocomplete({
+                source: function(req,resp){
+                    $.ajax({
+                        url: "https://regist.xcity.jp/english/if/get_suggest.php",
+                        type: "GET",
+                        cache: false,
+                        data: {"q": req.term},
+                        success: function(response){
+                            if(response.status == 1){
+                                resp(response.res);
+                            }
+                        },
+                        dataType: 'json'
+                    });
+                },
+                minLength: 2
+            });
+        });
+
+        $(window).load(function(){
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register("/serviceWorker.js")
+                    .then(function(registration) {
+                        console.log("serviceWorker registed.");
+                    }).catch(function(error) {
+                    console.warn("serviceWorker error.", error);
+                });
+            }
+        });
+    </script>
+
+
+</head>
+
+<!--mfunc-->
+<body class="page-template page-template-template-avod-item_detail page-template-template-avod-item_detail-php page page-id-17 page-child parent-pageid-3" ><!--/mfunc-->
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-WDSKPF"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WDSKPF');</script>
+<!-- End Google Tag Manager -->
+
+<div id="container">
+    <div id="wrapper">
+        <div id="header">
+            <!--↓↓↓上部divタグよりヘッダ区画↓↓↓ -->
+            <div id="headerTop">
+                <div id="banner">
+                    <a href="/enta/">
+                        <img src="//faws.xcity.jp/image/parts/main/en/entrance_enta.jpg" srcset="//faws.xcity.jp/image/parts/main/en/entrance_enta.webp 1x" alt="グラドル動画も見放題！XCITYエンタ入り口 Main Menu">
+                    </a>
+                </div>
+
+
+                <div id="mainlogo">
+                    <a href="/main/">
+                        <img src="//faws.xcity.jp/image/parts/logo/xcity_ktkn.svg" alt="XCITY Main Menu">
+                    </a><div>
+                    Adult Video &quot;Hot Japanese JAV Online XCITY&quot;</div>
+                </div>
+                <!-- ここからログイン区画 -->
+                <!--mfunc-->
+
+
+                <div id="login" class="">
+                    <p>
+                        Welcome <strong>Guest</strong>
+                    </p>
+                    <ul>
+                        <li>
+                            <a href="https://regist.xcity.jp/english/member/login.php?redirect_to=https%3A%2F%2Fxxx.xcity.jp%2Favod%2Fdetail%2F%3Fmaker%3Dplanetplus%26id%3D147028">
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/btn_login.gif" alt="Log In">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://regist.xcity.jp/english/member/free/regist_top.php">
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/btn_beginner.gif" alt="Free Membership Registration">
+                            </a>
+                        </li>
+                        <li class="help">
+                            <a href="/help/">Help</a>
+                        </li>
+                    </ul>
+                </div><!--/mfunc-->
+                <!-- ここまでログイン区画 -->
+            </div>
+            <div id="headerMid">
+                <!--↓上部divタグよりメインメニュー区画↓ -->
+                <ul id="menu" >
+                    <li class="page_item page-item-home "><a href="/main/" class="">Main Menu</a></li>
+                    <!--mfunc-->
+                    <li class="page_item page-item-3  current_page_ancestor current_page_parent "><a href="https://xxx.xcity.jp/avod/list/">AV OnDemand®</a></li>
+                    <li class="page_item page-item-16000"><a href="https://xxx.xcity.jp/amateur/">Amateur OnDemand</a></li>
+                    <li class="page_item page-item-7"><a href="https://xxx.xcity.jp/idol/">JAV Idol Listing</a></li>
+                    <li class="page_item page-item-272"><a href="https://xxx.xcity.jp/gravure/">Gravure</a></li>
+                    <li class="page_item page-item-13610"><a href="https://xxx.xcity.jp/anime/">HENTAI Anime</a></li>
+                    <li class="page_item page-item-19108"><a href="https://xxx.xcity.jp/vr/">VR OnDemand</a></li>
+                    <!--/mfunc-->
+                </ul>
+                <!--↑下部divタグまでメインメニュー区画↑ -->
+            </div>
+            <div id="headerBtm">
+                <!--↓上部divタグより検索および文字の大きさ選択区画↓ -->
+                <p>
+                    Jav is unlimited with a fixed monthly fee! Product range of over 130 companies including Japan&#039;s famous jav maker, amateur movies, milf, mania fetish											</p>
+
+                <div id="headerItem">
+
+                    <div id="src">
+                        <form method="get" id="search" name="searchform" action="/avod/result/">
+                            <select id="genre" name="genre" onchange="this.form.action=this.form.genre.value;">
+                                <option value='/result_published/' >All distribution Items</option><option value='/avod/result/' selected="selected">AV OnDemand</option><option value='/amateur/list/' >Amateur OnDemand</option><option value='/idol/' >JAV Idol Listing</option><option value='/gravure/webphoto/' >Gravure Pictures</option><option value='/anime/list/' >HENTAI Anime</option><option value='/vr/list/' >VR OnDemand</option><option value='/result/' >Includes non-dist Items</option></select>
+                            <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/komoku_src_avdo.png"
+                                 alt="Search">
+                            <input id="search_word_autocomplete" type="text" class="search_input" value="Site Search" name="q"
+                                   onfocus="if (this.value == 'Site Search') {this.value = '';}"
+                                   onblur="if (this.value == '') {this.value = 'Site Search';}">
+                            <input type="hidden" name="sg" value="avod">
+                            <button class="button" onsubmit='return false;'></button>
+                        </form>
+                    </div>
+                    <div id="google_translate_element"></div><script type="text/javascript">
+                    function googleTranslateElementInit() {
+                        new google.translate.TranslateElement({pageLanguage: 'ja', includedLanguages: 'en,es,th,vi,zh-TW', layout: google.translate.TranslateElement.FloatPosition.TOP_LEFT, autoDisplay: false}, 'google_translate_element');
+                    }
+                </script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+                    <!--↑下部divタグまで検索および文字の大きさ選択区画↑ -->
+                </div>
+                <!--↑↑↑下部divタグ検索＆文字の大きさ選択区画↑↑↑ -->
+            </div>
+            <!--↑↑↑下部divタグまでヘッダ区画↑↑↑ -->
+        </div>
+
+        <div id="contents">
+            <!--↓↓↓上部divタグよりコンテンツ区画↓↓↓ -->
+            <div class='go-sp-banner' style='display:none'>
+                <a href="#" onclick="var date1 = new Date();date1.setTime(0);document.cookie='notsp=0;domain=.'+getDomain()+';path=/;expires='+date1.toGMTString(); location.href='/main/';return false;"><img src="//faws.xcity.jp/image/parts/en/go_sp.jpg" srcset="//faws.xcity.jp/image/parts/en/go_sp.webp" 1x></a>
+            </div>
+
+            <!-- ここからパンくずリスト -->
+            <ol id="topicpath" vocab="http://schema.org/" typeof="BreadcrumbList"><li property="itemListElement" typeof="ListItem"><a property="item" typeof="WebPage" title="main" href="/"><span property="name">main</span></a><meta property="position" content="1"></li><li property="itemListElement" typeof="ListItem"><a property="item" typeof="WebPage" title="AV OnDemand" href="https://xxx.xcity.jp/avod/"><span property="name">AV OnDemand</span></a><meta property="position" content="2"></li><li property="itemListElement" typeof="ListItem"><a property="item" typeof="WebPage" title="House Wife/Mature Ladies" href="/avod/wife"><span property="name">House Wife/Mature Ladies</span></a><meta property="position" content="3"></li><li property="itemListElement" typeof="ListItem"><a property="item" typeof="WebPage" title="PLANET PLUS" href="/avod/maker/planetplus/list/?num=30"><span property="name">PLANET PLUS</span></a><meta property="position" content="4"></li><li property="itemListElement" typeof="ListItem"><span property="name">JAV Movies Detail</span><meta property="position" content="5"></li></ol>				<div id="main">
+            <div id="leftCol">
+
+                <!--mfunc-->
+                <!--mfunc xcity_active_member_tag_func('','&lt;p class=&quot;bannerYahoo&quot;&gt;&lt;a href=&quot;https://regist.xcity.jp/english/member/settlement/select_payment_method.php&quot; title=&quot;XCITY Membership&quot;&gt;&lt;img src=&quot;//faws.xcity.jp/image/parts/en/left_member_banner.jpg?190930&quot; alt=&quot;XCITY Membership&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://regist.xcity.jp/english/member/settlement/select_payment_method.php&quot; title=&quot;XCITY Membership&quot; class=&quot;wallet_regist&quot;&gt;&lt;img src=&quot;/wp-content/uploads/2017/03/left_member_l_off.jpg&quot; alt=&quot;XCITY Membership&quot; onMouseOver=&quot;this.src=&amp;#039;/wp-content/uploads/2017/03/left_member_l_on.jpg&amp;#039;&quot; onMouseOut=&quot;this.src=&amp;#039;/wp-content/uploads/2017/03/left_member_l_off.jpg&amp;#039;&quot;&gt;&lt;/a&gt;&lt;/p&gt;')--><p class="bannerYahoo"><a href="https://regist.xcity.jp/english/member/settlement/select_payment_method.php" title="XCITY Membership"><img src="//faws.xcity.jp/image/parts/en/left_member_banner.jpg?190930" alt="XCITY Membership"></a><a href="https://regist.xcity.jp/english/member/settlement/select_payment_method.php" title="XCITY Membership" class="wallet_regist"><img src="/wp-content/uploads/2017/03/left_member_l_off.jpg" alt="XCITY Membership" onMouseOver="this.src=&#039;/wp-content/uploads/2017/03/left_member_l_on.jpg&#039;" onMouseOut="this.src=&#039;/wp-content/uploads/2017/03/left_member_l_off.jpg&#039;"></a></p><!--/mfunc--><!--/mfunc-->
+
+
+
+
+                <!--mfunc-->
+                <!--/mfunc-->
+
+
+                <div id="narrowing" class="frame200">
+                    <h4 class="genre-list">About Search</h4>
+                    <div class="mid">
+                        <ul>
+                            <li>
+                                <!--mfunc-->
+                                <a href="/avod/genre/?genre_id=2&style=simple"><!--/mfunc-->Popular JAV Actress</a>
+                            </li>
+                            <li>
+                                <!--mfunc-->
+                                <a href="/avod/genre/?genre_id=3&style=simple"><!--/mfunc-->Amateur/Plan</a>
+                            </li>
+                            <li>
+                                <!--mfunc-->
+                                <a href="/avod/genre/?genre_id=4&style=simple"><!--/mfunc-->Mania/Fetish</a>
+                            </li>
+                            <li>
+                                <!--mfunc-->
+                                <a href="/avod/genre/?genre_id=5&style=simple"><!--/mfunc-->House Wife/Mature Ladies</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="btm"></div>
+                </div>
+
+
+                <div class="frame200">
+                    <h4 class="ranking-list">Ranking</h4>
+                    <div class="mid">
+                        <ul>
+                            <li><a href="/avod/ranking/">Title Ranking</a></li>
+                            <li><a href="/avod/series_ranking/">Series Ranking</a></li>
+                            <li><a href="/avod/idol_ranking/">By Actress Ranking</a></li>
+                        </ul>
+                    </div>
+                    <div class="btm"></div>
+                </div>
+
+                <div id="srclist" class="frame200">
+                    <h4 class="serch-list">Search Item</h4>
+                    <div class="mid">
+                        <ul>
+                            <li><a href="/avod/maker/">Label/Maker</a></li>
+                            <li><a href="/avod/series/">Series</a></li>
+                            <li><a href="/avod/genre/list/">Genre</a></li>
+                            <li><a href="/idol/">Search JAV Idol Listing</a></li>
+
+                        </ul>
+                        <ul class="others">
+                            <li><!--mfunc-->
+                                <a href="/avod/maker/shin-toho/?style=simple"><!--/mfunc-->Pink Movies</a></li>
+                            <li><a href="/avod/maker/?type=idolimg">Idol/Image</a></li>
+                        </ul>
+                    </div>
+                    <div class="btm"></div>
+                </div>
+
+
+                <div id="narrowing" class="frame200">
+                    <h4 class="keyserch-list">Recommended Genres</h4>
+                    <div class="mid">
+                        <ul>
+                            <li class="dleft"><a class="dleft" href="/avod/genre/?genre_id=569">Armpit</a></li>
+                            <li class="dleft"><a class="dleft" href="/avod/genre/?genre_id=485">Swap</a></li>
+                            <li class="dleft"><a class="dleft" href="/avod/genre/?genre_id=741">Incest</a></li>
+                            <li class="dleft"><a class="dleft" href="/avod/genre/?genre_id=738">Molester</a></li>
+                            <li class="dleft"><a class="dleft" href="/avod/genre/?genre_id=761">Mother-in-law</a></li>
+                            <li class="dleft"><a class="dleft" href="/avod/genre/?genre_id=756">Black</a></li>
+                            <li class="dleft"><a class="dleft" href="/avod/genre/?genre_id=869">Real Mother</a></li>
+                            <li class="dleft"><a class="dleft" href="/avod/genre/?genre_id=758">Anal Fuck</a></li>
+                            <li class="dleft"><a class="dleft" href="/avod/genre/?genre_id=719">Drama</a></li>
+                            <li class="dleft"><a class="dleft" href="/avod/genre/?genre_id=544">Mother's Milk</a></li>
+                            <li class="dleft"><a class="dleft" href="/avod/genre/?genre_id=639">Nurse</a></li>
+                            <li class="dleft"><a class="dleft" href="/avod/genre/?genre_id=518">Urination</a></li>
+                            <li class="dleft"><a class="dleft" href="/avod/genre/?genre_id=725">Magic Mirror</a></li>
+                            <li class="dleft"><a class="dleft" href="/avod/genre/?genre_id=748">Lesbian</a></li>
+                            <li class="dleft"><a class="dleft" href="/avod/genre/?genre_id=484">Cuckold</a></li>
+                            <li class="dleft"><a class="dleft" href="/avod/genre/?genre_id=488">Sadomasochism</a></li>
+                            <li class="dleft"><a class="dleft" href="/avod/genre/?genre_id=868">Downblouse</a></li>
+                            <li class="dleft"><a class="dleft" href="/avod/genre/?genre_id=608">Pregnant Woman</a></li>
+                            <li class="dleft"><a class="dleft" href="/avod/genre/?genre_id=810">Mature Woman</a></li>
+                            <li class="dleft"><a class="dleft" href="/avod/genre/?genre_id=538">Intercrural Sex</a></li>
+                            <li class="dleft"><a class="dleft" href="/avod/genre/?genre_id=726">Aphrodisiac</a></li>
+                            <li class="dleft"><a class="dleft" href="/avod/genre/?genre_id=585">Short Hair</a></li>
+                            <li class="dleft"><a class="dleft" href="/avod/genre/?genre_id=870">Straight Shota</a></li>
+                            <li class="dleft"><a class="dleft" href="/avod/genre/?genre_id=516">Saliva</a></li>
+                            <li class="dleft"><a class="dleft" href="/avod/genre/?genre_id=628">Woman Announcer</a></li>
+                            <li class="dleft"><a class="dleft" href="/avod/genre/?genre_id=481">Massage</a></li>
+                            <li class="dleft"><a class="dleft" href="/avod/genre/?genre_id=592">Pretty Girl</a></li>
+                            <li class="dleft"><a class="dleft" href="/avod/genre/?genre_id=593">Anime Voice</a></li>
+                            <li class="dleft"><a class="dleft" href="/avod/genre/?genre_id=617">High School Girls</a></li>
+                        </ul>
+                        <ul class="right">
+                            <li class="right"><a class="double_k" href="/avod/genre/list/">＞Genre List</a></li>
+                        </ul>
+                    </div>
+                    <div class="btm"></div>
+                </div>
+
+                <p class="banner"><a href="/sp/" target="_blank" title="EVERYWHERE, WATCH UNLIMITED XCITY">
+                    <img alt="EVERYWHERE, WATCH UNLIMITED XCITY" src="//faws.xcity.jp/image/parts/en/multi-img-left.jpg" srcset="//faws.xcity.jp/image/parts/en/multi-img-left.jpg 1x,
+             //faws.xcity.jp/image/parts/en/multi-img-left2x.jpg 2x"></a></p>
+
+
+
+            </div>
+            <div id="centerCol">
+                <div id="itemCol">
+
+
+
+
+                    <div id="avodDetails" class="avod program-type-avod">
+                        <div class="itemBox">
+                            <div class="play-mov">
+                                <div class="stream-mov">
+                                    <div class="video_btn_area">
+                                        <button class='streaming_play_btn' type="button">
+                                            <img src="//faws.xcity.jp/scene/large/image/maker/planetplus/nacr292/s_1582251871_4.jpg">
+                                            <div>Play Now</div>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="video_btm_area">
+                                    <p class="mov-dnp"><a href="/help/031-2/">About our video playback</a></p>
+                                    <div id="theater-on" class="theater-icon">
+                                        <img src="/wp-content/themes/xcity-ja/img/icon-theater.png" width="36" height="16">
+                                        <span class="mode-tooltip">Theater Mode</span>
+                                    </div>
+                                    <div id="default-on" class="theater-icon">
+                                        <img src="/wp-content/themes/xcity-ja/img/icon-defmode.png" width="36" height="16">
+                                        <span class="mode-tooltip">Default Mode</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h1><span id="program_detail_title">Too Young My Father&#039;s Second Wife, Kaho Imai</span></h1>
+                                <div class="subTitle">
+                                </div>
+                            </div>
+
+                            <div class="frame">
+                                <div class="photo">
+
+                                    <p class="tn">
+                                        <a href="//faws.xcity.jp/package-b/large/image/maker/planetplus/nacr292/b_1582251839_1.jpg" title="Too Young My Father&#039;s Second Wife, Kaho Imai" rel="lightbox">
+                                            <img src="//faws.xcity.jp/package/medium/image/maker/planetplus/nacr292/f_1582251836_1.jpg" class="packageThumb">
+                                        </a>
+                                    </p>
+
+                                    <form class='sample-video-btn'
+                                          method='POST'
+                                          onsubmit='return DetailPage.sampleVideoPlay(this);'
+                                          action="https://regist.xcity.jp/english/nonsec/playback/play_sample.php"
+                                          target='sample_player_147028'>
+                                        <button class='bnDisp2' name="src" value="https://obox.jp/sample/video/258391">Sample Video</button>
+                                    </form>
+                                </div>
+
+                                <div class="content">
+                                    <div class="bodyCol">
+                                        <ul class="profileCL">
+                                            <li class="favorite">
+                                                <span class="koumoku">★Favorite</span>
+                                                <span class="favorite-count">71</span>
+                                            </li>
+
+                                            <li>
+                                                <span class="koumoku">Sales Date</span>
+                                                2020/01/01
+                                            </li>
+
+                                            <li class='credit-links'><span class="koumoku">Cast</span>
+                                                <a href='/idol/detail/15589/'>Kaho Imai</a>
+                                            </li>
+
+                                            <li>
+                                                <span class="koumoku">Label/Maker</span>
+
+                                                <!--mfunc-->
+                                                <a href="../maker/planetplus/?style=simple"><!--/mfunc-->
+                                                    <span id="program_detail_maker_name">PLANET PLUS</span>
+                                                </a>
+                                                /
+
+                                                <!--mfunc-->
+                                                <a href="../maker/planetplus/label/?id=1187&style=simple"><!--/mfunc-->
+                                                    <span id="program_detail_label_name">Knuckle</span>
+                                                </a>
+                                            </li>
+
+                                            <li><span class="koumoku">Series</span>
+                                            </li>
+
+                                            <li><span class="koumoku">Genres</span>
+                                                <!--mfunc-->
+                                                <a href="/avod/genre/?style=simple&genre_id=5" class="genre"><!--/mfunc-->
+                                                    House Wife/Mature Ladies
+                                                </a>
+                                                <!--mfunc-->
+                                                <a href="/avod/genre/?style=simple&genre_id=484" class="genre"><!--/mfunc-->
+                                                    Cuckold
+                                                </a>
+                                                <!--mfunc-->
+                                                <a href="/avod/genre/?style=simple&genre_id=523" class="genre"><!--/mfunc-->
+                                                    Vibe &amp; Rotor
+                                                </a>
+                                                <!--mfunc-->
+                                                <a href="/avod/genre/?style=simple&genre_id=554" class="genre"><!--/mfunc-->
+                                                    Internal Cum
+                                                </a>
+                                                <!--mfunc-->
+                                                <a href="/avod/genre/?style=simple&genre_id=579" class="genre"><!--/mfunc-->
+                                                    Big Boobs
+                                                </a>
+                                                <!--mfunc-->
+                                                <a href="/avod/genre/?style=simple&genre_id=666" class="genre"><!--/mfunc-->
+                                                    Married Woman
+                                                </a>
+                                                <!--mfunc-->
+                                                <a href="/avod/genre/?style=simple&genre_id=741" class="genre"><!--/mfunc-->
+                                                    Incest
+                                                </a>
+                                            </li>
+
+                                        </ul>
+
+                                        <ul class="profile">
+                                            <li>
+                                                <span class="koumoku">Director</span>
+                                                <span id="program_detail_director">
+
+														</span>
+                                            </li>
+
+                                            <li><span class="koumoku">Item Number</span><span id="hinban">NACR292</span></li>
+
+                                            <li>
+                                                <span class="koumoku">Running Time</span>
+                                                121min.						</li>
+
+                                            <li>
+                                                <span class="koumoku">Release Date</span>
+                                                2020/03/22
+                                            </li>
+
+
+                                            <li>
+                                                <h2 class="title-detail">Description</h2>
+                                                <p class="lead">Last month, my father&#039;s remarriage partner. His partner is 23 years old surprisingly!!</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="dl-sample-photo">
+
+                                    <div class="Icon-area thumbsup_btn_area" data-program-id="147028">
+                                        <button class="thumbsup_btn down" onclick='SpDetailPage.thumbsUp($(this))'>
+                                            <svg class="Icon-image thumbdown" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 493 512" style="enable-background:new 0 0 493 512;" xml:space="preserve">
+						<path d="M118.22,270.7V65.58c0-11.33-9.94-20.51-22.21-20.51H21.99c-12.27,0-22.21,9.18-22.21,20.51V270.7
+						c0,11.33,9.94,20.51,22.21,20.51h74.03C108.28,291.21,118.22,282.03,118.22,270.7z"></path>
+                                                <path d="M296.94,512c-20.18,0-29.5-27.98-25.59-57c15.06-57.49-34.31-113.86-34.31-113.86s-28.17-45.14-88.48-58.95
+						c-2.28-2.25-3.56-5.32-3.56-8.52V59.9c0-6.54-10.07-10.67,11.78-12c15.82-0.29,36.68-9.08,52.63-16.18
+						C241.15,17.6,280.65,0.02,328.92,0l2.84,0c52.65,0,105.14,12.4,118.81,25.51c9.48,8.65,20.63,28.74-6.16,48.28
+						c37.53,3.63,50.09,52.6,18.42,72.56c38.32,17.3,28.33,76.33-11.44,78l24.64,12.11c15.55,11.2,17.78,19.54,16.8,38.96
+						c-2.09,18-12.48,44.79-45.86,44.79l-127.2-18.42c7.3,28.34,49.14,86.34,49.14,128.76C368.91,504,320.93,512,296.94,512z"></path>
+					</svg>
+                                        </button>
+                                        <button class="thumbsup_btn up" onclick='SpDetailPage.thumbsUp($(this))'>
+                                            <svg class="Icon-image thumbup" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 532.4 512" style="enable-background:new 0 0 532.4 512;" xml:space="preserve">
+						<path d="M111,220.8H37c-12.3,0-22.2,9.2-22.2,20.5v205.1c0,11.3,9.9,20.5,22.2,20.5h74c12.3,0,22.2-9.2,22.2-20.5V241.3
+						C133.2,230,123.3,220.8,111,220.8z"></path>
+                                                <path d="M383.9,81.5c0,42.4-41.8,100.4-49.1,128.8L462,191.8c33.4,0,43.8,26.8,45.9,44.8c1,19.4-1.3,27.8-16.8,39l-24.6,12.1
+						c39.8,1.7,49.8,60.7,11.4,78c31.7,20,19.1,68.9-18.4,72.6c26.8,19.5,15.6,39.6,6.2,48.3c-13.7,13.1-66.2,25.5-118.8,25.5l-2.8,0
+						c-48.3,0-87.8-17.6-119.5-31.7c-16-7.1-36.8-15.9-52.6-16.2c-21.8-1.3-11.8-5.5-11.8-12V238.3c0-3.2,1.3-6.3,3.6-8.5
+						c60.3-13.8,88.5-58.9,88.5-58.9s49.4-56.4,34.3-113.9c-3.9-29,5.4-57,25.6-57C335.9,0,383.9,8,383.9,81.5z"></path>
+					</svg>
+                                        </button>
+                                    </div>
+
+                                    <!--mfunc-->
+                                    <a class="bookmark" href="https://regist.xcity.jp/english/member/login.php?redirect_to=https%3A%2F%2Fxxx.xcity.jp%2Favod%2Fdetail%2F%3Fmaker%3Dplanetplus%26id%3D147028"><!--/mfunc-->
+                                        Add to My Favorite
+                                    </a>
+
+                                    <div class="movie-container">
+                                        <h2 class="underline_title">Download</h2>
+                                        <div class="dl-block">
+                                            <!--mfunc-->
+                                            <form action="https://regist.xcity.jp/english/member/login.php" method="GET">
+                                                <input type="hidden" name="redirect_to" value="https://xxx.xcity.jp/avod/detail/?id=147028">
+                                                <input type="hidden" name="nonfree" value="">						<!--/mfunc-->
+                                                <div class="dl-qualities">
+                                                    <div class="qualities-btn">
+                                                        <span class="label">Settings</span><br>
+                                                        <div><label><input class="use_hd" name="use_hd" value="yes" type="radio">
+                                                            <span class="radio_label">High image quality</span><div class="dl-filesize-label">(2.6GB)</div></label></div>
+                                                        <div><label><input class="use_hd" name="use_hd" value="no" type="radio" select>
+                                                            <span class="radio_label">Standard image quality</span><div class="dl-filesize-label">(0.6GB)</div></label></div>
+                                                    </div>
+                                                    <button class="dl-btn bnDisp bnDisp-dl">Download</button>
+                                                </div>
+                                            </form>
+
+                                            <a class="player-dl appDlLink"
+                                               href="/xplayer/"
+                                               data-ios-href="https://xxx.xcity.jp/info20170124/"
+                                               data-android-href="https://xxx.xcity.jp/info20170124/"
+                                            >Please use <span class="download-player-name">XPlayer</span> to download movie files.</a>
+                                        </div>
+                                    </div>
+                                    <div class="taiou_icon_container">
+                                        <div class="taiou"><span>Supported Devices</span></div>
+                                        <div class="taiou_icon">
+                                            <img src="/wp-content/themes/xcity-ja/img/i_iphone.jpg" width="41">
+                                            <span class="taiou_icon_label">Android iOS</span>
+                                        </div>
+                                        <div class="taiou_icon">
+                                            <img src="/wp-content/themes/xcity-ja/img/i_pc.jpg">
+                                            <span class="taiou_icon_label">Win/Mac</span>
+                                        </div>
+                                        <div class="taiou_icon">
+                                            <a href="/help/05-2/#q001"><img src="/wp-content/themes/xcity-ja/img/i_cast.jpg"></a>
+                                            <span class="taiou_icon_label">Google Cast</span>
+                                        </div>
+                                        <div class="taiou_icon">
+                                            <a href="/help/031-2/#q04"><img src="//faws.xcity.jp/image/parts/i_airplay.jpg" width="41" height="41" alt="Airplay"></a>
+                                            <span class="taiou_icon_label">AppleTV</span>
+                                        </div>
+                                        <div class="taiou_icon">
+                                            <img src="/wp-content/themes/xcity-ja/img/i_firetv.jpg">
+                                            <span class="taiou_icon_label">Fire TV</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="btm"></div>
+                        </div>
+                    </div>
+
+                    <div class='sub_container'>
+
+                        <div class="ondemand_imagearea">
+                            <h2 class='underline_title'>Sample images</h2>
+                            <div id="sample_images_list_area"></div>
+                            <a id="launched_thumb_page">Show all sample images</a>
+
+                            <div id="sample_images" style="display:none;">
+                                <div class="part_1">
+                                    <a class="thumb_1" href="//faws.xcity.jp/scene/small/image/maker/planetplus/nacr292/s_1582251871_1.jpg">&nbsp;</a>
+                                    <a class="thumb_2" href="//faws.xcity.jp/scene/small/image/maker/planetplus/nacr292/s_1582251871_2.jpg">&nbsp;</a>
+                                    <a class="thumb_3" href="//faws.xcity.jp/scene/small/image/maker/planetplus/nacr292/s_1582251871_3.jpg">&nbsp;</a>
+                                    <a class="thumb_4" href="//faws.xcity.jp/scene/small/image/maker/planetplus/nacr292/s_1582251871_4.jpg">&nbsp;</a>
+                                    <a class="thumb_5" href="//faws.xcity.jp/scene/small/image/maker/planetplus/nacr292/s_1582251871_5.jpg">&nbsp;</a>
+                                    <a class="thumb_6" href="//faws.xcity.jp/scene/small/image/maker/planetplus/nacr292/s_1582251872_6.jpg">&nbsp;</a>
+                                    <a class="thumb_7" href="//faws.xcity.jp/scene/small/image/maker/planetplus/nacr292/s_1582251872_7.jpg">&nbsp;</a>
+                                    <a class="thumb_8" href="//faws.xcity.jp/scene/small/image/maker/planetplus/nacr292/s_1582251872_8.jpg">&nbsp;</a>
+                                    <a class="thumb_9" href="//faws.xcity.jp/scene/small/image/maker/planetplus/nacr292/s_1582251872_9.jpg">&nbsp;</a>
+                                    <a class="thumb_10" href="//faws.xcity.jp/scene/small/image/maker/planetplus/nacr292/s_1582251872_10.jpg">&nbsp;</a>
+                                    <a class="thumb_11" href="//faws.xcity.jp/scene/small/image/maker/planetplus/nacr292/s_1582251873_11.jpg">&nbsp;</a>
+                                    <a class="thumb_12" href="//faws.xcity.jp/scene/small/image/maker/planetplus/nacr292/s_1582251873_12.jpg">&nbsp;</a>
+                                    <a class="thumb_13" href="//faws.xcity.jp/scene/small/image/maker/planetplus/nacr292/s_1582251873_13.jpg">&nbsp;</a>
+                                    <a class="thumb_14" href="//faws.xcity.jp/scene/small/image/maker/planetplus/nacr292/s_1582251873_14.jpg">&nbsp;</a>
+                                    <a class="thumb_15" href="//faws.xcity.jp/scene/small/image/maker/planetplus/nacr292/s_1582251873_15.jpg">&nbsp;</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="seen_pickup_container" style="position:absolute; top:0px; left:0px;">
+                            <div id="thumbnail_background"></div>
+                            <div id="seen_pickup_mainpanel" style=" background-color:white;">
+                                <div id="seenTitleContainer" style="display:none;"><span id="seenTitle">part title label</span></div>
+                                <a id="showthumblink" style="display: none;">サムネイルを表示</a>
+                                <div id="seen_pickup_main_viewer" style="display: block;">
+                                    <div oncontextmenu="return false" id="view_prevbtn" class="preview_arrow_btn" style="display: block;">
+                                        <img border="0" src="/wp-content/themes/xcity-ja/img/viewer_prev.gif" id="previmg">
+                                    </div>
+                                    <div oncontextmenu="return false" id="view_nextbtn" class="preview_arrow_btn" style="display: block;">
+                                        <img border="0" src="/wp-content/themes/xcity-ja/img/viewer_next.gif" id="nextimg">
+                                    </div>
+                                    <div style="display: none;" id="loading">
+                                        <img border="0" src="/wp-content/themes/xcity-ja/img/loading.gif">
+                                    </div>
+                                    <img id="seenimg" src="" style="cursor: pointer;">
+                                </div>
+
+                                <div id="thumbarea" style="display: none;">
+                                    <div id="thumb_wrap_container"></div>
+                                </div>
+                                <div class="page_navigator" >
+                                    <a href="" class="seen_navigator_item" id="page_prev_link">prev label</a>
+                                    <span class="seen_navigator_item" id="seen_page_no">page number</span>
+                                    <a href="" class="seen_navigator_item" id="page_next_link">next label</a>
+                                </div>
+                                <img id="seen_pickup_close_btn" border="0" src="/wp-content/themes/xcity-ja/img/close_button.png">
+                            </div>
+                        </div>
+
+
+
+
+
+                        <div id="omcl_box" class="flexslider"></div>
+                        <div id="scl_box" class="flexslider"></div>
+                        <div id="cpl_box"></div>
+
+                        <br style="clear:both">
+                    </div>
+
+                    <script>
+                        SpDetailPage.cdnApi = "https://regist.xcity.jp/english/nonsec/playback/play_mp4.php?id=147028" +
+                            "";
+                        SpDetailPage.loginurl = "https://regist.xcity.jp/english/member/login.php?" +
+                            "redirect_to=https://xxx.xcity.jp/avod/detail/?id=147028" +
+                            "&nonfree";
+                        SpDetailPage.vr.config = false;
+                        SpDetailPage.spPlayerScheme.ios = "entabox://www?cover_url=&amp;download_url=https%3A%2F%2Fobox.jp%2Fsample%2Fvideo%2F258391&amp;";
+                        SpDetailPage.spPlayerScheme.android = "intent://streaming/https://obox.jp/sample/video/258391?";
+                        SpDetailPage.sslRegistNonsecPath = 'https://regist.xcity.jp/english/nonsec';
+                        DetailPage.init('avod');
+                        DetailPage.listCollapse($('.credit-links > *'), 'Show all');
+
+                        $(window).on('scroll.initCarousel', _.throttle(function() {
+                            if ($(window).scrollTop() > 300) {
+                                $(window).off('scroll.initCarousel');
+                                DetailPage.initCarousel('avod', 147028);
+                            }
+                        }, 100));
+
+
+                        SpDetailPage.thumbsUpdate();
+                        (new SeenPickUpper()).thumbInsert();
+                    </script>
+
+                    <!--mfunc-->
+                    <script>
+                        $(".streaming_play_btn").on('click',SpDetailPage.login);
+                    </script>
+                    <!--/mfunc-->          </div>          </div>
+        </div>
+            <br style="clear: both;">
+        </div>
+    </div>
+</div>
+<div id="footer">
+    <div id="footerTop"><a href="#container">To Top</a></div>
+    <div id="footerBtm">
+        <ul>
+            <li><a href="http://alchemia.co.jp/">company overview</a></li>
+            <li><a href="/membership-agreement/">XCITY Membership Agreement</a></li>
+            <li><a href="/policy/">About Privacy Policy</a></li>
+            <li><a href="/law/">Required Information by Japanese Commercial Law</a></li>
+            <li><a href="/sitemap/">Site Map</a></li>
+            <li><a href="/contact-page/" class="noShikiri">Contact Us</a></li>
+        </ul>
+        <p id="copyright">Copyright&nbsp;&copy;&nbsp;2021 XCITY Website. All rights reserved.</p>
+    </div>
+</div>
+<script type='text/javascript' src='https://xaws.xcity.jp/wp-content/themes/xcity-ja/js/favorite.js?ver=0.9.3'></script>
+<script type='text/javascript' src='https://xaws.xcity.jp/wp-content/themes/xcity-ja/js/order.js?ver=0.9.3'></script>
+<script type='text/javascript' src='https://xaws.xcity.jp/wp-content/themes/xcity-ja/js/keyword-click.js?ver=0.9.3'></script>
+<script type='text/javascript' src='https://xxx.xcity.jp/wp-includes/js/wp-embed.min.js?ver=4.9.13'></script>
+<!--[if lte IE 6]>
+<script defer type="text/javascript" src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/js/pngfix.js"></script>
+<![endif]-->
+
+<script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam-cell.nr-data.net","licenseKey":"f54f642737","applicationID":"487596947","transactionName":"YgZVMRRQC0FUVUAPW1tMYhcPHkpFUFQbDkBRDFQWOVQLHVxYUANMGxNfFQ==","queueTime":0,"applicationTime":62,"atts":"TkFWR1xKGE8=","errorBeacon":"bam-cell.nr-data.net","agent":""}</script></body>
+
+</html>
