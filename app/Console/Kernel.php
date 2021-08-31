@@ -33,6 +33,9 @@ class Kernel extends ConsoleKernel
         $schedule->command('jav:xcity-idol release')->everyFifteenMinutes();
         $schedule->command('jav:xcity-idol daily')->dailyAt('12:00');
         $schedule->command('jav:xcity-idol item');
+        $schedule->command('jav:xcity-video release')->everyFifteenMinutes();
+        $schedule->command('jav:xcity-video daily')->dailyAt('12:00');
+        $schedule->command('jav:xcity-video item');
 
         $schedule->command('queue:prune-failed --hours=168');
     }

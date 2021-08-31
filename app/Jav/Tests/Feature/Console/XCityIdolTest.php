@@ -4,7 +4,7 @@ namespace App\Jav\Tests\Feature\Console;
 
 use App\Jav\Jobs\XCity\GetIdolItemLinks;
 use App\Jav\Jobs\XCity\InitIdolIndex;
-use App\Jav\Jobs\XCity\ItemFetch;
+use App\Jav\Jobs\XCity\IdolItemFetch;
 use App\Jav\Models\XCityIdol;
 use App\Jav\Tests\JavTestCase;
 use App\Jav\Tests\Traits\XCityIdolMocker;
@@ -47,7 +47,7 @@ class XCityIdolTest extends JavTestCase
 
         $this->artisan('jav:xcity-idol item');
 
-        Queue::assertPushed(function (ItemFetch $job) use ($model) {
+        Queue::assertPushed(function (IdolItemFetch $job) use ($model) {
             return 'crawling' === $job->queue
                 && $model->is($job->model)
                 && $job->model->isProcessingState();

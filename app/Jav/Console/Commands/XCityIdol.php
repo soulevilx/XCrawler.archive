@@ -3,7 +3,7 @@
 namespace App\Jav\Console\Commands;
 
 use App\Core\Models\State;
-use App\Jav\Jobs\XCity\ItemFetch;
+use App\Jav\Jobs\XCity\IdolItemFetch;
 use App\Jav\Services\XCityIdolService;
 use Illuminate\Console\Command;
 
@@ -38,7 +38,7 @@ class XCityIdol extends Command
 
             case 'item':
                 if ($model = \App\Jav\Models\XCityIdol::byState(State::STATE_INIT)->first()) {
-                    ItemFetch::dispatch($model)->onQueue('crawling');
+                    IdolItemFetch::dispatch($model)->onQueue('crawling');
                 }
 
                 break;

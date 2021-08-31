@@ -5,6 +5,7 @@ namespace App\Jav\Tests\Unit\Services;
 use App\Core\Models\State;
 use App\Core\Services\ApplicationService;
 use App\Jav\Jobs\XCity\InitVideoIndex;
+use App\Jav\Models\XCityVideo;
 use App\Jav\Services\XCityVideoService;
 use App\Jav\Tests\JavTestCase;
 use App\Jav\Tests\Traits\XCityVideoMocker;
@@ -48,5 +49,20 @@ class XCityVideoServiceTest extends JavTestCase
         Queue::assertPushed(InitVideoIndex::class, function ($job) use ($date) {
             return $job->data['from_date'] === $date->format('Ymd') && $job->data['to_date'] === $date->addDay()->format('Ymd');
         });
+    }
+
+    public function testItem()
+    {
+        $video = XCityVideo::factory()->create([
+            'url' => '/avod/detail/?id=150786',
+        ]);
+        $this->service->item($video);
+        $video->refresh();
+
+        $this->assertEquals('HBAD530', $video->item_number);
+        $this->assertEquals([
+            'Kaho Imai',
+        ], $video->actresses);
+        $this->assertEquals('HIBINO', $video->label);
     }
 }
