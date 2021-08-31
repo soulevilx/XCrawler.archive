@@ -8,10 +8,6 @@ use App\Jav\Tests\JavTestCase;
 use Jooservices\XcrawlerClient\Response\DomResponse;
 use Jooservices\XcrawlerClient\XCrawlerClient;
 
-/**
- * @internal
- * @coversNothing
- */
 class XCityVideoCrawlerTest extends JavTestCase
 {
     protected XCityVideoCrawler $crawler;
