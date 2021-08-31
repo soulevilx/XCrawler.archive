@@ -4,26 +4,12 @@ namespace App\Jav\Models;
 
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
-use App\Jav\Crawlers\XCityIdolCrawler;
-use Illuminate\Database\Eloquent\Builder;
+use App\Jav\Crawlers\XCityVideoCrawler;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * @property string $url
- * @property string $name
- * @property string $cover
- * @property int    $favorite
- * @property string $birthday
- * @property string $blood_type
- * @property string $city
- * @property int    $height
- * @property int    $breast
- * @property int    $waist
- * @property int    $hips
- * @property string $state_code
- *
- * @method static Builder|XCityIdol byState (string $state)
+ * @property-read Movie $movie
  */
 class XCityVideo extends Model
 {
@@ -37,56 +23,64 @@ class XCityVideo extends Model
     public const INDEX_URL = 'avod/list';
     public const PER_PAGE = 90;
 
-    public const STATE_INIT = 'XCIN';
-    public const STATE_PENDING = 'XCPE';
-    public const STATE_PROCESSING = 'XCPR';
-    public const STATE_COMPLETED = 'XCCE';
-
-    protected $table = 'xcity_idols';
+    protected $table = 'xcity_videos';
 
     protected $fillable = [
-        'url',
         'name',
+        'url',
         'cover',
+        'sales_date',
+        'release_date',
+        'item_number',
+        'dvd_id',
+        'description',
+        'running_time',
+        'director',
+        'studio',
+        'marker',
+        'label',
+        'channel',
+        'series',
+        'gallery',
+        'sample',
+        'genres',
+        'actresses',
         'favorite',
-        'birthday',
-        'blood_type',
-        'city',
-        'height',
-        'breast',
-        'waist',
-        'hips',
-        'skill',
-        'other',
-        'state_code',
     ];
 
     protected $casts = [
-        'url' => 'string',
         'name' => 'string',
+        'url' => 'string',
         'cover' => 'string',
+        'sales_date' => 'datetime:Y-m-d',
+        'release_date' => 'datetime:Y-m-d',
+        'item_number' => 'string',
+        'dvd_id' => 'string',
+        'description' => 'string',
+        'label' => 'string',
+        'channel' => 'string',
+        'marker' => 'string',
+        'genres' => 'array',
+        'actresses' => 'array',
+        'gallery' => 'array',
         'favorite' => 'integer',
-        'birthday' => 'datetime:Y-m-d',
-        'blood_type' => 'string',
-        'city' => 'string',
-        'height' => 'string',
-        'breast' => 'integer',
-        'waist' => 'integer',
-        'hips' => 'integer',
-        'skill' => 'string',
-        'other' => 'string',
-        'state_code' => 'string',
+        'running_time' => 'integer',
     ];
 
     public function refetch()
     {
-        $crawler = app(XCityIdolCrawler::class);
+        $crawler = app(XCityVideoCrawler::class);
 
-        $id = trim(str_replace('detail/', '', $this->url), '/');
-        if ($item = $crawler->getItem($id)) {
+        $id = trim(str_replace('/avod/detail/?id=', '', $this->url), '/');
+        if ($item = $crawler->getItem('/avod/detail/', ['id' => $id])) {
             $this->update($item->getArrayCopy());
         }
 
         return $this->refresh();
+    }
+
+    public function movie()
+    {
+        return $this->belongsTo(Movie::class, 'dvd_id', 'dvd_id');
     }
 }

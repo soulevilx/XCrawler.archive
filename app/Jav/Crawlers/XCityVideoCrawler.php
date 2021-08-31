@@ -25,7 +25,7 @@ class XCityVideoCrawler
         }
 
         $item = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
-        $item->url = $url;
+        $item->url = $url.'?'.http_build_query($payload);
 
         $item->name = $response->getData()->filter('#program_detail_title')->text(null, false);
         $item->cover = $response->getData()->filter('.photo p.tn a')->attr('href');
@@ -101,10 +101,8 @@ class XCityVideoCrawler
                         break;
 
                     case 'label_maker':
-                        $values = explode('/', $value);
-                        foreach ($values as $value) {
-                            $item->{$label}[] = trim($value);
-                        }
+                        $item->maker = trim($node->filter('#program_detail_maker_name')->text());
+                        $item->label = trim($node->filter('#program_detail_label_name')->text());
 
                         return;
 
@@ -121,6 +119,13 @@ class XCityVideoCrawler
                         $value = (int) str_replace('min.', '', $value);
 
                         break;
+
+                    case 'item_number':
+                        $item->item_number = empty($value) ? null : $value;
+                        $value = implode('-', preg_split('/(,?\\s+)|((?<=[a-z])(?=\\d))|((?<=\\d)(?=[a-z]))/i', $value));
+                        $item->dvd_id = empty($value) ? null : $value;
+
+                        return;
                 }
 
                 $item->{$label} = $value;
