@@ -46,6 +46,7 @@ class XCityVideo extends Model
         'genres',
         'actresses',
         'favorite',
+        'state_code',
     ];
 
     protected $casts = [
@@ -65,6 +66,7 @@ class XCityVideo extends Model
         'gallery' => 'array',
         'favorite' => 'integer',
         'running_time' => 'integer',
+        'state_code' => 'string',
     ];
 
     public function refetch()

@@ -4,6 +4,7 @@ use App\Jav\Models\Onejav;
 use App\Jav\Models\R18;
 use App\Jav\Models\XCityIdol;
 use App\Jav\Models\XCityVideo;
+use Carbon\Carbon;
 
 return [
     'onejav' => [
@@ -17,5 +18,6 @@ return [
     ],
     'xcity_video' => [
         'base_url' => XCityVideo::BASE_URL,
-    ],
+        'from_date' =>'20010101'
+    ]
 ];

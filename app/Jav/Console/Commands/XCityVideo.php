@@ -4,26 +4,26 @@ namespace App\Jav\Console\Commands;
 
 use App\Core\Models\State;
 use App\Jav\Jobs\XCity\ItemFetch;
-use App\Jav\Services\XCityIdolService;
+use App\Jav\Services\XCityVideoService;
 use Illuminate\Console\Command;
 
-class XCityIdol extends Command
+class XCityVideo extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'jav:xcity-idol {task}';
+    protected $signature = 'jav:xcity-video {task}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Fetching XCity idol';
+    protected $description = 'Fetching XCity videos';
 
-    public function handle(XCityIdolService $service)
+    public function handle(XCityVideoService $service)
     {
         switch ($this->input->getArgument('task')) {
             case 'release':

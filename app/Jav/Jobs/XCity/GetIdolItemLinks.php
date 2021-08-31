@@ -6,7 +6,7 @@ use App\Core\Services\ApplicationService;
 use App\Jav\Crawlers\XCityIdolCrawler;
 use App\Jav\Jobs\Traits\HasCrawlingMiddleware;
 use App\Jav\Models\XCityIdol;
-use App\Jav\Services\XCityService;
+use App\Jav\Services\XCityIdolService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -23,7 +23,7 @@ class GetIdolItemLinks implements ShouldQueue
     {
     }
 
-    public function handle(XCityIdolCrawler $crawler, XCityService $service)
+    public function handle(XCityIdolCrawler $crawler, XCityIdolService $service)
     {
         $configKey = $this->kana.'_current_page';
         $totalPages = (int) ApplicationService::getConfig('xcity', $this->kana.'_total_pages', 1);

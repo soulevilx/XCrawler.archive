@@ -22,8 +22,8 @@ class CreateXcityVideosTable extends Migration
             $table->dateTime('sales_date')->nullable();
             $table->dateTime('release_date')->nullable();
 
-            $table->string('item_number')->unique();
-            $table->string('dvd_id')->unique();
+            $table->string('item_number')->nullable()->unique();
+            $table->string('dvd_id')->nullable()->unique();
 
             $table->json('genres')->nullable();
 

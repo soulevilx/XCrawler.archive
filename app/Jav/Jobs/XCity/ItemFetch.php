@@ -5,7 +5,7 @@ namespace App\Jav\Jobs\XCity;
 use App\Core\Models\State;
 use App\Jav\Jobs\Traits\HasCrawlingMiddleware;
 use App\Jav\Models\XCityIdol;
-use App\Jav\Services\XCityService;
+use App\Jav\Services\XCityIdolService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -24,7 +24,7 @@ class ItemFetch implements ShouldQueue
         $model->setState(State::STATE_PROCESSING);
     }
 
-    public function handle(XCityService $service)
+    public function handle(XCityIdolService $service)
     {
         $this->model = $service->item($this->model);
         $this->model->setState(State::STATE_COMPLETED);

@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Cache;
 
-class XCityService implements ServiceInterface
+class XCityIdolService implements ServiceInterface
 {
     use HasAttributes;
 

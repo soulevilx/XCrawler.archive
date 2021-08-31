@@ -17,5 +17,15 @@ class XCityVideoObserverTest extends JavTestCase
             'cover' => $video->cover,
             'dvd_id' => $video->dvd_id,
         ]);
+
+        $this->assertEquals(
+            $video->movie->performers->pluck('name')->toArray(),
+            $video->actresses
+        );
+
+        $this->assertEquals(
+            $video->movie->genres->pluck('name')->toArray(),
+            $video->genres
+        );
     }
 }
