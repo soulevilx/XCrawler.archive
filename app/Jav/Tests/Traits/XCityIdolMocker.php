@@ -48,6 +48,12 @@ trait XCityIdolMocker
             ;
         }
 
+        $this->mocker
+            ->shouldReceive('get')
+            ->with('idol/detail/999', [])
+            ->andReturn($this->getErrorMockedResponse(app(DomResponse::class)))
+        ;
+
         app()->instance(XCrawlerClient::class, $this->mocker);
         $this->crawler = app(XCityIdolCrawler::class);
     }

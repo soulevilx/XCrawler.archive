@@ -2,8 +2,11 @@
 
 namespace App\Jav\Tests\Unit\Crawlers;
 
+use App\Jav\Crawlers\XCityIdolCrawler;
 use App\Jav\Tests\JavTestCase;
 use App\Jav\Tests\Traits\XCityIdolMocker;
+use Jooservices\XcrawlerClient\Response\DomResponse;
+use Jooservices\XcrawlerClient\XCrawlerClient;
 
 
 class XCityIdolCrawlerTest extends JavTestCase
@@ -25,6 +28,20 @@ class XCityIdolCrawlerTest extends JavTestCase
         $this->assertEquals(json_decode($this->getFixture('XCity/idol.json')), $pages->toArray());
     }
 
+    public function testGetSubPagesFailed()
+    {
+        $mocker = $this->getClientMock();
+        $mocker
+            ->shouldReceive('get')
+            ->with('idol/', [])
+            ->andReturn($this->getErrorMockedResponse(app(DomResponse::class)))
+        ;
+
+        app()->instance(XCrawlerClient::class, $mocker);
+        $crawler = app(XCityIdolCrawler::class);
+        $this->assertTrue($crawler->getSubPages()->isEmpty());
+    }
+
     public function testGetItem()
     {
         foreach ([5750, 7794, 12519, 13125, 16821] as $idol) {
@@ -40,6 +57,11 @@ class XCityIdolCrawlerTest extends JavTestCase
                 $this->assertEquals($item->{$key}, $value);
             }
         }
+    }
+
+    public function testGetItemFailed()
+    {
+        $this->assertNull($this->crawler->getItem(999));
     }
 
     public function testGetItemLinks()

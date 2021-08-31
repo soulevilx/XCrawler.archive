@@ -29,6 +29,18 @@ class XCityVideoCrawlerTest extends JavTestCase
             ;
         }
 
+        $this->mocker
+            ->shouldReceive('get')
+            ->with('/avod/detail/', ['id' => 999])
+            ->andReturn($this->getErrorMockedResponse(app(DomResponse::class)))
+        ;
+
+        $this->mocker
+            ->shouldReceive('get')
+            ->with(XCityVideo::INDEX_URL, ['num' => 999])
+            ->andReturn($this->getErrorMockedResponse(app(DomResponse::class)))
+        ;
+
         app()->instance(XCrawlerClient::class, $this->mocker);
         $this->crawler = app(XCityVideoCrawler::class);
     }
@@ -41,9 +53,19 @@ class XCityVideoCrawlerTest extends JavTestCase
         );
     }
 
+    public function testGetItemLinksFailed()
+    {
+        $this->assertTrue($this->crawler->getItemLinks(['num' => 999])->isEmpty());
+    }
+
     public function testGetPages()
     {
         $this->assertEquals(68, $this->crawler->getPages());
+    }
+
+    public function testGetPagesFailed()
+    {
+        $this->assertEquals(1, $this->crawler->getPages(['num' => 999]));
     }
 
     public function testGetItem()
@@ -59,5 +81,10 @@ class XCityVideoCrawlerTest extends JavTestCase
                 $this->assertEquals($item->{$key}, $value);
             }
         }
+    }
+
+    public function testGetItemFailed()
+    {
+        $this->assertNull($this->crawler->getItem('/avod/detail/', ['id' => 999]));
     }
 }
