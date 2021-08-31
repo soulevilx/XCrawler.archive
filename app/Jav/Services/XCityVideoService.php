@@ -44,12 +44,18 @@ class XCityVideoService implements ServiceInterface
 
     public function create(): Model
     {
-        // TODO: Implement create() method.
+        $this->defaultAttribute('state_code', State::STATE_INIT);
+
+        $this->video = XCityVideo::firstOrCreate([
+            'url' => $this->attributes['url'],
+        ], $this->attributes);
+
+        return $this->video;
     }
 
-    public function item(Model $model): Model
+    public function item(Model $model): XCityVideo
     {
-        // TODO: Implement item() method.
+        return $model->refetch();
     }
 
     public function daily()
