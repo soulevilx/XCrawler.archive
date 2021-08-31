@@ -18,9 +18,7 @@ class XCityIdolModelTest extends JavTestCase
     {
         Event::fake([XCityIdolCompleted::class]);
         $idol = XCityIdol::factory()->create();
-        $idol->update([
-            'state_code' => State::STATE_COMPLETED,
-        ]);
+        $idol->completed();
 
         Event::assertDispatched(XCityIdolCompleted::class, function ($event) use ($idol) {
             return $event->model->is($idol);

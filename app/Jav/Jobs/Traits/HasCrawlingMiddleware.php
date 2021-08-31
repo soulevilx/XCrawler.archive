@@ -11,14 +11,14 @@ trait HasCrawlingMiddleware
      *
      * @var int
      */
-    public $tries = 5;
+    protected $tries = 5;
 
     /**
      * The maximum number of unhandled exceptions to allow before failing.
      *
      * @var int
      */
-    public $maxExceptions = 3;
+    protected $maxExceptions = 3;
 
     protected int $allow = 1;
     protected int $releaseAfterSeconds = 2;

@@ -27,6 +27,11 @@ trait HasStates
         $this->save();
     }
 
+    public function completed()
+    {
+        $this->setState(State::STATE_COMPLETED);
+    }
+
     public function isInitState()
     {
         return State::STATE_INIT === $this->state_code;

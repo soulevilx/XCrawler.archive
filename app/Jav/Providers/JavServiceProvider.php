@@ -7,9 +7,11 @@ use App\Core\Providers\BaseServiceProvider;
 use App\Jav\Crawlers\OnejavCrawler;
 use App\Jav\Crawlers\R18Crawler;
 use App\Jav\Crawlers\XCityIdolCrawler;
+use App\Jav\Crawlers\XCityVideoCrawler;
 use App\Jav\Models\Onejav;
 use App\Jav\Models\R18;
 use App\Jav\Models\XCityIdol;
+use App\Jav\Models\XCityVideo;
 use Illuminate\Queue\Events\JobFailed;
 use Illuminate\Queue\Events\JobProcessed;
 use Illuminate\Queue\Events\JobProcessing;
@@ -72,6 +74,17 @@ class JavServiceProvider extends BaseServiceProvider
             ;
 
             return new XCityIdolCrawler($client);
+        });
+
+        $this->app->bind(XCityVideoCrawler::class, function () {
+            $client = app(Client::class)
+                ->init(
+                    XCityVideo::SERVICE,
+                    new DomResponse(),
+                )
+            ;
+
+            return new XCityVideoCrawler($client);
         });
     }
 

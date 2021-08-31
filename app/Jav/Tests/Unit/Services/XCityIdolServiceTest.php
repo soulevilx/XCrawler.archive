@@ -3,22 +3,22 @@
 namespace App\Jav\Tests\Unit\Services;
 
 use App\Core\Services\ApplicationService;
-use App\Jav\Services\XCityService;
+use App\Jav\Services\XCityIdolService;
 use App\Jav\Tests\JavTestCase;
 use App\Jav\Tests\Traits\XCityIdolMocker;
 
-class XCityServiceTest extends JavTestCase
+class XCityIdolServiceTest extends JavTestCase
 {
     use XCityIdolMocker;
 
-    private XCityService $service;
+    private XCityIdolService $service;
 
     public function setUp(): void
     {
         parent::setUp();
 
         $this->loadXCityIdolMocker();
-        $this->service = app(XCityService::class);
+        $this->service = app(XCityIdolService::class);
     }
 
     public function testRelease()
