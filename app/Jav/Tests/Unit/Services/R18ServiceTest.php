@@ -125,13 +125,34 @@ class R18ServiceTest extends JavTestCase
         $mocker
             ->shouldReceive('get')
             ->with(R18::MOVIE_LIST_URL.'/page=10', [])
-            ->andReturn($this->getErrorMockedResponse(app(DomResponse::class)))
-        ;
+            ->andReturn($this->getErrorMockedResponse(app(DomResponse::class)));
         app()->instance(XCrawlerClient::class, $mocker);
         $this->service = app(R18Service::class);
 
         $this->service->release();
         $this->assertDatabaseCount('r18', 0);
         $this->assertEquals(10, ApplicationService::getConfig('r18', 'current_page'));
+    }
+
+    public function testDaily()
+    {
+        $this->loadR18Mocker();
+        $this->service = app(R18Service::class);
+        $this->service->daily();
+
+        $this->assertDatabaseCount('r18', 30);
+    }
+
+    public function testDailyFailed()
+    {
+        $mocker = $this->getClientMock();
+        $mocker
+            ->shouldReceive('get')
+            ->andReturn($this->getErrorMockedResponse(app(DomResponse::class)));
+        app()->instance(XCrawlerClient::class, $mocker);
+        $service = app(R18Service::class);
+        $service->daily();
+
+        $this->assertDatabaseCount('r18', 0);
     }
 }

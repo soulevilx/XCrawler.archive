@@ -6,6 +6,7 @@ use App\Core\Services\ApplicationService;
 use App\Jav\Services\XCityIdolService;
 use App\Jav\Tests\JavTestCase;
 use App\Jav\Tests\Traits\XCityIdolMocker;
+use Illuminate\Support\Facades\Cache;
 
 class XCityIdolServiceTest extends JavTestCase
 {
@@ -58,5 +59,11 @@ class XCityIdolServiceTest extends JavTestCase
         }
 
         $this->assertDatabaseCount('xcity_idols', 30);
+    }
+
+    public function testGetSubPages()
+    {
+        Cache::set('xcity_idols_sub_pages', 10);
+        $this->assertEquals(10, $this->service->getSubPages());
     }
 }
