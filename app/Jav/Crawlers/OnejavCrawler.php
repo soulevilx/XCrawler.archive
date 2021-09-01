@@ -48,7 +48,7 @@ class OnejavCrawler
     public function search(string $keyword, string $by = 'search')
     {
         $items = collect();
-        $this->getItemsRecursive($items, $by.'/'.urlencode($keyword));
+        $this->getItemsRecursive($items, $by . '/' . urlencode($keyword));
 
         return $items;
     }
@@ -90,13 +90,9 @@ class OnejavCrawler
     {
         $item = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
 
-        if ($crawler->filter('h5.title a')->count()) {
-            $item->url = trim($crawler->filter('h5.title a')->attr('href'));
-        }
+        $item->url = trim($crawler->filter('h5.title a')?->attr('href'));
+        $item->cover = trim($crawler->filter('.columns img.image')?->attr('src'));
 
-        if ($crawler->filter('.columns img.image')->count()) {
-            $item->cover = trim($crawler->filter('.columns img.image')->attr('src'));
-        }
 
         if ($crawler->filter('h5 a')->count()) {
             $item->dvd_id = (trim($crawler->filter('h5 a')->text(null, false)));
@@ -104,7 +100,7 @@ class OnejavCrawler
         }
 
         if ($crawler->filter('h5 span')->count()) {
-            $item->size = trim($crawler->filter('h5 span')->text(null, false));
+            $item->size = trim($crawler->filter('h5 span')?->text(null, false));
 
             if (str_contains($item->size, 'MB')) {
                 $item->size = (float) trim(str_replace('MB', '', $item->size));
@@ -115,7 +111,7 @@ class OnejavCrawler
         }
 
         // Always use href because it'll never change but text will be
-        $item->date = $this->convertStringToDateTime(trim($crawler->filter('.subtitle.is-6 a')->attr('href')));
+        $item->date = $this->convertStringToDateTime(trim($crawler->filter('.subtitle.is-6 a')?->attr('href')));
         $item->genres = collect($crawler->filter('.tags .tag')->each(
             function ($genres) {
                 return trim($genres->text(null, false));
@@ -124,8 +120,7 @@ class OnejavCrawler
             return empty($value);
         })->unique()->toArray();
 
-        $description = $crawler->filter('.level.has-text-grey-dark');
-        $item->description = $description->count() ? trim($description->text(null, false)) : null;
+        $item->description = $crawler->filter('.level.has-text-grey-dark')?->text(null, false);
         $item->description = preg_replace("/\r|\n/", '', $item->description);
 
         $item->performers = collect($crawler->filter('.panel .panel-block')->each(
@@ -136,7 +131,7 @@ class OnejavCrawler
             return empty($value);
         })->unique()->toArray();
 
-        $item->torrent = trim($crawler->filter('.control.is-expanded a')->attr('href'));
+        $item->torrent = trim($crawler->filter('.control.is-expanded a')?->attr('href'));
 
         return $item;
     }
