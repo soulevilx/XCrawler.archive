@@ -4,6 +4,7 @@ namespace App\Jav\Tests\Unit\Jobs;
 
 use App\Core\Models\State;
 use App\Core\Services\ApplicationService;
+use App\Jav\Jobs\R18\DailyFetch;
 use App\Jav\Jobs\R18\ReleaseFetch;
 use App\Jav\Models\R18;
 use App\Jav\Tests\JavTestCase;
@@ -29,5 +30,13 @@ class R18ReleaseFetchTest extends JavTestCase
         $this->assertDatabaseCount('r18', 30);
 
         $this->assertEquals(2, ApplicationService::getConfig('r18', 'current_page'));
+    }
+
+    public function testDaily()
+    {
+        DailyFetch::dispatch();
+
+        $this->assertEquals(30, R18::byState(State::STATE_INIT)->count());
+        $this->assertDatabaseCount('r18', 30);
     }
 }

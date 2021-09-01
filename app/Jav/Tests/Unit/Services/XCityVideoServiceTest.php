@@ -65,4 +65,18 @@ class XCityVideoServiceTest extends JavTestCase
         ], $video->actresses);
         $this->assertEquals('HIBINO', $video->label);
     }
+
+    public function testCreate()
+    {
+        $url = $this->faker->url;
+        $this->service->setAttributes([
+            'url' => $url,
+        ]);
+        $this->service->create();
+
+        $this->assertDatabaseHas('xcity_videos', [
+            'url' => $url,
+            'state_code' => State::STATE_INIT,
+        ]);
+    }
 }
