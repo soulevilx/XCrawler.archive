@@ -38,7 +38,6 @@ class Movie extends Model
         'gallery',
         'images',
         'sample',
-        'is_downloadable',
     ];
 
     protected $casts = [
@@ -54,7 +53,6 @@ class Movie extends Model
         'sample' => 'array',
         'series' => 'array',
         'director' => 'string',
-        'is_downloadable' => 'boolean',
     ];
 
     public static function findByDvdId(string $dvdId)
