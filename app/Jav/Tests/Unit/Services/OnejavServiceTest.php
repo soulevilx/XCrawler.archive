@@ -58,7 +58,7 @@ class OnejavServiceTest extends JavTestCase
         $this->assertEquals($onejav->dvd_id, $onejav->movie->dvd_id);
         $this->assertEquals($onejav->genres, $onejav->movie->genres->pluck('name')->toArray());
         $this->assertEquals($onejav->performers, $onejav->movie->performers->pluck('name')->toArray());
-        $this->assertTrue($onejav->movie->is_downloadable);
+        $this->assertTrue($onejav->movie->isDownloadable());
 
         Event::assertDispatched(MovieCreated::class, function ($event) use ($onejav) {
             return $onejav->movie->is($event->movie);

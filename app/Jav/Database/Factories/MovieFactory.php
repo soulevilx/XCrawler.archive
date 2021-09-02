@@ -44,7 +44,6 @@ class MovieFactory extends Factory
                 $this->faker->unique->url,
                 $this->faker->unique->url,
             ],
-            'is_downloadable' => $this->faker->boolean,
         ];
     }
 }

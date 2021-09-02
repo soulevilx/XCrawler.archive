@@ -23,7 +23,7 @@ class OnejavModelTest extends JavTestCase
         $this->assertEquals($onejav->dvd_id, $onejav->movie->dvd_id);
         $this->assertEquals($onejav->genres, $onejav->movie->genres->pluck('name')->toArray());
         $this->assertEquals($onejav->performers, $onejav->movie->performers->pluck('name')->toArray());
-        $this->assertTrue($onejav->movie->is_downloadable);
+        $this->assertTrue($onejav->movie->isDownloadable());
 
         $this->assertDatabaseHas('wordpress_posts', [
             'title' => $onejav->dvd_id,

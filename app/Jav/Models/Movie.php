@@ -12,7 +12,7 @@ use Illuminate\Support\Collection;
 
 /**
  * @property Collection|Performer[] $performers
- * @property Collection|Genre[]     $genres
+ * @property Collection|Genre[] $genres
  */
 class Movie extends Model
 {
@@ -38,7 +38,6 @@ class Movie extends Model
         'gallery',
         'images',
         'sample',
-        'is_downloadable',
     ];
 
     protected $casts = [
@@ -54,7 +53,6 @@ class Movie extends Model
         'sample' => 'array',
         'series' => 'array',
         'director' => 'string',
-        'is_downloadable' => 'boolean',
     ];
 
     public static function findByDvdId(string $dvdId)
@@ -85,5 +83,10 @@ class Movie extends Model
     public function r18(): HasOne
     {
         return $this->hasOne(R18::class, 'dvd_id', 'dvd_id');
+    }
+
+    public function isDownloadable(): bool
+    {
+        return $this->onejav()->exists();
     }
 }
