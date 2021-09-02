@@ -44,11 +44,10 @@ class PreviousVersion extends Command
         $this->output->title('Migrate Movies');
 
         $data = $this->loadData('movies');
-
         $this->output->progressStart(count($data));
 
         foreach ($data as $movie) {
-            if (DB::table('movies')->where('id', $movie['id'])->exists()) {
+            if ($this->isExists('movies', ['id' => $movie['id']])) {
                 $this->output->progressAdvance();
                 continue;
             }
@@ -98,8 +97,8 @@ class PreviousVersion extends Command
         $this->output->title('Migrate Performers');
 
         $data = $this->loadData('idols');
-
         $this->output->progressStart(count($data));
+
         foreach ($data as $idol) {
             if (DB::table('performers')->where('id', $idol['id'])->exists()) {
                 $this->output->progressAdvance();
@@ -135,8 +134,8 @@ class PreviousVersion extends Command
         $this->output->title('Migrate Genres');
 
         $data = $this->loadData('tags');
-
         $this->output->progressStart(count($data));
+
         foreach ($data as $genre) {
             if (DB::table('genres')->where('id', $genre['id'])->exists()) {
                 $this->output->progressAdvance();
@@ -206,7 +205,7 @@ class PreviousVersion extends Command
 
         foreach ($data as $row) {
             if (!DB::table('genres')->where('id', $row['tag_id'])->exists()) {
-                $this->output->error('Invalid tag');
+                $this->output->error('Invalid genre');
                 continue;
             }
             if (!DB::table('movies')->where('id', $row['movie_id'])->exists()) {
@@ -255,12 +254,11 @@ class PreviousVersion extends Command
                     ->where('name', $row['title'])
                     ->first();
 
-                if (DB::table('wordpress_posts')
-                    ->where([
-                        'model_id' => $idol->id,
-                        'model_type' => Performer::class,
-                        'title' => $row['title']
-                    ])->exists()) {
+                if ($this->isExists('wordpress_posts', [
+                    'model_id' => $idol->id,
+                    'model_type' => Performer::class,
+                    'title' => $row['title']
+                ])) {
                     $this->output->progressAdvance();
                     continue;
                 }
@@ -282,12 +280,11 @@ class PreviousVersion extends Command
             }
 
             // Movie
-            if (DB::table('wordpress_posts')
-                ->where([
-                    'model_id' => $movie->id,
-                    'model_type' => Movie::class,
-                    'title' => $row['title']
-                ])->exists()) {
+            if ($this->isExists('wordpress_posts', [
+                'model_id' => $movie->id,
+                'model_type' => Movie::class,
+                'title' => $row['title']
+            ])) {
                 $this->output->progressAdvance();
                 continue;
             }
@@ -318,5 +315,12 @@ class PreviousVersion extends Command
 
         $data = file_get_contents($filePath);
         return json_decode($data, true);
+    }
+
+    private function isExists(string $tableName, array $whereConditions): bool
+    {
+        return DB::table($tableName)
+            ->where($whereConditions)
+            ->exists();
     }
 }

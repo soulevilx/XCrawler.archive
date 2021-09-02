@@ -32,6 +32,7 @@ class CreateMoviesTable extends Migration
             $table->json('gallery')->nullable();
             $table->json('sample')->nullable();
             $table->json('images')->nullable();
+            $table->boolean('is_downloadable')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
