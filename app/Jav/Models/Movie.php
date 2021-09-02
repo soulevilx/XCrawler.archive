@@ -12,7 +12,7 @@ use Illuminate\Support\Collection;
 
 /**
  * @property Collection|Performer[] $performers
- * @property Collection|Genre[]     $genres
+ * @property Collection|Genre[] $genres
  */
 class Movie extends Model
 {
@@ -83,5 +83,10 @@ class Movie extends Model
     public function r18(): HasOne
     {
         return $this->hasOne(R18::class, 'dvd_id', 'dvd_id');
+    }
+
+    public function isDownloadable(): bool
+    {
+        return $this->onejav()->exists();
     }
 }
