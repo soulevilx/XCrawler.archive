@@ -4,7 +4,9 @@ namespace App\Jav\Console\Commands\Migrations;
 
 use App\Core\Models\State;
 use App\Jav\Models\Movie;
+use App\Jav\Models\Onejav;
 use App\Jav\Models\Performer;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
@@ -24,11 +26,6 @@ class PreviousVersion extends Command
      */
     protected $description = 'Migrate from previous version';
 
-    /**
-     * Someone can tell me wtf is going on
-     * - Migrate 56864 will always stopped at around 56k records ?
-     * - For second loop will work ?
-     */
     public function handle()
     {
         $this->migrateMovies();
@@ -37,6 +34,10 @@ class PreviousVersion extends Command
         $this->migrateIdolMovie();
         $this->migrateTagMovie();
         $this->migrateWordPressPost();
+        $this->migrateOnejav();
+        $this->migrateR18();
+        $this->migrateXCitIdol();
+        //$this->migrateXCityVideos();
     }
 
     public function migrateMovies()
@@ -185,8 +186,8 @@ class PreviousVersion extends Command
                 'id' => $row['id'],
                 'performer_id' => $row['idol_id'],
                 'movie_id' => $row['movie_id'],
-                'created_at' => $row['created_at'],
-                'updated_at' => $row['updated_at'],
+                'created_at' => $row['created_at'] ?? Carbon::now(),
+                'updated_at' => $row['updated_at'] ?? Carbon::now(),
                 'deleted_at' => $row['deleted_at'] ?? null,
             ]);
 
@@ -204,11 +205,12 @@ class PreviousVersion extends Command
         $this->output->progressStart(count($data));
 
         foreach ($data as $row) {
-            if (!DB::table('genres')->where('id', $row['tag_id'])->exists()) {
+            if (!$this->isExists('genres', ['id' => $row['tag_id']])) {
                 $this->output->error('Invalid genre');
                 continue;
             }
-            if (!DB::table('movies')->where('id', $row['movie_id'])->exists()) {
+
+            if (!$this->isExists('movies', ['id' => $row['movie_id']])) {
                 $this->output->error('Invalid movie');
                 continue;
             }
@@ -225,8 +227,8 @@ class PreviousVersion extends Command
                 'id' => $row['id'],
                 'genre_id' => $row['tag_id'],
                 'movie_id' => $row['movie_id'],
-                'created_at' => $row['created_at'],
-                'updated_at' => $row['updated_at'],
+                'created_at' => $row['created_at'] ?? Carbon::now(),
+                'updated_at' => $row['updated_at'] ?? Carbon::now(),
                 'deleted_at' => $row['deleted_at'] ?? null,
             ]);
 
@@ -299,6 +301,169 @@ class PreviousVersion extends Command
                     'deleted_at' => $row['deleted_at'] ?? null,
                     'state_code' => State::STATE_COMPLETED
                 ]);
+
+            $this->output->progressAdvance();
+        }
+
+        $this->output->progressFinish();
+    }
+
+    public function migrateOnejav()
+    {
+        $this->output->title('Migrate Onejav');
+
+        $data = $this->loadData('onejav');
+        $this->output->progressStart(count($data));
+
+        foreach ($data as $row) {
+            if ($this->isExists('onejav', ['dvd_id' => $row['dvd_id']])) {
+                $this->output->progressAdvance();
+                continue;
+            }
+
+            DB::table('onejav')->insert([
+                'id' => $row['id'],
+                'url' => str_replace(Onejav::BASE_URL, '', $row['url']),
+                'cover' => $row['cover'],
+                'dvd_id' => $row['dvd_id'],
+                'size' => $row['size'],
+                'date' => $row['date'],
+                'genres' => $row['tags'],
+                'description' => $row['description'],
+                'performers' => $row['actresses'],
+                'torrent' => $row['torrent'],
+                'created_at' => $row['created_at'],
+                'updated_at' => $row['updated_at'],
+                'deleted_at' => $row['deleted_at'],
+            ]);
+
+            $this->output->progressAdvance();
+        }
+
+        $this->output->progressFinish();
+    }
+
+    public function migrateR18()
+    {
+        $this->output->title('Migrate R18');
+
+        $data = $this->loadData('r18');
+        $this->output->progressStart(count($data));
+
+        foreach ($data as $row) {
+            if ($this->isExists('r18', ['content_id' => $row['content_id']])) {
+                $this->output->progressAdvance();
+                continue;
+            }
+
+            DB::table('r18')->insert([
+                'id' => $row['id'],
+                'url' => $row['url'],
+                'cover' => $row['cover'],
+                'title' => $row['title'],
+                'release_date' => $row['release_date'],
+                'runtime' => $row['runtime'],
+                'director' => $row['director'],
+                'studio' => $row['studio'],
+                'label' => $row['label'],
+                'genres' => $row['tags'],
+                'performers' => $row['actresses'],
+                'channels' => is_string($row['channel']) ? json_encode(explode(',', $row['channel'])) : null,
+                'content_id' => $row['content_id'],
+                'dvd_id' => $row['dvd_id'] ?? $row['content_id'],
+                'series' => $row['series'],
+                'languages' => $row['languages'],
+                'sample' => is_string($row['sample']) ? json_encode([$row['sample']]) : null,
+                'gallery' => $row['gallery'],
+                'created_at' => $row['created_at'],
+                'updated_at' => $row['updated_at'],
+                'deleted_at' => $row['deleted_at'],
+                'state_code' => State::STATE_COMPLETED
+            ]);
+
+            $this->output->progressAdvance();
+        }
+
+        $this->output->progressFinish();
+    }
+
+    public function migrateXCitIdol()
+    {
+        $this->output->title('Migrate XCity idols');
+
+        $data = $this->loadData('x_city_idols');
+        $this->output->progressStart(count($data));
+
+        foreach ($data as $row) {
+            if ($this->isExists('xcity_idols', ['name' => $row['name']])) {
+                $this->output->progressAdvance();
+                continue;
+            }
+
+            DB::table('xcity_idols')->insert([
+                'id' => $row['id'],
+                'url' => $row['url'],
+                'name' => $row['name'],
+                'cover' => $row['cover'],
+                'favorite' => $row['favorite'],
+                'birthday' => $row['birthday'],
+                'blood_type' => $row['blood_type'],
+                'city' => $row['city'],
+                'height' => $row['height'],
+                'breast' => $row['breast'],
+                'waist' => $row['waist'],
+                'hips' => $row['hips'],
+                'state_code' => $row['state_code'] === 'XCIC' ? State::STATE_COMPLETED : State::STATE_INIT,
+                'created_at' => $row['created_at'],
+                'updated_at' => $row['updated_at'],
+                'deleted_at' => $row['deleted_at'],
+            ]);
+
+            $this->output->progressAdvance();
+        }
+
+        $this->output->progressFinish();
+    }
+
+    public function migrateXCityVideos()
+    {
+        $this->output->title('Migrate XCity videos');
+
+        $data = $this->loadData('x_city_videos');
+        $this->output->progressStart(count($data));
+
+        foreach ($data as $row) {
+            if ($this->isExists('xcity_videos', ['dvd_id' => $row['dvd_id']])) {
+                $this->output->progressAdvance();
+                continue;
+            }
+
+            DB::table('xcity_videos')->insert([
+                'id' => $row['id'],
+                'url' => 'invalid_' . md5(serialize($row)),
+                'name' => $row['name'],
+                'cover' => $row['cover'],
+                'sales_date' => $row['sales_date'],
+                'release_date' => $row['release_date'],
+                'item_number' => $row['item_number'],
+                'dvd_id' => $row['dvd_id'],
+                'actresses' => $row['actresses'],
+                'description' => $row['description'],
+                'running_time' => $row['time'],
+                'director' => $row['director'],
+                'marker' => $row['marker'],
+                'studio' => $row['studio'],
+                'label' => $row['label'],
+                'channel' => $row['channel'],
+                'series' => $row['series'],
+                'gallery' => $row['gallery'],
+                'sample' => $row['sample'],
+                'favorite' => $row['favorite'],
+                'state_code' => State::STATE_PENDING,
+                'created_at' => $row['created_at'],
+                'updated_at' => $row['updated_at'],
+                'deleted_at' => $row['deleted_at'],
+            ]);
 
             $this->output->progressAdvance();
         }
