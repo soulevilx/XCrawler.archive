@@ -22,7 +22,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int       $breast
  * @property int       $waist
  * @property int       $hips
- * @property string    $state_code
  * @property Performer $performer
  *
  * @method static Builder|XCityIdol byState (string $state)

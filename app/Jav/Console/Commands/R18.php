@@ -23,7 +23,7 @@ class R18 extends Command
      *
      * @var string
      */
-    protected $description = 'Fetching Onejav';
+    protected $description = 'Fetching R18';
 
     public function handle()
     {

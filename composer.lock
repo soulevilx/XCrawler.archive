@@ -10170,12 +10170,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "e152aa2ab8b4e74b6541b1f55cb12fd80cbe778d"
+                "reference": "739a589996094b8186479ddb25142f84fb98f18b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/e152aa2ab8b4e74b6541b1f55cb12fd80cbe778d",
-                "reference": "e152aa2ab8b4e74b6541b1f55cb12fd80cbe778d",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/739a589996094b8186479ddb25142f84fb98f18b",
+                "reference": "739a589996094b8186479ddb25142f84fb98f18b",
                 "shasum": ""
             },
             "require": {
@@ -10222,7 +10222,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-09-02T11:45:03+00:00"
+            "time": "2021-09-02T15:26:14+00:00"
         },
         {
             "name": "sebastian/cli-parser",
