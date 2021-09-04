@@ -28,11 +28,15 @@
     @if($movie->channels)
         <li><strong>Channels:</strong> {{ $channels }}</li>
     @endif
+
 </ul>
 
 [more]
 
 @if($onejav)
+    <ul>
+        <li><strong>Size:</strong> {{ $onejav->size }}</li>
+    </ul>
     <p>
         <a href="https://onejav.com{{ $onejav->url }}" rel="nofollow">Onejav</a>
     </p>

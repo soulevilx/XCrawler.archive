@@ -81,6 +81,7 @@ class MovieCreatedNotification extends Notification implements ShouldQueue
                     ->fields([
                         'Performers' => $this->movie->performers->implode('name', ', '),
                         'Genres' => $this->movie->genres->implode('name', ', '),
+                        'Size' => $this->movie->onejav?->size
                     ]);
 
                 if ($this->movie->onejav) {
