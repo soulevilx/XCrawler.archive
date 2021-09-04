@@ -7,4 +7,7 @@ return [
     'slack' => [
         'notifications' => env('SLACK_NOTIFICATIONS'),
     ],
+    'telescope' => [
+        'enable_all' => env('TELESCOPE_ENABLE_ALL', false)
+    ]
 ];
