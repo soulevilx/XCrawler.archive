@@ -7,6 +7,7 @@ use App\Jav\Crawlers\OnejavCrawler;
 use App\Jav\Models\Interfaces\MovieInterface;
 use App\Jav\Models\Traits\HasDefaultMovie;
 use App\Jav\Models\Traits\HasMovieObserver;
+use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -53,6 +54,16 @@ class Onejav extends Model implements MovieInterface
         'created_at' => 'datetime:Y-m-d H:m:s',
     ];
 
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'dvd_id';
+    }
+
     public function isDownloadable(): bool
     {
         return true;
@@ -74,5 +85,21 @@ class Onejav extends Model implements MovieInterface
         $this->update($item->getArrayCopy());
 
         return $this->refresh();
+    }
+
+    public function download()
+    {
+        $this->refetch();
+        $file = fopen(config('services.jav.download_dir') . '/' . basename($this->torrent), 'wb');
+
+        $client = app()->makeWith(Client::class, [
+            'config' => [
+                'base_uri' => self::BASE_URL,
+                ],
+        ]);
+
+        $response = $client->request('GET', $this->torrent, ['sink' => $file]);
+
+        return $response->getStatusCode() === 200;
     }
 }

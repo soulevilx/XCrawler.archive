@@ -13,6 +13,7 @@ class MovieEventSubscriber
     public function onMovieCreated(MovieCreated $event)
     {
         $movie = $event->movie;
+
         $movie->wordpress()->firstOrCreate([
             'title' => $event->movie->dvd_id,
         ], [
@@ -20,8 +21,7 @@ class MovieEventSubscriber
         ]);
 
         Notification::route('slack', config('services.slack.notifications'))
-            ->notify(new MovieCreatedNotification($event->movie))
-        ;
+            ->notify(new MovieCreatedNotification($event->movie));
     }
 
     /**

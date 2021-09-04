@@ -16,6 +16,7 @@ use Illuminate\Queue\Events\JobFailed;
 use Illuminate\Queue\Events\JobProcessed;
 use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Support\Facades\Queue;
+use Illuminate\Support\Facades\Route;
 use Jooservices\XcrawlerClient\Response\DomResponse;
 use Jooservices\XcrawlerClient\Response\JsonResponse;
 
@@ -30,6 +31,10 @@ class JavServiceProvider extends BaseServiceProvider
         __DIR__.'/../Config' => [
             'services',
         ],
+    ];
+
+    protected $routes = [
+        __DIR__ .'/../Routes/jav_routes.php'
     ];
 
     public function register()
@@ -110,5 +115,11 @@ class JavServiceProvider extends BaseServiceProvider
             // $event->job
             // $event->exception
         });
+
+        foreach ($this->routes as $route)
+        {
+            $this->loadRoutes($route);
+        }
+
     }
 }
