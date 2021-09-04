@@ -10,6 +10,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackAttachment;
 use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Routing\UrlGenerator;
 
 class MovieCreatedNotification extends Notification implements ShouldQueue
 {
@@ -46,8 +47,7 @@ class MovieCreatedNotification extends Notification implements ShouldQueue
         return (new MailMessage())
             ->line('The introduction to the notification.')
             ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!')
-        ;
+            ->line('Thank you for using our application!');
     }
 
     /**
@@ -81,18 +81,16 @@ class MovieCreatedNotification extends Notification implements ShouldQueue
                     ->fields([
                         'Performers' => $this->movie->performers->implode('name', ', '),
                         'Genres' => $this->movie->genres->implode('name', ', '),
-                    ])
-                ;
+                    ]);
 
                 if ($this->movie->onejav) {
                     $attachment->action('onejav', Onejav::BASE_URL.$this->movie->onejav->url);
-                    $attachment->action('download', Onejav::BASE_URL.$this->movie->onejav->torrent);
+                    $attachment->action('download', app(UrlGenerator::class)->route('onejav.download', $this->movie->onejav->dvd_id));
                 }
 
                 if ($this->movie->r18) {
                     $attachment->action('r18', $this->movie->r18->url);
                 }
-            })
-        ;
+            });
     }
 }
