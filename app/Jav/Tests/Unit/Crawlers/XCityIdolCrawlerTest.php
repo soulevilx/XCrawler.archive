@@ -8,7 +8,6 @@ use App\Jav\Tests\Traits\XCityIdolMocker;
 use Jooservices\XcrawlerClient\Response\DomResponse;
 use Jooservices\XcrawlerClient\XCrawlerClient;
 
-
 class XCityIdolCrawlerTest extends JavTestCase
 {
     use XCityIdolMocker;
@@ -34,8 +33,7 @@ class XCityIdolCrawlerTest extends JavTestCase
         $mocker
             ->shouldReceive('get')
             ->with('idol/', [])
-            ->andReturn($this->getErrorMockedResponse(app(DomResponse::class)))
-        ;
+            ->andReturn($this->getErrorMockedResponse(app(DomResponse::class)));
 
         app()->instance(XCrawlerClient::class, $mocker);
         $crawler = app(XCityIdolCrawler::class);
@@ -57,6 +55,20 @@ class XCityIdolCrawlerTest extends JavTestCase
                 $this->assertEquals($item->{$key}, $value);
             }
         }
+    }
+
+    public function testGetItemWithoutBirthOfDate()
+    {
+        $mocker = $this->getClientMock();
+        $mocker
+            ->shouldReceive('get')
+            ->with('idol/detail/18410', [])
+            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'XCity/idol_detail_18410.html'));
+        app()->instance(XCrawlerClient::class, $mocker);
+        $crawler = app(XCityIdolCrawler::class);
+        $item = $crawler->getItem(18410);
+
+        $this->assertNull($item->date_of_birth);
     }
 
     public function testGetItemFailed()
