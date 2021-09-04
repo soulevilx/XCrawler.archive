@@ -2,23 +2,45 @@
 
 ## Requirements
 ## Install
-- Setup .env
+### Prepare databases
+- Primary database
+
+```DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=xcrawler_dev
+DB_USERNAME=root
+DB_PASSWORD=root
+```
+
+- Telescope database
+
+```TELESCOPE_DB_CONNECTION=telescope
+TELESCOPE_DB_HOST=127.0.0.1
+TELESCOPE_DB_PORT=3306
+TELESCOPE_DB_DATABASE=xcrawler_dev_telescope
+TELESCOPE_DB_USERNAME=root
+TELESCOPE_DB_PASSWORD=N6sPZhjEcr2K8x44
+TELESCOPE_ENABLE_ALL=true
+```
+
+- You may need prepare `cache` database first
+
+### Composer
 - `composer install`
 - `php artisan migrate`
 - Setup [Horizon](https://laravel.com/docs/8.x/horizon)
+
+`php artisan horizon:install`
+
 - Setup [Telescope](https://laravel.com/docs/8.x/telescope)
-Telescope will use different database with Primary
-```
-  TELESCOPE_DB_CONNECTION=telescope
-  TELESCOPE_DB_HOST=127.0.0.1
-  TELESCOPE_DB_PORT=3306
-  TELESCOPE_DB_DATABASE=telescope
-  TELESCOPE_DB_USERNAME=root
-  TELESCOPE_DB_PASSWORD=root
-```
+
+`php artisan telescope:install`
+
+### Supervisor
 - Setup cron job for [Scheduling](https://laravel.com/docs/8.x/scheduling)
 
-## Email
+### Email
 - Edit .env and provide Email configuration
 ```
 MAIL_DRIVER=smtp
