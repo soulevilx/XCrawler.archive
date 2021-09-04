@@ -196,5 +196,16 @@ return [
                 'nice' => 0,
             ],
         ],
+        'develop' => [
+            'crawling' => [
+                'connection' => 'redis',
+                'queue' => ['crawling'],
+                'balance' => 'auto',
+                'maxProcesses' => 6,
+                'memory' => 2048,
+                'tries' => 3,
+                'nice' => 0,
+            ],
+        ],
     ],
 ];
