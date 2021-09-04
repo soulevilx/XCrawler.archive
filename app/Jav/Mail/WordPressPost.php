@@ -30,7 +30,12 @@ class WordPressPost extends Mailable
             ->view('emails.movie')
             ->with([
                 'movie' => $this->movie,
-            ])
-        ;
+                'genres' => implode(', ', $this->movie->genres()->pluck('name')->toArray()),
+                'performers' => implode(', ', $this->movie->performers()->pluck('name')->toArray()),
+                'channels' => implode(', ', $this->movie->channels ?? []),
+                'onejav' => $this->movie->onejav,
+                'r18' => $this->movie->r18,
+                'sample' => $this->movie->r18->sample['high'] ?? null
+            ]);
     }
 }
