@@ -49,6 +49,7 @@
             <directory suffix=".php">./app/*/Routes</directory>
             <directory suffix=".php">./app/*/Tests</directory>
             <directory suffix=".php">./app/Console/Kernel.php</directory>
+            <directory suffix=".php">./app/Jav/Console/Commands/Migrations/PreviousVersion.php</directory>
         </exclude>
     </coverage>
 
