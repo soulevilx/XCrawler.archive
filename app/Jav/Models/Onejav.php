@@ -53,6 +53,16 @@ class Onejav extends Model implements MovieInterface
         'created_at' => 'datetime:Y-m-d H:m:s',
     ];
 
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'dvd_id';
+    }
+
     public function isDownloadable(): bool
     {
         return true;
@@ -74,5 +84,21 @@ class Onejav extends Model implements MovieInterface
         $this->update($item->getArrayCopy());
 
         return $this->refresh();
+    }
+
+    public function download()
+    {
+        $this->refetch();
+        $file = fopen(config('services.jav.download_dir') . '/' . basename($this->torrent), 'wb');
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_FILE, $file);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_URL, Onejav::BASE_URL . $this->torrent);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+        curl_exec($ch);
+        curl_close($ch);
+        fclose($file);
     }
 }

@@ -19,5 +19,8 @@ return [
     'xcity_video' => [
         'base_url' => XCityVideo::BASE_URL,
         'from_date' =>'20010101'
+    ],
+    'jav' => [
+        'download_dir' => env('JAV_DOWNLOAD_DIR', storage_path('downloads'))
     ]
 ];

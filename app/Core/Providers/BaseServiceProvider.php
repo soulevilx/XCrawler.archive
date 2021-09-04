@@ -72,4 +72,20 @@ class BaseServiceProvider extends ServiceProvider
             config(['cache.default' => 'array']);
         }
     }
+
+    /**
+     * Load Routes
+     *
+     * @param string $file
+     *
+     * @return $this
+     */
+    protected function loadRoutes(string $file)
+    {
+        if (file_exists($file)) {
+            $this->loadRoutesFrom($file);
+        }
+
+        return $this;
+    }
 }
