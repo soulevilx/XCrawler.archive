@@ -16,6 +16,10 @@ class OnejavController extends BaseController
 
     public function download(Onejav $onejav)
     {
-        $onejav->download();
+        if ($onejav->download()) {
+            return response(null, 200);
+        }
+
+        return response(null, 404);
     }
 }

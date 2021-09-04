@@ -7,6 +7,7 @@ use App\Jav\Crawlers\OnejavCrawler;
 use App\Jav\Models\Interfaces\MovieInterface;
 use App\Jav\Models\Traits\HasDefaultMovie;
 use App\Jav\Models\Traits\HasMovieObserver;
+use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -90,15 +91,15 @@ class Onejav extends Model implements MovieInterface
     {
         $this->refetch();
         $file = fopen(config('services.jav.download_dir') . '/' . basename($this->torrent), 'wb');
-        $ch = curl_init();
 
-        curl_setopt($ch, CURLOPT_FILE, $file);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_URL, Onejav::BASE_URL . $this->torrent);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        $client = app()->makeWith(Client::class, [
+            'config' => [
+                'base_uri' => self::BASE_URL,
+                ],
+        ]);
 
-        curl_exec($ch);
-        curl_close($ch);
-        fclose($file);
+        $response = $client->request('GET', $this->torrent, ['sink' => $file]);
+
+        return $response->getStatusCode() === 200;
     }
 }
