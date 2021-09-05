@@ -8,6 +8,7 @@ use App\Jav\Models\Movie;
 use App\Jav\Notifications\MovieCreatedNotification;
 use App\Jav\Tests\JavTestCase;
 use Illuminate\Notifications\AnonymousNotifiable;
+use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 
@@ -23,8 +24,15 @@ class MovieEventSubscriberTest extends JavTestCase
         Notification::assertSentTo(
             new AnonymousNotifiable(),
             MovieCreatedNotification::class,
-            function ($notification) use ($movie) {
-                return $notification->movie->is($movie);
+            function ($notification, $channels) use ($movie) {
+                /**
+                 * @var SlackMessage $slackMessage
+                 */
+                $slackMessage = $notification->toSlack(new AnonymousNotifiable());
+
+                return $slackMessage->level === 'success'
+                    && $notification->movie->is($movie)
+                    && $channels === ['slack'];
             }
         );
     }
