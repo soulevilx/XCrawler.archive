@@ -3,6 +3,7 @@
 namespace App\Jav\Listeners;
 
 use App\Core\Models\State;
+use App\Core\Services\ApplicationService;
 use App\Jav\Events\MovieCreated;
 use App\Jav\Notifications\MovieCreatedNotification;
 use Illuminate\Events\Dispatcher;
@@ -20,6 +21,15 @@ class MovieEventSubscriber
             'state_code' => State::STATE_INIT,
         ]);
 
+        $enableNotification = ApplicationService::getConfig(
+            'jav',
+            'enable_notification',
+            config('services.jav.enable_notification', true)
+        );
+        if (!$enableNotification) {
+            return;
+        }
+
         Notification::route('slack', config('services.slack.notifications'))
             ->notify(new MovieCreatedNotification($event->movie));
     }
@@ -33,7 +43,7 @@ class MovieEventSubscriber
     {
         $events->listen(
             [MovieCreated::class],
-            self::class.'@onMovieCreated'
+            self::class . '@onMovieCreated'
         );
     }
 }
