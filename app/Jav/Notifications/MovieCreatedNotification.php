@@ -69,9 +69,18 @@ class MovieCreatedNotification extends Notification implements ShouldQueue
                         'Size' => $this->movie->onejav?->size
                     ]);
 
+                $attachment->action(
+                    'Post to WordPress',
+                    app(UrlGenerator::class)->route('movie.to-wordpress', $this->movie->dvd_id),
+                    'danger'
+                );
+
                 if ($this->movie->onejav) {
-                    $attachment->action('onejav', Onejav::BASE_URL.$this->movie->onejav->url);
-                    $attachment->action('download', app(UrlGenerator::class)->route('onejav.download', $this->movie->onejav->dvd_id));
+                    $attachment->action('onejav', Onejav::BASE_URL . $this->movie->onejav->url);
+                    $attachment->action(
+                        'download',
+                        app(UrlGenerator::class)->route('onejav.download', $this->movie->onejav->dvd_id)
+                    );
                 }
 
                 if ($this->movie->r18) {

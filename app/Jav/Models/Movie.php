@@ -7,12 +7,17 @@ use App\Core\Models\WordPressPost;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 
 /**
+ * @property string $dvd_id
  * @property Collection|Performer[] $performers
  * @property Collection|Genre[] $genres
+ * @property-read Onejav $onejav
+ * @property-read R18 $r18
+ * @property-read MorphOne|WordPressPost $wordpress
  */
 class Movie extends Model
 {
@@ -54,6 +59,16 @@ class Movie extends Model
         'series' => 'array',
         'director' => 'string',
     ];
+
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'dvd_id';
+    }
 
     public static function findByDvdId(string $dvdId)
     {
