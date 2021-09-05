@@ -20,6 +20,10 @@ class MovieEventSubscriber
             'state_code' => State::STATE_INIT,
         ]);
 
+        if (!config('services.jav.enable_notification', true)) {
+            return;
+        }
+
         Notification::route('slack', config('services.slack.notifications'))
             ->notify(new MovieCreatedNotification($event->movie));
     }
@@ -33,7 +37,7 @@ class MovieEventSubscriber
     {
         $events->listen(
             [MovieCreated::class],
-            self::class.'@onMovieCreated'
+            self::class . '@onMovieCreated'
         );
     }
 }

@@ -21,6 +21,7 @@ return [
         'from_date' =>'20010101'
     ],
     'jav' => [
-        'download_dir' => env('JAV_DOWNLOAD_DIR', storage_path('downloads'))
+        'download_dir' => env('JAV_DOWNLOAD_DIR', storage_path('downloads')),
+        'enable_notification' => env('ENABLE_NOTIFICATION', true)
     ]
 ];
