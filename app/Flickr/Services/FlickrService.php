@@ -22,7 +22,7 @@ class FlickrService
      */
     protected $oauthRequestToken;
 
-    public function __construct(private string $apiKey, private ?string $secret = null)
+    public function __construct(private ?string $apiKey = null, private ?string $secret = null)
     {
         $this->oauthTokenStorage = new Memory();
     }
