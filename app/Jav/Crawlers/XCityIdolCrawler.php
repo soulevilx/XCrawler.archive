@@ -6,6 +6,7 @@ use App\Core\Client;
 use App\Jav\Models\XCityIdol;
 use ArrayObject;
 use Carbon\Carbon;
+use Carbon\Exceptions\InvalidFormatException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Symfony\Component\DomCrawler\Crawler;
@@ -33,14 +34,14 @@ class XCityIdolCrawler
 
     public function getItem(int $id, array $payload = []): ?ArrayObject
     {
-        $response = $this->client->get(XCityIdol::INDEX_URL.'detail/'.$id, $payload);
+        $response = $this->client->get(XCityIdol::INDEX_URL . 'detail/' . $id, $payload);
 
         if (!$response->isSuccessful()) {
             return null;
         }
 
         $item = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
-        $item->url = 'detail/'.$id.'/';
+        $item->url = 'detail/' . $id . '/';
         if (0 === $response->getData()->filter('.itemBox h1')->count()) {
             return null;
         }
@@ -103,7 +104,11 @@ class XCityIdolCrawler
                         return;
 
                     case 'date_of_birth':
-                        $value = Carbon::createFromFormat('Y M d', $value);
+                        try {
+                            $value = Carbon::createFromFormat('Y M d', $value);
+                        } catch (InvalidFormatException) {
+                            $value = null;
+                        }
 
                         break;
 
