@@ -177,7 +177,9 @@ return [
         CoreServiceProvider::class,
         CoreEventServiceProvider::class,
         JavServiceProvider::class,
-        JavEventServiceProvider::class
+        JavEventServiceProvider::class,
+
+        \App\Flickr\Providers\FlickrServiceProvider::class
     ],
 
     /*
