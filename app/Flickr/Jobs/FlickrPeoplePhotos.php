@@ -3,6 +3,7 @@
 namespace App\Flickr\Jobs;
 
 use App\Core\Models\State;
+use App\Flickr\Jobs\Traits\HasFlickrMiddleware;
 use App\Flickr\Models\FlickrContactProcess;
 use App\Flickr\Services\FlickrService;
 use Illuminate\Bus\Queueable;
@@ -17,6 +18,7 @@ class FlickrPeoplePhotos implements ShouldQueue
     use InteractsWithQueue;
     use Queueable;
     use SerializesModels;
+    use HasFlickrMiddleware;
 
     public function __construct(public FlickrContactProcess $contactProcess)
     {

@@ -6,6 +6,7 @@ use App\Core\Models\State;
 use App\Flickr\Jobs\FlickrPeopleInfo;
 use App\Flickr\Models\FlickrContactProcess;
 use Illuminate\Console\Command;
+use App\Flickr\Jobs\FlickrPeoplePhotos as FlickrPeoplePhotosJob;
 
 class FlickrPeople extends Command
 {
@@ -58,6 +59,6 @@ class FlickrPeople extends Command
             return;
         }
 
-        \App\Flickr\Jobs\FlickrPeoplePhotos::dispatch($contactProcess)->onQueue('api');
+        FlickrPeoplePhotosJob::dispatch($contactProcess)->onQueue('api');
     }
 }

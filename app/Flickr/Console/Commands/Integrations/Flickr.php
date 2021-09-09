@@ -5,6 +5,7 @@ namespace App\Flickr\Console\Commands\Integrations;
 use App\Flickr\Services\FlickrService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\Console\Helper\TableSeparator;
 
 class Flickr extends Command
 {
@@ -24,7 +25,7 @@ class Flickr extends Command
 
     public function handle(FlickrService $service)
     {
-        $this->output->info('Integration with Flickr');
+        $this->output->title('Integration with Flickr');
         $url = $service->getAuthUrl();
         $this->output->text($url->getAbsoluteUri());
 
@@ -38,5 +39,21 @@ class Flickr extends Command
                 'token' => $accessToken->getAccessToken(),
                 'data' => json_encode($accessToken)
             ]);
+
+        $this->table(
+            [
+                'service',
+                'token_secret',
+                'token',
+            ],
+            [
+                [
+                FlickrService::SERVICE,
+                $accessToken->getAccessTokenSecret(),
+                $accessToken->getAccessToken(),
+                    ],
+            ]
+        );
+        $this->output->success('Flick integrated');
     }
 }
