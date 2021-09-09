@@ -1329,16 +1329,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.58.0",
+            "version": "v8.60.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "1b819bf99d87bd543a4d4895e5b3350f61ea7a23"
+                "reference": "44f16a31a1d4ac8a51605550d7796e2273984a48"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/1b819bf99d87bd543a4d4895e5b3350f61ea7a23",
-                "reference": "1b819bf99d87bd543a4d4895e5b3350f61ea7a23",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/44f16a31a1d4ac8a51605550d7796e2273984a48",
+                "reference": "44f16a31a1d4ac8a51605550d7796e2273984a48",
                 "shasum": ""
             },
             "require": {
@@ -1493,7 +1493,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-08-31T13:55:57+00:00"
+            "time": "2021-09-08T13:37:21+00:00"
         },
         {
             "name": "laravel/horizon",
@@ -10245,12 +10245,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "3f9c17b717e1b6f32cde83d061cc123a730b0665"
+                "reference": "b9f564d955119ec0b9f7a4b843037b3becd7c6ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/3f9c17b717e1b6f32cde83d061cc123a730b0665",
-                "reference": "3f9c17b717e1b6f32cde83d061cc123a730b0665",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/b9f564d955119ec0b9f7a4b843037b3becd7c6ec",
+                "reference": "b9f564d955119ec0b9f7a4b843037b3becd7c6ec",
                 "shasum": ""
             },
             "require": {
@@ -10297,7 +10297,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-09-06T12:31:44+00:00"
+            "time": "2021-09-09T02:08:49+00:00"
         },
         {
             "name": "sebastian/cli-parser",
