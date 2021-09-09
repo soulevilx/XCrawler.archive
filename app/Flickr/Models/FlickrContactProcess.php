@@ -2,11 +2,11 @@
 
 namespace App\Flickr\Models;
 
+use App\Core\Models\BaseModel;
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
-use Illuminate\Database\Eloquent\Model;
 
-class FlickrContactProcess extends Model
+class FlickrContactProcess extends BaseModel
 {
     use HasFactory;
     use HasStates;
@@ -18,7 +18,6 @@ class FlickrContactProcess extends Model
 
     protected $fillable = [
         'step',
-        'state_code',
     ];
 
     public function model()

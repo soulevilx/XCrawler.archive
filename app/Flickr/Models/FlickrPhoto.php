@@ -2,12 +2,14 @@
 
 namespace App\Flickr\Models;
 
+use App\Core\Models\BaseModel;
 use App\Core\Models\Traits\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Core\Models\Traits\HasStates;
 
-class FlickrPhoto extends Model
+class FlickrPhoto extends BaseModel
 {
     use HasFactory;
+    use HasStates;
 
     /**
      * Indicates if the IDs are auto-incrementing.
@@ -27,7 +29,6 @@ class FlickrPhoto extends Model
         'isfriend',
         'isfamily',
         'sizes',
-        'state_code',
         'isprimary',
     ];
 
@@ -42,6 +43,5 @@ class FlickrPhoto extends Model
         'isfamily' => 'integer',
         'isprimary' => 'integer',
         'sizes' => 'array',
-        'state_code' => 'string',
     ];
 }

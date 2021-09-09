@@ -7,7 +7,7 @@ use App\Core\Models\Traits\HasStates;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class WordPressPost extends Model
+class WordPressPost extends BaseModel
 {
     use HasFactory;
     use SoftDeletes;
@@ -19,14 +19,12 @@ class WordPressPost extends Model
         'model_id',
         'model_type',
         'title',
-        'state_code',
     ];
 
     protected $casts = [
         'model_id' => 'int',
         'model_type' => 'string',
         'title' => 'string',
-        'state_code' => 'string',
     ];
 
     public function model()

@@ -2,12 +2,12 @@
 
 namespace App\Flickr\Models;
 
+use App\Core\Models\BaseModel;
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class FlickrContact extends Model
+class FlickrContact extends BaseModel
 {
     use HasFactory;
     use HasStates;
@@ -44,7 +44,6 @@ class FlickrContact extends Model
         'mobileurl',
         'photos',
         'photos_count',
-        'state_code',
     ];
 
     protected $casts = [
@@ -77,7 +76,6 @@ class FlickrContact extends Model
         'mobileurl' => 'string',
         'photos' => 'array',
         'photos_count' => 'integer',
-        'state_code' => 'string',
     ];
 
     public function process()
