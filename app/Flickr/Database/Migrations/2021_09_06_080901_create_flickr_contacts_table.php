@@ -14,6 +14,8 @@ class CreateFlickrContactsTable extends Migration
     public function up()
     {
         Schema::create('flickr_contacts', function (Blueprint $table) {
+            $table->id();
+
             $table->string('nsid')->unique();
             $table->integer('ispro')->nullable();
             $table->string('pro_badge')->nullable();

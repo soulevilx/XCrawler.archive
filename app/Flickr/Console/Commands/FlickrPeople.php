@@ -5,6 +5,7 @@ namespace App\Flickr\Console\Commands;
 use App\Core\Models\State;
 use App\Flickr\Jobs\FlickrPeopleInfo;
 use App\Flickr\Models\FlickrContact;
+use App\Flickr\Models\FlickrContactProcess;
 use Illuminate\Console\Command;
 
 class FlickrPeople extends Command
@@ -25,13 +26,14 @@ class FlickrPeople extends Command
 
     public function handle()
     {
-        $contact = FlickrContact::byState(State::STATE_INIT)->first();
+        $contactProcess = FlickrContactProcess::byState(State::STATE_INIT)
+            ->where('step', FlickrContactProcess::STEP_PEOPLE_INFO)
+            ->first();
 
-        if (!$contact) {
+        if (!$contactProcess) {
             return;
         }
 
-        $contact->setState(State::STATE_PROCESSING);
-        FLickrPeopleInfo::dispatch($contact)->onQueue('api');
+        FLickrPeopleInfo::dispatch($contactProcess)->onQueue('api');
     }
 }

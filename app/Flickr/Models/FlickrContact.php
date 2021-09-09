@@ -13,17 +13,6 @@ class FlickrContact extends Model
 
     protected $table = 'flickr_contacts';
 
-    /**
-     * The primary key for the model.
-     *
-     * @var string
-     */
-    protected $primaryKey = 'nsid';
-
-    protected $keyType = 'string';
-
-    public $incrementing = false;
-
     protected $fillable = [
         'nsid',
         'ispro',
@@ -89,4 +78,14 @@ class FlickrContact extends Model
         'photos_count' => 'integer',
         'state_code' => 'string',
     ];
+
+    public function process()
+    {
+        return $this->morphMany(FlickrContactProcess::class, 'model');
+    }
+
+    public function contactProcess()
+    {
+        return $this->process()->where('step', FlickrContactProcess::STEP_PEOPLE_INFO)->first();
+    }
 }

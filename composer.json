@@ -28,7 +28,6 @@
         "laravel/horizon": "^5.7",
         "laravel/sanctum": "^2.11",
         "laravel/slack-notification-channel": "^2.3",
-        "laravel/telescope": "^4.6",
         "laravel/tinker": "^2.6",
         "sentry/sentry-laravel": "^2.7",
         "spatie/laravel-rate-limited-job-middleware": "^1.5"

@@ -4,6 +4,7 @@ namespace App\Flickr\Jobs;
 
 use App\Core\Models\State;
 use App\Flickr\Models\FlickrContact;
+use App\Flickr\Models\FlickrContactProcess;
 use App\Flickr\Services\FlickrService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -18,19 +19,21 @@ class FlickrPeopleInfo implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    public function __construct(public FlickrContact $contact)
+    public function __construct(public FlickrContactProcess $contactProcess)
     {
+        $this->contactProcess->model->setState(State::STATE_PROCESSING);
     }
 
     public function handle(FlickrService $service)
     {
-        $info = $service->people()->getInfo($this->contact->nsid);
+        $model = $this->contactProcess->model;
+        $info = $service->people()->getInfo($model->nsid);
 
         if (!$info) {
             return;
         }
 
-        $this->contact->update($info);
-        $this->contact->setState(State::STATE_COMPLETED);
+        $model->update($info);
+        $this->contactProcess->setState(State::STATE_COMPLETED);
     }
 }
