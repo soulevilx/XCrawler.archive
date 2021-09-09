@@ -19,7 +19,7 @@ class FlickrContacts extends Command
      *
      * @var string
      */
-    protected $description = 'Fetching Onejav';
+    protected $description = 'Get contacts';
 
     public function handle()
     {

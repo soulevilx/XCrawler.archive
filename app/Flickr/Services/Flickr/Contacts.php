@@ -5,12 +5,8 @@ namespace App\Flickr\Services\Flickr;
 use App\Flickr\Services\FlickrService;
 use Illuminate\Support\Collection;
 
-class Contacts
+class Contacts extends BaseFlickr
 {
-    public function __construct(protected FlickrService $service)
-    {
-    }
-
     public function getAll()
     {
         $contacts  = $this->getList(null, 1);
@@ -51,10 +47,5 @@ class Contacts
         $response['contacts']['contact'] = collect($response['contacts']['contact']);
 
         return $response['contacts'];
-    }
-
-    protected function buildPath(string $method)
-    {
-        return 'flickr.contacts.' . $method;
     }
 }

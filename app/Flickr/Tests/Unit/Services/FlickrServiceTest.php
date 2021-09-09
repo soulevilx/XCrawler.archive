@@ -11,4 +11,10 @@ class FlickrServiceTest extends FlickrTestCase
         $contacts = $this->service->contacts()->getAll();
         $this->assertEquals(1105, $contacts->count());
     }
+
+    public function testGetPeopleInfo()
+    {
+        $people = $this->service->people()->getInfo('94529704@N02');
+        $this->assertEquals('94529704@N02', $people['nsid']);
+    }
 }

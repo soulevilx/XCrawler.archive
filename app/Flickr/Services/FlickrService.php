@@ -3,6 +3,7 @@
 namespace App\Flickr\Services;
 
 use App\Flickr\Services\Flickr\Contacts;
+use App\Flickr\Services\Flickr\People;
 use Illuminate\Support\Facades\DB;
 use OAuth\Common\Consumer\Credentials;
 use OAuth\Common\Http\Uri\UriInterface;
@@ -124,5 +125,10 @@ class FlickrService
     public function contacts(): Contacts
     {
         return new Contacts($this);
+    }
+
+    public function people(): People
+    {
+        return new People($this);
     }
 }

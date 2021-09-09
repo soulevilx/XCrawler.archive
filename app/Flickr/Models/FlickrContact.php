@@ -2,14 +2,16 @@
 
 namespace App\Flickr\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Core\Models\Traits\HasFactory;
+use App\Core\Models\Traits\HasStates;
 use Illuminate\Database\Eloquent\Model;
 
 class FlickrContact extends Model
 {
     use HasFactory;
+    use HasStates;
 
-    protected $table='flickr_contacts';
+    protected $table = 'flickr_contacts';
 
     /**
      * The primary key for the model.
