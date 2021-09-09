@@ -7,7 +7,7 @@ on:
 jobs:
   build:
     # Test on Workstation
-    runs-on: [ X64 ]
+    runs-on: [ Workstation ]
     services:
       mysql:
         image: mysql:8.0.26
@@ -67,4 +67,4 @@ jobs:
       - name: Deploy
         if: success()
         run: |
-          ~/deployer.sh -s
+          ~/staging_deployer.sh -s
