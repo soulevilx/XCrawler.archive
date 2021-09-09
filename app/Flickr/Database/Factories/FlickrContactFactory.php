@@ -13,7 +13,7 @@ class FlickrContactFactory extends Factory
     public function definition()
     {
         return [
-            'nsid' => $this->faker->uuid,
+            'nsid' => '94529704@N02',
             'state_code' => State::STATE_INIT,
         ];
     }

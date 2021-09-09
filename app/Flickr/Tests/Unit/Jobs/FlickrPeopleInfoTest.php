@@ -19,5 +19,6 @@ class FlickrPeopleInfoTest extends FlickrTestCase
         $contact->refresh();
         $this->assertEquals(State::STATE_PROCESSING, $contact->state_code);
         $this->assertEquals(State::STATE_COMPLETED, $contact->contactProcess()->state_code);
+        $this->assertEquals(760, $contact->iconserver);
     }
 }

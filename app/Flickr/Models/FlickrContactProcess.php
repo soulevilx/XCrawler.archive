@@ -2,8 +2,8 @@
 
 namespace App\Flickr\Models;
 
+use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class FlickrContactProcess extends Model
@@ -14,6 +14,7 @@ class FlickrContactProcess extends Model
     protected $table = 'flickr_contact_processes';
 
     public const STEP_PEOPLE_INFO = 'people_info';
+    public const STEP_PEOPLE_PHOTOS = 'people_photos';
 
     protected $fillable = [
         'step',

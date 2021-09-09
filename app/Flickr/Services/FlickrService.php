@@ -77,7 +77,7 @@ class FlickrService
         ]);
     }
 
-    public function request(string $path, array $params)
+    public function request(string $path, array $params): array
     {
         $params = array_filter($params);
         $response = $this->getClient()->requestJson($path, 'POST', $params);

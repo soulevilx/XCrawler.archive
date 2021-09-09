@@ -4,7 +4,6 @@ namespace App\Flickr\Console\Commands;
 
 use App\Core\Models\State;
 use App\Flickr\Jobs\FlickrPeopleInfo;
-use App\Flickr\Models\FlickrContact;
 use App\Flickr\Models\FlickrContactProcess;
 use Illuminate\Console\Command;
 
@@ -15,7 +14,7 @@ class FlickrPeople extends Command
      *
      * @var string
      */
-    protected $signature = 'flickr:people';
+    protected $signature = 'flickr:people {task}';
 
     /**
      * The console command description.
@@ -26,6 +25,18 @@ class FlickrPeople extends Command
 
     public function handle()
     {
+        switch ($this->argument('task')) {
+            case 'info':
+                $this->peopleInfo();
+                break;
+            case 'photos':
+                $this->peoplePhotos();
+                break;
+        }
+    }
+
+    protected function peopleInfo()
+    {
         $contactProcess = FlickrContactProcess::byState(State::STATE_INIT)
             ->where('step', FlickrContactProcess::STEP_PEOPLE_INFO)
             ->first();
@@ -34,6 +45,19 @@ class FlickrPeople extends Command
             return;
         }
 
-        FLickrPeopleInfo::dispatch($contactProcess)->onQueue('api');
+        FlickrPeopleInfo::dispatch($contactProcess)->onQueue('api');
+    }
+
+    public function peoplePhotos()
+    {
+        $contactProcess = FlickrContactProcess::byState(State::STATE_COMPLETED)
+            ->where('step', FlickrContactProcess::STEP_PEOPLE_INFO)
+            ->first();
+
+        if (!$contactProcess) {
+            return;
+        }
+
+        \App\Flickr\Jobs\FlickrPeoplePhotos::dispatch($contactProcess)->onQueue('api');
     }
 }

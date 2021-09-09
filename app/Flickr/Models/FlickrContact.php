@@ -5,6 +5,7 @@ namespace App\Flickr\Models;
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class FlickrContact extends Model
 {
@@ -87,5 +88,10 @@ class FlickrContact extends Model
     public function contactProcess()
     {
         return $this->process()->where('step', FlickrContactProcess::STEP_PEOPLE_INFO)->first();
+    }
+
+    public function photos(): HasMany
+    {
+        return $this->hasMany(FlickrPhoto::class, 'owner', 'nsid');
     }
 }
