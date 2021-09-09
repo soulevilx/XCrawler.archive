@@ -3,6 +3,7 @@
 namespace App\Jav\Console\Commands;
 
 use App\Core\Models\State;
+use App\Jav\Services\WordPressPostService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 use App\Core\Models\WordPressPost as WordPressPostModel;
@@ -24,16 +25,8 @@ class WordPressPost extends Command
      */
     protected $description = 'Sendmail to WordPress';
 
-    public function handle()
+    public function handle(WordPressPostService $service)
     {
-        $post = WordPressPostModel::byState(State::STATE_INIT)->first();
-
-        if (!$post) {
-            return;
-        }
-
-        $post->setState(State::STATE_PROCESSING);
-        Mail::send(new WordPressPostEmail($post->model));
-        $post->setState(State::STATE_COMPLETED);
+        $service->send();
     }
 }

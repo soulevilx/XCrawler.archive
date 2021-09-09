@@ -2,6 +2,8 @@
 
 namespace App\Jav\Services\Movie;
 
+use App\Core\Models\State;
+use App\Core\Models\WordPressPost;
 use App\Jav\Events\MovieCreated;
 use App\Jav\Models\Genre;
 use App\Jav\Models\Interfaces\MovieInterface;
@@ -38,5 +40,16 @@ class MovieService
         $this->movie->performers()->syncWithoutDetaching($actorIds);
 
         Event::dispatch(new MovieCreated($this->movie));
+    }
+
+    public function createWordPressPost(Movie $movie): ?WordPressPost
+    {
+        $this->movie = $movie;
+
+        return $this->movie->wordpress()->firstOrCreate([
+            'title' => $this->movie->dvd_id,
+        ], [
+            'state_code' => State::STATE_INIT,
+        ]);
     }
 }

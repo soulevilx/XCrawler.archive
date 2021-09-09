@@ -22,6 +22,7 @@ return [
     ],
     'jav' => [
         'download_dir' => env('JAV_DOWNLOAD_DIR', storage_path('downloads')),
-        'enable_notification' => env('ENABLE_NOTIFICATION', true)
+        'enable_notification' => env('ENABLE_NOTIFICATION', true),
+        'enable_post_to_wordpress' => env('ENABLE_POST_TO_WORDPRESS', true),
     ]
 ];
