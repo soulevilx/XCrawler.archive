@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $entity
  * @property string $state
  */
-class State extends Model
+class State extends BaseModel
 {
     use HasFactory;
 

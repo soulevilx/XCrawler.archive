@@ -37,6 +37,12 @@ class Kernel extends ConsoleKernel
         $schedule->command('jav:xcity-video daily')->dailyAt('12:00');
         $schedule->command('jav:xcity-video item');
 
+        // Flicker
+        $schedule->command('flickr:contacts')->weekly();
+        $schedule->command('flickr:people info')->everyMinute();
+        $schedule->command('flickr:people photos')->everyMinute();
+        $schedule->command('flickr:photo sizes');
+
         $schedule->command('queue:prune-failed --hours=168');
     }
 
@@ -47,8 +53,9 @@ class Kernel extends ConsoleKernel
     {
         $this->load([
             __DIR__.'/Commands',
-            __DIR__.'/../Core/Console/Commands',
+            __DIR__ . '/../Core/Console/Commands',
             __DIR__.'/../Jav/Console/Commands',
+            __DIR__ . '/../Flickr/Console/Commands',
         ]);
 
         require base_path('routes/console.php');

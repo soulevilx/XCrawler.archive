@@ -1,16 +1,11 @@
 <?php
 
-namespace App\Jav\Jobs\Traits;
+namespace App\Flickr\Jobs\Traits;
 
 use Spatie\RateLimitedMiddleware\RateLimited;
 
-trait HasCrawlingMiddleware
+trait HasFlickrMiddleware
 {
-    /**
-     * The number of times the job may be attempted.
-     *
-     * @var int
-     */
     protected $tries = 5;
 
     /**
@@ -20,8 +15,8 @@ trait HasCrawlingMiddleware
      */
     protected $maxExceptions = 3;
 
-    protected int $allow = 1;
-    protected int $releaseAfterSeconds = 2;
+    protected int $allow = 3000;
+    protected int $releaseAfterMinutes = 60;
 
     public function retryUntil(): \DateTime
     {
@@ -35,9 +30,9 @@ trait HasCrawlingMiddleware
         }
 
         $rateLimitedMiddleware = (new RateLimited())
-            ->allow($this->allow) // Allow 1 job
-            ->everySecond() // In second
-            ->releaseAfterSeconds($this->releaseAfterSeconds) // Release back to pool
+            ->allow($this->allow) // Allow  job
+            ->everyMinute() // In second
+            ->releaseAfterMinutes($this->releaseAfterMinutes) // Release back to pool
             ->releaseAfterBackoff($this->attempts());
 
         return [$rateLimitedMiddleware];

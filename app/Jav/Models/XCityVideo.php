@@ -2,16 +2,16 @@
 
 namespace App\Jav\Models;
 
+use App\Core\Models\BaseModel;
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
 use App\Jav\Crawlers\XCityVideoCrawler;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property-read Movie $movie
  */
-class XCityVideo extends Model
+class XCityVideo extends BaseModel
 {
     use HasFactory;
     use SoftDeletes;
@@ -46,7 +46,6 @@ class XCityVideo extends Model
         'genres',
         'actresses',
         'favorite',
-        'state_code',
     ];
 
     protected $casts = [
@@ -66,7 +65,6 @@ class XCityVideo extends Model
         'gallery' => 'array',
         'favorite' => 'integer',
         'running_time' => 'integer',
-        'state_code' => 'string',
     ];
 
     public function refetch()

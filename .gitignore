@@ -20,3 +20,4 @@ yarn-error.log
 /coverage.xml
 /data/
 /public/vendor/
+/.env.testing

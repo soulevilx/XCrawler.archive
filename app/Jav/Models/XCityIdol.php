@@ -2,11 +2,11 @@
 
 namespace App\Jav\Models;
 
+use App\Core\Models\BaseModel;
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
 use App\Jav\Crawlers\XCityIdolCrawler;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -26,7 +26,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @method static Builder|XCityIdol byState (string $state)
  */
-class XCityIdol extends Model
+class XCityIdol extends BaseModel
 {
     use HasFactory;
     use SoftDeletes;
@@ -54,7 +54,6 @@ class XCityIdol extends Model
         'hips',
         'skill',
         'other',
-        'state_code',
     ];
 
     protected $casts = [
@@ -71,7 +70,6 @@ class XCityIdol extends Model
         'hips' => 'integer',
         'skill' => 'string',
         'other' => 'string',
-        'state_code' => 'string',
     ];
 
     public function refetch()

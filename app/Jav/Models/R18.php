@@ -2,6 +2,7 @@
 
 namespace App\Jav\Models;
 
+use App\Core\Models\BaseModel;
 use App\Core\Models\Traits\HasFactory;
 
 use App\Core\Models\Traits\HasStates;
@@ -10,7 +11,6 @@ use App\Jav\Models\Interfaces\MovieInterface;
 use App\Jav\Models\Traits\HasDefaultMovie;
 use App\Jav\Models\Traits\HasMovieObserver;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -30,7 +30,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $sample
  * @property array  $gallery
  */
-class R18 extends Model implements MovieInterface
+class R18 extends BaseModel implements MovieInterface
 {
     use HasFactory;
     use SoftDeletes;
@@ -66,7 +66,6 @@ class R18 extends Model implements MovieInterface
         'gallery',
         'genres',
         'performers',
-        'state_code',
     ];
 
     protected $casts = [
@@ -84,7 +83,6 @@ class R18 extends Model implements MovieInterface
         'images' => 'array',
         'gallery' => 'array',
         'series' => 'array',
-        'state_code' => 'string',
         'updated_at' => 'datetime:Y-m-d H:m:s',
         'created_at' => 'datetime:Y-m-d H:m:s',
     ];

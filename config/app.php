@@ -2,6 +2,8 @@
 
 use App\Core\Providers\CoreEventServiceProvider;
 use App\Core\Providers\CoreServiceProvider;
+use App\Flickr\Providers\FlickrEventServiceProvider;
+use App\Flickr\Providers\FlickrServiceProvider;
 use App\Jav\Providers\JavEventServiceProvider;
 use App\Jav\Providers\JavServiceProvider;
 
@@ -176,7 +178,10 @@ return [
         CoreServiceProvider::class,
         CoreEventServiceProvider::class,
         JavServiceProvider::class,
-        JavEventServiceProvider::class
+        JavEventServiceProvider::class,
+
+        FlickrServiceProvider::class,
+        FlickrEventServiceProvider::class
     ],
 
     /*

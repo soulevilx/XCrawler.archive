@@ -11,6 +11,16 @@ use Illuminate\Database\Eloquent\Builder;
  */
 trait HasStates
 {
+    protected function loadHasStatesTrait()
+    {
+        $this->fillable = array_merge($this->fillable, [
+            'state_code'
+        ]);
+        $this->casts = array_merge($this->casts, [
+            'state_code' => 'string',
+        ]);
+    }
+
     public function scopeByState(Builder $builder, string $stateCode)
     {
         return $builder->where(['state_code' => $stateCode]);
