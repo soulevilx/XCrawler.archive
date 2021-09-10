@@ -37,7 +37,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('jav:xcity-video daily')->dailyAt('12:00');
         $schedule->command('jav:xcity-video item');
 
-        // Flicker
+        // Flickr
         $schedule->command('flickr:contacts')->weekly();
         $schedule->command('flickr:people info')->everyMinute();
         $schedule->command('flickr:people photos')->everyMinute();
