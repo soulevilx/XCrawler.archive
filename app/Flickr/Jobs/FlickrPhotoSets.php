@@ -47,7 +47,7 @@ class FlickrPhotoSets implements ShouldQueue, ShouldBeUnique
     public function handle(FlickrService $service)
     {
         $model = $this->contactProcess->model;
-        $photosets = $service->photosets()->getAllPhotosets($model->nsid);
+        $photosets = $service->photosets()->getListAll($model->nsid);
         $photosets->each(function ($photoset) {
             FlickrAlbum::updateOrCreate([
                 'id' => $photoset['id'],

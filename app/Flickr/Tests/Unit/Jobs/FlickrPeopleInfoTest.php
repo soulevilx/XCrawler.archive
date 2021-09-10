@@ -13,12 +13,14 @@ class FlickrPeopleInfoTest extends FlickrTestCase
 {
     public function testJob()
     {
-        $contact = FlickrContact::factory()->create(['nsid' => '94529704@N02']);
+        $contact = FlickrContact::factory()->create(['nsid' => $this->nsid]);
 
         FlickrPeopleInfo::dispatch($contact->contactProcess());
         $contact->refresh();
         $this->assertEquals(State::STATE_PROCESSING, $contact->state_code);
         $this->assertEquals(State::STATE_COMPLETED, $contact->contactProcess()->state_code);
-        $this->assertEquals(760, $contact->iconserver);
+        $this->assertEquals(4820, $contact->iconserver);
+        $this->assertEquals('soulevilx', $contact->path_alias);
+        $this->assertEquals('SoulEvilX', $contact->username);
     }
 }

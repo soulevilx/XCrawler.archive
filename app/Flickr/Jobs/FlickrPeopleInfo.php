@@ -29,11 +29,7 @@ class FlickrPeopleInfo implements ShouldQueue
     public function handle(FlickrService $service)
     {
         $model = $this->contactProcess->model;
-
-        if (!$info = $service->people()->getInfo($model->nsid)) {
-            return;
-        }
-
+        $info = $service->people()->getInfo($model->nsid);
         $model->update($info);
         $this->contactProcess->setState(State::STATE_COMPLETED);
 

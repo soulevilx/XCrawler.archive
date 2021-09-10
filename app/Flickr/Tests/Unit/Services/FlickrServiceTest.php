@@ -8,18 +8,45 @@ class FlickrServiceTest extends FlickrTestCase
 {
     public function testContacts()
     {
-        $this->assertEquals(1105, $this->service->contacts()->getListAll()->count());
-        $this->assertEquals(200, $this->service->contacts()->getList(null, null, 200)['contact']->count());
+        $this->assertEquals($this->totalContacts, $this->service->contacts()->getListAll()->count());
+        $this->assertEquals(1000, $this->service->contacts()->getList(null, null, 1000)['contact']->count());
     }
 
     public function testPeopleInfo()
     {
-        $this->assertEquals('94529704@N02', $this->service->people()->getInfo('94529704@N02')['nsid']);
+        $this->assertEquals($this->nsid, $this->service->people()->getInfo($this->nsid)['nsid']);
+        $this->assertEquals('SoulEvilX', $this->service->people()->getInfo($this->nsid)['username']);
+        $this->assertEquals(150, $this->service->people()->getPhotos(
+            $this->nsid,
+            3,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            150
+        )['photo']->count());
+        $this->assertEquals(358, $this->service->people()->getPhotosAll(
+            $this->nsid,
+            3,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            150
+        )->count());
     }
 
-    public function testPeoplePhotos()
+    public function testPhotos()
     {
-        $this->assertEquals(1, $this->service->people()->getPhotos('94529704@N02')['photo']->count());
-        $this->assertEquals(1, $this->service->people()->getPhotosAll('94529704@N02')->count());
+        $sizes = $this->service->photos()->getSizes(50068037298);
+        $this->assertEquals(11, $sizes['size']->count());
+    }
+
+    public function testPhotoSets()
+    {
     }
 }

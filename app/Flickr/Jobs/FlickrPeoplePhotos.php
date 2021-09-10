@@ -28,11 +28,7 @@ class FlickrPeoplePhotos implements ShouldQueue
     public function handle(FlickrService $service)
     {
         $model = $this->contactProcess->model;
-
-        if (!$photos = $service->people()->getPhotos($model->nsid)) {
-            return;
-        }
-
+        $photos = $service->people()->getPhotos($model->nsid);
         $photos['photo']->each(function ($photo) use ($model) {
             $model->photos()->create($photo);
         });

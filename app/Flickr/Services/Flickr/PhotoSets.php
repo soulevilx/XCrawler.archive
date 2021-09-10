@@ -19,7 +19,7 @@ class PhotoSets extends BaseFlickr
         return $response['photosets'];
     }
 
-    public function getAllPhotosets(
+    public function getListAll(
         string  $user_id,
         int     $page = 1,
         int     $per_page = 500,
@@ -108,5 +108,10 @@ class PhotoSets extends BaseFlickr
         }
 
         return $list;
+    }
+
+    public function getInfo(int $photoset_id, string $user_id)
+    {
+        return $this->call(func_get_args(), __FUNCTION__)['photoset'];
     }
 }

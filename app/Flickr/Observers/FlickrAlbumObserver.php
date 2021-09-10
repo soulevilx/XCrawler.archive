@@ -10,10 +10,6 @@ class FlickrAlbumObserver
 {
     public function created(FlickrAlbum $album)
     {
-        if (!$album->process()->doesntExist()) {
-            return;
-        }
-
         // Create STEP_PHOTOSETS_PHOTOS process
         $album->process()->create([
             'step' => FlickrContactProcess::STEP_PHOTOSETS_PHOTOS,
