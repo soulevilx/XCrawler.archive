@@ -11,7 +11,35 @@ trait HasContactsMocker
             'pages' => 2,
             'total' => 1105
         ];
-        for ($page = 1; $page <= $data['pages']; $page++) {
+        $this->flickrMocker->shouldReceive('requestJson')
+            ->with(
+                'flickr.contacts.getList',
+                'POST',
+                $data['params']
+            )
+            ->andReturn(
+                json_encode($this->getContacts(
+                    1,
+                    $data['pages'],
+                    $data['params']['per_page'],
+                    $data['total']
+                ))
+            );
+        $this->flickrMocker->shouldReceive('requestJson')
+            ->with(
+                'flickr.contacts.getList',
+                'POST',
+                ['per_page' => 200]
+            )
+            ->andReturn(
+                json_encode($this->getContacts(
+                    1,
+                    $data['pages'],
+                    200,
+                    $data['total']
+                ))
+            );
+        for ($page = 2; $page <= $data['pages']; $page++) {
             $this->flickrMocker->shouldReceive('requestJson')
                 ->with(
                     'flickr.contacts.getList',

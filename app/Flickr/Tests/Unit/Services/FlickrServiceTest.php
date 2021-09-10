@@ -6,15 +6,20 @@ use App\Flickr\Tests\FlickrTestCase;
 
 class FlickrServiceTest extends FlickrTestCase
 {
-    public function testGetContacts()
+    public function testContacts()
     {
-        $contacts = $this->service->contacts()->getAll();
-        $this->assertEquals(1105, $contacts->count());
+        $this->assertEquals(1105, $this->service->contacts()->getListAll()->count());
+        $this->assertEquals(200, $this->service->contacts()->getList(null, null, 200)['contact']->count());
     }
 
-    public function testGetPeopleInfo()
+    public function testPeopleInfo()
     {
-        $people = $this->service->people()->getInfo('94529704@N02');
-        $this->assertEquals('94529704@N02', $people['nsid']);
+        $this->assertEquals('94529704@N02', $this->service->people()->getInfo('94529704@N02')['nsid']);
+    }
+
+    public function testPeoplePhotos()
+    {
+        $this->assertEquals(1, $this->service->people()->getPhotos('94529704@N02')['photo']->count());
+        $this->assertEquals(1, $this->service->people()->getPhotosAll('94529704@N02')->count());
     }
 }

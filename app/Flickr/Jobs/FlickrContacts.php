@@ -20,7 +20,7 @@ class FlickrContacts implements ShouldQueue
 
     public function handle(FlickrService $service)
     {
-        $service->contacts()->getAll()->each(function ($contact) {
+        $service->contacts()->getListAll()->each(function ($contact) {
             FlickrContact::firstOrCreate([
                 'nsid' => $contact['nsid'],
             ], $contact + ['state_code' => State::STATE_INIT]);

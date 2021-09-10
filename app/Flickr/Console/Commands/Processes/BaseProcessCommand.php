@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Flickr\Console\Commands;
+namespace App\Flickr\Console\Commands\Processes;
 
 use App\Core\Models\State;
 use App\Flickr\Models\FlickrAlbum;

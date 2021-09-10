@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Flickr\Console\Commands;
+namespace App\Flickr\Console\Commands\Processes;
 
 use App\Flickr\Jobs\FlickrPeopleInfo;
 use App\Flickr\Jobs\FlickrPeoplePhotos as FlickrPeoplePhotosJob;
 use App\Flickr\Models\FlickrContactProcess;
 
+/**
+ * Step 1
+ */
 class FlickrPeople extends BaseProcessCommand
 {
     /**
@@ -13,7 +16,7 @@ class FlickrPeople extends BaseProcessCommand
      *
      * @var string
      */
-    protected $signature = 'flickr:people {task}';
+    protected $signature = 'flickr:process-people {task}';
 
     /**
      * The console command description.
@@ -24,6 +27,7 @@ class FlickrPeople extends BaseProcessCommand
 
     public function handle()
     {
+        $this->output->title('Flickr process people. Getting ' . ucfirst($this->argument('task')));
         switch ($this->argument('task')) {
             case 'info':
                 $this->peopleInfo();
@@ -41,6 +45,20 @@ class FlickrPeople extends BaseProcessCommand
          * This process will fetch detail people information
          */
         $process = $this->getProcessItem(FlickrContactProcess::STEP_PEOPLE_INFO);
+        $this->output->table(
+            [
+                'process id',
+                'contact nsid',
+                'step',
+            ],
+            [
+                [
+                    $process->id,
+                    $process->model->nsid,
+                    FlickrContactProcess::STEP_PEOPLE_INFO,
+                ],
+            ]
+        );
         FlickrPeopleInfo::dispatch($process)->onQueue('api');
     }
 
@@ -51,6 +69,20 @@ class FlickrPeople extends BaseProcessCommand
          * This process will fetch all photos of an contact
          */
         $process = $this->getProcessItem(FlickrContactProcess::STEP_PEOPLE_PHOTOS);
+        $this->output->table(
+            [
+                'process id',
+                'contact nsid',
+                'step',
+            ],
+            [
+                [
+                    $process->id,
+                    $process->model->nsid,
+                    FlickrContactProcess::STEP_PEOPLE_PHOTOS,
+                ],
+            ]
+        );
         FlickrPeoplePhotosJob::dispatch($process)->onQueue('api');
     }
 }

@@ -23,6 +23,7 @@ class FlickrContacts extends Command
 
     public function handle()
     {
+        $this->output->title('Flickr contacts');
         FlickrContactsJob::dispatch()->onQueue('api');
     }
 }

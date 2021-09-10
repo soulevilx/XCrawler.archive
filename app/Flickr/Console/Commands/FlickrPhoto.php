@@ -3,6 +3,7 @@
 namespace App\Flickr\Console\Commands;
 
 use App\Flickr\Jobs\FlickrPhotoSizes;
+use App\Flickr\Models\FlickrPhoto as FlickrPhotoModel;
 use Illuminate\Console\Command;
 
 class FlickrPhoto extends Command
@@ -19,7 +20,7 @@ class FlickrPhoto extends Command
      *
      * @var string
      */
-    protected $description = 'Get people data';
+    protected $description = 'Get photo data';
 
     public function handle()
     {
@@ -32,8 +33,7 @@ class FlickrPhoto extends Command
 
     protected function photoGetSizes()
     {
-        $photo = \App\Flickr\Models\FlickrPhoto::whereNull('sizes')->first();
-        if (!$photo) {
+        if (!$photo = FlickrPhotoModel::whereNull('sizes')->first()) {
             return;
         }
 

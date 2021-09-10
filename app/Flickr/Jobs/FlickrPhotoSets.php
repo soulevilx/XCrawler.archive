@@ -49,16 +49,11 @@ class FlickrPhotoSets implements ShouldQueue, ShouldBeUnique
         $model = $this->contactProcess->model;
         $photosets = $service->photosets()->getAllPhotosets($model->nsid);
         $photosets->each(function ($photoset) {
-            $album = FlickrAlbum::updateOrCreate([
+            FlickrAlbum::updateOrCreate([
                 'id' => $photoset['id'],
                 'owner' => $photoset['owner'],
 
             ], $photoset + ['state_code' => State::STATE_INIT]);
-            // Create STEP_PHOTOSETS_PHOTOS process
-            $album->process()->create([
-                'step' => FlickrContactProcess::STEP_PHOTOSETS_PHOTOS,
-                'state_code' => State::STATE_INIT,
-            ]);
         });
 
         $this->contactProcess->setState(State::STATE_COMPLETED);

@@ -1,12 +1,15 @@
 <?php
 
-namespace App\Flickr\Console\Commands;
+namespace App\Flickr\Console\Commands\Processes;
 
 use App\Flickr\Jobs\FlickrPhotoSets as FlickrPhotoSetsJob;
 use App\Flickr\Jobs\FlickrPhotoSetsPhotos;
 use App\Flickr\Models\FlickrAlbum;
 use App\Flickr\Models\FlickrContactProcess;
 
+/**
+ * Step 2 & 3
+ */
 class FlickrPhotoSets extends BaseProcessCommand
 {
     /**
@@ -21,7 +24,7 @@ class FlickrPhotoSets extends BaseProcessCommand
      *
      * @var string
      */
-    protected $description = 'Get people data';
+    protected $description = 'Get photosets data';
 
     public function handle()
     {
@@ -35,12 +38,19 @@ class FlickrPhotoSets extends BaseProcessCommand
         }
     }
 
+    /**
+     * This step will be created right after contact is created
+     */
     protected function photosetsGetList()
     {
         $process = $this->getProcessItem(FlickrContactProcess::STEP_PHOTOSETS_LIST);
         FlickrPhotoSetsJob::dispatch($process)->onQueue('api');
     }
 
+    /**
+     * Step 3
+     * This step will be created right after album is created
+     */
     protected function photosetsGetPhotos()
     {
         $process = $this->getProcessItem(
