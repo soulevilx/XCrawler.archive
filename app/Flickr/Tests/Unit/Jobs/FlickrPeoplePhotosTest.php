@@ -25,8 +25,13 @@ class FlickrPeoplePhotosTest extends FlickrTestCase
         $contactProcess->refresh();
         $contactProcess->model->refresh();
         $this->assertEquals(State::STATE_COMPLETED, $contactProcess->state_code);
-        $this->assertEquals(FlickrContactProcess::STEP_PEOPLE_PHOTOS, $contactProcess->step);
         $this->assertEquals(1, FlickrPhoto::where('owner', $contactProcess->model->nsid)->count());
+        $this->assertDatabaseHas('flickr_contact_processes', [
+            'model_id' => $contactProcess->model->id,
+            'model_type' => FlickrContact::class,
+            'step' => FlickrContactProcess::STEP_PHOTOSETS_LIST,
+            'state_code' => State::STATE_INIT,
+        ]);
         $this->assertDatabaseCount('flickr_photos', 1);
     }
 }

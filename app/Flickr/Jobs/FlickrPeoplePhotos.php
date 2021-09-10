@@ -23,7 +23,6 @@ class FlickrPeoplePhotos implements ShouldQueue
     public function __construct(public FlickrContactProcess $contactProcess)
     {
         $this->contactProcess->setState(State::STATE_PROCESSING);
-        $this->contactProcess->update(['step' => FlickrContactProcess::STEP_PEOPLE_PHOTOS]);
     }
 
     public function handle(FlickrService $service)
@@ -35,9 +34,14 @@ class FlickrPeoplePhotos implements ShouldQueue
         }
 
         $photos['photo']->each(function ($photo) use ($model) {
-            $photo = $model->photos()->create($photo);
+            $model->photos()->create($photo);
         });
 
         $this->contactProcess->setState(State::STATE_COMPLETED);
+        // Create STEP_PHOTOSETS_LIST process
+        $this->contactProcess->model->process()->create([
+            'step' => FlickrContactProcess::STEP_PHOTOSETS_LIST,
+            'state_code' => State::STATE_INIT,
+        ]);
     }
 }

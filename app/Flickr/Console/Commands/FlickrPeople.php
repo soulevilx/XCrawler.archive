@@ -2,13 +2,11 @@
 
 namespace App\Flickr\Console\Commands;
 
-use App\Core\Models\State;
 use App\Flickr\Jobs\FlickrPeopleInfo;
-use App\Flickr\Models\FlickrContactProcess;
-use Illuminate\Console\Command;
 use App\Flickr\Jobs\FlickrPeoplePhotos as FlickrPeoplePhotosJob;
+use App\Flickr\Models\FlickrContactProcess;
 
-class FlickrPeople extends Command
+class FlickrPeople extends BaseProcessCommand
 {
     /**
      * The name and signature of the console command.
@@ -38,27 +36,21 @@ class FlickrPeople extends Command
 
     protected function peopleInfo()
     {
-        $contactProcess = FlickrContactProcess::byState(State::STATE_INIT)
-            ->where('step', FlickrContactProcess::STEP_PEOPLE_INFO)
-            ->first();
-
-        if (!$contactProcess) {
-            return;
-        }
-
-        FlickrPeopleInfo::dispatch($contactProcess)->onQueue('api');
+        /**
+         * Whenever contact is created it'll create process STEP_PEOPLE_INFO
+         * This process will fetch detail people information
+         */
+        $process = $this->getProcessItem(FlickrContactProcess::STEP_PEOPLE_INFO);
+        FlickrPeopleInfo::dispatch($process)->onQueue('api');
     }
 
     public function peoplePhotos()
     {
-        $contactProcess = FlickrContactProcess::byState(State::STATE_COMPLETED)
-            ->where('step', FlickrContactProcess::STEP_PEOPLE_INFO)
-            ->first();
-
-        if (!$contactProcess) {
-            return;
-        }
-
-        FlickrPeoplePhotosJob::dispatch($contactProcess)->onQueue('api');
+        /**
+         * After STEP_PEOPLE_INFO completed will create STEP_PEOPLE_PHOTOS
+         * This process will fetch all photos of an contact
+         */
+        $process = $this->getProcessItem(FlickrContactProcess::STEP_PEOPLE_PHOTOS);
+        FlickrPeoplePhotosJob::dispatch($process)->onQueue('api');
     }
 }

@@ -18,5 +18,9 @@ class FlickrContactObserver
             'step' => FlickrContactProcess::STEP_PEOPLE_INFO,
             'state_code' => State::STATE_INIT,
         ]);
+        $contact->process()->create([
+            'step' => FlickrContactProcess::STEP_PHOTOSETS_LIST,
+            'state_code' => State::STATE_INIT,
+        ]);
     }
 }

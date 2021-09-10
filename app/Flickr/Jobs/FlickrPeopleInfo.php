@@ -36,5 +36,11 @@ class FlickrPeopleInfo implements ShouldQueue
 
         $model->update($info);
         $this->contactProcess->setState(State::STATE_COMPLETED);
+
+        // Create STEP_PEOPLE_PHOTOS process
+        $this->contactProcess->model->process()->create([
+            'step' => FlickrContactProcess::STEP_PEOPLE_PHOTOS,
+            'state_code' => State::STATE_INIT,
+        ]);
     }
 }
