@@ -26,7 +26,7 @@ class Migration extends Command
 
     public function handle()
     {
-        //$this->contacts();
+        $this->contacts();
         $this->photos();
     }
 
