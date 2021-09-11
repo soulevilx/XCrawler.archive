@@ -48,5 +48,12 @@ class FlickrServiceTest extends FlickrTestCase
 
     public function testPhotoSets()
     {
+        $photosets = $this->service->photosets()->getList($this->nsid);
+
+        $this->assertEquals(23, $photosets['total']);
+        $this->assertEquals(23, $photosets['photoset']->count());
+
+        $photosets = $this->service->photosets()->getListAll($this->nsid);
+        $this->assertEquals(23, $photosets->count());
     }
 }

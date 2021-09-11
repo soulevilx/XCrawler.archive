@@ -23,6 +23,23 @@ class FlickrPeopleTest extends FlickrTestCase
         });
     }
 
+    public function testInfoWhenNoProcesses()
+    {
+        Queue::fake();
+        $contact = FlickrContact::factory()->create();
+        $contact->process()->delete();
+
+        $this->artisan('flickr:process-people info');
+
+        $this->assertDatabaseHas('flickr_contact_processes', [
+            'step' => FlickrContactProcess::STEP_PEOPLE_INFO,
+            'state_code' => State::STATE_INIT,
+            'deleted_at' => null,
+            'model_id' => $contact->id,
+            'model_type' => FlickrContact::class,
+        ]);
+    }
+
     public function testPhotos()
     {
         Queue::fake();

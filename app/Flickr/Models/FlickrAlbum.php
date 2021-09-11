@@ -6,6 +6,18 @@ use App\Core\Models\BaseModel;
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
 
+/**
+ * @property string $id
+ * @property string $owner
+ * @property int $primary
+ * @property string $secret
+ * @property int $server
+ * @property int $farm
+ * @property int $photos
+ * @property string $title
+ * @property string $description
+ * @property string $google_album_id
+ */
 class FlickrAlbum extends BaseModel
 {
     use HasFactory;
@@ -31,6 +43,7 @@ class FlickrAlbum extends BaseModel
     ];
 
     protected $casts = [
+        'id' => 'integer',
         'owner' => 'string',
         'title' => 'string',
         'description' => 'string',
@@ -41,7 +54,7 @@ class FlickrAlbum extends BaseModel
         return $this->belongsToMany(FlickrPhoto::class, 'flickr_album_photos', 'album_id', 'photo_id')->withTimestamps();
     }
 
-    public function owner()
+    public function contact()
     {
         return $this->belongsTo(FlickrContact::class, 'owner', 'nsid');
     }

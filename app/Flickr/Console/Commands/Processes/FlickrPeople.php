@@ -8,6 +8,8 @@ use App\Flickr\Models\FlickrContactProcess;
 
 /**
  * Step 1
+ * - Getting people information
+ * - Getting people' photos
  */
 class FlickrPeople extends BaseProcessCommand
 {
@@ -59,6 +61,7 @@ class FlickrPeople extends BaseProcessCommand
                 ],
             ]
         );
+
         FlickrPeopleInfo::dispatch($process)->onQueue('api');
     }
 

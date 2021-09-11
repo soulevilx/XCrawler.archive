@@ -13,6 +13,7 @@ class FlickrContactsTest extends FlickrTestCase
     public function testJob()
     {
         FlickrContacts::dispatch();
+
         $this->assertDatabaseCount('flickr_contacts', $this->totalContacts);
         $this->assertEquals($this->totalContacts, FlickrContact::where(['state_code' => State::STATE_INIT])->count());
     }

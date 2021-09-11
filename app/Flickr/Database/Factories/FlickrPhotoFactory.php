@@ -3,6 +3,7 @@
 namespace App\Flickr\Database\Factories;
 
 use App\Core\Database\Factories\Factory;
+use App\Flickr\Models\FlickrContact;
 use App\Flickr\Models\FlickrPhoto;
 
 class FlickrPhotoFactory extends Factory
@@ -12,7 +13,8 @@ class FlickrPhotoFactory extends Factory
     public function definition()
     {
         return [
-            'owner' => '94529704@N02',
+            'id' => $this->faker->numerify,
+            'owner' => FlickrContact::factory()->create(['nsid' => $this->faker->uuid])->nsid
         ];
     }
 }

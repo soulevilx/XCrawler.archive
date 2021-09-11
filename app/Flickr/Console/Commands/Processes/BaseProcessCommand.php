@@ -39,7 +39,6 @@ abstract class BaseProcessCommand extends Command
                     break;
             }
 
-
             $process = FlickrContactProcess::byState(State::STATE_INIT)
                 ->where('step', $step)
                 ->first();

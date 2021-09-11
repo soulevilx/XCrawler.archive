@@ -25,11 +25,12 @@ class FlickrPhotoSetsPhotos implements ShouldQueue
 
     public function __construct(public FlickrContactProcess $process)
     {
-        $this->process->setState(State::STATE_PROCESSING);
+
     }
 
     public function handle(FlickrService $service)
     {
+        $this->process->setState(State::STATE_PROCESSING);
         /**
          * @var FlickrAlbum $model
          */

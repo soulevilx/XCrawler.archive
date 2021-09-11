@@ -2,10 +2,10 @@
 
 namespace App\Flickr\Tests\Unit\Observers;
 
-use App\Core\Models\State;
+use App\Flickr\Events\FlickrContactCreated;
 use App\Flickr\Models\FlickrContact;
-use App\Flickr\Models\FlickrContactProcess;
 use App\Flickr\Tests\FlickrTestCase;
+use Illuminate\Support\Facades\Event;
 
 class FlickrContactObserverTest extends FlickrTestCase
 {
@@ -16,16 +16,11 @@ class FlickrContactObserverTest extends FlickrTestCase
      */
     public function testFlickrContactCreated()
     {
-        FlickrContact::factory()->create();
+        Event::fake([FlickrContactCreated::class]);
+        $contact = FlickrContact::factory()->create();
 
-        $this->assertDatabaseHas('flickr_contact_processes', [
-            'step' => FlickrContactProcess::STEP_PEOPLE_INFO,
-            'state_code' => State::STATE_INIT,
-        ]);
-
-        $this->assertDatabaseHas('flickr_contact_processes', [
-            'step' => FlickrContactProcess::STEP_PHOTOSETS_LIST,
-            'state_code' => State::STATE_INIT,
-        ]);
+        Event::assertDispatched(FlickrContactCreated::class, function ($event) use ($contact) {
+            return $event->contact->is($contact);
+        });
     }
 }
