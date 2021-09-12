@@ -4,14 +4,9 @@ namespace App\Flickr\Services\Flickr;
 
 class People extends BaseFlickr
 {
-    public function getInfo(string $user_id)
+    public function getInfo(string $user_id): array
     {
-        $response = $this->service->request(
-            $this->buildPath(__FUNCTION__),
-            ['user_id' => $user_id]
-        );
-
-        return $response['person'];
+        return $this->call(func_get_args(), __FUNCTION__)['person'];
     }
 
     public function getPhotos(
@@ -33,7 +28,7 @@ class People extends BaseFlickr
         return $response['photos'];
     }
 
-    public function getAllPhotos(
+    public function getPhotosAll(
         string $user_id,
         int    $safe_search = 3,
         int    $min_upload_date = null,

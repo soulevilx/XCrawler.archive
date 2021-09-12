@@ -30,10 +30,10 @@ trait HasFlickrMiddleware
         }
 
         $rateLimitedMiddleware = (new RateLimited())
+            ->key('api:flickr')
             ->allow($this->allow) // Allow  job
-            ->everyMinute() // In second
-            ->releaseAfterMinutes($this->releaseAfterMinutes) // Release back to pool
-            ->releaseAfterBackoff($this->attempts());
+            ->everyMinutes(60) // In second
+            ->releaseAfterMinutes($this->releaseAfterMinutes); // Release back to pool
 
         return [$rateLimitedMiddleware];
     }

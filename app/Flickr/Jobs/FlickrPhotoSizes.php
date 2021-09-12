@@ -29,7 +29,6 @@ class FlickrPhotoSizes implements ShouldQueue, ShouldBeUnique
     {
     }
 
-
     /**
      * The unique ID of the job.
      *

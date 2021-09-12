@@ -12,6 +12,8 @@ class FlickrContactsTest extends FlickrTestCase
     {
         Queue::fake();
         $this->artisan('flickr:contacts');
-        Queue::assertPushed(FlickrContacts::class);
+        Queue::assertPushed(FlickrContacts::class, function ($job) {
+            return $job->queue === 'api';
+        });
     }
 }

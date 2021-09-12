@@ -6,7 +6,20 @@ use App\Core\Models\BaseModel;
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 
+/**
+ * @property string $nsid
+ * @property boolean $ispro
+ * @property string $pro_badge
+ * @property string $username
+ * @property string $realname
+ * @property string $description
+ * @property array $photos
+ * @property int $photos_count
+ * @property-read  FlickrAlbum[]|Collection $albums
+ * @package App\Models
+ */
 class FlickrContact extends BaseModel
 {
     use HasFactory;
@@ -78,14 +91,24 @@ class FlickrContact extends BaseModel
         'photos_count' => 'integer',
     ];
 
-    public function process()
+    public static function findByNsid(string $nsid)
     {
-        return $this->morphMany(FlickrContactProcess::class, 'model');
+        return self::where('nsid', $nsid)->first();
     }
 
-    public function contactProcess()
+    public function process()
     {
-        return $this->process()->where('step', FlickrContactProcess::STEP_PEOPLE_INFO)->first();
+        return $this->morphMany(FlickrProcess::class, 'model');
+    }
+
+    public function processStep(string $step)
+    {
+        return $this->morphMany(FlickrProcess::class, 'model')->where('step', $step)->latest()->first();
+    }
+
+    public function albums(): HasMany
+    {
+        return $this->hasMany(FlickrAlbum::class, 'owner', 'nsid');
     }
 
     public function photos(): HasMany

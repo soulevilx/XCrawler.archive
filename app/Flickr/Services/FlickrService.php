@@ -5,6 +5,8 @@ namespace App\Flickr\Services;
 use App\Flickr\Services\Flickr\Contacts;
 use App\Flickr\Services\Flickr\People;
 use App\Flickr\Services\Flickr\Photos;
+use App\Flickr\Services\Flickr\PhotoSets;
+use App\Flickr\Services\Flickr\Urls;
 use Illuminate\Support\Facades\DB;
 use OAuth\Common\Consumer\Credentials;
 use OAuth\Common\Http\Uri\UriInterface;
@@ -136,5 +138,15 @@ class FlickrService
     public function photos(): Photos
     {
         return new Photos($this);
+    }
+
+    public function photosets(): PhotoSets
+    {
+        return new PhotoSets($this);
+    }
+
+    public function urls(): Urls
+    {
+        return new Urls($this);
     }
 }

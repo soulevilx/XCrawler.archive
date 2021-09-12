@@ -2,21 +2,14 @@
 
 namespace App\Flickr\Observers;
 
-use App\Core\Models\State;
+use App\Flickr\Events\FlickrContactCreated;
 use App\Flickr\Models\FlickrContact;
-use App\Flickr\Models\FlickrContactProcess;
+use Illuminate\Support\Facades\Event;
 
 class FlickrContactObserver
 {
     public function created(FlickrContact $contact)
     {
-        if (!$contact->process()->doesntExist()) {
-            return;
-        }
-
-        $contact->process()->create([
-            'step' => FlickrContactProcess::STEP_PEOPLE_INFO,
-            'state_code' => State::STATE_INIT,
-        ]);
+        Event::dispatch(new FlickrContactCreated($contact));
     }
 }

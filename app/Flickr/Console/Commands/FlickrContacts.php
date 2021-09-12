@@ -19,10 +19,11 @@ class FlickrContacts extends Command
      *
      * @var string
      */
-    protected $description = 'Get contacts';
+    protected $description = 'Get all contacts from authorized user';
 
     public function handle()
     {
+        $this->output->title('Flickr contacts');
         FlickrContactsJob::dispatch()->onQueue('api');
     }
 }

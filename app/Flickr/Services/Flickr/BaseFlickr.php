@@ -33,7 +33,7 @@ class BaseFlickr
 
         return call_user_func(
             [
-                $this->service,'request',
+                $this->service, 'request',
             ],
             $this->buildPath($method),
             $parameters

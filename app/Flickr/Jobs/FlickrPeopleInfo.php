@@ -2,39 +2,20 @@
 
 namespace App\Flickr\Jobs;
 
-use App\Core\Models\State;
-use App\Flickr\Jobs\Traits\HasFlickrMiddleware;
-use App\Flickr\Models\FlickrContactProcess;
 use App\Flickr\Services\FlickrService;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 
-class FlickrPeopleInfo implements ShouldQueue
+/**
+ * First step in whole process
+ */
+class FlickrPeopleInfo extends BaseProcessJob
 {
-    use Dispatchable;
-    use InteractsWithQueue;
-    use Queueable;
-    use SerializesModels;
-    use HasFlickrMiddleware;
-
-    public function __construct(public FlickrContactProcess $contactProcess)
+    public function process(): bool
     {
-        $this->contactProcess->model->setState(State::STATE_PROCESSING);
-        $this->contactProcess->setState(State::STATE_PROCESSING);
-    }
-
-    public function handle(FlickrService $service)
-    {
-        $model = $this->contactProcess->model;
-
-        if (!$info = $service->people()->getInfo($model->nsid)) {
-            return;
-        }
-
+        $service = app(FlickrService::class);
+        $model = $this->process->model;
+        $info = $service->people()->getInfo($model->nsid);
         $model->update($info);
-        $this->contactProcess->setState(State::STATE_COMPLETED);
+
+        return true;
     }
 }
