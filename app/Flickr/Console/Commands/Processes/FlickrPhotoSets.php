@@ -5,7 +5,7 @@ namespace App\Flickr\Console\Commands\Processes;
 use App\Flickr\Jobs\FlickrPhotoSets as FlickrPhotoSetsJob;
 use App\Flickr\Jobs\FlickrPhotoSetsPhotos;
 use App\Flickr\Models\FlickrAlbum;
-use App\Flickr\Models\FlickrContactProcess;
+use App\Flickr\Models\FlickrProcess;
 
 /**
  * Step 2 & 3
@@ -43,7 +43,7 @@ class FlickrPhotoSets extends BaseProcessCommand
      */
     protected function photosetsGetList()
     {
-        $process = $this->getProcessItem(FlickrContactProcess::STEP_PHOTOSETS_LIST);
+        $process = $this->getProcessItem(FlickrProcess::STEP_PHOTOSETS_LIST);
         FlickrPhotoSetsJob::dispatch($process)->onQueue('api');
     }
 
@@ -54,7 +54,7 @@ class FlickrPhotoSets extends BaseProcessCommand
     protected function photosetsGetPhotos()
     {
         $process = $this->getProcessItem(
-            FlickrContactProcess::STEP_PHOTOSETS_PHOTOS,
+            FlickrProcess::STEP_PHOTOSETS_PHOTOS,
             FlickrAlbum::class
         );
         FlickrPhotoSetsPhotos::dispatch($process)->onQueue('api');

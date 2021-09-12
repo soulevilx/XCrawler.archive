@@ -98,12 +98,12 @@ class FlickrContact extends BaseModel
 
     public function process()
     {
-        return $this->morphMany(FlickrContactProcess::class, 'model');
+        return $this->morphMany(FlickrProcess::class, 'model');
     }
 
-    public function contactProcess()
+    public function processStep(string $step)
     {
-        return $this->process()->where('step', FlickrContactProcess::STEP_PEOPLE_INFO)->first();
+        return $this->morphMany(FlickrProcess::class, 'model')->where('step', $step)->latest()->first();
     }
 
     public function albums(): HasMany

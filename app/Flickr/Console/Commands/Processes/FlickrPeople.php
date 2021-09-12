@@ -4,7 +4,7 @@ namespace App\Flickr\Console\Commands\Processes;
 
 use App\Flickr\Jobs\FlickrPeopleInfo;
 use App\Flickr\Jobs\FlickrPeoplePhotos as FlickrPeoplePhotosJob;
-use App\Flickr\Models\FlickrContactProcess;
+use App\Flickr\Models\FlickrProcess;
 
 /**
  * Step 1
@@ -46,7 +46,7 @@ class FlickrPeople extends BaseProcessCommand
          * Whenever contact is created it'll create process STEP_PEOPLE_INFO
          * This process will fetch detail people information
          */
-        $process = $this->getProcessItem(FlickrContactProcess::STEP_PEOPLE_INFO);
+        $process = $this->getProcessItem(FlickrProcess::STEP_PEOPLE_INFO);
         $this->output->table(
             [
                 'process id',
@@ -57,7 +57,7 @@ class FlickrPeople extends BaseProcessCommand
                 [
                     $process->id,
                     $process->model->nsid,
-                    FlickrContactProcess::STEP_PEOPLE_INFO,
+                    FlickrProcess::STEP_PEOPLE_INFO,
                 ],
             ]
         );
@@ -71,7 +71,7 @@ class FlickrPeople extends BaseProcessCommand
          * After STEP_PEOPLE_INFO completed will create STEP_PEOPLE_PHOTOS
          * This process will fetch all photos of an contact
          */
-        $process = $this->getProcessItem(FlickrContactProcess::STEP_PEOPLE_PHOTOS);
+        $process = $this->getProcessItem(FlickrProcess::STEP_PEOPLE_PHOTOS);
         $this->output->table(
             [
                 'process id',
@@ -82,7 +82,7 @@ class FlickrPeople extends BaseProcessCommand
                 [
                     $process->id,
                     $process->model->nsid,
-                    FlickrContactProcess::STEP_PEOPLE_PHOTOS,
+                    FlickrProcess::STEP_PEOPLE_PHOTOS,
                 ],
             ]
         );

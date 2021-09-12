@@ -4,7 +4,7 @@ namespace App\Flickr\Listeners;
 
 use App\Core\Models\State;
 use App\Flickr\Events\FlickrContactCreated;
-use App\Flickr\Models\FlickrContactProcess;
+use App\Flickr\Models\FlickrProcess;
 use Illuminate\Events\Dispatcher;
 
 class FlickrContactEventSubscriber
@@ -12,12 +12,17 @@ class FlickrContactEventSubscriber
     public function onFlickrContactCreated(FlickrContactCreated $event)
     {
         $event->contact->process()->create([
-            'step' => FlickrContactProcess::STEP_PEOPLE_INFO,
+            'step' => FlickrProcess::STEP_PEOPLE_INFO,
             'state_code' => State::STATE_INIT,
         ]);
 
         $event->contact->process()->create([
-            'step' => FlickrContactProcess::STEP_PHOTOSETS_LIST,
+            'step' => FlickrProcess::STEP_PEOPLE_PHOTOS,
+            'state_code' => State::STATE_INIT,
+        ]);
+
+        $event->contact->process()->create([
+            'step' => FlickrProcess::STEP_PHOTOSETS_LIST,
             'state_code' => State::STATE_INIT,
         ]);
     }

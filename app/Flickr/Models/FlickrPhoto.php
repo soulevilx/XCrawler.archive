@@ -5,6 +5,7 @@ namespace App\Flickr\Models;
 use App\Core\Models\BaseModel;
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class FlickrPhoto extends BaseModel
 {
@@ -33,6 +34,7 @@ class FlickrPhoto extends BaseModel
     ];
 
     protected $casts = [
+        'id' => 'integer',
         'owner' => 'string',
         'secret' => 'string',
         'server' => 'string',
@@ -44,4 +46,28 @@ class FlickrPhoto extends BaseModel
         'isprimary' => 'integer',
         'sizes' => 'array',
     ];
+
+    public function albums(): BelongsToMany
+    {
+        return $this->belongsToMany(FlickrAlbum::class, 'flickr_album_photos', 'photo_id', 'album_id')->withTimestamps();
+    }
+
+    public function hasSizes()
+    {
+        return !empty($this->sizes);
+    }
+
+    public function largestSize()
+    {
+        if (!$this->hasSizes()) {
+            return null;
+        }
+
+        $sizes = collect($this->sizes['size']);
+        $sizes = $sizes->sortBy(function ($size) {
+            return $size['width'] + $size['height'];
+        });
+
+        return $sizes->last();
+    }
 }

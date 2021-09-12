@@ -6,7 +6,10 @@ use App\Core\Models\BaseModel;
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
 
-class FlickrContactProcess extends BaseModel
+/**
+ * @property-read FlickrContact|FlickrAlbum $model
+ */
+class FlickrProcess extends BaseModel
 {
     use HasFactory;
     use HasStates;

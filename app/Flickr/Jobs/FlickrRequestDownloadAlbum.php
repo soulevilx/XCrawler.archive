@@ -39,7 +39,7 @@ class FlickrRequestDownloadAlbum implements ShouldQueue
         /**
          * @var FlickrAlbum $album
          */
-        $album = FlickrAlbum::updateOrCreate([
+        $album = FlickrAlbum::firstOrCreate([
             'id' => $albumInfo['id'],
             'owner' => $albumInfo['owner'],
             'state_code' => State::STATE_INIT,

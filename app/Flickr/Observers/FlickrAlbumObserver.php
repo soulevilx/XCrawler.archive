@@ -4,7 +4,7 @@ namespace App\Flickr\Observers;
 
 use App\Core\Models\State;
 use App\Flickr\Models\FlickrAlbum;
-use App\Flickr\Models\FlickrContactProcess;
+use App\Flickr\Models\FlickrProcess;
 
 class FlickrAlbumObserver
 {
@@ -12,7 +12,7 @@ class FlickrAlbumObserver
     {
         // Create STEP_PHOTOSETS_PHOTOS process
         $album->process()->create([
-            'step' => FlickrContactProcess::STEP_PHOTOSETS_PHOTOS,
+            'step' => FlickrProcess::STEP_PHOTOSETS_PHOTOS,
             'state_code' => State::STATE_INIT,
         ]);
     }

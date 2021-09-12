@@ -104,10 +104,9 @@ class FlickrTestCase extends TestCase
             ->andReturn($this->getFixture('people.getPhotos500.json'));
 
         $this->flickrMocker->shouldReceive('requestJson')
-            ->with(
+            ->withSomeOfArgs(
                 'flickr.photos.getSizes',
                 'POST',
-                ['photo_id' => 50068037298]
             )
             ->andReturn($this->getFixture('sizes.json'));
 
@@ -118,6 +117,40 @@ class FlickrTestCase extends TestCase
                 ['user_id' => '94529704@N02', 'page' => 1, 'per_page' => 500]
             )
             ->andReturn($this->getFixture('photosets.getList.json'));
+
+
+        // Urls
+        $this->flickrMocker->shouldReceive('requestJson')
+            ->with(
+                'flickr.urls.lookupUser',
+                'POST',
+                ['url' => 'https://www.flickr.com/photos/51838687@N07/albums/72157719703391487']
+            )
+            ->andReturn($this->getFixture('urls.lookupUser.json'));
+
+        // Photosets
+        $this->flickrMocker->shouldReceive('requestJson')
+            ->with(
+                'flickr.photosets.getInfo',
+                'POST',
+                [
+                    'photoset_id' => 72157719703391487,
+                    'user_id' => '51838687@N07'
+                ]
+            )
+            ->andReturn($this->getFixture('photosets.getInfo.json'));
+        $this->flickrMocker->shouldReceive('requestJson')
+            ->with(
+                'flickr.photosets.getPhotos',
+                'POST',
+                [
+                    'photoset_id' => 72157719703391487,
+                    'user_id' => '51838687@N07',
+                    'page' => 1,
+                    'per_page' => 500
+                ]
+            )
+            ->andReturn($this->getFixture('photosets.getPhotos.json'));
 
         $serviceMocker->shouldReceive('createService')
             ->andReturn($this->flickrMocker);

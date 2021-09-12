@@ -4,7 +4,7 @@ namespace App\Flickr\Console\Commands;
 
 use App\Core\Models\State;
 use App\Flickr\Models\FlickrContact;
-use App\Flickr\Models\FlickrContactProcess;
+use App\Flickr\Models\FlickrProcess;
 use Illuminate\Console\Command;
 use App\Flickr\Models\FlickrPhoto as FlickrPhotoModel;
 
@@ -42,7 +42,7 @@ class Migration extends Command
                 'nsid' => $contact['nsid'],
             ], $contact);
             $contact->process()->create([
-                'step' => FlickrContactProcess::STEP_PEOPLE_INFO,
+                'step' => FlickrProcess::STEP_PEOPLE_INFO,
                 'state_code' => State::STATE_INIT,
             ]);
             $this->output->progressAdvance();

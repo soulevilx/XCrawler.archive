@@ -25,7 +25,6 @@ class FlickrDownload extends BaseModel
         'total',
         'model_id',
         'model_type',
-
     ];
 
     protected $casts = [
@@ -34,7 +33,6 @@ class FlickrDownload extends BaseModel
         'total' => 'integer',
         'model_id' => 'string',
         'model_type' => 'string',
-
     ];
 
     public function model()

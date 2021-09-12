@@ -5,7 +5,7 @@ namespace App\Flickr\Tests\Unit\Models;
 use App\Core\Models\State;
 use App\Flickr\Models\FlickrAlbum;
 use App\Flickr\Models\FlickrContact;
-use App\Flickr\Models\FlickrContactProcess;
+use App\Flickr\Models\FlickrProcess;
 use App\Flickr\Models\FlickrPhoto;
 use App\Flickr\Tests\FlickrTestCase;
 
@@ -29,7 +29,7 @@ class FlickrAlbumTest extends FlickrTestCase
         $this->assertDatabaseHas('flickr_contact_processes', [
             'model_id' => $album->id,
             'model_type' => FlickrAlbum::class,
-            'step' => FlickrContactProcess::STEP_PHOTOSETS_PHOTOS,
+            'step' => FlickrProcess::STEP_PHOTOSETS_PHOTOS,
             'state_code' => State::STATE_INIT,
         ]);
     }

@@ -49,6 +49,12 @@ class FlickrAlbum extends BaseModel
         'description' => 'string',
     ];
 
+    /**
+     * Actually Album hasMany photos
+     * but we are using belongsToMany because we need pivot table
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function photos()
     {
         return $this->belongsToMany(FlickrPhoto::class, 'flickr_album_photos', 'album_id', 'photo_id')->withTimestamps();
@@ -61,6 +67,6 @@ class FlickrAlbum extends BaseModel
 
     public function process()
     {
-        return $this->morphMany(FlickrContactProcess::class, 'model');
+        return $this->morphMany(FlickrProcess::class, 'model');
     }
 }
