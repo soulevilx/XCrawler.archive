@@ -17,7 +17,7 @@ class FlickrPhotoSets extends BaseProcessCommand
      *
      * @var string
      */
-    protected $signature = 'flickr:photosets {task}';
+    protected $signature = 'flickr:process-photosets {task}';
 
     /**
      * The console command description.
