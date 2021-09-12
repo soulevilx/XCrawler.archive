@@ -16,7 +16,7 @@ trait HasFlickrMiddleware
     protected $maxExceptions = 3;
 
     protected int $allow = 3000;
-    protected int $releaseAfterMinutes = 60;
+    protected int $releaseAfterMinutes = 30;
 
     public function retryUntil(): \DateTime
     {
@@ -25,15 +25,11 @@ trait HasFlickrMiddleware
 
     public function middleware()
     {
-        if ('testing' === config('app.env')) {
-            return [];
-        }
-
         $rateLimitedMiddleware = (new RateLimited())
+            ->key('api:flickr')
             ->allow($this->allow) // Allow  job
             ->everyMinute() // In second
-            ->releaseAfterMinutes($this->releaseAfterMinutes) // Release back to pool
-            ->releaseAfterBackoff($this->attempts());
+            ->releaseAfterMinutes($this->releaseAfterMinutes); // Release back to pool
 
         return [$rateLimitedMiddleware];
     }

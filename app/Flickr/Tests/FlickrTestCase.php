@@ -3,9 +3,6 @@
 namespace App\Flickr\Tests;
 
 use App\Flickr\Services\FlickrService;
-use App\Flickr\Tests\Traits\HasContactsMocker;
-use App\Flickr\Tests\Traits\HasPeopleMocker;
-use App\Flickr\Tests\Traits\HasPhotosMocker;
 use Mockery\LegacyMockInterface;
 use Mockery\MockInterface;
 use OAuth\ServiceFactory;
