@@ -38,6 +38,8 @@ class Migration extends Command
         $this->output->progressStart(count($data));
 
         foreach ($data as $contact) {
+            // Replace our state code
+            $contact['state_code'] = State::STATE_INIT;
             $contact = FlickrContact::updateOrCreate([
                 'nsid' => $contact['nsid'],
             ], $contact);

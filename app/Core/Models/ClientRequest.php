@@ -11,7 +11,6 @@ class ClientRequest extends Model
 {
     use HasFactory;
 
-
     protected $fillable = [
         'service',
         'base_uri',

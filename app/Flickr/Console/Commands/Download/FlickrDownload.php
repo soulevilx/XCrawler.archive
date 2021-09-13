@@ -3,7 +3,7 @@
 namespace App\Flickr\Console\Commands\Download;
 
 use App\Core\Models\State;
-use App\Flickr\Jobs\FlickrContacts as FlickrContactsJob;
+use App\Flickr\Jobs\Download\FlickrDownloadItem as FlickrDownloadItemJob;
 use App\Flickr\Jobs\FlickrRequestDownloadAlbum;
 use App\Flickr\Models\FlickrDownloadItem;
 use App\Flickr\Services\FlickrService;
@@ -31,8 +31,7 @@ class FlickrDownload extends Command
     public function handle(FlickrService $service)
     {
         $this->service = $service;
-        if ($this->argument('task') !== 'downloadItem')
-        {
+        if ($this->argument('task') !== 'downloadItem') {
             $this->output->title('Flickr download');
             $this->output->text('Getting user ...');
             $this->user = $this->service->urls()->lookupUser($this->option('url'));
@@ -55,13 +54,15 @@ class FlickrDownload extends Command
         $url = explode('/', $this->option('url'));
         $albumId = end($url);
         FlickrRequestDownloadAlbum::dispatch((int) $albumId, $this->user['id'])->onQueue('api');
+        $this->output->text('Pushed to queue');
     }
 
     protected function downloadItem()
     {
-        $downloadItem = FlickrDownloadItem::byState(State::STATE_INIT)->first();
-        if ($downloadItem) {
-            \App\Flickr\Jobs\Download\FlickrDownloadItem::dispatch($downloadItem)->onQueue('api');
+        if (!$downloadItem = FlickrDownloadItem::byState(State::STATE_INIT)->first()) {
+            return;
         }
+
+        FlickrDownloadItemJob::dispatch($downloadItem)->onQueue('api');
     }
 }

@@ -4,6 +4,7 @@ namespace App\Core\Listeners;
 
 use App\Core\Events\ClientRequested;
 use App\Core\Notifications\ClientRequestFailedNotification;
+use App\Core\Services\ApplicationService;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Support\Facades\Notification;
 
@@ -13,7 +14,7 @@ class ClientRequestEventSubscriber
     {
         $response = $event->response;
 
-        if (!$response->isSuccessful()) {
+        if (!$response->isSuccessful() && ApplicationService::getConfig('core', 'enable_slack_notification', false)) {
             Notification::route('slack', config('services.slack.notifications'))
                 ->notify(new ClientRequestFailedNotification($response));
         }

@@ -13,8 +13,9 @@ class FlickrProcessFactory extends Factory
 
     public function definition()
     {
+        $contact = FlickrContact::findByNsid('94529704@N02') ?? FlickrContact::factory()->create();
         return [
-            'model_id' => FlickrContact::factory()->create()->id,
+            'model_id' => $contact->id,
             'model_type' => FlickrContact::class,
             'step' => FlickrProcess::STEP_PEOPLE_INFO,
             'state_code' => State::STATE_INIT,

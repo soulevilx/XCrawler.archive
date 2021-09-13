@@ -50,7 +50,7 @@ abstract class BaseProcessJob implements ShouldQueue, ShouldBeUnique
 
     public function fail($exception = null)
     {
-        $this->failed();
+        $this->process->setState(State::STATE_FAILED);
     }
 
     abstract public function process(): bool;
@@ -63,10 +63,5 @@ abstract class BaseProcessJob implements ShouldQueue, ShouldBeUnique
     public function completed()
     {
         $this->process->setState(State::STATE_COMPLETED);
-    }
-
-    public function failed()
-    {
-        $this->process->setState(State::STATE_FAILED);
     }
 }

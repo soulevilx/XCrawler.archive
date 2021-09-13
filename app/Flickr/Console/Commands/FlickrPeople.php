@@ -1,24 +1,28 @@
 <?php
 
-namespace App\Flickr\Console\Commands\Processes;
+namespace App\Flickr\Console\Commands;
 
+use App\Flickr\Console\Commands\Traits\HasProcesses;
 use App\Flickr\Jobs\FlickrPeopleInfo;
 use App\Flickr\Jobs\FlickrPeoplePhotos as FlickrPeoplePhotosJob;
 use App\Flickr\Models\FlickrProcess;
+use Illuminate\Console\Command;
 
 /**
  * Step 1
  * - Getting people information
  * - Getting people' photos
  */
-class FlickrPeople extends BaseProcessCommand
+class FlickrPeople extends Command
 {
+    use HasProcesses;
+
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'flickr:process-people {task}';
+    protected $signature = 'flickr:people {task}';
 
     /**
      * The console command description.
