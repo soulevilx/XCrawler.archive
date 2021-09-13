@@ -5,6 +5,7 @@ namespace App\Core\Tests\Unit\Services;
 use App\Core\Client;
 use App\Core\Events\ClientRequested;
 use App\Core\Notifications\ClientRequestFailedNotification;
+use App\Core\Services\ApplicationService;
 use Illuminate\Notifications\AnonymousNotifiable;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
@@ -12,7 +13,6 @@ use Jooservices\XcrawlerClient\Interfaces\ResponseInterface;
 use Jooservices\XcrawlerClient\Response\DomResponse;
 use Jooservices\XcrawlerClient\XCrawlerClient;
 use Tests\TestCase;
-
 
 class ClientTest extends TestCase
 {
@@ -32,8 +32,7 @@ class ClientTest extends TestCase
     {
         Event::fake();
         $this->mocker->shouldReceive('get')
-            ->andReturn($this->getSuccessfulMockedResponse(new DomResponse()))
-        ;
+            ->andReturn($this->getSuccessfulMockedResponse(new DomResponse()));
         app()->instance(XCrawlerClient::class, $this->mocker);
         $client = app(Client::class)->init('test', new DomResponse());
         $client->request($this->faker->slug);
@@ -50,10 +49,11 @@ class ClientTest extends TestCase
     public function testClientServiceRequestFailed()
     {
         $this->mocker->shouldReceive('get')
-            ->andReturn($this->getErrorMockedResponse(new DomResponse()))
-        ;
+            ->andReturn($this->getErrorMockedResponse(new DomResponse()));
         app()->instance(XCrawlerClient::class, $this->mocker);
+
         $client = app(Client::class)->init('test', new DomResponse());
+        ApplicationService::setConfig('core', 'enable_slack_notification', true);
         $client->request($this->faker->slug);
 
         $this->assertDatabaseHas('client_requests', [
@@ -68,10 +68,10 @@ class ClientTest extends TestCase
     public function testClientServiceRequestFailedTriggerNotification()
     {
         $this->mocker->shouldReceive('get')
-            ->andReturn($this->getErrorMockedResponse(new DomResponse()))
-        ;
+            ->andReturn($this->getErrorMockedResponse(new DomResponse()));
         app()->instance(XCrawlerClient::class, $this->mocker);
         $client = app(Client::class)->init('test', new DomResponse());
+        ApplicationService::setConfig('core', 'enable_slack_notification', true);
         $client->request($this->faker->slug);
 
         $this->assertDatabaseHas('client_requests', [
