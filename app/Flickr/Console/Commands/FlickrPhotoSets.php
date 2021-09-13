@@ -1,23 +1,27 @@
 <?php
 
-namespace App\Flickr\Console\Commands\Processes;
+namespace App\Flickr\Console\Commands;
 
+use App\Flickr\Console\Commands\Traits\HasProcesses;
 use App\Flickr\Jobs\FlickrPhotoSets as FlickrPhotoSetsJob;
 use App\Flickr\Jobs\FlickrPhotoSetsPhotos;
 use App\Flickr\Models\FlickrAlbum;
 use App\Flickr\Models\FlickrProcess;
+use Illuminate\Console\Command;
 
 /**
  * Step 2 & 3
  */
-class FlickrPhotoSets extends BaseProcessCommand
+class FlickrPhotoSets extends Command
 {
+    use HasProcesses;
+
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'flickr:process-photosets {task}';
+    protected $signature = 'flickr:photosets {task}';
 
     /**
      * The console command description.

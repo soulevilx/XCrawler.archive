@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Flickr\Console\Commands\Processes;
+namespace App\Flickr\Console\Commands\Traits;
 
 use App\Core\Models\State;
 use App\Flickr\Models\FlickrAlbum;
 use App\Flickr\Models\FlickrContact;
 use App\Flickr\Models\FlickrProcess;
-use Illuminate\Console\Command;
 
-abstract class BaseProcessCommand extends Command
+trait HasProcesses
 {
     protected function getProcessItem(string $step, string $modelType = FlickrContact::class): FlickrProcess
     {
@@ -32,8 +31,8 @@ abstract class BaseProcessCommand extends Command
                 case FlickrProcess::STEP_PHOTOSETS_PHOTOS:
                     foreach (FlickrAlbum::cursor() as $album) {
                         $album->process()->create([
-                           'step' => $step,
-                           'state_code' => State::STATE_INIT,
+                            'step' => $step,
+                            'state_code' => State::STATE_INIT,
                         ]);
                     }
                     break;
@@ -46,5 +45,4 @@ abstract class BaseProcessCommand extends Command
 
         return $process;
     }
-
 }

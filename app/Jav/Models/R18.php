@@ -4,7 +4,6 @@ namespace App\Jav\Models;
 
 use App\Core\Models\BaseModel;
 use App\Core\Models\Traits\HasFactory;
-
 use App\Core\Models\Traits\HasStates;
 use App\Jav\Crawlers\R18Crawler;
 use App\Jav\Models\Interfaces\MovieInterface;
@@ -18,7 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $cover
  * @property string $title
  * @property string $release_date
- * @property int    $runtime
+ * @property int $runtime
  * @property string $director
  * @property string $studio
  * @property string $label
@@ -28,7 +27,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $series
  * @property string $languages
  * @property string $sample
- * @property array  $gallery
+ * @property array $gallery
  */
 class R18 extends BaseModel implements MovieInterface
 {
@@ -107,6 +106,10 @@ class R18 extends BaseModel implements MovieInterface
     {
         $crawler = app(R18Crawler::class);
         $item = $crawler->getItem($this->content_id);
+        // Can't get item
+        if (!$item) {
+            return $this;
+        }
         $item['runtime'] = $item['runtime_minutes'];
         $item['release_date'] = Carbon::createFromFormat('Y-m-d H:m:s', $item['release_date']);
         $item['maker'] = $item['maker']['name'];

@@ -16,7 +16,7 @@ class FlickrPeopleTest extends FlickrTestCase
     {
         Queue::fake();
         $contact = FlickrContact::factory()->create();
-        $this->artisan('flickr:process-people info');
+        $this->artisan('flickr:people info');
 
         Queue::assertPushed(FlickrPeopleInfo::class, function ($job) use ($contact) {
             return $job->process->model->is($contact);
@@ -29,7 +29,7 @@ class FlickrPeopleTest extends FlickrTestCase
         $contact = FlickrContact::factory()->create();
         $contact->process()->delete();
 
-        $this->artisan('flickr:process-people info');
+        $this->artisan('flickr:people info');
 
         $this->assertDatabaseHas('flickr_contact_processes', [
             'step' => FlickrProcess::STEP_PEOPLE_INFO,
@@ -47,7 +47,7 @@ class FlickrPeopleTest extends FlickrTestCase
             'step' => FlickrProcess::STEP_PEOPLE_INFO,
             'state_code' => State::STATE_COMPLETED,
         ]);
-        $this->artisan('flickr:process-people photos');
+        $this->artisan('flickr:people photos');
 
         Queue::assertPushed(FlickrPeoplePhotos::class, function ($job) use ($contactProcess) {
             return $job->process->model->is($contactProcess->model);

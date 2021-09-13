@@ -137,15 +137,10 @@ class FlickrTestCase extends TestCase
             )
             ->andReturn($this->getFixture('photosets.getInfo.json'));
         $this->flickrMocker->shouldReceive('requestJson')
-            ->with(
+            ->withSomeOfArgs(
                 'flickr.photosets.getPhotos',
                 'POST',
-                [
-                    'photoset_id' => 72157719703391487,
-                    'user_id' => '51838687@N07',
-                    'page' => 1,
-                    'per_page' => 500
-                ]
+
             )
             ->andReturn($this->getFixture('photosets.getPhotos.json'));
 

@@ -17,7 +17,7 @@ class FlickrPeoplePhotoSetsTest extends FlickrTestCase
     {
         Queue::fake();
         $contact = FlickrContact::factory()->create();
-        $this->artisan('flickr:process-photosets list');
+        $this->artisan('flickr:photosets list');
 
         Queue::assertPushed(FlickrPhotoSets::class, function ($job) use ($contact) {
             return $job->process->model->is($contact);
@@ -31,7 +31,7 @@ class FlickrPeoplePhotoSetsTest extends FlickrTestCase
         $album = FlickrAlbum::factory()->create([
             'owner' => $contact->nsid,
         ]);
-        $this->artisan('flickr:process-photosets photos');
+        $this->artisan('flickr:photosets photos');
 
         Queue::assertPushed(FlickrPhotoSetsPhotos::class, function ($job) use ($album) {
             return $job->process->model->is($album);
@@ -46,7 +46,7 @@ class FlickrPeoplePhotoSetsTest extends FlickrTestCase
             'owner' => $contact->nsid,
         ]);
         $album->process()->delete();
-        $this->artisan('flickr:process-photosets photos');
+        $this->artisan('flickr:photosets photos');
 
         $this->assertDatabaseHas('flickr_contact_processes', [
             'step' => FlickrProcess::STEP_PHOTOSETS_PHOTOS,
