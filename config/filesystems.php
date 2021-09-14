@@ -55,8 +55,15 @@ return [
 
         'downloads' => [
             'driver' => 'local',
-            'root' => storage_path('storage/downloads'),
+            'root' => storage_path('downloads'),
+        ],
+
+        'migrations' => [
+            'driver' => 'local',
+            'root' => storage_path('app/migrations'),
         ]
+
+
     ],
 
     /*

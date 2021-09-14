@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jav\Console\Commands\Migrations;
+namespace App\Jav\Console\Commands;
 
 use App\Core\Models\State;
 use App\Jav\Models\Movie;
@@ -10,14 +10,14 @@ use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
-class PreviousVersion extends Command
+class Migrations extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'migration:previous-version';
+    protected $signature = 'jav:migration';
 
     /**
      * The console command description.
@@ -37,7 +37,7 @@ class PreviousVersion extends Command
         $this->migrateOnejav();
         $this->migrateR18();
         $this->migrateXCitIdol();
-        //$this->migrateXCityVideos();
+        $this->migrateXCityVideos();
     }
 
     public function migrateMovies()
@@ -473,13 +473,12 @@ class PreviousVersion extends Command
 
     private function loadData(string $fileName): array
     {
-        $filePath = __DIR__ . '/../../../Database/' . $fileName . '.json';
+        $filePath = __DIR__ . '/../../../../storage/app/migrations/' . app()->environment() . '/' . $fileName . '.json';
         if (!file_exists($filePath)) {
             return [];
         }
 
-        $data = file_get_contents($filePath);
-        return json_decode($data, true);
+        return json_decode(file_get_contents($filePath), true);
     }
 
     private function isExists(string $tableName, array $whereConditions): bool
