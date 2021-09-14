@@ -473,7 +473,7 @@ class Migrations extends Command
 
     private function loadData(string $fileName): array
     {
-        $filePath = __DIR__ . '/../../../../storage/app/migrations/' . app()->environment() . '/' . $fileName . '.json';
+        $filePath = __DIR__ . '/../../../../storage/app/migrations/' . $fileName . '.json';
         if (!file_exists($filePath)) {
             return [];
         }
