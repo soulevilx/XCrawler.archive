@@ -322,7 +322,6 @@ class Migrations extends Command
             }
 
             DB::table('onejav')->insert([
-                'id' => $row['id'],
                 'url' => str_replace(Onejav::BASE_URL, '', $row['url']),
                 'cover' => $row['cover'],
                 'dvd_id' => $row['dvd_id'],
@@ -357,7 +356,6 @@ class Migrations extends Command
             }
 
             DB::table('r18')->insert([
-                'id' => $row['id'],
                 'url' => $row['url'],
                 'cover' => $row['cover'],
                 'title' => $row['title'],
@@ -401,7 +399,6 @@ class Migrations extends Command
             }
 
             DB::table('xcity_idols')->insert([
-                'id' => $row['id'],
                 'url' => $row['url'],
                 'name' => $row['name'],
                 'cover' => $row['cover'],
@@ -439,7 +436,6 @@ class Migrations extends Command
             }
 
             DB::table('xcity_videos')->insert([
-                'id' => $row['id'],
                 'url' => 'invalid_' . md5(serialize($row)),
                 'name' => $row['name'],
                 'cover' => $row['cover'],

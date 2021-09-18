@@ -19,6 +19,8 @@ class MovieController extends BaseController
     public function postToWordPress(MovieService $service, WordPressPostService $wordPress, Movie $movie)
     {
         $wordPressPost = $service->createWordPressPost($movie);
-        $wordPress->send($wordPressPost);
+        if ($wordPressPost) {
+            $wordPress->send($wordPressPost);
+        }
     }
 }
