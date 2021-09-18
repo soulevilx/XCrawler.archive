@@ -44,7 +44,7 @@ class XCityIdolCrawlerTest extends JavTestCase
     {
         foreach ([5750, 7794, 12519, 13125, 16821] as $idol) {
             $item = $this->crawler->getItem($idol);
-            $data = json_decode($this->getFixture('XCity/idol_detail_'.$idol.'.json'), true);
+            $data = json_decode($this->getFixture('XCity/idol_detail_' . $idol . '.json'), true);
             if (13125 === $idol) {
                 $this->assertEmpty($item->blood_type);
             }
@@ -54,6 +54,18 @@ class XCityIdolCrawlerTest extends JavTestCase
                 }
                 $this->assertEquals($item->{$key}, $value);
             }
+        }
+    }
+
+    public function testGetItemWithNoHeight()
+    {
+        foreach ([14387, 11924] as $idol) {
+            $item = $this->crawler->getItem($idol);
+            $this->assertNull($item->height);
+            $this->assertNull($item->blood_type);
+            $this->assertNull($item->city_of_born);
+            $this->assertNull($item->special_skill);
+            $this->assertNull($item->other);
         }
     }
 

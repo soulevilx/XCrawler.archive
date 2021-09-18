@@ -114,14 +114,27 @@ class XCityIdolCrawler
 
                     case 'blood_type':
                         $value = trim(str_replace(['Type', '-', '_'], ['', '', '', ''], $value));
+                        $value = empty($value) ? null : $value;
+
+                        break;
+                    case 'city_of_born':
+                    case 'special_skill':
+                    case 'other':
+                        $value = trim($value);
+                        $value = empty($value) ? null : $value;
 
                         break;
 
                     case 'height':
-                        $value = str_replace(['cm'], [''], $value);
-                        $item->{$label} = (int) $value;
+                        $value = trim($value);
+                        if (!empty($value)) {
+                            $value = str_replace(['cm'], [''], $value);
+                            $item->{$label} = (int) $value;
+                        } else {
+                            $item->{$label} = null;
+                        }
 
-                        break;
+                        return;
 
                     case 'size':
                         $sizes = explode(' ', $value);
