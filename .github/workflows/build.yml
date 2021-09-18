@@ -2,12 +2,12 @@ name: XCrawler - Build & Tests
 
 on:
   pull_request:
-    branches: [ develop, master ]
+    branches: [ develop ]
 
 jobs:
   build:
     # Test on Workstation
-    runs-on: [ X64 ]
+    runs-on: [ Workstation ]
     services:
       mysql:
         image: mysql:8.0.26
@@ -57,7 +57,6 @@ jobs:
         if: success()
         run: |
           composer test-coverage
-
 
       - name: Coverage
         uses: actions/upload-artifact@v2

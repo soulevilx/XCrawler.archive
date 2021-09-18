@@ -1,0 +1,1442 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<!--mfunc-->
+<!--/mfunc-->
+<!--mfunc-->
+<!--/mfunc-->
+
+<head>
+    <meta charset="UTF-8"><script type="text/javascript">(window.NREUM||(NREUM={})).loader_config={licenseKey:"6b48335931",applicationID:"223540187"};window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){var i=e[n]={exports:{}};t[n][0].call(i.exports,function(e){var i=t[n][1][e];return r(i||e)},i,i.exports)}return e[n].exports}if("function"==typeof __nr_require)return __nr_require;for(var i=0;i<n.length;i++)r(n[i]);return r}({1:[function(t,e,n){function r(){}function i(t,e,n){return function(){return o(t,[u.now()].concat(f(arguments)),e?null:this,n),e?void 0:this}}var o=t("handle"),a=t(8),f=t(9),c=t("ee").get("tracer"),u=t("loader"),s=NREUM;"undefined"==typeof window.newrelic&&(newrelic=s);var d=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],p="api-",l=p+"ixn-";a(d,function(t,e){s[e]=i(p+e,!0,"api")}),s.addPageAction=i(p+"addPageAction",!0),s.setCurrentRouteName=i(p+"routeName",!0),e.exports=newrelic,s.interaction=function(){return(new r).get()};var m=r.prototype={createTracer:function(t,e){var n={},r=this,i="function"==typeof e;return o(l+"tracer",[u.now(),t,n],r),function(){if(c.emit((i?"":"no-")+"fn-start",[u.now(),r,i],n),i)try{return e.apply(this,arguments)}catch(t){throw c.emit("fn-err",[arguments,this,t],n),t}finally{c.emit("fn-end",[u.now()],n)}}}};a("actionText,setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(t,e){m[e]=i(l+e)}),newrelic.noticeError=function(t,e){"string"==typeof t&&(t=new Error(t)),o("err",[t,u.now(),!1,e])}},{}],2:[function(t,e,n){function r(t){if(NREUM.init){for(var e=NREUM.init,n=t.split("."),r=0;r<n.length-1;r++)if(e=e[n[r]],"object"!=typeof e)return;return e=e[n[n.length-1]]}}e.exports={getConfiguration:r}},{}],3:[function(t,e,n){function r(){return f.exists&&performance.now?Math.round(performance.now()):(o=Math.max((new Date).getTime(),o))-a}function i(){return o}var o=(new Date).getTime(),a=o,f=t(10);e.exports=r,e.exports.offset=a,e.exports.getLastTimestamp=i},{}],4:[function(t,e,n){function r(t){return!(!t||!t.protocol||"file:"===t.protocol)}e.exports=r},{}],5:[function(t,e,n){function r(t,e){var n=t.getEntries();n.forEach(function(t){"first-paint"===t.name?d("timing",["fp",Math.floor(t.startTime)]):"first-contentful-paint"===t.name&&d("timing",["fcp",Math.floor(t.startTime)])})}function i(t,e){var n=t.getEntries();n.length>0&&d("lcp",[n[n.length-1]])}function o(t){t.getEntries().forEach(function(t){t.hadRecentInput||d("cls",[t])})}function a(t){if(t instanceof m&&!g){var e=Math.round(t.timeStamp),n={type:t.type};e<=p.now()?n.fid=p.now()-e:e>p.offset&&e<=Date.now()?(e-=p.offset,n.fid=p.now()-e):e=p.now(),g=!0,d("timing",["fi",e,n])}}function f(t){"hidden"===t&&d("pageHide",[p.now()])}if(!("init"in NREUM&&"page_view_timing"in NREUM.init&&"enabled"in NREUM.init.page_view_timing&&NREUM.init.page_view_timing.enabled===!1)){var c,u,s,d=t("handle"),p=t("loader"),l=t(7),m=NREUM.o.EV;if("PerformanceObserver"in window&&"function"==typeof window.PerformanceObserver){c=new PerformanceObserver(r);try{c.observe({entryTypes:["paint"]})}catch(v){}u=new PerformanceObserver(i);try{u.observe({entryTypes:["largest-contentful-paint"]})}catch(v){}s=new PerformanceObserver(o);try{s.observe({type:"layout-shift",buffered:!0})}catch(v){}}if("addEventListener"in document){var g=!1,h=["click","keydown","mousedown","pointerdown","touchstart"];h.forEach(function(t){document.addEventListener(t,a,!1)})}l(f)}},{}],6:[function(t,e,n){function r(t,e){if(!i)return!1;if(t!==i)return!1;if(!e)return!0;if(!o)return!1;for(var n=o.split("."),r=e.split("."),a=0;a<r.length;a++)if(r[a]!==n[a])return!1;return!0}var i=null,o=null,a=/Version\/(\S+)\s+Safari/;if(navigator.userAgent){var f=navigator.userAgent,c=f.match(a);c&&f.indexOf("Chrome")===-1&&f.indexOf("Chromium")===-1&&(i="Safari",o=c[1])}e.exports={agent:i,version:o,match:r}},{}],7:[function(t,e,n){function r(t){function e(){t(a&&document[a]?document[a]:document[i]?"hidden":"visible")}"addEventListener"in document&&o&&document.addEventListener(o,e,!1)}e.exports=r;var i,o,a;"undefined"!=typeof document.hidden?(i="hidden",o="visibilitychange",a="visibilityState"):"undefined"!=typeof document.msHidden?(i="msHidden",o="msvisibilitychange"):"undefined"!=typeof document.webkitHidden&&(i="webkitHidden",o="webkitvisibilitychange",a="webkitVisibilityState")},{}],8:[function(t,e,n){function r(t,e){var n=[],r="",o=0;for(r in t)i.call(t,r)&&(n[o]=e(r,t[r]),o+=1);return n}var i=Object.prototype.hasOwnProperty;e.exports=r},{}],9:[function(t,e,n){function r(t,e,n){e||(e=0),"undefined"==typeof n&&(n=t?t.length:0);for(var r=-1,i=n-e||0,o=Array(i<0?0:i);++r<i;)o[r]=t[e+r];return o}e.exports=r},{}],10:[function(t,e,n){e.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],ee:[function(t,e,n){function r(){}function i(t){function e(t){return t&&t instanceof r?t:t?u(t,c,a):a()}function n(n,r,i,o,a){if(a!==!1&&(a=!0),!l.aborted||o){t&&a&&t(n,r,i);for(var f=e(i),c=v(n),u=c.length,s=0;s<u;s++)c[s].apply(f,r);var p=d[w[n]];return p&&p.push([b,n,r,f]),f}}function o(t,e){y[t]=v(t).concat(e)}function m(t,e){var n=y[t];if(n)for(var r=0;r<n.length;r++)n[r]===e&&n.splice(r,1)}function v(t){return y[t]||[]}function g(t){return p[t]=p[t]||i(n)}function h(t,e){l.aborted||s(t,function(t,n){e=e||"feature",w[n]=e,e in d||(d[e]=[])})}var y={},w={},b={on:o,addEventListener:o,removeEventListener:m,emit:n,get:g,listeners:v,context:e,buffer:h,abort:f,aborted:!1};return b}function o(t){return u(t,c,a)}function a(){return new r}function f(){(d.api||d.feature)&&(l.aborted=!0,d=l.backlog={})}var c="nr@context",u=t("gos"),s=t(8),d={},p={},l=e.exports=i();e.exports.getOrSetContext=o,l.backlog=d},{}],gos:[function(t,e,n){function r(t,e,n){if(i.call(t,e))return t[e];var r=n();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(t,e,{value:r,writable:!0,enumerable:!1}),r}catch(o){}return t[e]=r,r}var i=Object.prototype.hasOwnProperty;e.exports=r},{}],handle:[function(t,e,n){function r(t,e,n,r){i.buffer([t],r),i.emit(t,e,n)}var i=t("ee").get("handle");e.exports=r,r.ee=i},{}],id:[function(t,e,n){function r(t){var e=typeof t;return!t||"object"!==e&&"function"!==e?-1:t===window?0:a(t,o,function(){return i++})}var i=1,o="nr@id",a=t("gos");e.exports=r},{}],loader:[function(t,e,n){function r(){if(!R++){var t=M.info=NREUM.info,e=v.getElementsByTagName("script")[0];if(setTimeout(u.abort,3e4),!(t&&t.licenseKey&&t.applicationID&&e))return u.abort();c(E,function(e,n){t[e]||(t[e]=n)});var n=a();f("mark",["onload",n+M.offset],null,"api"),f("timing",["load",n]);var r=v.createElement("script");0===t.agent.indexOf("http://")||0===t.agent.indexOf("https://")?r.src=t.agent:r.src=l+"://"+t.agent,e.parentNode.insertBefore(r,e)}}function i(){"complete"===v.readyState&&o()}function o(){f("mark",["domContent",a()+M.offset],null,"api")}var a=t(3),f=t("handle"),c=t(8),u=t("ee"),s=t(6),d=t(4),p=t(2),l=p.getConfiguration("ssl")===!1?"http":"https",m=window,v=m.document,g="addEventListener",h="attachEvent",y=m.XMLHttpRequest,w=y&&y.prototype,b=!d(m.location);NREUM.o={ST:setTimeout,SI:m.setImmediate,CT:clearTimeout,XHR:y,REQ:m.Request,EV:m.Event,PR:m.Promise,MO:m.MutationObserver};var x=""+location,E={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1210.min.js"},O=y&&w&&w[g]&&!/CriOS/.test(navigator.userAgent),M=e.exports={offset:a.getLastTimestamp(),now:a,origin:x,features:{},xhrWrappable:O,userAgent:s,disabled:b};if(!b){t(1),t(5),v[g]?(v[g]("DOMContentLoaded",o,!1),m[g]("load",r,!1)):(v[h]("onreadystatechange",i),m[h]("onload",r)),f("mark",["firstbyte",a.getLastTimestamp()],null,"api");var R=0}},{}],"wrap-function":[function(t,e,n){function r(t,e){function n(e,n,r,c,u){function nrWrapper(){var o,a,s,p;try{a=this,o=d(arguments),s="function"==typeof r?r(o,a):r||{}}catch(l){i([l,"",[o,a,c],s],t)}f(n+"start",[o,a,c],s,u);try{return p=e.apply(a,o)}catch(m){throw f(n+"err",[o,a,m],s,u),m}finally{f(n+"end",[o,a,p],s,u)}}return a(e)?e:(n||(n=""),nrWrapper[p]=e,o(e,nrWrapper,t),nrWrapper)}function r(t,e,r,i,o){r||(r="");var f,c,u,s="-"===r.charAt(0);for(u=0;u<e.length;u++)c=e[u],f=t[c],a(f)||(t[c]=n(f,s?c+r:r,i,c,o))}function f(n,r,o,a){if(!m||e){var f=m;m=!0;try{t.emit(n,r,o,e,a)}catch(c){i([c,n,r,o],t)}m=f}}return t||(t=s),n.inPlace=r,n.flag=p,n}function i(t,e){e||(e=s);try{e.emit("internal-error",t)}catch(n){}}function o(t,e,n){if(Object.defineProperty&&Object.keys)try{var r=Object.keys(t);return r.forEach(function(n){Object.defineProperty(e,n,{get:function(){return t[n]},set:function(e){return t[n]=e,e}})}),e}catch(o){i([o],n)}for(var a in t)l.call(t,a)&&(e[a]=t[a]);return e}function a(t){return!(t&&t instanceof Function&&t.apply&&!t[p])}function f(t,e){var n=e(t);return n[p]=t,o(t,n,s),n}function c(t,e,n){var r=t[e];t[e]=f(r,n)}function u(){for(var t=arguments.length,e=new Array(t),n=0;n<t;++n)e[n]=arguments[n];return e}var s=t("ee"),d=t(9),p="nr@original",l=Object.prototype.hasOwnProperty,m=!1;e.exports=r,e.exports.wrapFunction=f,e.exports.wrapInPlace=c,e.exports.argsToArray=u},{}]},{},["loader"]);</script>
+    <meta name="viewport" content="width=1150">
+
+    <meta name="robots" content="index,follow">
+    <meta name="msvalidate.01" content="E0B78919FCA9C3A3984D41F14374ABA2">
+
+    <title>Yuna Ogura | Adult Video &quot;Hot Japanese JAV Online XCITY&quot;</title>
+
+
+
+    <link rel="stylesheet" href="https://xxx.xcity.jp/wp-content/themes/xcity-ja/style.css?ver=1596595777" media="screen,tv">
+    <link rel="stylesheet" href="/css_en/jquery.ui.autocomplete.min.css" media="screen,tv">
+    <link rel="pingback" href="https://xxx.xcity.jp/xmlrpc.php">
+    <link rel="icon" type="image/x-icon" href="//faws.xcity.jp/image/parts/favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="//faws.xcity.jp/image/parts/favicon/apple-touch-icon-180x180.png">
+    <meta name="msapplication-TileColor" content="#b91d47">
+    <meta name="msapplication-TileImage" content="//faws.xcity.jp/image/parts/favicon/mstile-144x144.png">
+    <meta name="msapplication-config" content="//faws.xcity.jp/image/parts/favicon/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="manifest" href="/manifest.json">
+
+
+    <link rel='dns-prefetch' href='//xaws.xcity.jp' />
+    <link rel='dns-prefetch' href='//s.w.org' />
+    <link rel="stylesheet" href="https://xaws.xcity.jp/wp-content/themes/xcity-ja/lightbox2/css/lightbox.min.css?ver=1484277779" media="screen,tv">
+    <link rel="stylesheet" href="https://xaws.xcity.jp/wp-content/themes/xcity-ja/facet.css?ver=1582007998" media="screen,tv">
+    <link rel="stylesheet" href="https://xaws.xcity.jp/wp-content/themes/xcity-ja/idol.css?ver=1427858291" media="screen,tv">
+    <script type='text/javascript' src='https://xaws.xcity.jp/wp-content/themes/xcity-ja/js/jquery-1.12.4.min.js?ver=4.9.13'></script>
+    <script type='text/javascript' src='https://xaws.xcity.jp/wp-content/themes/xcity-ja/lightbox2/js/lightbox.min.js?ver=2.9.0'></script>
+    <script type='text/javascript' src='https://xaws.xcity.jp/wp-content/themes/xcity-ja/js/lodash.min.js?ver=4.9.13'></script>
+    <script type='text/javascript' src='https://xaws.xcity.jp/wp-content/themes/xcity-ja/js/facet.js?ver=1.2'></script>
+    <script type='text/javascript' src='https://xxx.xcity.jp/wp-content/plugins/xcity-rest/xcity-rest.js?ver=4.9.13'></script>
+    <script type='text/javascript' src='https://xxx.xcity.jp/js_en/jquery.ui.autocomplete.min.js?ver=4.9.13'></script>
+    <link rel='https://api.w.org/' href='https://xxx.xcity.jp/wp-json/' />
+    <link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://xxx.xcity.jp/xmlrpc.php?rsd" />
+    <link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://xxx.xcity.jp/wp-includes/wlwmanifest.xml" />
+    <meta name="generator" content="WordPress 4.9.13" />
+    <link rel='shortlink' href='https://xxx.xcity.jp/?p=23' />
+    <link rel="alternate" type="application/json+oembed" href="https://xxx.xcity.jp/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fxxx.xcity.jp%2Fidol%2Fdetail%2F" />
+    <link rel="alternate" type="text/xml+oembed" href="https://xxx.xcity.jp/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fxxx.xcity.jp%2Fidol%2Fdetail%2F&#038;format=xml" />
+    <link rel='canonical' href='https://xxx.xcity.jp/idol/detail/13125/'>
+    <script>
+        function getDomain(){
+            var nowUrl = location.href;
+            var arr_uri = nowUrl.match(/^(.*?:\/\/)(.*?)([a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,6})[\:[0-9]*]?([\/].*?)?$/i);
+            return arr_uri[3];
+        }
+
+        //<!--mfunc-->
+
+        var dataLayer = dataLayer || [];
+        dataLayer.push({
+            'dimension1': 'false',
+            'dimension3': 'none'
+        });//<!--/mfunc-->
+
+        $(function() {
+            $loginEle = $('#login');
+            if($loginEle.hasClass('paidMember')) {
+                $('.visible-paidMember').show();
+            } else if($loginEle.hasClass('freeMember')) {
+                $('.visible-freeMember').show();
+            } else {
+                $('.visible-nonMember').show();
+            }
+
+            $('#search_word_autocomplete').autocomplete({
+                source: function(req,resp){
+                    $.ajax({
+                        url: "https://regist.xcity.jp/english/if/get_suggest.php",
+                        type: "GET",
+                        cache: false,
+                        data: {"q": req.term},
+                        success: function(response){
+                            if(response.status == 1){
+                                resp(response.res);
+                            }
+                        },
+                        dataType: 'json'
+                    });
+                },
+                minLength: 2
+            });
+        });
+
+        $(window).load(function(){
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register("/serviceWorker.js")
+                    .then(function(registration) {
+                        console.log("serviceWorker registed.");
+                    }).catch(function(error) {
+                    console.warn("serviceWorker error.", error);
+                });
+            }
+        });
+    </script>
+
+
+</head>
+
+<!--mfunc-->
+<body class="page-template page-template-template-idol-detail page-template-template-idol-detail-php page page-id-23 page-child parent-pageid-7" ><!--/mfunc-->
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-WDSKPF"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WDSKPF');</script>
+<!-- End Google Tag Manager -->
+
+<div id="container">
+    <div id="wrapper">
+        <div id="header">
+            <!--↓↓↓上部divタグよりヘッダ区画↓↓↓ -->
+            <div id="headerTop">
+                <div id="banner">
+                    <a href="/enta/">
+                        <img src="//faws.xcity.jp/image/parts/main/en/entrance_enta.jpg" srcset="//faws.xcity.jp/image/parts/main/en/entrance_enta.webp 1x" alt="グラドル動画も見放題！XCITYエンタ入り口 Main Menu">
+                    </a>
+                </div>
+
+
+                <div id="mainlogo">
+                    <a href="/main/">
+                        <img src="//faws.xcity.jp/image/parts/logo/xcity_ktkn.svg" alt="XCITY Main Menu">
+                    </a><div>
+                    Adult Video &quot;Hot Japanese JAV Online XCITY&quot;</div>
+                </div>
+                <!-- ここからログイン区画 -->
+                <!--mfunc-->
+
+
+                <div id="login" class="">
+                    <p>
+                        Welcome <strong>Guest</strong>
+                    </p>
+                    <ul>
+                        <li>
+                            <a href="https://regist.xcity.jp/english/member/login.php?redirect_to=https%3A%2F%2Fxxx.xcity.jp%2Fidol%2Fdetail%2F13125%2F">
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/btn_login.gif" alt="Log In">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://regist.xcity.jp/english/member/free/regist_top.php">
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/btn_beginner.gif" alt="Free Membership Registration">
+                            </a>
+                        </li>
+                        <li class="help">
+                            <a href="/help/">Help</a>
+                        </li>
+                    </ul>
+                </div><!--/mfunc-->
+                <!-- ここまでログイン区画 -->
+            </div>
+            <div id="headerMid">
+                <!--↓上部divタグよりメインメニュー区画↓ -->
+                <ul id="menu" >
+                    <li class="page_item page-item-home "><a href="/main/" class="">Main Menu</a></li>
+                    <!--mfunc-->
+                    <li class="page_item page-item-3"><a href="https://xxx.xcity.jp/avod/list/">AV OnDemand®</a></li>
+                    <li class="page_item page-item-16000"><a href="https://xxx.xcity.jp/amateur/">Amateur OnDemand</a></li>
+                    <li class="page_item page-item-7  current_page_ancestor current_page_parent "><a href="https://xxx.xcity.jp/idol/">JAV Idol Listing</a></li>
+                    <li class="page_item page-item-272"><a href="https://xxx.xcity.jp/gravure/">Gravure</a></li>
+                    <li class="page_item page-item-13610"><a href="https://xxx.xcity.jp/anime/">HENTAI Anime</a></li>
+                    <li class="page_item page-item-19108"><a href="https://xxx.xcity.jp/vr/">VR OnDemand</a></li>
+                    <!--/mfunc-->
+                </ul>
+                <!--↑下部divタグまでメインメニュー区画↑ -->
+            </div>
+            <div id="headerBtm">
+                <!--↓上部divタグより検索および文字の大きさ選択区画↓ -->
+                <p>
+                    Database of JAV actress [JAV idol directory book]. It is the database of the industry&#039;s oldest JAV actress accumulated from the beginning of 1996.											</p>
+
+                <div id="headerItem">
+
+                    <div id="src">
+                        <form method="get" id="search" name="searchform" action="/idol/">
+                            <select id="genre" name="genre" onchange="this.form.action=this.form.genre.value;">
+                                <option value='/result_published/' >All distribution Items</option><option value='/avod/result/' >AV OnDemand</option><option value='/amateur/list/' >Amateur OnDemand</option><option value='/idol/' selected="selected">JAV Idol Listing</option><option value='/gravure/webphoto/' >Gravure Pictures</option><option value='/anime/list/' >HENTAI Anime</option><option value='/vr/list/' >VR OnDemand</option><option value='/result/' >Includes non-dist Items</option></select>
+                            <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/komoku_src.png"
+                                 alt="Search">
+                            <input id="search_word_autocomplete" type="text" class="search_input" value="Site Search" name="q"
+                                   onfocus="if (this.value == 'Site Search') {this.value = '';}"
+                                   onblur="if (this.value == '') {this.value = 'Site Search';}">
+                            <input type="hidden" name="sg" value="idol">
+                            <button class="button" onsubmit='return false;'></button>
+                        </form>
+                    </div>
+                    <div id="google_translate_element"></div><script type="text/javascript">
+                    function googleTranslateElementInit() {
+                        new google.translate.TranslateElement({pageLanguage: 'ja', includedLanguages: 'en,es,th,vi,zh-TW', layout: google.translate.TranslateElement.FloatPosition.TOP_LEFT, autoDisplay: false}, 'google_translate_element');
+                    }
+                </script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+                    <!--↑下部divタグまで検索および文字の大きさ選択区画↑ -->
+                </div>
+                <!--↑↑↑下部divタグ検索＆文字の大きさ選択区画↑↑↑ -->
+            </div>
+            <!--↑↑↑下部divタグまでヘッダ区画↑↑↑ -->
+        </div>
+
+        <div id="contents">
+            <!--↓↓↓上部divタグよりコンテンツ区画↓↓↓ -->
+            <div class='go-sp-banner' style='display:none'>
+                <a href="#" onclick="var date1 = new Date();date1.setTime(0);document.cookie='notsp=0;domain=.'+getDomain()+';path=/;expires='+date1.toGMTString(); location.href='/main/';return false;"><img src="//faws.xcity.jp/image/parts/en/go_sp.jpg" srcset="//faws.xcity.jp/image/parts/en/go_sp.webp" 1x></a>
+            </div>
+
+            <!-- ここからパンくずリスト -->
+            <ol id="topicpath" vocab="http://schema.org/" typeof="BreadcrumbList"><li property="itemListElement" typeof="ListItem"><a property="item" typeof="WebPage" title="main" href="/"><span property="name">main</span></a><meta property="position" content="1"></li><li property="itemListElement" typeof="ListItem"><a property="item" typeof="WebPage" title="JAV Idol Listing" href="https://xxx.xcity.jp/idol/"><span property="name">JAV Idol Listing</span></a><meta property="position" content="2"></li><li property="itemListElement" typeof="ListItem"><a property="item" typeof="WebPage" title="O" href="/idol/?kana=あ&ini=お"><span property="name">O</span></a><meta property="position" content="3"></li><li property="itemListElement" typeof="ListItem"><span property="name">Yuna Ogura</span><meta property="position" content="4"></li></ol>				<div id="main">
+            <div id="leftCol">
+
+                <!--mfunc-->
+                <!--mfunc xcity_active_member_tag_func('','&lt;p class=&quot;bannerYahoo&quot;&gt;&lt;a href=&quot;https://regist.xcity.jp/english/member/settlement/select_payment_method.php&quot; title=&quot;XCITY Membership&quot;&gt;&lt;img src=&quot;//faws.xcity.jp/image/parts/en/left_member_banner.jpg&quot; alt=&quot;XCITY Membership&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://regist.xcity.jp/english/member/settlement/select_payment_method.php&quot; title=&quot;XCITY Membership&quot; class=&quot;wallet_regist&quot;&gt;&lt;img src=&quot;/wp-content/uploads/2017/03/left_member_l_off.jpg&quot; alt=&quot;XCITY Membership&quot; onMouseOver=&quot;this.src=&amp;#039;/wp-content/uploads/2017/03/left_member_l_on.jpg&amp;#039;&quot; onMouseOut=&quot;this.src=&amp;#039;/wp-content/uploads/2017/03/left_member_l_off.jpg&amp;#039;&quot;&gt;&lt;/a&gt;&lt;/p&gt;')--><p class="bannerYahoo"><a href="https://regist.xcity.jp/english/member/settlement/select_payment_method.php" title="XCITY Membership"><img src="//faws.xcity.jp/image/parts/en/left_member_banner.jpg" alt="XCITY Membership"></a><a href="https://regist.xcity.jp/english/member/settlement/select_payment_method.php" title="XCITY Membership" class="wallet_regist"><img src="/wp-content/uploads/2017/03/left_member_l_off.jpg" alt="XCITY Membership" onMouseOver="this.src=&#039;/wp-content/uploads/2017/03/left_member_l_on.jpg&#039;" onMouseOut="this.src=&#039;/wp-content/uploads/2017/03/left_member_l_off.jpg&#039;"></a></p><!--/mfunc--><!--/mfunc-->
+                <div id="facet">
+                    <p class="facet-type">Refine by Genre</p>
+                    <ul class="facet-list facet-genre" data-type="genre_id"></ul>
+
+
+                    <p class="facet-type">Refine by Maker</p>
+                    <ul class="facet-list facet-maker" data-type="maker_id"></ul>
+
+                    <p class="facet-type">Refine by Series</p>
+                    <ul class="facet-list facet-series" data-type="series_id"></ul>
+                </div>
+            </div>										<div id="centerCol">
+            <div id="itemCol">
+                <ul id="navi">
+                    <li>
+                        <a href="/idol/" class="present">AV Idol Listing</a>
+                    </li>
+                    <li>
+                        <a href="/idol/newface/">Information about new AV idols</a>
+                    </li>
+                </ul>
+
+                <div id="avidolDetails">
+                    <div class="itemBox">
+                        <h1>Yuna Ogura</h1>
+
+
+                        <div id="bookmarkIdol">
+                            <!--mfunc-->
+                            <a href="https://regist.xcity.jp/english/member/login.php?redirect_to=https%3A%2F%2Fxxx.xcity.jp%2Fidol%2Fdetail%2F13125%2F"><img alt="Add to My Favorite" src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/btn_bookmark.gif"></a><!--/mfunc-->
+                        </div>
+
+                        <div class="frame">
+                            <div class="photo">
+                                <p class="tn">
+                                    <img src="//faws.xcity.jp/actress/large/image/person/thumb_1623901893.jpg" alt="Yuna Ogura" class="actressThumb">
+                                </p>
+                            </div>
+
+                            <dl class="profile">
+                                <dt>Profile</dt>
+                                <dd class="favorite">
+                                    <span class="koumoku">★Favorite</span>
+                                    <span class="favorite-count">576</span>
+                                </dd>
+                                <dd><span class="koumoku">Date of birth</span>1998 Nov 05</dd>
+                                <dd><span class="koumoku">Blood Type</span>- Type</dd>
+                                <dd><span class="koumoku">City of Born</span>Yokohama</dd>
+                                <dd><span class="koumoku">Height</span>155cm</dd>
+                                <dd><span class="koumoku">Size</span>B83(D) W58 H85</dd>
+                                <dd><span class="koumoku">Hobby</span>ドライブ,映画鑑賞,旅行,写真</dd>
+                                <dd><span class="koumoku">Special Skill</span>韓国料理</dd>
+                                <dd><span class="koumoku">Other</span>韓国語によるYOUTUBEチャンネルも持つ</dd>
+                            </dl>
+                        </div>
+
+                        <div class="btm"></div>
+                    </div>
+                </div>
+
+
+
+                <div class="ctrlPanelNone">
+                    <h4>Sort</h4>
+                    <ul class="itemStatus">
+                        <li><a href="/idol/detail/13125/?order=gravure">Gravure</a></li>
+
+                        <li class="shikiri"><a href="/idol/detail/13125/?order=action">Action Pics</a></li>
+
+                        <li class="shikiri"><a href="/idol/detail/13125/?order=sample">Sample Movie</a></li>
+
+                        <li class="shikiri">AV OnDemand&reg;</li>
+                    </ul>
+
+                    <ul class="order">
+                        <li><a href="/idol/detail/13125/?order=release">By Release Date</a></li>
+
+                        <li class="shikiri"><a href="/idol/detail/13125/?order=title">By Title</a></li>
+                    </ul>
+                </div>
+
+                <ul class="pageScrl">
+                    <!--↓上部ulタグよりページ遷移リンク区画↓ -->
+                    <li class="prev"></li>
+                    <li><span class="rest-page-current">1</span></li><li><a class="rest-page-item" href="/idol/detail/13125/?page=2" title="2ページ">2</a></li><li><a class="rest-page-item" href="/idol/detail/13125/?page=3" title="3ページ">3</a></li>
+                    <li class="next"><a class="rest-page-item" href="/idol/detail/13125/?page=2" title="2ページ">next</a></li>
+                    <!--↑下部ulタグまでページ遷移リンク区画↑ -->
+                </ul>
+                <div id="item">
+
+
+
+
+
+                    <div class="x-itemBox">
+
+                        <div class="x-itemBox-package">
+                            <a href="/avod/detail/?id=159370" title="Molestation Lovers Approved, Obscene Acts In Car That Really Jerking Off! 8 SODstars Got Climax Forcefully In Behind Closed Door That Can&#039;t Make Sound, &#039;No, But So Good!&#039;, Aroused So Much For 4 Hours!">
+                                <img src="//faws.xcity.jp/package/small/image/maker/sod/sshn018/f_1627459510_1.jpg" alt="Molestation Lovers Approved, Obscene Acts In Car That Really Jerking Off! 8 SODstars Got Climax Forcefully In Behind Closed Door That Can&#039;t Make Sound, &#039;No, But So Good!&#039;, Aroused So Much For 4 Hours!" class="packageThumb">
+                                <span class="badgeDistribution badgeDistribution-new">NEW</span>
+                            </a>
+                        </div>
+
+                        <p class="x-itemBox-title">
+                            <a href="/avod/detail/?id=159370" title="Molestation Lovers Approved, Obscene Acts In Car That Really Jerking Off! 8 SODstars Got Climax Forcefully In Behind Closed Door That Can&#039;t Make Sound, &#039;No, But So Good!&#039;, Aroused So Much For 4 Hours!">
+                                Molestation Lovers Approved, Obscene Acts In Car That Really Je...
+                            </a>
+                        </p>
+
+                        <p class="x-itemBox-credit">
+                            <a href='/idol/detail/8636/'>Makoto Toda</a>/<a href='/idol/detail/14490/'>Mahiro Tad...</a>	</p>
+
+                        <p class="x-itemBox-maker">
+                            <a href="/avod/maker/sod/?style=simple" title="Soft On Demand">
+                                Soft On Demand
+                            </a>
+                        </p>
+
+                        <ul class="x-itemBox-availableList">
+                            <li>
+                                <a href="//faws.xcity.jp/package-b/large/image/maker/sod/sshn018/b_1627459513_1.jpg" rel="lightbox159370" title="Molestation Lovers Approved, Obscene Acts In Car That Really Jerking Off! 8 SODstars Got Climax Forcefully In Behind Closed Door That Can&#039;t Make Sound, &#039;No, But So Good!&#039;, Aroused So Much For 4 Hours!">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/pack.png" alt="ZOOM">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=159370#avondemand" title="AV OnDemand">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_avod_on.jpg" alt="AV OnDemand On action">
+                                </a>
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_gravure_off.jpg" alt="Gravure Not on action">
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_photo_off.jpg" alt="Action Pics Not on action">
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=159370" title="Free Sample Movie">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_mov_on.jpg" alt="Free Sample Movie On action">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+
+
+
+                    <div class="x-itemBox">
+
+                        <div class="x-itemBox-package">
+                            <a href="/avod/detail/?id=161630" title="Filled Her Sexual Desire When Got Horny, Saying Lewd Words, Cream Pie Delusion Sucking Dildo Slut Woman">
+                                <img src="//faws.xcity.jp/package/small/image/maker/sod/sdhs017/f_1627454173_1.jpg" alt="Filled Her Sexual Desire When Got Horny, Saying Lewd Words, Cream Pie Delusion Sucking Dildo Slut Woman" class="packageThumb">
+                                <span class="badgeDistribution badgeDistribution-new">NEW</span>
+                            </a>
+                        </div>
+
+                        <p class="x-itemBox-title">
+                            <a href="/avod/detail/?id=161630" title="Filled Her Sexual Desire When Got Horny, Saying Lewd Words, Cream Pie Delusion Sucking Dildo Slut Woman">
+                                Filled Her Sexual Desire When Got Horny, Saying Lewd Words, Cre...
+                            </a>
+                        </p>
+
+                        <p class="x-itemBox-credit">
+                            <a href='/idol/detail/5750/'>Iori Kogawa</a>/<a href='/idol/detail/13125/'>Yuna Ogura</a>	</p>
+
+                        <p class="x-itemBox-maker">
+                            <a href="/avod/maker/sod/?style=simple" title="Soft On Demand">
+                                Soft On Demand
+                            </a>
+                        </p>
+
+                        <ul class="x-itemBox-availableList">
+                            <li>
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=161630#avondemand" title="AV OnDemand">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_avod_on.jpg" alt="AV OnDemand On action">
+                                </a>
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_gravure_off.jpg" alt="Gravure Not on action">
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_photo_off.jpg" alt="Action Pics Not on action">
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=161630" title="Free Sample Movie">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_mov_on.jpg" alt="Free Sample Movie On action">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+
+
+
+                    <div class="x-itemBox">
+
+                        <div class="x-itemBox-package">
+                            <a href="/avod/detail/?id=159380" title="Galaxy 3 Stars Harem, Reverse 4some Induce To Ultimate Ejaculation Special">
+                                <img src="//faws.xcity.jp/package/small/image/maker/sod/stars307/f_1627454532_1.jpg" alt="Galaxy 3 Stars Harem, Reverse 4some Induce To Ultimate Ejaculation Special" class="packageThumb">
+                            </a>
+                        </div>
+
+                        <p class="x-itemBox-title">
+                            <a href="/avod/detail/?id=159380" title="Galaxy 3 Stars Harem, Reverse 4some Induce To Ultimate Ejaculation Special">
+                                Galaxy 3 Stars Harem, Reverse 4some Induce To Ultimate Ejaculat...
+                            </a>
+                        </p>
+
+                        <p class="x-itemBox-credit">
+                            <a href='/idol/detail/5215/'>Mana Sakura</a>/<a href='/idol/detail/14490/'>Mahiro Tad...</a>	</p>
+
+                        <p class="x-itemBox-maker">
+                            <a href="/avod/maker/sod/?style=simple" title="Soft On Demand">
+                                Soft On Demand
+                            </a>
+                        </p>
+
+                        <ul class="x-itemBox-availableList">
+                            <li>
+                                <a href="//faws.xcity.jp/package-b/large/image/maker/sod/stars307/b_1627454535_1.jpg" rel="lightbox159380" title="Galaxy 3 Stars Harem, Reverse 4some Induce To Ultimate Ejaculation Special">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/pack.png" alt="ZOOM">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=159380#avondemand" title="AV OnDemand">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_avod_on.jpg" alt="AV OnDemand On action">
+                                </a>
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_gravure_off.jpg" alt="Gravure Not on action">
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_photo_off.jpg" alt="Action Pics Not on action">
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=159380" title="Free Sample Movie">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_mov_on.jpg" alt="Free Sample Movie On action">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+
+
+
+                    <div class="x-itemBox">
+
+                        <div class="x-itemBox-package">
+                            <a href="/avod/detail/?id=156994" title="Bonded, Yuna Ogura">
+                                <img src="//faws.xcity.jp/package/small/image/maker/sod/stars286/f_1623289836_1.jpg" alt="Bonded, Yuna Ogura" class="packageThumb">
+                            </a>
+                        </div>
+
+                        <p class="x-itemBox-title">
+                            <a href="/avod/detail/?id=156994" title="Bonded, Yuna Ogura">
+                                Bonded, Yuna Ogura
+                            </a>
+                        </p>
+
+                        <p class="x-itemBox-credit">
+                            <a href='/idol/detail/13125/'>Yuna Ogura</a>	</p>
+
+                        <p class="x-itemBox-maker">
+                            <a href="/avod/maker/sod/?style=simple" title="Soft On Demand">
+                                Soft On Demand
+                            </a>
+                        </p>
+
+                        <ul class="x-itemBox-availableList">
+                            <li>
+                                <a href="//faws.xcity.jp/package-b/large/image/maker/sod/stars286/b_1623289843_1.jpg" rel="lightbox156994" title="Bonded, Yuna Ogura">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/pack.png" alt="ZOOM">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=156994#avondemand" title="AV OnDemand">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_avod_on.jpg" alt="AV OnDemand On action">
+                                </a>
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_gravure_off.jpg" alt="Gravure Not on action">
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_photo_off.jpg" alt="Action Pics Not on action">
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=156994" title="Free Sample Movie">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_mov_on.jpg" alt="Free Sample Movie On action">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+
+
+
+                    <div class="x-itemBox">
+
+                        <div class="x-itemBox-package">
+                            <a href="/avod/detail/?id=156199" title="Actresses On Climax Repeatedly Right After Their Sex, Let To Suck Within 5 Seconds From Ejaculated, Cleaning Blow Job SP">
+                                <img src="//faws.xcity.jp/package/small/image/maker/sod/sshn016/f_1620887014_1.jpg" alt="Actresses On Climax Repeatedly Right After Their Sex, Let To Suck Within 5 Seconds From Ejaculated, Cleaning Blow Job SP" class="packageThumb">
+                            </a>
+                        </div>
+
+                        <p class="x-itemBox-title">
+                            <a href="/avod/detail/?id=156199" title="Actresses On Climax Repeatedly Right After Their Sex, Let To Suck Within 5 Seconds From Ejaculated, Cleaning Blow Job SP">
+                                Actresses On Climax Repeatedly Right After Their Sex, Let To Su...
+                            </a>
+                        </p>
+
+                        <p class="x-itemBox-credit">
+                            <a href='/idol/detail/16647/'>Ichika Nagano</a>/<a href='/idol/detail/13125/'>Yuna Ogu...</a>	</p>
+
+                        <p class="x-itemBox-maker">
+                            <a href="/avod/maker/sod/?style=simple" title="Soft On Demand">
+                                Soft On Demand
+                            </a>
+                        </p>
+
+                        <ul class="x-itemBox-availableList">
+                            <li>
+                                <a href="//faws.xcity.jp/package-b/large/image/maker/sod/sshn016/b_1620887017_1.jpg" rel="lightbox156199" title="Actresses On Climax Repeatedly Right After Their Sex, Let To Suck Within 5 Seconds From Ejaculated, Cleaning Blow Job SP">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/pack.png" alt="ZOOM">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=156199#avondemand" title="AV OnDemand">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_avod_on.jpg" alt="AV OnDemand On action">
+                                </a>
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_gravure_off.jpg" alt="Gravure Not on action">
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_photo_off.jpg" alt="Action Pics Not on action">
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=156199" title="Free Sample Movie">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_mov_on.jpg" alt="Free Sample Movie On action">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+
+
+
+                    <div class="x-itemBox">
+
+                        <div class="x-itemBox-package">
+                            <a href="/avod/detail/?id=156209" title="Sharing One Room In Hotel On On Business Trip With Her Virgin Boy Subordinate, A Cosmetic Maker Cuckolded Female Boss Who Got Licking Kiss Fuck Continuously Until Next Morning, Yuna Ogura">
+                                <img src="//faws.xcity.jp/package/small/image/maker/sod/stars260/f_1620810235_1.jpg" alt="Sharing One Room In Hotel On On Business Trip With Her Virgin Boy Subordinate, A Cosmetic Maker Cuckolded Female Boss Who Got Licking Kiss Fuck Continuously Until Next Morning, Yuna Ogura" class="packageThumb">
+                            </a>
+                        </div>
+
+                        <p class="x-itemBox-title">
+                            <a href="/avod/detail/?id=156209" title="Sharing One Room In Hotel On On Business Trip With Her Virgin Boy Subordinate, A Cosmetic Maker Cuckolded Female Boss Who Got Licking Kiss Fuck Continuously Until Next Morning, Yuna Ogura">
+                                Sharing One Room In Hotel On On Business Trip With Her Virgin B...
+                            </a>
+                        </p>
+
+                        <p class="x-itemBox-credit">
+                            <a href='/idol/detail/13125/'>Yuna Ogura</a>	</p>
+
+                        <p class="x-itemBox-maker">
+                            <a href="/avod/maker/sod/?style=simple" title="Soft On Demand">
+                                Soft On Demand
+                            </a>
+                        </p>
+
+                        <ul class="x-itemBox-availableList">
+                            <li>
+                                <a href="//faws.xcity.jp/package-b/large/image/maker/sod/stars260/b_1620810238_1.jpg" rel="lightbox156209" title="Sharing One Room In Hotel On On Business Trip With Her Virgin Boy Subordinate, A Cosmetic Maker Cuckolded Female Boss Who Got Licking Kiss Fuck Continuously Until Next Morning, Yuna Ogura">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/pack.png" alt="ZOOM">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=156209#avondemand" title="AV OnDemand">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_avod_on.jpg" alt="AV OnDemand On action">
+                                </a>
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_gravure_off.jpg" alt="Gravure Not on action">
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_photo_off.jpg" alt="Action Pics Not on action">
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=156209" title="Free Sample Movie">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_mov_on.jpg" alt="Free Sample Movie On action">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+
+
+
+                    <div class="x-itemBox">
+
+                        <div class="x-itemBox-package">
+                            <a href="/avod/detail/?id=154903" title="Yuna 3, Everything Erogenous, Yuna Ogura">
+                                <img src="//faws.xcity.jp/package/small/image/maker/rebecca/rebdb478/f_1619164122_1.jpg" alt="Yuna 3, Everything Erogenous, Yuna Ogura" class="packageThumb">
+                            </a>
+                        </div>
+
+                        <p class="x-itemBox-title">
+                            <a href="/avod/detail/?id=154903" title="Yuna 3, Everything Erogenous, Yuna Ogura">
+                                Yuna 3, Everything Erogenous, Yuna Ogura
+                            </a>
+                        </p>
+
+                        <p class="x-itemBox-credit">
+                            <a href='/idol/detail/13125/'>Yuna Ogura</a>	</p>
+
+                        <p class="x-itemBox-maker">
+                            <a href="/avod/maker/rebecca/?style=simple" title="REbecca">
+                                REbecca
+                            </a>
+                        </p>
+
+                        <ul class="x-itemBox-availableList">
+                            <li>
+                                <a href="//faws.xcity.jp/package-b/large/image/maker/rebecca/rebdb478/b_1619164125_1.jpg" rel="lightbox154903" title="Yuna 3, Everything Erogenous, Yuna Ogura">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/pack.png" alt="ZOOM">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=154903#avondemand" title="AV OnDemand">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_avod_on.jpg" alt="AV OnDemand On action">
+                                </a>
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_gravure_off.jpg" alt="Gravure Not on action">
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_photo_off.jpg" alt="Action Pics Not on action">
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=154903" title="Free Sample Movie">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_mov_on.jpg" alt="Free Sample Movie On action">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+
+
+
+                    <div class="x-itemBox">
+
+                        <div class="x-itemBox-package">
+                            <a href="/avod/detail/?id=155802" title="Yuna Ogura, Super Full Power! Repeatedly Jerk Off Semen 63 Times, 12 Titles, 4 Hours Special">
+                                <img src="//faws.xcity.jp/package/small/image/maker/sod/stars288/f_1618802111_1.jpg" alt="Yuna Ogura, Super Full Power! Repeatedly Jerk Off Semen 63 Times, 12 Titles, 4 Hours Special" class="packageThumb">
+                            </a>
+                        </div>
+
+                        <p class="x-itemBox-title">
+                            <a href="/avod/detail/?id=155802" title="Yuna Ogura, Super Full Power! Repeatedly Jerk Off Semen 63 Times, 12 Titles, 4 Hours Special">
+                                Yuna Ogura, Super Full Power! Repeatedly Jerk Off Semen 63 Time...
+                            </a>
+                        </p>
+
+                        <p class="x-itemBox-credit">
+                            <a href='/idol/detail/13125/'>Yuna Ogura</a>	</p>
+
+                        <p class="x-itemBox-maker">
+                            <a href="/avod/maker/sod/?style=simple" title="Soft On Demand">
+                                Soft On Demand
+                            </a>
+                        </p>
+
+                        <ul class="x-itemBox-availableList">
+                            <li>
+                                <a href="//faws.xcity.jp/package-b/large/image/maker/sod/stars288/b_1618802114_1.jpg" rel="lightbox155802" title="Yuna Ogura, Super Full Power! Repeatedly Jerk Off Semen 63 Times, 12 Titles, 4 Hours Special">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/pack.png" alt="ZOOM">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=155802#avondemand" title="AV OnDemand">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_avod_on.jpg" alt="AV OnDemand On action">
+                                </a>
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_gravure_off.jpg" alt="Gravure Not on action">
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_photo_off.jpg" alt="Action Pics Not on action">
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=155802" title="Free Sample Movie">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_mov_on.jpg" alt="Free Sample Movie On action">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+
+
+
+                    <div class="x-itemBox">
+
+                        <div class="x-itemBox-package">
+                            <a href="/avod/detail/?id=154701" title="Ra** A Female University Student Cancel Without Notice, Yuna Ogura, A High-Spec Girl Who Has Promise Of An Employment As Female Announcer Got Cream Pie By A Tavern Part-Timer And Finished Her Life">
+                                <img src="//faws.xcity.jp/package/small/image/maker/sod/stars248/f_1616658527_1.jpg" alt="Ra** A Female University Student Cancel Without Notice, Yuna Ogura, A High-Spec Girl Who Has Promise Of An Employment As Female Announcer Got Cream Pie By A Tavern Part-Timer And Finished Her Life" class="packageThumb">
+                            </a>
+                        </div>
+
+                        <p class="x-itemBox-title">
+                            <a href="/avod/detail/?id=154701" title="Ra** A Female University Student Cancel Without Notice, Yuna Ogura, A High-Spec Girl Who Has Promise Of An Employment As Female Announcer Got Cream Pie By A Tavern Part-Timer And Finished Her Life">
+                                Ra** A Female University Student Cancel Without Notice, Yuna Og...
+                            </a>
+                        </p>
+
+                        <p class="x-itemBox-credit">
+                            <a href='/idol/detail/13125/'>Yuna Ogura</a>	</p>
+
+                        <p class="x-itemBox-maker">
+                            <a href="/avod/maker/sod/?style=simple" title="Soft On Demand">
+                                Soft On Demand
+                            </a>
+                        </p>
+
+                        <ul class="x-itemBox-availableList">
+                            <li>
+                                <a href="//faws.xcity.jp/package-b/large/image/maker/sod/stars248/b_1616658530_1.jpg" rel="lightbox154701" title="Ra** A Female University Student Cancel Without Notice, Yuna Ogura, A High-Spec Girl Who Has Promise Of An Employment As Female Announcer Got Cream Pie By A Tavern Part-Timer And Finished Her Life">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/pack.png" alt="ZOOM">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=154701#avondemand" title="AV OnDemand">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_avod_on.jpg" alt="AV OnDemand On action">
+                                </a>
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_gravure_off.jpg" alt="Gravure Not on action">
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_photo_off.jpg" alt="Action Pics Not on action">
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=154701" title="Free Sample Movie">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_mov_on.jpg" alt="Free Sample Movie On action">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+
+
+
+                    <div class="x-itemBox">
+
+                        <div class="x-itemBox-package">
+                            <a href="/avod/detail/?id=154694" title="Obedience Hot Spring Trip, Big Hit Series Collection, 4 Hours Best 2">
+                                <img src="//faws.xcity.jp/package/small/image/maker/sod/stars280/f_1616641486_1.jpg" alt="Obedience Hot Spring Trip, Big Hit Series Collection, 4 Hours Best 2" class="packageThumb">
+                            </a>
+                        </div>
+
+                        <p class="x-itemBox-title">
+                            <a href="/avod/detail/?id=154694" title="Obedience Hot Spring Trip, Big Hit Series Collection, 4 Hours Best 2">
+                                Obedience Hot Spring Trip, Big Hit Series Collection, 4 Hours B...
+                            </a>
+                        </p>
+
+                        <p class="x-itemBox-credit">
+                            <a href='/idol/detail/14490/'>Mahiro Tadai</a>/<a href='/idol/detail/2963/'>Ai Haneda</a>	</p>
+
+                        <p class="x-itemBox-maker">
+                            <a href="/avod/maker/sod/?style=simple" title="Soft On Demand">
+                                Soft On Demand
+                            </a>
+                        </p>
+
+                        <ul class="x-itemBox-availableList">
+                            <li>
+                                <a href="//faws.xcity.jp/package-b/large/image/maker/sod/stars280/b_1616641488_1.jpg" rel="lightbox154694" title="Obedience Hot Spring Trip, Big Hit Series Collection, 4 Hours Best 2">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/pack.png" alt="ZOOM">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=154694#avondemand" title="AV OnDemand">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_avod_on.jpg" alt="AV OnDemand On action">
+                                </a>
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_gravure_off.jpg" alt="Gravure Not on action">
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_photo_off.jpg" alt="Action Pics Not on action">
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=154694" title="Free Sample Movie">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_mov_on.jpg" alt="Free Sample Movie On action">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+
+
+
+                    <div class="x-itemBox">
+
+                        <div class="x-itemBox-package">
+                            <a href="/avod/detail/?id=153890" title="Let&#039;s Have Openly SEX Heart And Body! Thrill And Pleasure, Ultimate Outside Sex, Outdoor SEX Special, 24 Women, 4 Hours!">
+                                <img src="//faws.xcity.jp/package/small/image/maker/sod/sshn007/f_1613712158_1.jpg" alt="Let&#039;s Have Openly SEX Heart And Body! Thrill And Pleasure, Ultimate Outside Sex, Outdoor SEX Special, 24 Women, 4 Hours!" class="packageThumb">
+                            </a>
+                        </div>
+
+                        <p class="x-itemBox-title">
+                            <a href="/avod/detail/?id=153890" title="Let&#039;s Have Openly SEX Heart And Body! Thrill And Pleasure, Ultimate Outside Sex, Outdoor SEX Special, 24 Women, 4 Hours!">
+                                Let&#039;s Have Openly SEX Heart And Body! Thrill And Pleasure, Ulti...
+                            </a>
+                        </p>
+
+                        <p class="x-itemBox-credit">
+                            <a href='/idol/detail/8152/'>Aki Sasaki</a>/<a href='/idol/detail/15139/'>Hinata Koiz...</a>	</p>
+
+                        <p class="x-itemBox-maker">
+                            <a href="/avod/maker/sod/?style=simple" title="Soft On Demand">
+                                Soft On Demand
+                            </a>
+                        </p>
+
+                        <ul class="x-itemBox-availableList">
+                            <li>
+                                <a href="//faws.xcity.jp/package-b/large/image/maker/sod/sshn007/b_1613712161_1.jpg" rel="lightbox153890" title="Let&#039;s Have Openly SEX Heart And Body! Thrill And Pleasure, Ultimate Outside Sex, Outdoor SEX Special, 24 Women, 4 Hours!">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/pack.png" alt="ZOOM">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=153890#avondemand" title="AV OnDemand">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_avod_on.jpg" alt="AV OnDemand On action">
+                                </a>
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_gravure_off.jpg" alt="Gravure Not on action">
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_photo_off.jpg" alt="Action Pics Not on action">
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=153890" title="Free Sample Movie">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_mov_on.jpg" alt="Free Sample Movie On action">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+
+
+
+                    <div class="x-itemBox">
+
+                        <div class="x-itemBox-package">
+                            <a href="/avod/detail/?id=153442" title="Jerking Off Soapland Packed 4 Hours, 11 Women, 10 SEX">
+                                <img src="//faws.xcity.jp/package/small/image/maker/sod/sshn003/f_1611027933_1.jpg" alt="Jerking Off Soapland Packed 4 Hours, 11 Women, 10 SEX" class="packageThumb">
+                            </a>
+                        </div>
+
+                        <p class="x-itemBox-title">
+                            <a href="/avod/detail/?id=153442" title="Jerking Off Soapland Packed 4 Hours, 11 Women, 10 SEX">
+                                Jerking Off Soapland Packed 4 Hours, 11 Women, 10 SEX
+                            </a>
+                        </p>
+
+                        <p class="x-itemBox-credit">
+                            <a href='/idol/detail/11536/'>Hinano Kamisaka</a>/<a href='/idol/detail/5215/'>Mana S...</a>	</p>
+
+                        <p class="x-itemBox-maker">
+                            <a href="/avod/maker/sod/?style=simple" title="Soft On Demand">
+                                Soft On Demand
+                            </a>
+                        </p>
+
+                        <ul class="x-itemBox-availableList">
+                            <li>
+                                <a href="//faws.xcity.jp/package-b/large/image/maker/sod/sshn003/b_1611027936_1.jpg" rel="lightbox153442" title="Jerking Off Soapland Packed 4 Hours, 11 Women, 10 SEX">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/pack.png" alt="ZOOM">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=153442#avondemand" title="AV OnDemand">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_avod_on.jpg" alt="AV OnDemand On action">
+                                </a>
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_gravure_off.jpg" alt="Gravure Not on action">
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_photo_off.jpg" alt="Action Pics Not on action">
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=153442" title="Free Sample Movie">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_mov_on.jpg" alt="Free Sample Movie On action">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+
+
+
+                    <div class="x-itemBox">
+
+                        <div class="x-itemBox-package">
+                            <a href="/avod/detail/?id=151954" title="Yuna Ogura, Full Of Juice">
+                                <img src="//faws.xcity.jp/package/small/image/maker/sod/stars258/f_1611039993_1.jpg" alt="Yuna Ogura, Full Of Juice" class="packageThumb">
+                            </a>
+                        </div>
+
+                        <p class="x-itemBox-title">
+                            <a href="/avod/detail/?id=151954" title="Yuna Ogura, Full Of Juice">
+                                Yuna Ogura, Full Of Juice
+                            </a>
+                        </p>
+
+                        <p class="x-itemBox-credit">
+                            <a href='/idol/detail/13125/'>Yuna Ogura</a>	</p>
+
+                        <p class="x-itemBox-maker">
+                            <a href="/avod/maker/sod/?style=simple" title="Soft On Demand">
+                                Soft On Demand
+                            </a>
+                        </p>
+
+                        <ul class="x-itemBox-availableList">
+                            <li>
+                                <a href="//faws.xcity.jp/package-b/large/image/maker/sod/stars258/b_1611109954_1.jpg" rel="lightbox151954" title="Yuna Ogura, Full Of Juice">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/pack.png" alt="ZOOM">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=151954#avondemand" title="AV OnDemand">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_avod_on.jpg" alt="AV OnDemand On action">
+                                </a>
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_gravure_off.jpg" alt="Gravure Not on action">
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_photo_off.jpg" alt="Action Pics Not on action">
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=151954" title="Free Sample Movie">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_mov_on.jpg" alt="Free Sample Movie On action">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+
+
+
+                    <div class="x-itemBox">
+
+                        <div class="x-itemBox-package">
+                            <a href="/avod/detail/?id=151579" title="&#039;Darling, I&#039;m Sorry... Want Me To Say So?&#039;, His Married Woman Friend From Childhood, Wanted To Be Seduced For Double Infidelity Cream Pie By Her First Love While Homecoming... An Incident At Long Holiday ~ Yuna Ogura">
+                                <img src="//faws.xcity.jp/package/small/image/maker/sod/stars234/f_1606708415_1.jpg" alt="&#039;Darling, I&#039;m Sorry... Want Me To Say So?&#039;, His Married Woman Friend From Childhood, Wanted To Be Seduced For Double Infidelity Cream Pie By Her First Love While Homecoming... An Incident At Long Holiday ~ Yuna Ogura" class="packageThumb">
+                            </a>
+                        </div>
+
+                        <p class="x-itemBox-title">
+                            <a href="/avod/detail/?id=151579" title="&#039;Darling, I&#039;m Sorry... Want Me To Say So?&#039;, His Married Woman Friend From Childhood, Wanted To Be Seduced For Double Infidelity Cream Pie By Her First Love While Homecoming... An Incident At Long Holiday ~ Yuna Ogura">
+                                &#039;Darling, I&#039;m Sorry... Want Me To Say So?&#039;, His Married Woman F...
+                            </a>
+                        </p>
+
+                        <p class="x-itemBox-credit">
+                            <a href='/idol/detail/13125/'>Yuna Ogura</a>	</p>
+
+                        <p class="x-itemBox-maker">
+                            <a href="/avod/maker/sod/?style=simple" title="Soft On Demand">
+                                Soft On Demand
+                            </a>
+                        </p>
+
+                        <ul class="x-itemBox-availableList">
+                            <li>
+                                <a href="//faws.xcity.jp/package-b/large/image/maker/sod/stars234/b_1606708419_1.jpg" rel="lightbox151579" title="&#039;Darling, I&#039;m Sorry... Want Me To Say So?&#039;, His Married Woman Friend From Childhood, Wanted To Be Seduced For Double Infidelity Cream Pie By Her First Love While Homecoming... An Incident At Long Holiday ~ Yuna Ogura">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/pack.png" alt="ZOOM">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=151579#avondemand" title="AV OnDemand">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_avod_on.jpg" alt="AV OnDemand On action">
+                                </a>
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_gravure_off.jpg" alt="Gravure Not on action">
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_photo_off.jpg" alt="Action Pics Not on action">
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=151579" title="Free Sample Movie">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_mov_on.jpg" alt="Free Sample Movie On action">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+
+
+
+                    <div class="x-itemBox">
+
+                        <div class="x-itemBox-package">
+                            <a href="/avod/detail/?id=150901" title="A Devilish Esthetician&#039;s Super Ultimate Anguish Oil Massage! Yuna Ogura">
+                                <img src="//faws.xcity.jp/package/small/image/maker/sod/stars223/f_1605079356_1.jpg" alt="A Devilish Esthetician&#039;s Super Ultimate Anguish Oil Massage! Yuna Ogura" class="packageThumb">
+                            </a>
+                        </div>
+
+                        <p class="x-itemBox-title">
+                            <a href="/avod/detail/?id=150901" title="A Devilish Esthetician&#039;s Super Ultimate Anguish Oil Massage! Yuna Ogura">
+                                A Devilish Esthetician&#039;s Super Ultimate Anguish Oil Massage! Yu...
+                            </a>
+                        </p>
+
+                        <p class="x-itemBox-credit">
+                            <a href='/idol/detail/13125/'>Yuna Ogura</a>	</p>
+
+                        <p class="x-itemBox-maker">
+                            <a href="/avod/maker/sod/?style=simple" title="Soft On Demand">
+                                Soft On Demand
+                            </a>
+                        </p>
+
+                        <ul class="x-itemBox-availableList">
+                            <li>
+                                <a href="//faws.xcity.jp/package-b/large/image/maker/sod/stars223/b_1605079360_1.jpg" rel="lightbox150901" title="A Devilish Esthetician&#039;s Super Ultimate Anguish Oil Massage! Yuna Ogura">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/pack.png" alt="ZOOM">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=150901#avondemand" title="AV OnDemand">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_avod_on.jpg" alt="AV OnDemand On action">
+                                </a>
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_gravure_off.jpg" alt="Gravure Not on action">
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_photo_off.jpg" alt="Action Pics Not on action">
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=150901" title="Free Sample Movie">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_mov_on.jpg" alt="Free Sample Movie On action">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+
+
+
+                    <div class="x-itemBox">
+
+                        <div class="x-itemBox-package">
+                            <a href="/avod/detail/?id=150223" title="My Hated And Beloved Teacher, Asked To Fuck By My Delinquent Seniors... Yuna Ogura">
+                                <img src="//faws.xcity.jp/package/small/image/maker/sod/stars208/f_1602489020_1.jpg" alt="My Hated And Beloved Teacher, Asked To Fuck By My Delinquent Seniors... Yuna Ogura" class="packageThumb">
+                            </a>
+                        </div>
+
+                        <p class="x-itemBox-title">
+                            <a href="/avod/detail/?id=150223" title="My Hated And Beloved Teacher, Asked To Fuck By My Delinquent Seniors... Yuna Ogura">
+                                My Hated And Beloved Teacher, Asked To Fuck By My Delinquent Se...
+                            </a>
+                        </p>
+
+                        <p class="x-itemBox-credit">
+                            <a href='/idol/detail/13125/'>Yuna Ogura</a>	</p>
+
+                        <p class="x-itemBox-maker">
+                            <a href="/avod/maker/sod/?style=simple" title="Soft On Demand">
+                                Soft On Demand
+                            </a>
+                        </p>
+
+                        <ul class="x-itemBox-availableList">
+                            <li>
+                                <a href="//faws.xcity.jp/package-b/large/image/maker/sod/stars208/b_1602489022_1.jpg" rel="lightbox150223" title="My Hated And Beloved Teacher, Asked To Fuck By My Delinquent Seniors... Yuna Ogura">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/pack.png" alt="ZOOM">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=150223#avondemand" title="AV OnDemand">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_avod_on.jpg" alt="AV OnDemand On action">
+                                </a>
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_gravure_off.jpg" alt="Gravure Not on action">
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_photo_off.jpg" alt="Action Pics Not on action">
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=150223" title="Free Sample Movie">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_mov_on.jpg" alt="Free Sample Movie On action">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+
+
+
+                    <div class="x-itemBox">
+
+                        <div class="x-itemBox-package">
+                            <a href="/avod/detail/?id=149431" title="Surprisingly Snow Mountain Disaster NTR!? Right After Her Boyfriend Called Rescue Party... Warm Up Each Others&#039; Body And Survival SEX Under Extreme State, Such 18 Hours, Yuna Ogura">
+                                <img src="//faws.xcity.jp/package/small/image/maker/sod/stars195/f_1599804123_1.jpg" alt="Surprisingly Snow Mountain Disaster NTR!? Right After Her Boyfriend Called Rescue Party... Warm Up Each Others&#039; Body And Survival SEX Under Extreme State, Such 18 Hours, Yuna Ogura" class="packageThumb">
+                            </a>
+                        </div>
+
+                        <p class="x-itemBox-title">
+                            <a href="/avod/detail/?id=149431" title="Surprisingly Snow Mountain Disaster NTR!? Right After Her Boyfriend Called Rescue Party... Warm Up Each Others&#039; Body And Survival SEX Under Extreme State, Such 18 Hours, Yuna Ogura">
+                                Surprisingly Snow Mountain Disaster NTR!? Right After Her Boyfr...
+                            </a>
+                        </p>
+
+                        <p class="x-itemBox-credit">
+                            <a href='/idol/detail/13125/'>Yuna Ogura</a>	</p>
+
+                        <p class="x-itemBox-maker">
+                            <a href="/avod/maker/sod/?style=simple" title="Soft On Demand">
+                                Soft On Demand
+                            </a>
+                        </p>
+
+                        <ul class="x-itemBox-availableList">
+                            <li>
+                                <a href="//faws.xcity.jp/package-b/large/image/maker/sod/stars195/b_1599804127_1.jpg" rel="lightbox149431" title="Surprisingly Snow Mountain Disaster NTR!? Right After Her Boyfriend Called Rescue Party... Warm Up Each Others&#039; Body And Survival SEX Under Extreme State, Such 18 Hours, Yuna Ogura">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/pack.png" alt="ZOOM">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=149431#avondemand" title="AV OnDemand">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_avod_on.jpg" alt="AV OnDemand On action">
+                                </a>
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_gravure_off.jpg" alt="Gravure Not on action">
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_photo_off.jpg" alt="Action Pics Not on action">
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=149431" title="Free Sample Movie">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_mov_on.jpg" alt="Free Sample Movie On action">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+
+
+
+                    <div class="x-itemBox">
+
+                        <div class="x-itemBox-package">
+                            <a href="/avod/detail/?id=148453" title="REbecca STARS7-The Sweets ~">
+                                <img src="//faws.xcity.jp/package/small/image/maker/rebecca/rebdb429/f_1601375042_1.jpg" alt="REbecca STARS7-The Sweets ~" class="packageThumb">
+                            </a>
+                        </div>
+
+                        <p class="x-itemBox-title">
+                            <a href="/avod/detail/?id=148453" title="REbecca STARS7-The Sweets ~">
+                                REbecca STARS7-The Sweets ~
+                            </a>
+                        </p>
+
+                        <p class="x-itemBox-credit">
+                            <a href='/idol/detail/16057/'>Arina Hashimoto</a>/<a href='/idol/detail/16125/'>Mayuki...</a>	</p>
+
+                        <p class="x-itemBox-maker">
+                            <a href="/avod/maker/rebecca/?style=simple" title="REbecca">
+                                REbecca
+                            </a>
+                        </p>
+
+                        <ul class="x-itemBox-availableList">
+                            <li>
+                                <a href="//faws.xcity.jp/package-b/large/image/maker/rebecca/rebdb429/b_1601375044_1.jpg" rel="lightbox148453" title="REbecca STARS7-The Sweets ~">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/pack.png" alt="ZOOM">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=148453#avondemand" title="AV OnDemand">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_avod_on.jpg" alt="AV OnDemand On action">
+                                </a>
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_gravure_off.jpg" alt="Gravure Not on action">
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_photo_off.jpg" alt="Action Pics Not on action">
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=148453" title="Free Sample Movie">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_mov_on.jpg" alt="Free Sample Movie On action">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+
+
+
+                    <div class="x-itemBox">
+
+                        <div class="x-itemBox-package">
+                            <a href="/avod/detail/?id=148196" title="Lifted The Ban On 100 Times Bukkake, Genuine Super Dense Amateur Men&#039;s Semen, Yuna Ogura">
+                                <img src="//faws.xcity.jp/package/small/image/maker/sod/stars179/f_1598249851_1.jpg" alt="Lifted The Ban On 100 Times Bukkake, Genuine Super Dense Amateur Men&#039;s Semen, Yuna Ogura" class="packageThumb">
+                            </a>
+                        </div>
+
+                        <p class="x-itemBox-title">
+                            <a href="/avod/detail/?id=148196" title="Lifted The Ban On 100 Times Bukkake, Genuine Super Dense Amateur Men&#039;s Semen, Yuna Ogura">
+                                Lifted The Ban On 100 Times Bukkake, Genuine Super Dense Amateu...
+                            </a>
+                        </p>
+
+                        <p class="x-itemBox-credit">
+                            <a href='/idol/detail/13125/'>Yuna Ogura</a>	</p>
+
+                        <p class="x-itemBox-maker">
+                            <a href="/avod/maker/sod/?style=simple" title="Soft On Demand">
+                                Soft On Demand
+                            </a>
+                        </p>
+
+                        <ul class="x-itemBox-availableList">
+                            <li>
+                                <a href="//faws.xcity.jp/package-b/large/image/maker/sod/stars179/b_1598249855_1.jpg" rel="lightbox148196" title="Lifted The Ban On 100 Times Bukkake, Genuine Super Dense Amateur Men&#039;s Semen, Yuna Ogura">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/pack.png" alt="ZOOM">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=148196#avondemand" title="AV OnDemand">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_avod_on.jpg" alt="AV OnDemand On action">
+                                </a>
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_gravure_off.jpg" alt="Gravure Not on action">
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_photo_off.jpg" alt="Action Pics Not on action">
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=148196" title="Free Sample Movie">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_mov_on.jpg" alt="Free Sample Movie On action">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+
+
+
+                    <div class="x-itemBox">
+
+                        <div class="x-itemBox-package">
+                            <a href="/avod/detail/?id=148065" title="Double Super Sadistic Slut Women, Super Deluxe Infinity Ejaculations Full Course! SPECIAL!!!! Suzu Honjou, Yuna Ogura">
+                                <img src="//faws.xcity.jp/package/small/image/maker/sod/stars164/f_1594790103_1.jpg" alt="Double Super Sadistic Slut Women, Super Deluxe Infinity Ejaculations Full Course! SPECIAL!!!! Suzu Honjou, Yuna Ogura" class="packageThumb">
+                            </a>
+                        </div>
+
+                        <p class="x-itemBox-title">
+                            <a href="/avod/detail/?id=148065" title="Double Super Sadistic Slut Women, Super Deluxe Infinity Ejaculations Full Course! SPECIAL!!!! Suzu Honjou, Yuna Ogura">
+                                Double Super Sadistic Slut Women, Super Deluxe Infinity Ejacula...
+                            </a>
+                        </p>
+
+                        <p class="x-itemBox-credit">
+                            <a href='/idol/detail/13912/'>Suzu Honjou</a>/<a href='/idol/detail/13125/'>Yuna Ogura</a>	</p>
+
+                        <p class="x-itemBox-maker">
+                            <a href="/avod/maker/sod/?style=simple" title="Soft On Demand">
+                                Soft On Demand
+                            </a>
+                        </p>
+
+                        <ul class="x-itemBox-availableList">
+                            <li>
+                                <a href="//faws.xcity.jp/package-b/large/image/maker/sod/stars164/b_1594790105_1.jpg" rel="lightbox148065" title="Double Super Sadistic Slut Women, Super Deluxe Infinity Ejaculations Full Course! SPECIAL!!!! Suzu Honjou, Yuna Ogura">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/pack.png" alt="ZOOM">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=148065#avondemand" title="AV OnDemand">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_avod_on.jpg" alt="AV OnDemand On action">
+                                </a>
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_gravure_off.jpg" alt="Gravure Not on action">
+                            </li>
+                            <li>
+                                <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_photo_off.jpg" alt="Action Pics Not on action">
+                            </li>
+                            <li>
+                                <a href="/avod/detail/?id=148065" title="Free Sample Movie">
+                                    <img src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/img/icon_mov_on.jpg" alt="Free Sample Movie On action">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>	</div>
+                <ul class="pageScrl">
+                    <!--↓上部ulタグよりページ遷移リンク区画↓ -->
+                    <li class="prev"></li>
+                    <li><span class="rest-page-current">1</span></li><li><a class="rest-page-item" href="/idol/detail/13125/?page=2" title="2ページ">2</a></li><li><a class="rest-page-item" href="/idol/detail/13125/?page=3" title="3ページ">3</a></li>
+                    <li class="next"><a class="rest-page-item" href="/idol/detail/13125/?page=2" title="2ページ">next</a></li>
+                    <!--↑下部ulタグまでページ遷移リンク区画↑ -->
+                </ul>
+
+
+                <script id="pager-tpl" type="text/template">
+                    <li class="prev"><a class="rest-page-item" <%= prevLink %>>prev</a></li>
+                    <%= pageList %>
+                    <li class="next"><a class="rest-page-item" <%= nextLink %>>next</a></li>
+                </script>
+
+                <script id="list-simple-tpl" type="text/template">
+                    <div class="x-itemBox">
+                        <%= statusIcon %>
+                        <div class="x-itemBox-package">
+                            <a href="<%= link %>" title="<%- title %>">
+                                <img src="<%= thumbnail %>" alt="<%- title %>" class="packageThumb">
+                                <%= badgeDistribution %>
+                            </a>
+                        </div>
+                        <p class="x-itemBox-title">
+                            <a href="<%= link %>" title="<%- title %>"><%- title %></a>
+                        </p>
+                        <p class="x-itemBox-credit">
+                            <a <%= creditLink %>><%- credit %></a>
+                        </p>
+                        <p class="x-itemBox-maker">
+                            <a href="//maker/<%= foldername %>/?style=simple" title="<%- maker_name %>"><%- maker_name %></a>
+                        </p>
+                        <ul class="x-itemBox-availableList">
+                            <li class="zoom"><a <%= availableLink.zoom %> rel="lightbox<%- id %>" title="<%- title %>"></a></li>
+                            <li class="avondemand"><a <%= availableLink.avondemand %>></a></li>
+                            <li class="gravure"><a <%= availableLink.gravure %>></a></li>
+                            <li class="photo"><a <%= availableLink.photo %>></a></li>
+                            <li class="digest"><a <%= availableLink.digest %>></a></li>
+                        </ul>
+                    </div>
+                </script>
+
+                <script>
+                    $(function() {
+                        itemList.queryInitial = {
+                            page: 1,
+                            order: 'ondemand',
+                            ondemand: 'idol',
+                        };
+
+                        XcityFacet.initialType = 'person_id';
+                        XcityFacet.selectedIds['person_id'].push(13125);
+                        delete XcityFacet.query['ondemand_flg'];
+
+                        $(window).on('popstate', function(e){
+                            if (!e.originalEvent.state) {
+                                itemList.query = itemList.queryInitial;
+                            } else {
+                                itemList.query = history.state;
+                            }
+                            $('[name=order]').val(itemList.query.order);
+
+                            itemList.displayItemList(false);
+                        });
+
+                        $('.ctrlPanelMin2 [onchange]').attr('onchange', '').change(function() {itemList.changeCtrlPanel();});
+
+                        itemList.init($.extend(true, {}, itemList.queryInitial));
+                        XcityFacet.init();
+                    });
+                </script>
+
+                <br style="clear:both">
+
+            </div>          </div>
+        </div>
+            <br style="clear: both;">
+        </div>
+    </div>
+</div>
+<div id="footer">
+    <div id="footerTop"><a href="#container">To Top</a></div>
+    <div id="footerBtm">
+        <ul>
+            <li><a href="http://alchemia.co.jp/">company overview</a></li>
+            <li><a href="/membership-agreement/">XCITY Membership Agreement</a></li>
+            <li><a href="/policy/">About Privacy Policy</a></li>
+            <li><a href="/law/">Required Information by Japanese Commercial Law</a></li>
+            <li><a href="/sitemap/">Site Map</a></li>
+            <li><a href="/contact-page/" class="noShikiri">Contact Us</a></li>
+        </ul>
+        <p id="copyright">Copyright&nbsp;&copy;&nbsp;2021 XCITY Website. All rights reserved.</p>
+    </div>
+</div>
+<script type='text/javascript' src='https://xaws.xcity.jp/wp-content/themes/xcity-ja/js/favorite.js?ver=0.9.3'></script>
+<script type='text/javascript' src='https://xaws.xcity.jp/wp-content/themes/xcity-ja/js/order.js?ver=0.9.3'></script>
+<script type='text/javascript' src='https://xaws.xcity.jp/wp-content/themes/xcity-ja/js/keyword-click.js?ver=0.9.3'></script>
+<script type='text/javascript' src='https://xxx.xcity.jp/wp-includes/js/wp-embed.min.js?ver=4.9.13'></script>
+<!--[if lte IE 6]>
+<script defer type="text/javascript" src="https://xxx.xcity.jp/wp-content/themes/xcity-ja/js/pngfix.js"></script>
+<![endif]-->
+
+<script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam-cell.nr-data.net","licenseKey":"6b48335931","applicationID":"223540187","transactionName":"M1IAMUoED0pRU01bXwoYNxdRSk5OVVIWWkQAWAEWZwAPFlleXVdISkcKFQ==","queueTime":0,"applicationTime":51,"atts":"HxUDRwIeHEQ=","errorBeacon":"bam-cell.nr-data.net","agent":""}</script></body>
+
+</html>

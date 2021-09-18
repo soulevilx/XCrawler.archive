@@ -17,13 +17,15 @@
     "license": "MIT",
     "require": {
         "php": "^8.0",
+        "ext-curl": "*",
         "fideloper/proxy": "^4.4",
-        "friendsofphp/php-cs-fixer": "^3.0",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.3",
+        "jooservices/oauth": "^0.9.0",
         "jooservices/xcrawler-client": "^0.5",
         "kevinrob/guzzle-cache-middleware": "^3.4",
         "laravel/framework": "^8",
+        "laravel/horizon": "^5.7",
         "laravel/sanctum": "^2.11",
         "laravel/slack-notification-channel": "^2.3",
         "laravel/tinker": "^2.6",
@@ -36,11 +38,12 @@
         "beyondcode/laravel-dump-server": "^1.7",
         "facade/ignition": "^2",
         "fakerphp/faker": "^1.9.1",
-        "laravel/sail": "^1.0.1",
+        "friendsofphp/php-cs-fixer": "^3.0",
         "mockery/mockery": "^1.4",
         "nunomaduro/collision": "^5",
         "phpstan/phpstan": "^0.12.94",
         "phpunit/phpunit": "^9.5",
+        "rector/rector": "^0.11.51",
         "squizlabs/php_codesniffer": "^3.6"
     },
     "autoload": {
@@ -74,12 +77,22 @@
         "lint": [
             "@php vendor/bin/phpstan analyze --level=0 app"
         ],
-        "test-coverage": [
-            "@php vendor/bin/phpunit --testsuite=Unit,Feature --coverage-clover coverage.xml"
-        ],
         "test": [
             "@php vendor/bin/phpunit --testsuite=Unit",
-            "@php vendor/bin/phpunit --testsuite=Feature"
+            "@php vendor/bin/phpunit --testsuite=Feature",
+            "@php vendor/bin/phpunit --testsuite=Services"
+        ],
+        "test-coverage": [
+            "@php vendor/bin/phpunit --testsuite=Unit,Feature,Services --coverage-clover coverage.xml"
+        ],
+        "test-coverage-html": [
+            "@php vendor/bin/phpunit --testsuite=Unit,Feature,Services --coverage-html coverage"
+        ],
+        "test-coverage-text": [
+            "@php vendor/bin/phpunit --testsuite=Unit,Feature,Services --coverage-text=coverage.txt"
+        ],
+        "test-live": [
+            "@php vendor/bin/phpunit --testsuite=FeatureLive"
         ]
     },
     "extra": {

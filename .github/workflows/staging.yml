@@ -1,0 +1,70 @@
+name: XCrawler - Staging deploy
+
+on:
+  push:
+    branches: [ develop ]
+
+jobs:
+  build:
+    # Test on Workstation
+    runs-on: [ Workstation ]
+    services:
+      mysql:
+        image: mysql:8.0.26
+        env:
+          MYSQL_ROOT_PASSWORD: laravel
+          MYSQL_USER: laravel
+          MYSQL_PASSWORD: laravel
+          MYSQL_DATABASE: laravel
+        ports:
+          - 3307:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5 -e MYSQL_ROOT_PASSWORD=laravel -e MYSQL_USER=laravel -e MYSQL_PASSWORD=laravel -e MYSQL_DATABASE=laravel --entrypoint sh mysql:8 -c "exec docker-entrypoint.sh mysqld --default-authentication-plugin=mysql_native_password"
+      redis:
+        image: redis
+        ports:
+          - 3308:6379
+        options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup PHP with coverage driver
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0.9'
+          coverage: pcov
+          tools: php-cs-fixer, phpunit
+
+      - name: Verify MySQL connection from host
+        run: |
+          mysql --host 127.0.0.1 --port 3307 -ularavel -plaravel -e "SHOW DATABASES"
+
+      - name: Setup application
+        if: success()
+        run: |
+          php -r "file_exists('.env') || copy('.env.example', '.env');"
+          composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+          php artisan key:generate
+          chmod -R 777 storage bootstrap/cache
+          php artisan config:clear
+          php artisan migrate:fresh
+
+      - name: Lint
+        run: composer lint
+
+      - name: Execute tests (Unit and Feature tests) via PHPUnit
+        if: success()
+        run: |
+          composer test-coverage
+          composer test-live
+
+      - name: Execute Live Tests (Without Mocks) via PHPUnit
+        if: success()
+        run: |
+          composer test-live
+
+      - name: Deploy
+        if: success()
+        run: |
+          ~/staging_deployer.sh -s

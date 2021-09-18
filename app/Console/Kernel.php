@@ -13,28 +13,53 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
     ];
 
     /**
      * Define the application's command schedule.
-     *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
-     * @return void
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        // Onejav
+        $schedule->command('jav:onejav release')->everyFiveMinutes();
+        $schedule->command('jav:onejav daily')->dailyAt('12:00');
+
+        // R18
+        $schedule->command('jav:r18 release')->everyFiveMinutes();
+        $schedule->command('jav:r18 daily')->dailyAt('12:00');
+        $schedule->command('jav:r18 item');
+
+        // XCity Idol
+        $schedule->command('jav:xcity-idol release')->everyFifteenMinutes();
+        $schedule->command('jav:xcity-idol daily')->dailyAt('12:00');
+        $schedule->command('jav:xcity-idol item');
+        $schedule->command('jav:xcity-video release')->everyFifteenMinutes();
+        $schedule->command('jav:xcity-video daily')->dailyAt('12:00');
+        $schedule->command('jav:xcity-video item');
+
+        // Flickr
+        $schedule->command('flickr:contacts')->weekly();
+        $schedule->command('flickr:people info')->everyMinute();
+        $schedule->command('flickr:people photos')->everyMinute();
+        $schedule->command('flickr:people photos')->everyMinute();
+        $schedule->command('flickr:photosets list')->everyMinute();
+        $schedule->command('flickr:photosets photos')->everyMinute();
+        $schedule->command('flickr:photo sizes');
+
+        $schedule->command('queue:prune-failed --hours=168');
     }
 
     /**
      * Register the commands for the application.
-     *
-     * @return void
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load([
+            __DIR__.'/Commands',
+            __DIR__ . '/../Core/Console/Commands',
+            __DIR__.'/../Jav/Console/Commands',
+            __DIR__ . '/../Flickr/Console/Commands',
+        ]);
 
         require base_path('routes/console.php');
     }
