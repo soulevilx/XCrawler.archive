@@ -52,7 +52,7 @@ class FlickrPhoto extends BaseModel
         return $this->belongsToMany(FlickrAlbum::class, 'flickr_album_photos', 'photo_id', 'album_id')->withTimestamps();
     }
 
-    public function hasSizes()
+    public function hasSizes(): bool
     {
         return !empty($this->sizes);
     }
@@ -63,7 +63,7 @@ class FlickrPhoto extends BaseModel
             return null;
         }
 
-        $sizes = collect($this->sizes['size']);
+        $sizes = collect($this->sizes);
         $sizes = $sizes->sortBy(function ($size) {
             return $size['width'] + $size['height'];
         });
