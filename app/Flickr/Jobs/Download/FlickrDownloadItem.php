@@ -4,7 +4,7 @@ namespace App\Flickr\Jobs\Download;
 
 use App\Core\Models\State;
 use App\Flickr\Jobs\Traits\HasFlickrMiddleware;
-use App\Flickr\Models\FlickrPhoto;
+use App\Flickr\Models\FlickrDownloadItem as FlickrDownloadItemModel;
 use App\Flickr\Services\FlickrService;
 use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
@@ -20,25 +20,23 @@ class FlickrDownloadItem implements ShouldQueue
     use Queueable;
     use HasFlickrMiddleware;
 
-    public function __construct(public \App\Flickr\Models\FlickrDownloadItem $downloadItem)
+    public function __construct(public FlickrDownloadItemModel $downloadItem)
     {
     }
 
     public function handle(FlickrService $service)
     {
         $this->downloadItem->setState(State::STATE_PROCESSING);
-        /**
-         * @var FlickrPhoto $photo
-         */
         $photo = $this->downloadItem->photo;
         $download = $this->downloadItem->download;
 
         if (!$photo->hasSizes()) {
             $sizes = $service->photos()->getSizes($photo->id);
-            $photo->sizes = $sizes;
+            $photo->sizes = $sizes['size'];
         }
 
         $url = $photo->largestSize()['source'];
+
         $dir = '/Flickr/' . $download->path;
         $storage = Storage::drive('downloads');
 

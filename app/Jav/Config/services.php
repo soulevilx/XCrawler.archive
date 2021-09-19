@@ -4,7 +4,6 @@ use App\Jav\Models\Onejav;
 use App\Jav\Models\R18;
 use App\Jav\Models\XCityIdol;
 use App\Jav\Models\XCityVideo;
-use Carbon\Carbon;
 
 return [
     'onejav' => [
@@ -18,11 +17,12 @@ return [
     ],
     'xcity_video' => [
         'base_url' => XCityVideo::BASE_URL,
-        'from_date' =>'20010101'
+        'from_date' => '20010101'
     ],
     'jav' => [
         'download_dir' => env('JAV_DOWNLOAD_DIR', storage_path('downloads')),
         'enable_notification' => env('ENABLE_NOTIFICATION', true),
         'enable_post_to_wordpress' => env('ENABLE_POST_TO_WORDPRESS', true),
+        'slack_notifications' => env('JAV_SLACK_NOTIFICATIONS'),
     ]
 ];

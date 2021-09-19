@@ -57,7 +57,6 @@ jobs:
         if: success()
         run: |
           composer test-coverage
-          composer test-live
 
       - name: Execute Live Tests (Without Mocks) via PHPUnit
         if: success()

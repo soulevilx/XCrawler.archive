@@ -2,6 +2,7 @@
 
 namespace App\Flickr\Jobs;
 
+use App\Flickr\Jobs\Traits\HasFlickrMiddleware;
 use App\Flickr\Models\FlickrPhoto;
 use App\Flickr\Services\FlickrService;
 use Illuminate\Bus\Queueable;
@@ -17,6 +18,7 @@ class FlickrPhotoSizes implements ShouldQueue, ShouldBeUnique
     use InteractsWithQueue;
     use Queueable;
     use SerializesModels;
+    use HasFlickrMiddleware;
 
     /**
      * The number of seconds after which the job's unique lock will be released.

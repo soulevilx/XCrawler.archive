@@ -39,14 +39,12 @@ class Kernel extends ConsoleKernel
 
         // Flickr
         $schedule->command('flickr:contacts')->weekly();
-        $schedule->command('flickr:people info')->everyMinute();
-        $schedule->command('flickr:people photos')->everyMinute();
-        $schedule->command('flickr:people photos')->everyMinute();
-        $schedule->command('flickr:photosets list')->everyMinute();
-        $schedule->command('flickr:photosets photos')->everyMinute();
+        $schedule->command('flickr:people info');
+        $schedule->command('flickr:people photos');
+        $schedule->command('flickr:photosets list');
+        $schedule->command('flickr:photosets photos');
         $schedule->command('flickr:photo sizes');
-
-        $schedule->command('queue:prune-failed --hours=168');
+        $schedule->command('flickr:download downloadItem');
     }
 
     /**

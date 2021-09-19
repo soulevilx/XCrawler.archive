@@ -2,6 +2,7 @@
 
 namespace App\Flickr\Tests\Unit\Models;
 
+use App\Flickr\Jobs\FlickrPhotoSizes;
 use App\Flickr\Models\FlickrAlbum;
 use App\Flickr\Models\FlickrContact;
 use App\Flickr\Models\FlickrPhoto;
@@ -33,5 +34,21 @@ class FlickrPhotoTest extends FlickrTestCase
 
             $this->assertTrue($photo->albums()->latest()->first()->is($album));
         });
+    }
+
+    public function testSizes()
+    {
+        $photo = FlickrPhoto::factory()->create();
+        $this->assertFalse($photo->hasSizes());
+        $this->assertNull($photo->largestSize());
+
+        FlickrPhotoSizes::dispatch($photo);
+        $photo->refresh();
+
+        $this->assertTrue($photo->hasSizes());
+        $largestSize  = $photo->largestSize();
+        $this->assertEquals('Original', $largestSize['label']);
+        $this->assertEquals(5057, $largestSize['width']);
+        $this->assertEquals(3636, $largestSize['height']);
     }
 }
