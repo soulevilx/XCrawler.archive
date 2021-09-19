@@ -157,7 +157,7 @@ return [
     |
     */
 
-    'memory_limit' => 64,
+    'memory_limit' => (int)env('HORIZON_MEMORY', 1024) * 2,
 
     /*
     |--------------------------------------------------------------------------
@@ -171,104 +171,43 @@ return [
     */
 
     'defaults' => [
-        'supervisor-1' => [
+        'default' => [
             'connection' => 'redis',
             'queue' => ['default'],
             'balance' => 'auto',
-            'maxProcesses' => 1,
-            'memory' => 128,
-            'tries' => 1,
+            'maxProcesses' => env('HORIZON_DEFAULT_MAX_PROCESSES', 1),
+            'memory' => env('HORIZON_MEMORY', 1024),
+            'tries' => env('HORIZON_TRIES', 3),
             'nice' => 0,
         ],
         'crawling' => [
             'connection' => 'redis',
             'queue' => ['crawling'],
             'balance' => 'auto',
-            'maxProcesses' => 1,
-            'memory' => 2048,
-            'tries' => 1,
+            'maxProcesses' => env('HORIZON_CRAWLING_MAX_PROCESSES', 1),
+            'memory' => env('HORIZON_MEMORY', 1024),
+            'tries' => env('HORIZON_TRIES', 3),
             'nice' => 0,
         ],
         'api' => [
             'connection' => 'redis',
             'queue' => ['api'],
             'balance' => 'auto',
-            'maxProcesses' => 2,
-            'memory' => 2048,
-            'tries' => 1,
+            'maxProcesses' => env('HORIZON_API_MAX_PROCESSES', 1),
+            'memory' => env('HORIZON_MEMORY', 1024),
+            'tries' => env('HORIZON_TRIES', 3),
             'nice' => 0,
         ],
     ],
 
     'environments' => [
         'production' => [
-            'supervisor-1' => [
-                'connection' => 'redis',
-                'queue' => ['default'],
-                'balance' => 'auto',
-                'maxProcesses' => 10,
-                'memory' => 4096,
-                'tries' => 3,
-                'nice' => 0,
-            ],
-            'crawling' => [
-                'connection' => 'redis',
-                'queue' => ['crawling'],
-                'balance' => 'auto',
-                'maxProcesses' => 4,
-                'memory' => 4096,
-                'tries' => 3,
-                'nice' => 0,
-            ],
-            'api' => [
-                'connection' => 'redis',
-                'queue' => ['api'],
-                'balance' => 'auto',
-                'maxProcesses' => 6,
-                'memory' => 4096,
-                'tries' => 3,
-                'nice' => 0,
-            ],
         ],
         'staging' => [
-            'crawling' => [
-                'connection' => 'redis',
-                'queue' => ['crawling'],
-                'balance' => 'auto',
-                'maxProcesses' => 2,
-                'memory' => 2048,
-                'tries' => 3,
-                'nice' => 0,
-            ],
-            'api' => [
-                'connection' => 'redis',
-                'queue' => ['api'],
-                'balance' => 'auto',
-                'maxProcesses' => 2,
-                'memory' => 2048,
-                'tries' => 3,
-                'nice' => 0,
-            ],
         ],
         'develop' => [
-            'crawling' => [
-                'connection' => 'redis',
-                'queue' => ['crawling'],
-                'balance' => 'auto',
-                'maxProcesses' => 10,
-                'memory' => 4096,
-                'tries' => 6,
-                'nice' => 0,
-            ],
-            'api' => [
-                'connection' => 'redis',
-                'queue' => ['api'],
-                'balance' => 'auto',
-                'maxProcesses' => 6,
-                'memory' => 4096,
-                'tries' => 6,
-                'nice' => 0,
-            ],
         ],
+        'local' => [
+        ]
     ],
 ];

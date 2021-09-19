@@ -2724,16 +2724,16 @@
         },
         {
             "name": "php-http/discovery",
-            "version": "1.14.0",
+            "version": "1.14.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-http/discovery.git",
-                "reference": "778f722e29250c1fac0bbdef2c122fa5d038c9eb"
+                "reference": "de90ab2b41d7d61609f504e031339776bc8c7223"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-http/discovery/zipball/778f722e29250c1fac0bbdef2c122fa5d038c9eb",
-                "reference": "778f722e29250c1fac0bbdef2c122fa5d038c9eb",
+                "url": "https://api.github.com/repos/php-http/discovery/zipball/de90ab2b41d7d61609f504e031339776bc8c7223",
+                "reference": "de90ab2b41d7d61609f504e031339776bc8c7223",
                 "shasum": ""
             },
             "require": {
@@ -2786,9 +2786,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-http/discovery/issues",
-                "source": "https://github.com/php-http/discovery/tree/1.14.0"
+                "source": "https://github.com/php-http/discovery/tree/1.14.1"
             },
-            "time": "2021-06-01T14:30:21+00:00"
+            "time": "2021-09-18T07:57:46+00:00"
         },
         {
             "name": "php-http/httplug",
@@ -10186,12 +10186,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "883dd9f6773aaaf88ba7b9084c58c58b2c53c3a6"
+                "reference": "300188a298d163d955fef0344d61c92e9ea88c0f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/883dd9f6773aaaf88ba7b9084c58c58b2c53c3a6",
-                "reference": "883dd9f6773aaaf88ba7b9084c58c58b2c53c3a6",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/300188a298d163d955fef0344d61c92e9ea88c0f",
+                "reference": "300188a298d163d955fef0344d61c92e9ea88c0f",
                 "shasum": ""
             },
             "require": {
@@ -10238,7 +10238,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-09-17T19:38:24+00:00"
+            "time": "2021-09-19T09:13:32+00:00"
         },
         {
             "name": "sebastian/cli-parser",

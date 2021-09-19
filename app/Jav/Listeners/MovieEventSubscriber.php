@@ -35,7 +35,7 @@ class MovieEventSubscriber
             return;
         }
 
-        Notification::route('slack', config('services.slack.notifications'))
+        Notification::route('slack', config('services.jav.slack_notifications'))
             ->notify(new MovieCreatedNotification($event->movie));
     }
 
