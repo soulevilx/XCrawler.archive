@@ -46,6 +46,11 @@ class MovieService
     {
         $this->movie = $movie;
 
+        // Already posted to WordPress
+        if ($this->movie->wordpress()->exists()) {
+            return null;
+        }
+
         return $this->movie->wordpress()->firstOrCreate([
             'title' => $this->movie->dvd_id,
         ], [
