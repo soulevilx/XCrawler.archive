@@ -45,6 +45,9 @@ class Kernel extends ConsoleKernel
         $schedule->command('flickr:photosets photos');
         $schedule->command('flickr:photo sizes');
         $schedule->command('flickr:download downloadItem');
+
+        // WordPress
+        $schedule->command('jav:email-wordpress');
     }
 
     /**
