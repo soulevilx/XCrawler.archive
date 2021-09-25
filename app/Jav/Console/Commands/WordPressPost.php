@@ -16,7 +16,7 @@ class WordPressPost extends Command
      *
      * @var string
      */
-    protected $signature = 'jav:email-wordpress';
+    protected $signature = 'jav:email-wordpress {--dvdid=}';
 
     /**
      * The console command description.
@@ -27,6 +27,12 @@ class WordPressPost extends Command
 
     public function handle(WordPressPostService $service)
     {
-        $service->send();
+        $wordPressPost = null;
+        if ($dvdId = $this->input->getOption('dvdid')) {
+            $this->output->text($dvdId);
+            $wordPressPost = WordPressPostModel::where('title', $dvdId)->first();
+        }
+
+        $service->send($wordPressPost);
     }
 }
