@@ -333,7 +333,7 @@ class Migrations extends Command
                 'torrent' => $row['torrent'],
                 'created_at' => $row['created_at'],
                 'updated_at' => $row['updated_at'],
-                'deleted_at' => $row['deleted_at'],
+                'deleted_at' => $row['deleted_at'] ?? null,
             ]);
 
             $this->output->progressAdvance();
@@ -375,7 +375,7 @@ class Migrations extends Command
                 'gallery' => $row['gallery'],
                 'created_at' => $row['created_at'],
                 'updated_at' => $row['updated_at'],
-                'deleted_at' => $row['deleted_at'],
+                'deleted_at' => $row['deleted_at'] ?? null,
                 'state_code' => State::STATE_COMPLETED
             ]);
 
@@ -413,7 +413,7 @@ class Migrations extends Command
                 'state_code' => $row['state_code'] === 'XCIC' ? State::STATE_COMPLETED : State::STATE_INIT,
                 'created_at' => $row['created_at'],
                 'updated_at' => $row['updated_at'],
-                'deleted_at' => $row['deleted_at'],
+                'deleted_at' => $row['deleted_at'] ?? null,
             ]);
 
             $this->output->progressAdvance();
@@ -458,7 +458,7 @@ class Migrations extends Command
                 'state_code' => State::STATE_PENDING,
                 'created_at' => $row['created_at'],
                 'updated_at' => $row['updated_at'],
-                'deleted_at' => $row['deleted_at'],
+                'deleted_at' => $row['deleted_at'] ?? null,
             ]);
 
             $this->output->progressAdvance();
