@@ -17,6 +17,16 @@ class MovieController extends BaseResourceController
     use DispatchesJobs;
     use ValidatesRequests;
 
+    public function index()
+    {
+        return response()->view(
+            'jav.movies',
+            [
+                'movies' => Movie::simplePaginate(15),
+            ]
+        );
+    }
+
     public function toWordPress(MovieService $service, WordPressPostService $wordPress, Movie $movie)
     {
         $wordPressPost = $service->createWordPressPost($movie);

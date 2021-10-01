@@ -14,8 +14,9 @@
     @section('sidebar')
         <nav id="sidebar" class="sidebar js-sidebar">
             <div class="sidebar-content js-simplebar">
-                @yield('logo')
-
+                @section('logo')
+                    @include('subs.logo')
+                @show
                 <ul class="sidebar-nav">
                     <li class="sidebar-header">
                         Jav

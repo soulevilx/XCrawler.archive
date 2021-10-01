@@ -11,6 +11,7 @@ Route::namespace('App\Jav\Http\Controllers')
         Route::post('/onejav/{onejav}/download', [OnejavController::class, 'download'])->name('onejav.download');
 
         // Movies
+        Route::get('/movies', [MovieController::class, 'index'])->name('movies.index');
         Route::post('/movies/{movie}/to-wordpress', [MovieController::class, 'toWordPress'])->name('movie.to-wordpress');
         Route::get('/movies/{movie}', [MovieController::class, 'show'])->name('movie.show');
     });
