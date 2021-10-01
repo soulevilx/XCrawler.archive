@@ -19,7 +19,7 @@ abstract class TestCase extends BaseTestCase
     use RefreshDatabase;
     use CreatesApplication;
     use WithFaker;
-    use WithoutMiddleware;
+    //use WithoutMiddleware;
 
     protected string $fixtures;
     protected bool $seed = true;

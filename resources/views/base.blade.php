@@ -4,24 +4,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
+    <title>@yield('title', 'XCrawler')</title>
 
-
-    <!-- Fonts -->
-    @section('css')
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
-        <link href="https://demo-basic.adminkit.io/css/app.css" rel="stylesheet">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet"/>
-    @show
-
+    @include('resources.css')
+    @yield('css')
 </head>
 <body class="antialiased">
 <div class="wrapper">
     @section('sidebar')
         <nav id="sidebar" class="sidebar js-sidebar">
             <div class="sidebar-content js-simplebar">
-                @yield('logo')
-
+                @section('logo')
+                    @include('subs.logo')
+                @show
                 <ul class="sidebar-nav">
                     <li class="sidebar-header">
                         Jav
@@ -53,6 +48,10 @@
     @show
     <div class="main">
         @yield('topbar')
+        <div class="container-fluid mt-4">
+            @yield('messages')
+        </div>
+
         <main class="content">
             @yield('content')
         </main>
@@ -60,6 +59,7 @@
     </div>
 </div>
 
-<script src="https://demo-basic.adminkit.io/js/app.js"></script>
+@include('resources.js')
+@yield('js')
 </body>
 </html>
