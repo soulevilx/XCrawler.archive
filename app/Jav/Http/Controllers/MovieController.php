@@ -17,14 +17,46 @@ class MovieController extends BaseResourceController
     use DispatchesJobs;
     use ValidatesRequests;
 
-    public function postToWordPress(MovieService $service, WordPressPostService $wordPress, Movie $movie)
+    public function toWordPress(MovieService $service, WordPressPostService $wordPress, Movie $movie)
     {
         $wordPressPost = $service->createWordPressPost($movie);
         if (!$wordPressPost) {
-            return $this->respondNoContent();
+            return response()->view(
+                'jav.movie',
+                [
+                    'movie' => $movie,
+                    'messages' => [
+                        [
+                            'type' => 'danger',
+                            'message' => 'Can not create WordPress Post',
+                        ],
+                    ],
+                ]
+            );
         }
 
         $wordPress->send($wordPressPost);
-        return $this->respondOk(new WordPressPostResource($wordPressPost->refresh()));
+        return response()->view(
+            'jav.movie',
+            [
+                'movie' => $movie->refresh(),
+                'messages' => [
+                    [
+                        'type' => 'primary',
+                        'message' => 'WordPress Post sent',
+                    ],
+                ],
+            ]
+        );
+    }
+
+    public function show(Movie $movie)
+    {
+        return response()->view(
+            'jav.movie',
+            [
+                'movie' => $movie->refresh(),
+            ]
+        );
     }
 }
