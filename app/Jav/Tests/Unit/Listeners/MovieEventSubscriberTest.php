@@ -16,8 +16,6 @@ class MovieEventSubscriberTest extends JavTestCase
 {
     public function testMovieCreatedWillTriggerNotification()
     {
-        Notification::fake();
-
         $movie = Movie::factory()->create();
         Event::dispatch(new MovieCreated($movie));
 

@@ -8,6 +8,8 @@ use App\Flickr\Jobs\FlickrRequestDownloadAlbum;
 use App\Flickr\Models\FlickrAlbum;
 use App\Flickr\Models\FlickrDownload;
 use App\Flickr\Tests\FlickrTestCase;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 
@@ -21,6 +23,13 @@ class FlickrRequestDownloadAlbumTest extends FlickrTestCase
         Event::fake([FlickrDownloadCompleted::class]);
 
         Storage::fake();
+        $mocker = \Mockery::mock(Client::class);
+        $mocker
+            ->shouldReceive('request')
+            ->andReturn(new Response);
+
+            app()->instance(Client::class, $mocker);
+
         $albumId = 72157719703391487;
         $nsid = '51838687@N07';
 
