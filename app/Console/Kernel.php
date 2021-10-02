@@ -28,6 +28,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('jav:r18 release')->everyFiveMinutes();
         $schedule->command('jav:r18 daily')->dailyAt('12:00');
         $schedule->command('jav:r18 item');
+        $schedule->command('jav:r18 cleanup')->everyMinute();
 
         // XCity Idol
         $schedule->command('jav:xcity-idol release')->everyFifteenMinutes();
