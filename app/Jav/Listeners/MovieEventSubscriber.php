@@ -2,7 +2,6 @@
 
 namespace App\Jav\Listeners;
 
-use App\Core\Models\State;
 use App\Core\Services\ApplicationService;
 use App\Jav\Events\MovieCreated;
 use App\Jav\Notifications\MovieCreatedNotification;
