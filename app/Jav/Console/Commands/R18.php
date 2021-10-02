@@ -16,7 +16,7 @@ class R18 extends Command
      *
      * @var string
      */
-    protected $signature = 'jav:r18 {task}';
+    protected $signature = 'jav:r18 {task} {--id=}';
 
     /**
      * The console command description.
@@ -39,7 +39,12 @@ class R18 extends Command
                 break;
 
             case 'item':
-                $model = R18Model::byState(State::STATE_INIT)->first();
+                if ($id = $this->input->getOption('id')) {
+                    $model = R18Model::find($id);
+                } else {
+                    $model = R18Model::byState(State::STATE_INIT)->first();
+                }
+
                 if ($model) {
                     ItemFetch::dispatch($model)->onQueue('crawling');
                 }
