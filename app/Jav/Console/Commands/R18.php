@@ -50,6 +50,12 @@ class R18 extends Command
                 }
 
                 break;
+            case 'cleanup':
+                if ($model = R18Model::byState(State::STATE_PROCESSING)->first()) {
+                    ItemFetch::dispatch($model)->onQueue('crawling');
+                }
+
+                break;
         }
     }
 }
