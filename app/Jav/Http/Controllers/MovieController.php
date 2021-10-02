@@ -3,7 +3,6 @@
 namespace App\Jav\Http\Controllers;
 
 use App\Core\Http\Controllers\BaseResourceController;
-use App\Jav\Http\Resources\WordPressPostResource;
 use App\Jav\Models\Movie;
 use App\Jav\Services\Movie\MovieService;
 use App\Jav\Services\WordPressPostService;
@@ -16,16 +15,6 @@ class MovieController extends BaseResourceController
     use AuthorizesRequests;
     use DispatchesJobs;
     use ValidatesRequests;
-
-    public function index()
-    {
-        return response()->view(
-            'jav.movies',
-            [
-                'movies' => Movie::simplePaginate(15),
-            ]
-        );
-    }
 
     public function toWordPress(MovieService $service, WordPressPostService $wordPress, Movie $movie)
     {
@@ -65,7 +54,7 @@ class MovieController extends BaseResourceController
         return response()->view(
             'jav.movie',
             [
-                'movie' => $movie->refresh(),
+                'movie' => $movie,
             ]
         );
     }

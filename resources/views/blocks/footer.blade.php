@@ -16,7 +16,6 @@
                         <li class="list-inline-item">
                             <a class="text-muted" href="https://twitter.com/SoulEvil" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
                         </li>
-
                     </ul>
                 </div>
             </div>
