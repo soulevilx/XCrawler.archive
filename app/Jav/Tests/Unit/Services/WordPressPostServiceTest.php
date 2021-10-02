@@ -14,8 +14,6 @@ class WordPressPostServiceTest extends JavTestCase
 {
     public function testSend()
     {
-        Mail::fake();
-
         $movie = Movie::factory()->create();
         $movieService = app(MovieService::class);
         $wordPressPost = $movieService->createWordPressPost($movie);
@@ -30,8 +28,6 @@ class WordPressPostServiceTest extends JavTestCase
 
     public function testSendWithoutMovieProvide()
     {
-        Mail::fake();
-
         $movie = Movie::factory()->create();
         $movieService = app(MovieService::class);
         $wordPressPost = $movieService->createWordPressPost($movie);
