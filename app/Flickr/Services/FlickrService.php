@@ -93,6 +93,9 @@ class FlickrService
 
         $jsonResponse = $this->cleanTextNodes($jsonResponse);
 
+        /**
+         * @TODO Handle User not found / deleted
+         */
         if ($jsonResponse['stat'] === 'fail') {
             throw new \Exception($jsonResponse['message'], $jsonResponse['code']);
         }

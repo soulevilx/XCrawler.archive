@@ -1,4 +1,4 @@
-<div class="card-deck">
+<div class="card-columns">
     <div class="card">
         <img src="{{$movie->onejav->cover}}" class="card-img-top" alt="...">
         <div class="card-body">

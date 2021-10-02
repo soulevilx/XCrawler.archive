@@ -12,6 +12,7 @@ class CoreServiceProvider extends BaseServiceProvider
     protected array $configs = [
         __DIR__.'/../Config' => [
             'services',
+            'core'
         ],
     ];
 }
