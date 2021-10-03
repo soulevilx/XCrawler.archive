@@ -50,8 +50,8 @@
     </p>
 
     <p>
-        @if(!empty($movie->gallery))
-            @foreach ($movie->gallery as $image)
+        @if(!empty($movie->r18->gallery))
+            @foreach ($movie->r18->gallery as $image)
                 <img src="{{$image['large']}}" alt="{{$movie->title}}"/>
             @endforeach
         @endif
