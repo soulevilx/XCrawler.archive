@@ -4,6 +4,7 @@ namespace App\Flickr\Providers;
 
 use App\Flickr\Listeners\FlickrContactEventSubscriber;
 use App\Flickr\Listeners\FlickrDownloadItemEventSubscriber;
+use App\Flickr\Listeners\FlickrEventSubscriber;
 use App\Flickr\Models\FlickrAlbum;
 use App\Flickr\Models\FlickrContact;
 use App\Flickr\Models\FlickrDownloadItem;
@@ -21,7 +22,8 @@ class FlickrEventServiceProvider extends EventServiceProvider
      */
     protected $subscribe = [
         FlickrContactEventSubscriber::class,
-        FlickrDownloadItemEventSubscriber::class
+        FlickrDownloadItemEventSubscriber::class,
+        FlickrEventSubscriber::class
     ];
 
     public function boot()

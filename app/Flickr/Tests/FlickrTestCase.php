@@ -29,6 +29,16 @@ class FlickrTestCase extends TestCase
             ->with(
                 'flickr.contacts.getList',
                 'POST',
+                ['fail' => true]
+            )
+            ->andReturn(
+                json_encode(['stat' => 'fail'])
+            );
+
+        $this->flickrMocker->shouldReceive('requestJson')
+            ->with(
+                'flickr.contacts.getList',
+                'POST',
                 ['per_page' => 1000]
             )
             ->andReturn(

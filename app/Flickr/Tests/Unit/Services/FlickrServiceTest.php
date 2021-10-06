@@ -2,10 +2,22 @@
 
 namespace App\Flickr\Tests\Unit\Services;
 
+use App\Flickr\Exceptions\FlickrRequestFailed;
+use App\Flickr\Services\FlickrService;
 use App\Flickr\Tests\FlickrTestCase;
 
 class FlickrServiceTest extends FlickrTestCase
 {
+    public function testRequestFailed()
+    {
+        $this->expectException(FlickrRequestFailed::class);
+        $this->service->request('flickr.contacts.getList', ['fail' => true]);
+        $this->assertDatabaseHas('request_failed', [
+            'service' => FlickrService::SERVICE,
+            'path' => 'flickr.contacts.getList'
+        ]);
+    }
+
     public function testContacts()
     {
         $this->assertEquals($this->totalContacts, $this->service->contacts()->getListAll()->count());
