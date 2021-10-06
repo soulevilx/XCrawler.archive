@@ -2,12 +2,14 @@
 
 namespace App\Flickr\Services;
 
+use App\Flickr\Events\FlickrRequestFailed;
 use App\Flickr\Services\Flickr\Contacts;
 use App\Flickr\Services\Flickr\People;
 use App\Flickr\Services\Flickr\Photos;
 use App\Flickr\Services\Flickr\PhotoSets;
 use App\Flickr\Services\Flickr\Urls;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 use OAuth\Common\Consumer\Credentials;
 use OAuth\Common\Http\Uri\UriInterface;
 use OAuth\Common\Storage\Memory;
@@ -15,6 +17,7 @@ use OAuth\Common\Storage\TokenStorageInterface;
 use OAuth\OAuth1\Token\StdOAuth1Token;
 use OAuth\OAuth2\Token\TokenInterface;
 use OAuth\ServiceFactory;
+use App\Flickr\Exceptions\FlickrRequestFailed as FlickrRequestFailedException;
 
 class FlickrService
 {
@@ -88,6 +91,7 @@ class FlickrService
         $jsonResponse = json_decode($response, true);
 
         if (null === $jsonResponse) {
+            Event::dispatch(new FlickrRequestFailed($path, $params));
             throw new \Exception("Unable to decode Flickr response to $path request: " . $response);
         }
 
@@ -97,7 +101,11 @@ class FlickrService
          * @TODO Handle User not found / deleted
          */
         if ($jsonResponse['stat'] === 'fail') {
-            throw new \Exception($jsonResponse['message'], $jsonResponse['code']);
+            Event::dispatch(new FlickrRequestFailed($path, $params, $jsonResponse['message'] ?? null));
+            throw new FlickrRequestFailedException(
+                $jsonResponse['message'] ?? 'Flickr request failed',
+                $jsonResponse['code'] ?? 0
+            );
         }
 
         unset($jsonResponse['stat']);
