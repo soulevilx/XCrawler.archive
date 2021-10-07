@@ -42,5 +42,14 @@
             @include('jav.blocks.onejav')
         </div>
     @endif
+    @if(!is_null($movie->r18))
+        <div class="container-fluid">
+            @if(!empty($movie->r18->gallery))
+                @foreach ($movie->r18->gallery as $image)
+                    <img src="{{$image['large']}}" alt="{{$movie->title}}"/>
+                @endforeach
+            @endif
+        </div>
+    @endif
 @endsection
 @include('blocks.footer')
