@@ -25,6 +25,6 @@ class AddUrlFieldToAlbumsTable extends Migration
      */
     public function down()
     {
-        Schema::dropColumns('flickr_albums', 'url');
+        Schema::dropColumns('flickr_albums', ['url']);
     }
 }
