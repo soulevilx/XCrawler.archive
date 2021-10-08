@@ -145,8 +145,16 @@ class R18 extends BaseModel implements MovieInterface
         return $this->refresh();
     }
 
-    public function sample(): ?string
+    /**
+     * @param string $version
+     * @return string|null
+     */
+    public function sample(string $version = 'high'): ?string
     {
-        return $this->sample['high'] ?? null;
+        if (count($this->sample) > 1) {
+            return $this->sample[$version] ?? null;
+        }
+
+        return $this->sample[0] ?? null;
     }
 }
