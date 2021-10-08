@@ -3,7 +3,9 @@
 namespace App\Flickr\Services;
 
 use App\Flickr\Events\FlickrRequestFailed;
+use App\Flickr\Exceptions\FlickrRequestFailed as FlickrRequestFailedException;
 use App\Flickr\Services\Flickr\Contacts;
+use App\Flickr\Services\Flickr\Entities\Album;
 use App\Flickr\Services\Flickr\People;
 use App\Flickr\Services\Flickr\Photos;
 use App\Flickr\Services\Flickr\PhotoSets;
@@ -17,17 +19,19 @@ use OAuth\Common\Storage\TokenStorageInterface;
 use OAuth\OAuth1\Token\StdOAuth1Token;
 use OAuth\OAuth2\Token\TokenInterface;
 use OAuth\ServiceFactory;
-use App\Flickr\Exceptions\FlickrRequestFailed as FlickrRequestFailedException;
 
 class FlickrService
 {
     public const SERVICE = 'flickr';
 
     protected TokenStorageInterface $oauthTokenStorage;
+
     /**
      * @var TokenInterface
      */
     protected $oauthRequestToken;
+
+    public const FLICKR_ERROR_USER_DELETED = 5;
 
     public function __construct(private ?string $apiKey = null, private ?string $secret = null)
     {
@@ -159,5 +163,13 @@ class FlickrService
     public function urls(): Urls
     {
         return new Urls($this);
+    }
+
+    public function downloadAlbum(string $albumUrl): Album
+    {
+        $album = app(Album::class);
+        $album->loadFromUrl($albumUrl);
+
+        return $album;
     }
 }

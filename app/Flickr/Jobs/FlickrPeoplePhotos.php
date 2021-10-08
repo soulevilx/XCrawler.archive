@@ -11,6 +11,11 @@ class FlickrPeoplePhotos extends BaseProcessJob
         $service = app(FlickrService::class);
         $model = $this->process->model;
         $photos = $service->people()->getPhotos($model->nsid);
+
+        if (empty($photos)) {
+            return true;
+        }
+
         // Create new photos
         $photos['photo']->each(function ($photo) use ($model) {
             $model->photos()->firstOrCreate([

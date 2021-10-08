@@ -60,7 +60,17 @@ class FlickrTestCase extends TestCase
                 ['user_id' => $this->nsid]
             )
             ->andReturn($this->getFixture('people.getInfo.json'));
+        $this->flickrMocker->shouldReceive('requestJson')
+            ->with(
+                'flickr.people.getInfo',
+                'POST',
+                ['user_id' => 'deleted']
+            )
+            ->andReturn(json_encode(['stat' => 'fail', 'code' => FlickrService::FLICKR_ERROR_USER_DELETED]));
 
+        /**
+         * flickr.people.getPhotos
+         */
         $this->flickrMocker->shouldReceive('requestJson')
             ->with(
                 'flickr.people.getPhotos',
@@ -73,6 +83,22 @@ class FlickrTestCase extends TestCase
                 ]
             )
             ->andReturn($this->getFixture('people.getPhotos_1.json'));
+        /**
+         * User deleted case
+         */
+        $this->flickrMocker->shouldReceive('requestJson')
+            ->with(
+                'flickr.people.getPhotos',
+                'POST',
+                [
+                    'user_id' => 'deleted',
+                    'per_page' => 500,
+                    'page' => 1,
+                    'safe_search' => 3,
+                ]
+            )
+            ->andReturn(json_encode(['stat' => 'fail', 'code' => FlickrService::FLICKR_ERROR_USER_DELETED]));
+
         $this->flickrMocker->shouldReceive('requestJson')
             ->with(
                 'flickr.people.getPhotos',
@@ -150,7 +176,6 @@ class FlickrTestCase extends TestCase
             ->withSomeOfArgs(
                 'flickr.photosets.getPhotos',
                 'POST',
-
             )
             ->andReturn($this->getFixture('photosets.getPhotos.json'));
 

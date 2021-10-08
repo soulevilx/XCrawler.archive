@@ -31,29 +31,29 @@ class FlickrDownload extends Command
     public function handle(FlickrService $service)
     {
         $this->service = $service;
-        if ($this->argument('task') !== 'downloadItem') {
-            $this->output->title('Flickr download');
-            $this->output->text('Getting user ...');
-            $this->user = $this->service->urls()->lookupUser($this->option('url'));
-
-            switch ($this->argument('task')) {
-                case 'album':
-                    $this->album();
-                    break;
-            }
-
-            return;
+        if ($this->argument('task') === 'downloadItem') {
+            $this->downloadItem();
         }
 
-        $this->downloadItem();
+        $this->output->title('Flickr download');
+        $this->output->text('Getting user ...');
+
+        switch ($this->argument('task')) {
+            case 'album':
+                $this->album();
+                break;
+        }
     }
 
     protected function album()
     {
         $this->output->text('Getting album ...');
-        $url = explode('/', $this->option('url'));
-        $albumId = end($url);
-        FlickrRequestDownloadAlbum::dispatch((int) $albumId, $this->user['id'])->onQueue('api');
+        $album = $this->service->downloadAlbum($this->option('url'));
+
+        FlickrRequestDownloadAlbum::dispatch(
+            $album->getAlbumId(),
+            $album->getUserNsid(),
+        )->onQueue('api');
         $this->output->text('Pushed to queue');
     }
 
