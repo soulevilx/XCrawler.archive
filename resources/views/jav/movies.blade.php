@@ -17,21 +17,23 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item mr-4">
-                        <span class="badge badge-pill badge-primary">{{\App\Jav\Models\Movie::count()}}</span>
+                        <div class="position-relative">
+                            <i class="fas fa-video"></i>
+                            <span class="indicator" style="right: -18px; top: -6px">{{\App\Jav\Models\Movie::count()}}</span>
+                        </div>
+                        <span class="badge badge-pill badge-primary"></span>
                     </li>
-                    <li class="nav-item mr-4">
-                        <span class="badge badge-pill badge-primary">{{\App\Jav\Models\Onejav::count()}}</span>
-                    </li>
-                    <li class="nav-item mr-4">
-                        <span class="badge badge-pill badge-primary">{{\App\Jav\Models\R18::count()}}</span>
-                    </li>
+
                 </ul>
                 <form class="form-inline my-2 my-lg-0" action="{{route('movies.index' )}}" method="get">
                 @csrf <!-- {{ csrf_field() }} -->
                     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
                            name="keyword">
 
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    <div class="input-group-append">
+                        <button class="btn btn-primary my-2 my-sm-0" type="submit"><i class="fas fa-search mr-2"></i>Search</button>
+                    </div>
+
                 </form>
             </div>
         </nav>
