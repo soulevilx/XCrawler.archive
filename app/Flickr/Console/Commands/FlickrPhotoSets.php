@@ -7,7 +7,6 @@ use App\Flickr\Jobs\FlickrPhotoSets as FlickrPhotoSetsJob;
 use App\Flickr\Jobs\FlickrPhotoSetsPhotos;
 use App\Flickr\Models\FlickrAlbum;
 use App\Flickr\Models\FlickrProcess;
-use App\Flickr\Services\FlickrService;
 use Illuminate\Console\Command;
 
 /**
