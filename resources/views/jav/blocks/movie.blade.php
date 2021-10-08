@@ -7,16 +7,12 @@
     </div>
     <div class="card-footer">
         <div class="btn-group" role="group" aria-label="Basic example">
-            <form action="{{route('movie.to-wordpress', $movie)}}" method="post">
-            @csrf <!-- {{ csrf_field() }} -->
-                <button type="submit" class="btn btn-primary mr-4"><i class="fab fa-wordpress"></i></button>
-            </form>
-            @if(!is_null($movie->onejav))
-                <form action="{{route('onejav.download', $movie->onejav)}}" method="post">
-                @csrf <!-- {{ csrf_field() }} -->
-                    <button type="submit" class="btn btn-primary"><i class="fas fa-download"></i></button>
-                </form>
-            @endif
+            @isset($showWordPress)
+                @include('jav.blocks.elements.wordpress', ['movie' => $movie])
+            @endisset
+            @isset($showDownload)
+                @include('jav.blocks.elements.download', ['onejav' => $movie->onejav])
+            @endisset
         </div>
     </div>
 </div>

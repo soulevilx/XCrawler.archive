@@ -1,14 +1,14 @@
 <div class="card-columns">
     <div class="card">
-        <img src="{{$movie->onejav->cover}}" class="card-img-top" alt="...">
+        <a href="https://onejav.com{{$movie->onejav->url}}" target="_blank">
+            <img src="{{$movie->onejav->cover}}" class="card-img-top" alt="{{$movie->onejav->dvd_id}}"></a>
         <div class="card-body">
             <h5 class="card-title">Onejav</h5>
         </div>
-        <div class="card-footer">
-            <form action="{{route('onejav.download', $movie->onejav)}}" method="post">
-            @csrf <!-- {{ csrf_field() }} -->
-                <button type="submit" class="btn btn-primary"><i class="fas fa-download"></i></button>
-            </form>
-        </div>
+        @isset($showDownload)
+            <div class="card-footer">
+                @include('jav.blocks.elements.download');
+            </div>
+        @endisset
     </div>
 </div>

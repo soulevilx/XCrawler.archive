@@ -42,7 +42,7 @@
         <div class="card-columns">
             @foreach($movies as $movie)
                 <div class="col mb-4">
-                    @include('jav.blocks.movie')
+                    @include('jav.blocks.movie', ['showDownload' => true, 'showWordPress' => true])
                 </div>
             @endforeach
         </div>
