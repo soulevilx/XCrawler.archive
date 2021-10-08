@@ -28,7 +28,7 @@ class FlickrPhotoSets extends Command
      *
      * @var string
      */
-    protected $description = 'Get photosets data';
+    protected $description = 'Get photosets data. Tasks: list || photos';
 
     public function handle()
     {

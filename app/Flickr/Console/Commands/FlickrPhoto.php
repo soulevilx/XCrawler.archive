@@ -20,7 +20,7 @@ class FlickrPhoto extends Command
      *
      * @var string
      */
-    protected $description = 'Get photo data';
+    protected $description = 'Get photo data. Tasks: sizes';
 
     public function handle()
     {

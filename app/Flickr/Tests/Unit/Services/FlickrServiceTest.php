@@ -3,6 +3,7 @@
 namespace App\Flickr\Tests\Unit\Services;
 
 use App\Flickr\Exceptions\FlickrRequestFailed;
+use App\Flickr\Models\FlickrContact;
 use App\Flickr\Services\FlickrService;
 use App\Flickr\Tests\FlickrTestCase;
 
@@ -50,6 +51,21 @@ class FlickrServiceTest extends FlickrTestCase
             null,
             150
         )->count());
+    }
+
+    public function testPeopleInfoUserDeleted()
+    {
+        $people = FlickrContact::factory()->create([
+            'nsid' => 'deleted',
+        ]);
+
+        $this->service->people()->getInfo('deleted');
+        $this->assertSoftDeleted($people);
+    }
+
+    public function testPeopleGetPhotosUserDeleted()
+    {
+        $this->assertEmpty($this->service->people()->getPhotos('deleted'));
     }
 
     public function testPhotos()

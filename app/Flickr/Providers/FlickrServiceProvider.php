@@ -31,4 +31,14 @@ class FlickrServiceProvider extends BaseServiceProvider
         });
 
     }
+
+    public function boot()
+    {
+        parent::boot();
+
+        foreach ($this->routes as $route)
+        {
+            $this->loadRoutes($route);
+        }
+    }
 }

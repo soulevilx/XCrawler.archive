@@ -23,4 +23,15 @@ class FlickrPeopleInfoTest extends FlickrTestCase
         $this->assertEquals('soulevilx', $contact->path_alias);
         $this->assertEquals('SoulEvilX', $contact->username);
     }
+
+    public function testJobWithDeletedUser()
+    {
+        $contact = FlickrContact::factory()->create([
+            'nsid' => 'deleted',
+        ]);
+        $process = $contact->processStep(FlickrProcess::STEP_PEOPLE_INFO);
+        FlickrPeopleInfo::dispatch($process);
+
+        $this->assertSoftDeleted($contact);
+    }
 }
