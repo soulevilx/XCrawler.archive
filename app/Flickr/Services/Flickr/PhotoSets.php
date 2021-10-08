@@ -71,6 +71,16 @@ class PhotoSets extends BaseFlickr
         return $response['photoset'];
     }
 
+    /**
+     * @param string $photoset_id
+     * @param string $user_id
+     * @param string|null $extra
+     * @param int|null $page
+     * @param int|null $per_page
+     * @param int|null $privacy_filter
+     * @param string|null $media
+     * @return mixed
+     */
     public function getAllPhotos(
         string  $photoset_id,
         string  $user_id,
@@ -95,7 +105,7 @@ class PhotoSets extends BaseFlickr
         $list = $photos['photo'];
 
         for ($page = 2; $page <= $pages; $page++) {
-            $photos = $this->getList(
+            $photos = $this->getPhotos(
                 $photoset_id,
                 $user_id,
                 $extra,

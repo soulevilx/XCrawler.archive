@@ -30,6 +30,7 @@ class FlickrRequestDownloadAlbum implements ShouldQueue
     public function handle(FlickrService $service)
     {
         $albumInfo = $service->photosets()->getInfo($this->albumId, $this->nsid);
+
         FlickrContact::firstOrCreate([
             'nsid' => $albumInfo['owner'],
         ], [

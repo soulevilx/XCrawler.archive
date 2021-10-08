@@ -11,7 +11,10 @@ class FlickrPhotoSetsPhotosTest extends FlickrTestCase
 {
     public function testJob()
     {
-        $album = FlickrAlbum::factory()->create();
+        $album = FlickrAlbum::factory()->create([
+            'id' => '72157688392979533',
+            'owner' => '94529704@N02',
+        ]);
         $process = FlickrProcess::factory()->create([
             'model_id' => $album->id,
             'model_type' => FlickrAlbum::class,
@@ -21,7 +24,7 @@ class FlickrPhotoSetsPhotosTest extends FlickrTestCase
         FlickrPhotoSetsPhotos::dispatch($process);
         $album->refresh();
 
-        $this->assertEquals(55, $album->photos()->count());
-        $this->assertDatabaseCount('flickr_photos', 55);
+        $this->assertEquals(98, $album->photos()->count());
+        $this->assertDatabaseCount('flickr_photos', 98);
     }
 }

@@ -22,7 +22,6 @@ class FlickrPhotoSetsPhotos extends BaseProcessJob
                 'owner' => $model->owner,
             ], $photo);
 
-
             $model->photos()->syncWithoutDetaching([$photo->id]);
         });
 

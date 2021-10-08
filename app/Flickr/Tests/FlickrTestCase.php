@@ -25,15 +25,7 @@ class FlickrTestCase extends TestCase
         $serviceMocker = \Mockery::mock(ServiceFactory::class);
         $this->flickrMocker = \Mockery::mock(ServiceFactory::class);
 
-        $this->flickrMocker->shouldReceive('requestJson')
-            ->with(
-                'flickr.contacts.getList',
-                'POST',
-                ['fail' => true]
-            )
-            ->andReturn(
-                json_encode(['stat' => 'fail'])
-            );
+        $this->failed();
 
         $this->flickrMocker->shouldReceive('requestJson')
             ->with(
@@ -60,13 +52,7 @@ class FlickrTestCase extends TestCase
                 ['user_id' => $this->nsid]
             )
             ->andReturn($this->getFixture('people.getInfo.json'));
-        $this->flickrMocker->shouldReceive('requestJson')
-            ->with(
-                'flickr.people.getInfo',
-                'POST',
-                ['user_id' => 'deleted']
-            )
-            ->andReturn(json_encode(['stat' => 'fail', 'code' => FlickrService::FLICKR_ERROR_USER_DELETED]));
+
 
         /**
          * flickr.people.getPhotos
@@ -167,22 +153,79 @@ class FlickrTestCase extends TestCase
                 'flickr.photosets.getInfo',
                 'POST',
                 [
+                    'photoset_id' => 72157688392979533,
+                    'user_id' => '94529704@N02'
+                ]
+            )
+            ->andReturn($this->getFixture('photosets.getInfo.json'));
+        $this->flickrMocker->shouldReceive('requestJson')
+            ->with(
+                'flickr.photosets.getInfo',
+                'POST',
+                [
                     'photoset_id' => 72157719703391487,
                     'user_id' => '51838687@N07'
                 ]
             )
             ->andReturn($this->getFixture('photosets.getInfo.json'));
-        $this->flickrMocker->shouldReceive('requestJson')
-            ->withSomeOfArgs(
-                'flickr.photosets.getPhotos',
-                'POST',
-            )
-            ->andReturn($this->getFixture('photosets.getPhotos.json'));
+
+        for ($page = 1; $page <= 2; $page++) {
+            $this->flickrMocker->shouldReceive('requestJson')
+                ->with(
+                    'flickr.photosets.getPhotos',
+                    'POST',
+                    ['photoset_id' => '72157688392979533', 'user_id' => '94529704@N02', 'page' => $page, 'per_page' => 50]
+                )
+                ->andReturn($this->getFixture('photosets.getPhotos_'. $page.'.json'));
+            $this->flickrMocker->shouldReceive('requestJson')
+                ->with(
+                    'flickr.photosets.getPhotos',
+                    'POST',
+                    ['photoset_id' => '72157688392979533', 'user_id' => '94529704@N02', 'page' => $page, 'per_page' => 500]
+                )
+                ->andReturn($this->getFixture('photosets.getPhotos_'. $page.'.json'));
+            $this->flickrMocker->shouldReceive('requestJson')
+                ->with(
+                    'flickr.photosets.getPhotos',
+                    'POST',
+                    ['photoset_id' => '72157719703391487', 'user_id' => '51838687@N07', 'page' => $page, 'per_page' => 50]
+                )
+                ->andReturn($this->getFixture('photosets.getPhotos_'. $page.'.json'));
+            $this->flickrMocker->shouldReceive('requestJson')
+                ->with(
+                    'flickr.photosets.getPhotos',
+                    'POST',
+                    ['photoset_id' => '72157719703391487', 'user_id' => '51838687@N07', 'page' => $page, 'per_page' => 500]
+                )
+                ->andReturn($this->getFixture('photosets.getPhotos_'. $page.'.json'));
+        }
+
 
         $serviceMocker->shouldReceive('createService')
             ->andReturn($this->flickrMocker);
 
         app()->instance(ServiceFactory::class, $serviceMocker);
         $this->service = app(FlickrService::class);
+    }
+
+    private function failed()
+    {
+        $this->flickrMocker->shouldReceive('requestJson')
+            ->with(
+                'flickr.contacts.getList',
+                'POST',
+                ['fail' => true]
+            )
+            ->andReturn(
+                json_encode(['stat' => 'fail'])
+            );
+
+        $this->flickrMocker->shouldReceive('requestJson')
+            ->with(
+                'flickr.people.getInfo',
+                'POST',
+                ['user_id' => 'deleted']
+            )
+            ->andReturn(json_encode(['stat' => 'fail', 'code' => FlickrService::FLICKR_ERROR_USER_DELETED]));
     }
 }
