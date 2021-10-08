@@ -14,28 +14,37 @@
 
         <div class="col-md-6">
             <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header"><i class="fas fa-tags"></i> Genres</div>
-                    <ul class="list-group list-group-flush">
-                        @foreach($movie->genres as $genre)
-                            <li class="list-group-item"><a href="{{route('movies.index', ['genres' => [$genre->name]])}}">{{$genre->name}}</a></li>
-                        @endforeach
-                    </ul>
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header"><i class="fas fa-tags"></i> Genres</div>
+                        <ul class="list-group list-group-flush">
+                            @foreach($movie->genres as $genre)
+                                <li class="list-group-item"><a
+                                        href="{{route('movies.index', ['genres' => [$genre->name]])}}">{{$genre->name}}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header"><i class="fas fa-user-friends"></i> Performers</div>
-                    <ul class="list-group list-group-flush">
-                        @foreach($movie->performers as $performer)
-                            <li class="list-group-item">{{$performer->name}}</li>
-                        @endforeach
-                    </ul>
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header"><i class="fas fa-user-friends"></i> Performers</div>
+                        <ul class="list-group list-group-flush">
+                            @foreach($movie->performers as $performer)
+                                <li class="list-group-item">{{$performer->name}}</li>
+                            @endforeach
+                        </ul>
+                    </div>
                 </div>
-            </div>
+                <div class="col-md-12">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        @include('jav.blocks.elements.download', ['onejav' => $movie->onejv])
+                        @include('jav.blocks.elements.wordpress', ['movie' => $movie])
+                    </div>
+                </div>
             </div>
         </div>
+
     </div>
     @if(!is_null($movie->onejav))
         <div class="container-fluid">
@@ -43,13 +52,12 @@
         </div>
     @endif
     @if(!is_null($movie->r18))
-        <div class="container-fluid">
-            @if(!empty($movie->r18->gallery))
-                @foreach ($movie->r18->gallery as $image)
-                    <img src="{{$image['large']}}" alt="{{$movie->title}}"/>
-                @endforeach
-            @endif
+        <div class="container-fluid mb-4">
+            <div class="row">
+                <video src="{{$movie->r18?->sample()}}" controls></video>
+            </div>
         </div>
+          @include('jav.blocks.elements.gallery', ['gallery' => $movie->r18])
     @endif
 @endsection
 @include('blocks.footer')
