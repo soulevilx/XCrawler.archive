@@ -8,5 +8,6 @@
 <script>
     jQuery(function() {
         jQuery('.lazy').Lazy();
+        jQuery('.has-tooltip').tooltip({})
     });
 </script>
