@@ -43,6 +43,21 @@ trait HasProcesses
                 ->first();
         }
 
+        $this->table(
+            [
+                'model_id',
+                'model_type',
+                'step',
+            ],
+            [
+                [
+                    $process->model_id,
+                    $process->model_type,
+                    $process->step,
+                ],
+            ]
+        );
+
         return $process;
     }
 }

@@ -57,7 +57,7 @@ abstract class BaseProcessJob implements ShouldQueue, ShouldBeUnique
 
     public function init()
     {
-        $this->process->setState(State::STATE_COMPLETED);
+        $this->process->setState(State::STATE_PROCESSING);
     }
 
     public function completed()

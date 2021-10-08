@@ -179,6 +179,8 @@ return [
             'memory' => env('HORIZON_MEMORY', 1024),
             'tries' => env('HORIZON_TRIES', 3),
             'nice' => 0,
+            'timeout' => 180,
+            'retry_after' => 1800,
         ],
         'crawling' => [
             'connection' => 'redis',
@@ -188,6 +190,8 @@ return [
             'memory' => env('HORIZON_MEMORY', 1024),
             'tries' => env('HORIZON_TRIES', 3),
             'nice' => 0,
+            'timeout' => 180,
+            'retry_after' => 1800,
         ],
         'api' => [
             'connection' => 'redis',
@@ -197,6 +201,8 @@ return [
             'memory' => env('HORIZON_MEMORY', 1024),
             'tries' => env('HORIZON_TRIES', 3),
             'nice' => 0,
+            'timeout' => 180,
+            'retry_after' => 1800,
         ],
     ],
 
