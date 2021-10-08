@@ -6,13 +6,18 @@
         <p class="card-text">{{$movie->description}}</p>
     </div>
     <div class="card-footer">
-        <div class="btn-group" role="group" aria-label="Basic example">
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+            <div class="btn-group mr-2" role="group" aria-label="First group">
+                @isset($showDownload)
+                    @include('jav.blocks.elements.download', ['onejav' => $movie->onejav])
+                @endisset
+            </div>
             @isset($showWordPress)
-                @include('jav.blocks.elements.wordpress', ['movie' => $movie])
+                <div class="btn-group mr-2" role="group" aria-label="Second group">
+                    @include('jav.blocks.elements.wordpress', ['movie' => $movie])
+                </div>
             @endisset
-            @isset($showDownload)
-                @include('jav.blocks.elements.download', ['onejav' => $movie->onejav])
-            @endisset
+
         </div>
     </div>
 </div>
