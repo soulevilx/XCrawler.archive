@@ -3,10 +3,10 @@
 namespace App\Jav\Console\Commands;
 
 use App\Core\Models\State;
-use App\Jav\Jobs\XCity\IdolItemFetch;
 use App\Jav\Jobs\XCity\VideoItemFetch;
 use App\Jav\Services\XCityVideoService;
 use Illuminate\Console\Command;
+use \App\Jav\Models\XCityVideo as XCityVideoModel;
 
 class XCityVideo extends Command
 {
@@ -38,8 +38,7 @@ class XCityVideo extends Command
                 break;
 
             case 'item':
-                if ($model = \App\Jav\Models\XCityVideo::byState(State::STATE_INIT)->first()) {
-
+                if ($model = XCityVideoModel::byState(State::STATE_INIT)->first()) {
                     VideoItemFetch::dispatch($model)->onQueue('crawling');
                 }
 
