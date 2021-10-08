@@ -15,7 +15,7 @@ class OnejavService implements ServiceInterface
 
     protected Onejav $model;
 
-    public function __construct(protected OnejavCrawler $crawler, protected ApplicationService $service)
+    public function __construct(protected OnejavCrawler $crawler)
     {
     }
 
@@ -46,8 +46,7 @@ class OnejavService implements ServiceInterface
 
     public function release()
     {
-        $this->service->refresh();
-        $currentPage = $this->service->get('onejav', 'current_page', 1);
+        $currentPage = ApplicationService::getConfig('onejav', 'current_page', 1);
         $items = $this->crawler->getItems('new', ['page' => $currentPage]);
 
         $items->each(function ($item) {
@@ -56,11 +55,11 @@ class OnejavService implements ServiceInterface
 
         ++$currentPage;
 
-        if ((int) $this->service->get('onejav', 'total_pages') < $currentPage) {
+        if ((int) ApplicationService::getConfig('onejav', 'total_pages') < $currentPage) {
             $currentPage = 1;
         }
 
-        $this->service->save('onejav', 'current_page', $currentPage);
+        ApplicationService::setConfig('onejav', 'current_page', $currentPage);
 
         return $items;
     }
