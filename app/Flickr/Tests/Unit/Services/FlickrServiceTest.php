@@ -65,17 +65,7 @@ class FlickrServiceTest extends FlickrTestCase
 
     public function testPeopleGetPhotosUserDeleted()
     {
-        $this->assertEmpty($this->service->people()->getPhotos(
-            'deleted',
-            3,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            150
-        ));
+        $this->assertEmpty($this->service->people()->getPhotos('deleted'));
     }
 
     public function testPhotos()

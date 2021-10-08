@@ -92,7 +92,7 @@ class FlickrTestCase extends TestCase
                 'POST',
                 [
                     'user_id' => 'deleted',
-                    'per_page' => 150,
+                    'per_page' => 500,
                     'page' => 1,
                     'safe_search' => 3,
                 ]

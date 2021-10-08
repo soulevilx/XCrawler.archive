@@ -38,4 +38,20 @@ class FlickrPeoplePhotosTest extends FlickrTestCase
         FlickrPeoplePhotos::dispatch($contactProcess);
         $this->assertDatabaseCount('flickr_photos', 358);
     }
+
+    public function testJobWithDeletedUser()
+    {
+        $contact = FlickrContact::factory()->create([
+            'nsid' => 'deleted',
+        ]);
+        $contactProcess = FlickrProcess::factory()->create([
+            'model_id' => $contact->id,
+            'model_type' => $contact->getMorphClass(),
+            'step' => FlickrProcess::STEP_PEOPLE_INFO,
+            'state_code' => State::STATE_COMPLETED,
+        ]);
+
+        FlickrPeoplePhotos::dispatch($contactProcess);
+        $this->assertSoftDeleted($contact);
+    }
 }
