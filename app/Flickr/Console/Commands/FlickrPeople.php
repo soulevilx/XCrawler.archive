@@ -29,7 +29,7 @@ class FlickrPeople extends Command
      *
      * @var string
      */
-    protected $description = 'Get people data';
+    protected $description = 'Get people data. Tasks: info || photos';
 
     public function handle()
     {
