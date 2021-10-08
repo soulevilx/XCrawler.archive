@@ -16,7 +16,7 @@ class R18Service implements ServiceInterface
 
     protected R18 $model;
 
-    public function __construct(protected R18Crawler $crawler, protected ApplicationService $application)
+    public function __construct(protected R18Crawler $crawler)
     {
     }
 
@@ -45,8 +45,8 @@ class R18Service implements ServiceInterface
         /**
          * Release only fetch links another job will fetch detail later.
          */
-        $currentPage = $this->application->get('r18', 'current_page', 1);
-        $url = R18::MOVIE_LIST_URL.'/page='.$currentPage;
+        $currentPage = ApplicationService::getConfig('r18', 'current_page', 1);
+        $url = R18::MOVIE_LIST_URL . '/page=' . $currentPage;
 
         $items = $this->crawler->getItemLinks($url);
 
@@ -59,11 +59,11 @@ class R18Service implements ServiceInterface
         });
 
         ++$currentPage;
-        if ((int) $this->application->get('r18', 'total_pages', 2000) < $currentPage) {
+        if ((int) ApplicationService::getConfig('r18', 'total_pages', 2000) < $currentPage) {
             $currentPage = 1;
         }
 
-        $this->application->save('r18', 'current_page', $currentPage);
+        ApplicationService::setConfig('r18', 'current_page', $currentPage);
 
         return $items;
     }
@@ -73,7 +73,7 @@ class R18Service implements ServiceInterface
         /**
          * Make sure we fetch page 1 to get latest release while `release` fetching older.
          */
-        $items = $this->crawler->getItemLinks(R18::MOVIE_LIST_URL.'/page=1');
+        $items = $this->crawler->getItemLinks(R18::MOVIE_LIST_URL . '/page=1');
 
         if ($items->isEmpty()) {
             return $items;

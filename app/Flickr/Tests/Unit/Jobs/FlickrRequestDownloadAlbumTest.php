@@ -21,8 +21,10 @@ class FlickrRequestDownloadAlbumTest extends FlickrTestCase
     public function testJob()
     {
         Event::fake([FlickrDownloadCompleted::class]);
-
         Storage::fake();
+        /**
+         * Mock client for downloading
+         */
         $mocker = \Mockery::mock(Client::class);
         $mocker
             ->shouldReceive('request')
@@ -42,7 +44,7 @@ class FlickrRequestDownloadAlbumTest extends FlickrTestCase
 
         // Step 2: Make sure album is created
         $this->assertDatabaseHas('flickr_albums', [
-            'id' => 72157719703391487,
+            'id' => $albumId,
             'owner' => $nsid,
         ]);
 
