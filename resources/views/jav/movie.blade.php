@@ -38,20 +38,9 @@
                 </div>
                 <div class="col-md-12">
                     <div class="btn-group" role="group" aria-label="Basic example">
-                        <form action="{{route('onejav.download', $movie->onejav)}}" method="post">
-
-                        @csrf <!-- {{ csrf_field() }} -->
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-download"></i></button>
-                            <small id="emailHelp"
-                                   class="form-text text-muted">{{ Config::get('services.jav.download_dir') }}</small>
-
-                        </form>
-                        <form action="{{route('movie.to-wordpress', $movie)}}" method="post">
-                        @csrf <!-- {{ csrf_field() }} -->
-                            <button type="submit" class="btn btn-primary mr-4"><i class="fab fa-wordpress"></i></button>
-                        </form>
+                        @include('jav.blocks.elements.download', ['onejav' => $movie->onejv])
+                        @include('jav.blocks.elements.wordpress', ['movie' => $movie])
                     </div>
-
                 </div>
             </div>
         </div>
@@ -63,13 +52,12 @@
         </div>
     @endif
     @if(!is_null($movie->r18))
-        <div class="container-fluid">
-            @if(!empty($movie->r18->gallery))
-                @foreach ($movie->r18->gallery as $image)
-                    <img src="{{$image['large']}}" alt="{{$movie->title}}"/>
-                @endforeach
-            @endif
+        <div class="container-fluid mb-4">
+            <div class="row">
+                <video src="{{$movie->r18?->sample()}}" controls></video>
+            </div>
         </div>
+          @include('jav.blocks.elements.gallery', ['gallery' => $movie->r18])
     @endif
 @endsection
 @include('blocks.footer')

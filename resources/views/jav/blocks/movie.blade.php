@@ -3,7 +3,7 @@
                                                    alt="{{$movie->dvd_id}}" width="70%"></a>
     <div class="card-body">
         <h5 class="card-title">{{$movie->dvd_id}}</h5>
-        <p class="card-text">{{$movie->description}}.</p>
+        <p class="card-text">{{$movie->description}}</p>
     </div>
     <div class="card-footer">
         <div class="btn-group" role="group" aria-label="Basic example">
