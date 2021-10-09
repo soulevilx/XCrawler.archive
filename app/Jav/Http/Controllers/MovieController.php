@@ -21,7 +21,7 @@ class MovieController extends BaseResourceController
         $wordPressPost = $service->createWordPressPost($movie);
         if (!$wordPressPost) {
             return response()->view(
-                'jav.movie',
+                'pages.jav.movie',
                 [
                     'movie' => $movie,
                     'messages' => [
@@ -36,7 +36,7 @@ class MovieController extends BaseResourceController
 
         $wordPress->send($wordPressPost);
         return response()->view(
-            'jav.movie',
+            'ages.jav.movie',
             [
                 'movie' => $movie->refresh(),
                 'messages' => [
@@ -52,7 +52,7 @@ class MovieController extends BaseResourceController
     public function show(Movie $movie)
     {
         return response()->view(
-            'jav.movie',
+            'pages.jav.movie',
             [
                 'movie' => $movie,
             ]

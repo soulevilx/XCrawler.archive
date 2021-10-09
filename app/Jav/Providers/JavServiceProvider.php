@@ -33,7 +33,7 @@ class JavServiceProvider extends BaseServiceProvider
         ],
     ];
 
-    protected $routes = [
+    protected array $routes = [
         __DIR__ .'/../Routes/jav_routes.php'
     ];
 
@@ -115,11 +115,5 @@ class JavServiceProvider extends BaseServiceProvider
             // $event->job
             // $event->exception
         });
-
-        foreach ($this->routes as $route)
-        {
-            $this->loadRoutes($route);
-        }
-
     }
 }

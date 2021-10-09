@@ -9,17 +9,22 @@ use Throwable;
 
 class BaseServiceProvider extends ServiceProvider
 {
-    protected array $migrations = [
-    ];
+    protected array $migrations = [];
 
-    protected array $configs = [
-    ];
+    protected array $configs = [];
+
+    protected array $routes = [];
 
     public function boot()
     {
         $this->testCacheConnection();
         $this->loadMigrations();
         $this->loadConfigs();
+
+        foreach ($this->routes as $route)
+        {
+            $this->loadRoutes($route);
+        }
     }
 
     /**
