@@ -18,7 +18,7 @@ class FlickrServiceProvider extends BaseServiceProvider
         ],
     ];
 
-    protected $routes = [
+    protected array $routes = [
         __DIR__ . '/../Routes/flickr_routes.php'
     ];
 
@@ -30,15 +30,5 @@ class FlickrServiceProvider extends BaseServiceProvider
             return new FlickrService(config('services.flickr.api_key'), config('services.flickr.secret_key'));
         });
 
-    }
-
-    public function boot()
-    {
-        parent::boot();
-
-        foreach ($this->routes as $route)
-        {
-            $this->loadRoutes($route);
-        }
     }
 }

@@ -1,4 +1,4 @@
-@extends('base')
+@extends('layouts.base')
 
 @section('logo')
     <a class="sidebar-brand" href="">

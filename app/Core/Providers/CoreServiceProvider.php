@@ -15,4 +15,8 @@ class CoreServiceProvider extends BaseServiceProvider
             'core'
         ],
     ];
+
+    protected array $routes = [
+        __DIR__ .'/../Routes/core_routes.php'
+    ];
 }

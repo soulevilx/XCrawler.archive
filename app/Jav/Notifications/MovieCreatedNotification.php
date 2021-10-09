@@ -71,7 +71,10 @@ class MovieCreatedNotification extends Notification implements ShouldQueue
 
                 $attachment->action(
                     'Movie',
-                    app(UrlGenerator::class)->route('movie.show', $this->movie->dvd_id),
+                    app(UrlGenerator::class)->route(
+                        'movie.show',
+                        ['movie' => $this->movie]
+                    ),
                     'danger'
                 );
             });

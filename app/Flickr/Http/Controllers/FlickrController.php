@@ -18,7 +18,7 @@ class FlickrController extends BaseResourceController
     public function index()
     {
         return response()->view(
-            'flickr.index',
+            'pages.flickr.index',
         );
     }
 
@@ -28,7 +28,7 @@ class FlickrController extends BaseResourceController
         $url = explode('/', $request->input('url'));
         $albumId = end($url);
         return response()->view(
-            'flickr.index',
+            'pages.flickr.index',
             [
                 'messages' => [
                     [

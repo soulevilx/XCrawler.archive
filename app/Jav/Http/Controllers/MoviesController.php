@@ -41,7 +41,7 @@ class MoviesController extends BaseController
         }
 
         return response()->view(
-            'jav.movies',
+            'pages.jav.index',
             [
                 'movies' => $this->_index(Movie::class, $request, $options),
             ]
