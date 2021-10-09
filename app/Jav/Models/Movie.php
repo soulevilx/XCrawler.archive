@@ -58,6 +58,7 @@ class Movie extends Model
         'sample' => 'array',
         'series' => 'array',
         'director' => 'string',
+        'release_date' => 'datetime:Y-m-d',
     ];
 
     /**
