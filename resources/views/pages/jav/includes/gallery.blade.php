@@ -3,7 +3,7 @@
         <div class="row">
             @foreach ($movie->r18->gallery as $image)
                 <div class="col-lg-6">
-                    @if(array_key_exists('large', $image))
+                    @if(isset($image['large']))
                         <img
                             src="https://via.placeholder.com/150"
                             alt="{{$movie->title}}"
