@@ -10,7 +10,7 @@
 
             <li class="sidebar-item active">
                 <a class="sidebar-link" href="{{route('movies.index')}}">
-                    <i class="fas fa-video"></i><span class="align-middle">Movies</span>
+                    <i class="fas fa-video"></i><span class="align-middle">Movies @include('includes.bootstrap.badge', ['text' => \App\Jav\Models\Movie::count(), 'isPill' => true])</span>
                 </a>
             </li>
 
