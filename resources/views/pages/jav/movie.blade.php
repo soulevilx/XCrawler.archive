@@ -5,7 +5,11 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-6">
-                    @include('pages.jav.layouts.movie', ['showControls' => false])
+                    <figure class="figure">
+                        <img src="https://via.placeholder.com/150" class="card-img-top lazy" data-src="{{$movie->cover}}"
+                             alt="{{$movie->dvd_id}}" width="100%"/>
+                        <figcaption class="figure-caption">{{$movie->dvd_id}}</figcaption>
+                    </figure>
                 </div>
                 <div class="col-md-6">
                     <div class="row">
