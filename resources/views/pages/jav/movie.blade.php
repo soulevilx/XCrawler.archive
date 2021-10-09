@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-6">
-                    @include('pages.jav.layouts.movie')
+                    @include('pages.jav.layouts.movie', ['showControls' => false])
                 </div>
 
                 <div class="col-md-6">
