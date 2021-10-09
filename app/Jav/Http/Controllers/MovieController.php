@@ -36,7 +36,7 @@ class MovieController extends BaseResourceController
 
         $wordPress->send($wordPressPost);
         return response()->view(
-            'ages.jav.movie',
+            'pages.jav.movie',
             [
                 'movie' => $movie->refresh(),
                 'messages' => [
