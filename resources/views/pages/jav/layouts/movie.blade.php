@@ -8,7 +8,7 @@
         <h5 class="card-title">{{$movie->dvd_id}}</h5>
         <p class="card-text">{{$movie->description}}</p>
     </div>
-    @if(isset($showControls))
+    @if(isset($showControls) && $showControls === true)
         <div class="card-footer">
             @include('pages.jav.includes.controls', ['movie' => $movie])
         </div>
