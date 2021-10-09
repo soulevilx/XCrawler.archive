@@ -151,6 +151,10 @@ class R18 extends BaseModel implements MovieInterface
      */
     public function sample(string $version = 'high'): ?string
     {
+        if (!$this->sample) {
+            return null;
+        }
+
         if (count($this->sample) > 1) {
             return $this->sample[$version] ?? null;
         }
