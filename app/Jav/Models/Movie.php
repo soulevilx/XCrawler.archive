@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 
 /**
+ * @property $series
  * @property string $dvd_id
  * @property Collection|Performer[] $performers
  * @property Collection|Genre[] $genres
@@ -104,5 +105,10 @@ class Movie extends Model
     public function isDownloadable(): bool
     {
         return $this->onejav()->exists();
+    }
+
+    public function series()
+    {
+        return is_array($this->series) ? implode(', ', $this->series) : $this->series;
     }
 }

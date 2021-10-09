@@ -55,7 +55,7 @@
                                             <h5 class="mb-1">Series</h5>
                                             <!--<small>3 days ago</small>-->
                                         </div>
-                                        <p class="mb-1">{{implode(', ', $movie->series)}}</p>
+                                        <p class="mb-1">{{$movie->series()}}</p>
                                         <!--<small>And some small print.</small>-->
                                     </div>
                                     <div class="list-group-item list-group-item-action">
