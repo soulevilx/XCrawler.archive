@@ -58,4 +58,16 @@ class MovieController extends BaseResourceController
             ]
         );
     }
+
+    public function resync(Movie $movie)
+    {
+        $movie?->r18?->refetch();
+
+        return response()->view(
+            'pages.jav.movie',
+            [
+                'movie' => $movie,
+            ]
+        );
+    }
 }

@@ -72,6 +72,24 @@ class Movie extends Model
         return 'dvd_id';
     }
 
+    /**
+     * Retrieve the model for a bound value.
+     *
+     * @param  mixed  $value
+     * @param  string|null  $field
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
+    public function resolveRouteBinding($value, $field = null)
+    {
+        $model = $this->where($field ?? $this->getRouteKeyName(), $value)->first();
+
+        if (!$model) {
+            $model = $this->where($field ?? $this->getKeyName(), $value)->first();
+        }
+
+        return $model;
+    }
+
     public static function findByDvdId(string $dvdId)
     {
         return self::where('dvd_id', $dvdId)->first();

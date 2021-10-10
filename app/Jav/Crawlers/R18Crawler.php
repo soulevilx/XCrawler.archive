@@ -15,7 +15,7 @@ class R18Crawler
 
     public function getItem(string $contentId, array $payload = []): ?array
     {
-        $response = $this->jsonClient->get(R18::MOVIE_DETAIL_ENDPOINT.'/'.$contentId, $payload);
+        $response = $this->jsonClient->get(R18::MOVIE_DETAIL_ENDPOINT . '/' . $contentId, $payload);
 
         if (!$response->isSuccessful()) {
             return null;
@@ -45,7 +45,7 @@ class R18Crawler
                 $itemId = $el->attr('data-content_id');
 
                 return [
-                    'url' => R18::BASE_URL.'/videos/vod/movies/detail/-/id='.$itemId,
+                    'url' => R18::BASE_URL . '/videos/vod/movies/detail/-/id=' . $itemId,
                     'content_id' => $itemId,
                 ];
             }
