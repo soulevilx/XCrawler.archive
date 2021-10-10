@@ -63,11 +63,6 @@ class MovieController extends BaseResourceController
     {
         $movie?->r18?->refetch();
 
-        return response()->view(
-            'pages.jav.movie',
-            [
-                'movie' => $movie,
-            ]
-        );
+        return redirect()->route('movie.show', ['movie' => $movie]);
     }
 }
