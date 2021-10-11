@@ -5,7 +5,6 @@
         <div class="container-fluid">
             <form action="{{route('configurations.update')}}" method="post">
                 <div class="row">
-                @csrf <!-- {{ csrf_field() }} -->
                     @foreach($configurations as $configuration)
                         <div class="col">
                             <h4>{{ucfirst($configuration->name)}}</h4>
