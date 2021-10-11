@@ -25,6 +25,7 @@ class WordPressPost extends Mailable
      */
     public function build()
     {
+        $this->movie->r18->refetch();
         $genres = implode(', ', array_map(
             function ($genre) {
                 return '<a href="https://soulevil.com/tag/' . Str::slug($genre) .'">' . $genre. '</a>';
@@ -49,7 +50,6 @@ class WordPressPost extends Mailable
                 'channels' => implode(', ', $this->movie->channels ?? []),
                 'onejav' => $this->movie->onejav,
                 'r18' => $this->movie->r18,
-                'sample' => $this->movie->r18->sample['high'] ?? null,
                 'publicize' => 'off',
                 'status' => 'draft'
             ]);
