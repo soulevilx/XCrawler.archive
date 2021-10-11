@@ -3,6 +3,8 @@
 namespace App\Jav\Http\Controllers;
 
 use App\Core\Http\Controllers\BaseResourceController;
+use App\Core\Models\WordPressPost;
+use App\Jav\Http\Requests\PostWordPressRequest;
 use App\Jav\Models\Movie;
 use App\Jav\Services\Movie\MovieService;
 use App\Jav\Services\WordPressPostService;
@@ -16,37 +18,28 @@ class MovieController extends BaseResourceController
     use DispatchesJobs;
     use ValidatesRequests;
 
-    public function toWordPress(MovieService $service, WordPressPostService $wordPress, Movie $movie)
+    public function toWordPress(PostWordPressRequest $request, MovieService $service, WordPressPostService $wordPress, Movie $movie)
     {
-        $wordPressPost = $service->createWordPressPost($movie);
-        if (!$wordPressPost) {
-            return response()->view(
-                'pages.jav.movie',
-                [
-                    'movie' => $movie,
-                    'messages' => [
-                        [
-                            'type' => 'danger',
-                            'message' => 'Can not create WordPress Post',
+        if (!$wordPressPost = $service->createWordPressPost($movie, $request->input('confirm', false))) {
+                return response()->view(
+                    'pages.jav.movie',
+                    [
+                        'movie' => $movie,
+                        'messages' => [
+                            [
+                                'type' => 'danger',
+                                'message' => 'Can not create WordPress Post' . $request->input('confirm'),
+                            ],
                         ],
-                    ],
-                ]
-            );
+                        'confirm' => [
+                            'message' => 'Confirm repost',
+                        ]
+                    ]
+                );
         }
 
         $wordPress->send($wordPressPost);
-        return response()->view(
-            'pages.jav.movie',
-            [
-                'movie' => $movie->refresh(),
-                'messages' => [
-                    [
-                        'type' => 'primary',
-                        'message' => 'WordPress Post sent',
-                    ],
-                ],
-            ]
-        );
+        return redirect()->route('movie.show', ['movie' => $movie]);
     }
 
     public function show(Movie $movie)

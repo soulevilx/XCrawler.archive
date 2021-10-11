@@ -24,6 +24,12 @@ class BaseController extends Controller
             }
         }
 
+        if ($request->input('whereHas')) {
+            foreach ($request->input('whereHas') as $relationship) {
+                $baseQuery->whereHas($relationship);
+            }
+        }
+
         if ($request->input('keyword') && isset($options['searchIn'])) {
             $baseQuery->where(function ($query) use ($request, $options) {
                 foreach ($options['searchIn'] as $key => $column) {
@@ -31,7 +37,6 @@ class BaseController extends Controller
                 }
             });
         }
-
 
         return $baseQuery->paginate($perPage);
     }
