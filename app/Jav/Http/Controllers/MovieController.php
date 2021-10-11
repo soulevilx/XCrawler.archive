@@ -58,4 +58,11 @@ class MovieController extends BaseResourceController
             ]
         );
     }
+
+    public function resync(Movie $movie)
+    {
+        $movie?->r18?->refetch();
+
+        return redirect()->route('movie.show', ['movie' => $movie]);
+    }
 }

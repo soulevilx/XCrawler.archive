@@ -63,13 +63,19 @@ class Movie extends Model
     ];
 
     /**
-     * Get the route key for the model.
+     * Retrieve the model for a bound value.
      *
-     * @return string
+     * @param mixed $value
+     * @param string|null $field
+     * @return Model|null
      */
-    public function getRouteKeyName()
+    public function resolveRouteBinding($value, $field = null)
     {
-        return 'dvd_id';
+        if (!$model = $this->where($field ?? $this->getKeyName(), $value)->first()) {
+            $model = $this->where($field ?? 'dvd_id', $value)->first();
+        }
+
+        return $model;
     }
 
     public static function findByDvdId(string $dvdId)
