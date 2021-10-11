@@ -13,6 +13,7 @@
 <!-- <link href="{{asset('vendor/mdb5/css/mdb.dark.min.css')}}" rel="stylesheet"/> -->
 
     @yield('css')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body class="antialiased">
 <div class="wrapper">
@@ -26,6 +27,7 @@
 
         @section('messages')
             @include('includes.messages', ['messages', $messages ?? null])
+            @include('includes.confirm', ['confirm', $confirm ?? null])
         @show
 
         @section('navbar')
@@ -56,6 +58,7 @@
     jQuery(function () {
         jQuery('.lazy').Lazy();
         jQuery('.has-tooltip').tooltip({})
+        jQuery('form').append('{{csrf_field()}}');
     });
 </script>
 

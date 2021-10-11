@@ -40,6 +40,17 @@ class MoviesController extends BaseController
             );
         }
 
+        if ($request->filled('downloadable')) {
+            $request->merge(
+                [
+                    'whereHas' => array_merge(
+                        $request->input('whereHas') ?? [],
+                        ['onejav'],
+                    ),
+                ]
+            );
+        }
+
         return response()->view(
             'pages.jav.index',
             [

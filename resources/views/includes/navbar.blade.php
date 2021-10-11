@@ -5,19 +5,21 @@
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
+        <form class="form-inline my-2 my-lg-0" action="{{route('movies.index')}}" method="get">
+            <input type="hidden" name="downloadable[]" value="true">
+            <button class="btn btn-info btn-sm my-2 my-sm-0" type="submit"><i class="fas fa-cloud-download-alt mr-2"></i>OneJav</button>
+        </form>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
             </ul>
-        <form class="form-inline my-2 my-lg-0" action="{{route('movies.index' )}}" method="get">
-        @csrf <!-- {{ csrf_field() }} -->
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
-                   name="keyword">
-            <div class="input-group-append">
-                <button class="btn btn-primary my-2 my-sm-0" type="submit"><i class="fas fa-search mr-2"></i>Search
-                </button>
-            </div>
-        </form>
+            <form class="form-inline my-2 my-lg-0" action="{{route('movies.index' )}}" method="get">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
+                       name="keyword">
+                <div class="input-group-append">
+                    <button class="btn btn-primary my-2 my-sm-0" type="submit"><i class="fas fa-search mr-2"></i>Search
+                    </button>
+                </div>
+            </form>
         </div>
     </nav>
 </div>

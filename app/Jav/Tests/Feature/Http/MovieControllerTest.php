@@ -17,7 +17,8 @@ class MovieControllerTest extends TestCase
         ApplicationService::setConfig('jav', 'enable_post_to_wordpress', false);
         $onejav = Onejav::factory()->create();
 
-        $this->post('/jav/movies/' . $onejav->movie->dvd_id . '/to-wordpress')->assertStatus(200);
+        // Redirect
+        $this->post('/jav/movies/' . $onejav->movie->dvd_id . '/to-wordpress')->assertStatus(302);
 
         Mail::assertSent(WordPressPostEmail::class, function ($mail) use ($onejav) {
             return $mail->movie->is($onejav->movie);

@@ -8,7 +8,6 @@
             @endisset
         </div>
         <form action="{{route('flickr.album.download')}}" method="post">
-        @csrf <!-- {{ csrf_field() }} -->
             <div class="form-group">
                 <label for="exampleInputEmail1">Album URL</label>
                 <input type="text" name="url" class="form-control" id="url" aria-describedby="urlHelp">
