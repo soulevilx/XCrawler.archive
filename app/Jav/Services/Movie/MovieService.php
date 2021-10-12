@@ -17,7 +17,6 @@ class MovieService
 
     public function create(MovieInterface $model)
     {
-        // @var Movie $movie
         $this->movie = Movie::firstOrCreate([
             'dvd_id' => $model->getDvdId(),
         ], ['is_downloadable' => $model->isDownloadable()] + $model->toArray());
@@ -42,18 +41,17 @@ class MovieService
         Event::dispatch(new MovieCreated($this->movie));
     }
 
-    public function createWordPressPost(Movie $movie): ?WordPressPost
+    public function createWordPressPost(Movie $movie, bool $force = false): ?WordPressPost
     {
         $this->movie = $movie;
 
         // Already posted to WordPress
-        if ($this->movie->wordpress()->exists()) {
+        if (!$force && $this->movie->wordpress()->where('state_code', State::STATE_COMPLETED)->exists()) {
             return null;
         }
 
-        return $this->movie->wordpress()->firstOrCreate([
+        return $this->movie->wordpress()->create([
             'title' => $this->movie->dvd_id,
-        ], [
             'state_code' => State::STATE_INIT,
         ]);
     }
