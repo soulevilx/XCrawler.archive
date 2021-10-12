@@ -3,6 +3,7 @@
 namespace App\Flickr\Console\Commands;
 
 use App\Flickr\Console\Commands\Traits\HasProcesses;
+use App\Flickr\Jobs\FlickrFavorites;
 use App\Flickr\Jobs\FlickrPeopleInfo;
 use App\Flickr\Jobs\FlickrPeoplePhotos as FlickrPeoplePhotosJob;
 use App\Flickr\Models\FlickrProcess;
@@ -41,6 +42,9 @@ class FlickrPeople extends Command
             case 'photos':
                 $this->peoplePhotos();
                 break;
+            case 'favorites':
+                $this->peopleFavorites();
+                break;
         }
     }
 
@@ -50,46 +54,27 @@ class FlickrPeople extends Command
          * Whenever contact is created it'll create process STEP_PEOPLE_INFO
          * This process will fetch detail people information
          */
-        $process = $this->getProcessItem(FlickrProcess::STEP_PEOPLE_INFO);
-        $this->output->table(
-            [
-                'process id',
-                'contact nsid',
-                'step',
-            ],
-            [
-                [
-                    $process->id,
-                    $process->model->nsid,
-                    FlickrProcess::STEP_PEOPLE_INFO,
-                ],
-            ]
-        );
-
-        FlickrPeopleInfo::dispatch($process)->onQueue('api');
+        if ($process = $this->getProcessItem(FlickrProcess::STEP_PEOPLE_INFO)) {
+            FlickrPeopleInfo::dispatch($process)->onQueue('api');
+        }
     }
 
-    public function peoplePhotos()
+    protected function peoplePhotos()
     {
         /**
          * After STEP_PEOPLE_INFO completed will create STEP_PEOPLE_PHOTOS
          * This process will fetch all photos of an contact
          */
-        $process = $this->getProcessItem(FlickrProcess::STEP_PEOPLE_PHOTOS);
-        $this->output->table(
-            [
-                'process id',
-                'contact nsid',
-                'step',
-            ],
-            [
-                [
-                    $process->id,
-                    $process->model->nsid,
-                    FlickrProcess::STEP_PEOPLE_PHOTOS,
-                ],
-            ]
-        );
-        FlickrPeoplePhotosJob::dispatch($process)->onQueue('api');
+
+        if ($process = $this->getProcessItem(FlickrProcess::STEP_PEOPLE_PHOTOS)) {
+            FlickrPeoplePhotosJob::dispatch($process)->onQueue('api');
+        }
+    }
+
+    protected function peopleFavorites()
+    {
+        if ($process = $this->getProcessItem(FlickrProcess::STEP_PEOPLE_FAVORITE_PHOTOS)) {
+            FlickrFavorites::dispatch($process)->onQueue('api');
+        }
     }
 }

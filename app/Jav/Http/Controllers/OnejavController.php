@@ -19,7 +19,7 @@ class OnejavController extends BaseController
         if ($onejav->download()) {
             $saveTo = config('services.jav.download_dir') . '/' . basename($onejav->torrent);
             return response()->view(
-                'jav.movie',
+                'pages.jav.movie',
                 [
                     'movie' => $onejav->movie->refresh(),
                     'messages' => [

@@ -6,6 +6,7 @@ use App\Flickr\Events\FlickrRequestFailed;
 use App\Flickr\Exceptions\FlickrRequestFailed as FlickrRequestFailedException;
 use App\Flickr\Services\Flickr\Contacts;
 use App\Flickr\Services\Flickr\Entities\Album;
+use App\Flickr\Services\Flickr\Favorites;
 use App\Flickr\Services\Flickr\People;
 use App\Flickr\Services\Flickr\Photos;
 use App\Flickr\Services\Flickr\PhotoSets;
@@ -148,6 +149,11 @@ class FlickrService
     public function people(): People
     {
         return new People($this);
+    }
+
+    public function favorites(): Favorites
+    {
+        return new Favorites($this);
     }
 
     public function photos(): Photos

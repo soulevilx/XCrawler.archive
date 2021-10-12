@@ -21,7 +21,7 @@ class FlickrContactTest extends FlickrTestCase
 
     public function testProcess()
     {
-        $this->assertEquals(3, $this->contact->process->count());
+        $this->assertEquals(4, $this->contact->process->count());
         //$this->assertEquals(FlickrProcess::STEP_PEOPLE_INFO, $this->contact->contactProcess()->step);
         //$this->assertTrue($this->contact->contactProcess()->model->is($this->contact));
     }
