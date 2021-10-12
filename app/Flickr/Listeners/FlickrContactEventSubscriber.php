@@ -25,6 +25,11 @@ class FlickrContactEventSubscriber
             'step' => FlickrProcess::STEP_PHOTOSETS_LIST,
             'state_code' => State::STATE_INIT,
         ]);
+
+        $event->contact->process()->create([
+            'step' => FlickrProcess::STEP_PEOPLE_FAVORITE_PHOTOS,
+            'state_code' => State::STATE_INIT,
+        ]);
     }
 
     /**
