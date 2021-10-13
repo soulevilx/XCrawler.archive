@@ -106,6 +106,27 @@ class R18ServiceTest extends JavTestCase
         $this->assertEquals(2, ApplicationService::getConfig('r18', 'release_current_page'));
     }
 
+    public function testReleaseUpdate()
+    {
+        $this->loadR18Mocker();
+        $this->service = app(R18Service::class);
+
+        ApplicationService::setConfig('r18', 'release_total_pages', 2);
+        $items = $this->service->release();
+
+        $this->assertEquals(30, $items->count());
+        $this->assertDatabaseCount('r18', $items->count());
+        $this->assertEquals(2, ApplicationService::getConfig('r18', 'release_current_page'));
+
+        $item = $items->first();
+        $r18Item = R18::where(['content_id' => $item['content_id']])->first();
+        $r18Item->update(['state_code' => State::STATE_FAILED]);
+        ApplicationService::setConfig('r18', 'release_total_pages', 2);
+        $this->service->release();
+
+        $this->assertEquals(State::STATE_INIT, $r18Item->refresh()->state_code);
+    }
+
     public function testReleaseAtEndOfPages()
     {
         $this->loadR18Mocker();

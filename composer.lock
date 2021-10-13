@@ -1811,16 +1811,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.63.0",
+            "version": "v8.64.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "8f3d280f36a427730c8c8fa34316c79eed38781e"
+                "reference": "3337c029e1bb31d9712d27437cc27010ba302c9e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/8f3d280f36a427730c8c8fa34316c79eed38781e",
-                "reference": "8f3d280f36a427730c8c8fa34316c79eed38781e",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/3337c029e1bb31d9712d27437cc27010ba302c9e",
+                "reference": "3337c029e1bb31d9712d27437cc27010ba302c9e",
                 "shasum": ""
             },
             "require": {
@@ -1978,20 +1978,20 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-10-05T14:04:25+00:00"
+            "time": "2021-10-12T13:43:13+00:00"
         },
         {
             "name": "laravel/horizon",
-            "version": "v5.7.13",
+            "version": "v5.7.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/horizon.git",
-                "reference": "367c48b57af776a3e195a16989655fa89fa052e3"
+                "reference": "640df7c65c464f83cda66781636d816a0992b0b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/horizon/zipball/367c48b57af776a3e195a16989655fa89fa052e3",
-                "reference": "367c48b57af776a3e195a16989655fa89fa052e3",
+                "url": "https://api.github.com/repos/laravel/horizon/zipball/640df7c65c464f83cda66781636d816a0992b0b1",
+                "reference": "640df7c65c464f83cda66781636d816a0992b0b1",
                 "shasum": ""
             },
             "require": {
@@ -2053,22 +2053,22 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel/horizon/issues",
-                "source": "https://github.com/laravel/horizon/tree/v5.7.13"
+                "source": "https://github.com/laravel/horizon/tree/v5.7.14"
             },
-            "time": "2021-09-14T16:01:18+00:00"
+            "time": "2021-10-12T15:20:07+00:00"
         },
         {
             "name": "laravel/sanctum",
-            "version": "v2.11.2",
+            "version": "v2.11.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/sanctum.git",
-                "reference": "b21e65cbe13896946986cb0868180cd69e1bd5d3"
+                "reference": "5f0683417270fc033bc0fbf69e824cf58d33a623"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/sanctum/zipball/b21e65cbe13896946986cb0868180cd69e1bd5d3",
-                "reference": "b21e65cbe13896946986cb0868180cd69e1bd5d3",
+                "url": "https://api.github.com/repos/laravel/sanctum/zipball/5f0683417270fc033bc0fbf69e824cf58d33a623",
+                "reference": "5f0683417270fc033bc0fbf69e824cf58d33a623",
                 "shasum": ""
             },
             "require": {
@@ -2119,7 +2119,7 @@
                 "issues": "https://github.com/laravel/sanctum/issues",
                 "source": "https://github.com/laravel/sanctum"
             },
-            "time": "2021-06-15T15:56:21+00:00"
+            "time": "2021-10-12T15:50:15+00:00"
         },
         {
             "name": "laravel/serializable-closure",
@@ -8725,19 +8725,20 @@
         },
         {
             "name": "facade/ignition",
-            "version": "2.14.1",
+            "version": "2.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facade/ignition.git",
-                "reference": "6d89c4c99537f487ad29f646d57ebf107ef714ed"
+                "reference": "3ee6e94815462bcf09bca0efc1c9069685df8da3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facade/ignition/zipball/6d89c4c99537f487ad29f646d57ebf107ef714ed",
-                "reference": "6d89c4c99537f487ad29f646d57ebf107ef714ed",
+                "url": "https://api.github.com/repos/facade/ignition/zipball/3ee6e94815462bcf09bca0efc1c9069685df8da3",
+                "reference": "3ee6e94815462bcf09bca0efc1c9069685df8da3",
                 "shasum": ""
             },
             "require": {
+                "ext-curl": "*",
                 "ext-json": "*",
                 "ext-mbstring": "*",
                 "facade/flare-client-php": "^1.9.1",
@@ -8797,7 +8798,7 @@
                 "issues": "https://github.com/facade/ignition/issues",
                 "source": "https://github.com/facade/ignition"
             },
-            "time": "2021-10-08T12:34:52+00:00"
+            "time": "2021-10-11T15:24:06+00:00"
         },
         {
             "name": "facade/ignition-contracts",
@@ -10456,16 +10457,16 @@
         },
         {
             "name": "rector/rector",
-            "version": "0.11.57",
+            "version": "0.11.58",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "e2239d52a1205ed0625f75f1c6cff3a57d4edc86"
+                "reference": "15a8647cf05641db35f091edf0a558ffa9619fee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/e2239d52a1205ed0625f75f1c6cff3a57d4edc86",
-                "reference": "e2239d52a1205ed0625f75f1c6cff3a57d4edc86",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/15a8647cf05641db35f091edf0a558ffa9619fee",
+                "reference": "15a8647cf05641db35f091edf0a558ffa9619fee",
                 "shasum": ""
             },
             "require": {
@@ -10477,7 +10478,9 @@
                 "phpstan/phpstan": "<=0.12.82",
                 "rector/rector-cakephp": "*",
                 "rector/rector-doctrine": "*",
+                "rector/rector-laravel": "*",
                 "rector/rector-nette": "*",
+                "rector/rector-phpoffice": "*",
                 "rector/rector-phpunit": "*",
                 "rector/rector-prefixed": "*",
                 "rector/rector-symfony": "*"
@@ -10503,7 +10506,7 @@
             "description": "Prefixed and PHP 7.1 downgraded version of rector/rector",
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/0.11.57"
+                "source": "https://github.com/rectorphp/rector/tree/0.11.58"
             },
             "funding": [
                 {
@@ -10511,7 +10514,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-10-05T11:30:03+00:00"
+            "time": "2021-10-12T20:26:47+00:00"
         },
         {
             "name": "sebastian/cli-parser",

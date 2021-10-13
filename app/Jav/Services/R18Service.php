@@ -24,7 +24,7 @@ class R18Service implements ServiceInterface
     {
         $this->defaultAttribute('state_code', State::STATE_INIT);
 
-        $this->model = R18::firstOrCreate(
+        $this->model = R18::updateOrCreate(
             [
                 'url' => $this->attributes['url'],
                 'content_id' => $this->attributes['content_id'],
