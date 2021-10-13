@@ -18,7 +18,7 @@ class IndexController extends BaseController
         $total['xcityVideos'] = XCityVideo::count();
 
         $today['onejav'] = Onejav::where('created_at', '>=', Carbon::now()->startOfDay())->count();
-        $today['r18'] = R18::where('created_at', '>=', Carbon::now()->startOfDay())->count() * 100;
+        $today['r18'] = R18::where('created_at', '>=', Carbon::now()->startOfDay())->count();
         $today['xcityIdols'] = XCityIdol::where('created_at', '>=', Carbon::now()->startOfDay())->count();
         $today['xcityVideos'] = XCityVideo::where('created_at', '>=', Carbon::now()->startOfDay())->count();
 
