@@ -17,26 +17,22 @@ trait R18Mocker
         $this->mocker
             ->shouldReceive('get')
             ->with(R18::MOVIE_LIST_URL, [])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'R18/movie_list.html'))
-        ;
+            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'R18/movie_list.html'));
 
         $this->mocker
             ->shouldReceive('get')
             ->with(R18::MOVIE_LIST_URL.'/page=1', [])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'R18/movie_list.html'))
-        ;
+            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'R18/movie_list.html'));
 
         $this->mocker
             ->shouldReceive('get')
             ->with(R18::MOVIE_LIST_URL.'/page=2', [])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'R18/movie_list.html'))
-        ;
+            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'R18/movie_list.html'));
 
         $this->mocker
             ->shouldReceive('get')
             ->with('/api/v4f/contents/rki00506', [])
-            ->andReturn($this->getSuccessfulMockedResponse(app(JsonResponse::class), 'R18/item.json'))
-        ;
+            ->andReturn($this->getSuccessfulMockedResponse(app(JsonResponse::class), 'R18/item.json'));
 
         app()->instance(XCrawlerClient::class, $this->mocker);
 

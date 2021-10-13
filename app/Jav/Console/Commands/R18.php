@@ -29,7 +29,9 @@ class R18 extends Command
     {
         switch ($this->input->getArgument('task')) {
             case 'release':
-                ReleaseFetch::dispatch()->onQueue('crawling');
+                foreach (array_keys(R18Model::MOVIE_URLS) as $key) {
+                    ReleaseFetch::dispatch($key)->onQueue('crawling');
+                }
 
                 break;
 

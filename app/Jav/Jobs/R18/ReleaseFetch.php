@@ -16,8 +16,12 @@ class ReleaseFetch implements ShouldQueue
     use Queueable;
     use HasCrawlingMiddleware;
 
+    public function __construct(public string $type = 'release')
+    {
+    }
+
     public function handle(R18Service $service)
     {
-        $service->release();
+        $service->release($this->type);
     }
 }

@@ -9,6 +9,10 @@
             <input type="hidden" name="downloadable[]" value="true">
             <button class="btn btn-info btn-sm my-2 my-sm-0" type="submit"><i class="fas fa-cloud-download-alt mr-2"></i>OneJav</button>
         </form>
+        <form class="form-inline my-2 my-lg-0 ml-2" action="{{route('movies.index')}}" method="get">
+            <input type="hidden" name="whereHas[]" value="r18">
+            <button class="btn btn-info btn-sm my-2 my-sm-0" type="submit"><i class="fas fa-ticket-alt mr-2"></i>R18</button>
+        </form>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
             </ul>
