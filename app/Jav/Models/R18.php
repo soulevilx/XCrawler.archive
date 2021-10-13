@@ -39,11 +39,23 @@ class R18 extends BaseModel implements MovieInterface
 
     public const SERVICE = 'r18';
     public const BASE_URL = 'https://www.r18.com';
-    public const MOVIE_LIST_URL = '/videos/vod/movies/list/pagesize=30/price=all/sort=new/type=all';
-    public const MOVIE_RANKING_URL = '/videos/rankings/movies/type=daily';
+
     public const MOVIE_DETAIL_ENDPOINT = '/api/v4f/contents';
 
     protected $table = 'r18';
+
+    public const MOVIE_URLS = [
+        'release' => '/videos/vod/movies/list/pagesize=30/price=all/sort=new/type=all',
+        'prime' => '/videos/channels/prime',
+        'playgirl' => '/videos/channels/playgirl',
+        'avstation' => '/videos/channels/avstation',
+        'dream' => '/videos/channels/dream',
+        's1' => '/videos/channels/s1/',
+        'moodyz' => '/videos/channels/moodyz',
+        'sod' => '/videos/channels/sod',
+    ];
+
+    public const MOVIE_LIST_URL = self::MOVIE_URLS['release'];
 
     protected $fillable = [
         'url',

@@ -98,29 +98,29 @@ class R18ServiceTest extends JavTestCase
         $this->loadR18Mocker();
         $this->service = app(R18Service::class);
 
-        ApplicationService::setConfig('r18', 'total_pages', 2);
+        ApplicationService::setConfig('r18', 'release_total_pages', 2);
         $items = $this->service->release();
 
         $this->assertEquals(30, $items->count());
         $this->assertDatabaseCount('r18', $items->count());
-        $this->assertEquals(2, ApplicationService::getConfig('r18', 'current_page'));
+        $this->assertEquals(2, ApplicationService::getConfig('r18', 'release_current_page'));
     }
 
     public function testReleaseAtEndOfPages()
     {
         $this->loadR18Mocker();
         $this->service = app(R18Service::class);
-        ApplicationService::setConfig('r18', 'total_pages', 2);
+        ApplicationService::setConfig('r18', 'release_total_pages', 2);
         $this->service->release();
-        $this->assertEquals(2, ApplicationService::getConfig('r18', 'current_page'));
+        $this->assertEquals(2, ApplicationService::getConfig('r18', 'release_current_page'));
 
         $this->service->release();
-        $this->assertEquals(1, ApplicationService::getConfig('r18', 'current_page'));
+        $this->assertEquals(1, ApplicationService::getConfig('r18', 'release_current_page'));
     }
 
     public function testReleaseFailed()
     {
-        ApplicationService::setConfig('r18', 'current_page', 10);
+        ApplicationService::setConfig('r18', 'release_current_page', 10);
         $mocker = $this->getClientMock();
         $mocker
             ->shouldReceive('get')
@@ -131,7 +131,7 @@ class R18ServiceTest extends JavTestCase
 
         $this->service->release();
         $this->assertDatabaseCount('r18', 0);
-        $this->assertEquals(10, ApplicationService::getConfig('r18', 'current_page'));
+        $this->assertEquals(10, ApplicationService::getConfig('r18', 'release_current_page'));
     }
 
     public function testDaily()
