@@ -29,7 +29,7 @@ class R18ReleaseFetchTest extends JavTestCase
         $this->assertEquals(30, R18::byState(State::STATE_INIT)->count());
         $this->assertDatabaseCount('r18', 30);
 
-        $this->assertEquals(2, ApplicationService::getConfig('r18', 'current_page'));
+        $this->assertEquals(2, ApplicationService::getConfig('r18', 'release_current_page'));
     }
 
     public function testDaily()

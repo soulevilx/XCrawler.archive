@@ -40,13 +40,14 @@ class R18Service implements ServiceInterface
         return $model->refetch();
     }
 
-    public function release()
+    public function release(string $type = 'release')
     {
         /**
          * Release only fetch links another job will fetch detail later.
          */
-        $currentPage = ApplicationService::getConfig('r18', 'current_page', 1);
-        $url = R18::MOVIE_LIST_URL . '/page=' . $currentPage;
+        $key = $type . '_current_page';
+        $currentPage = ApplicationService::getConfig('r18', $key, 1);
+        $url = R18::MOVIE_URLS[$type] . '/page=' . $currentPage;
 
         $items = $this->crawler->getItemLinks($url);
 
@@ -59,21 +60,21 @@ class R18Service implements ServiceInterface
         });
 
         ++$currentPage;
-        if ((int) ApplicationService::getConfig('r18', 'total_pages', 2000) < $currentPage) {
+        if ((int) ApplicationService::getConfig('r18', $type . '_total_pages', 2000) < $currentPage) {
             $currentPage = 1;
         }
 
-        ApplicationService::setConfig('r18', 'current_page', $currentPage);
+        ApplicationService::setConfig('r18', $key, $currentPage);
 
         return $items;
     }
 
-    public function daily()
+    public function daily(string $type = 'release')
     {
         /**
          * Make sure we fetch page 1 to get latest release while `release` fetching older.
          */
-        $items = $this->crawler->getItemLinks(R18::MOVIE_LIST_URL . '/page=1');
+        $items = $this->crawler->getItemLinks(R18::MOVIE_URLS[$type] . '/page=1');
 
         if ($items->isEmpty()) {
             return $items;
