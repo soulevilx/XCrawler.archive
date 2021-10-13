@@ -2,7 +2,7 @@
 
 namespace App\Jav\Jobs\R18;
 
-use App\Jav\Jobs\Traits\HasCrawlingMiddleware;
+use App\Jav\Jobs\Traits\R18CrawlingMiddleware;
 use App\Jav\Services\R18Service;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -14,7 +14,7 @@ class DailyFetch implements ShouldQueue
     use Dispatchable;
     use InteractsWithQueue;
     use Queueable;
-    use HasCrawlingMiddleware;
+    use R18CrawlingMiddleware;
 
     public function handle(R18Service $service)
     {

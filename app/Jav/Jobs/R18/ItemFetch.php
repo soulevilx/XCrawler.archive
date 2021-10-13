@@ -3,7 +3,7 @@
 namespace App\Jav\Jobs\R18;
 
 use App\Core\Models\State;
-use App\Jav\Jobs\Traits\HasCrawlingMiddleware;
+use App\Jav\Jobs\Traits\R18CrawlingMiddleware;
 use App\Jav\Models\R18;
 use App\Jav\Services\R18Service;
 use Illuminate\Bus\Queueable;
@@ -18,7 +18,7 @@ class ItemFetch implements ShouldQueue
     use InteractsWithQueue;
     use Queueable;
     use SerializesModels;
-    use HasCrawlingMiddleware;
+    use R18CrawlingMiddleware;
 
     public function __construct(public R18 $model)
     {
