@@ -181,7 +181,9 @@ return [
         JavEventServiceProvider::class,
 
         FlickrServiceProvider::class,
-        FlickrEventServiceProvider::class
+        FlickrEventServiceProvider::class,
+
+        Studio\Totem\Providers\TotemServiceProvider::class,
     ],
 
     /*
