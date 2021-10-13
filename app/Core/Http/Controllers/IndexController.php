@@ -22,12 +22,16 @@ class IndexController extends BaseController
         $today['xcityIdols'] = XCityIdol::where('created_at', '>=', Carbon::now()->startOfDay())->count();
         $today['xcityVideos'] = XCityVideo::where('created_at', '>=', Carbon::now()->startOfDay())->count();
 
-
-        $inc['onejav'] = $total['onejav'] === 0 ? 0 : $today['onejav'] * 100 / Onejav::where('created_at', '<', Carbon::now()->endOfDay())->count();
-        $inc['r18'] = $total['r18'] === 0 ? 0 : $today['r18'] * 100 / R18::where('created_at', '<', Carbon::now()->endOfDay())->count();
-        $inc['xcityIdols'] = $total['xcityIdols'] === 0 ? 0 : $today['xcityIdols'] * 100 / XCityIdol::where('created_at', '<', Carbon::now()->endOfDay())->count();
-        $inc['xcityVideos'] = $total['xcityVideos'] === 0 ? 0 : $today['xcityVideos'] * 100 / XCityVideo::where('created_at', '<', Carbon::now()->endOfDay())->count();
+        $inc['onejav'] = $this->calculatePercent($total['onejav'], $today['onejav']);
+        $inc['r18'] = $this->calculatePercent($total['r18'], $today['r18']);
+        $inc['xcityIdols'] = $this->calculatePercent($total['xcityIdols'], $today['xcityIdols']);
+        $inc['xcityVideos'] = $this->calculatePercent($total['xcityVideos'], $today['xcityVideos']);
 
         return response()->view('welcome', ['total' => $total, 'inc' => $inc]);
+    }
+
+    private function calculatePercent(int $total, int $value)
+    {
+        return $value === 0 ? 0 : round($value * 100 / $total, 4);
     }
 }
