@@ -38,6 +38,6 @@ class BaseController extends Controller
             });
         }
 
-        return $baseQuery->paginate($perPage);
+        return $baseQuery->paginate($perPage)->withQueryString();
     }
 }
