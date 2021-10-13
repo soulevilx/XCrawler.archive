@@ -36,13 +36,24 @@ class R18Crawler
             return collect();
         }
 
-        return collect($response->getData()->filter('.main .cmn-list-product01 li.item-list')->each(
+        return collect($response->getData()->filter('.main .cmn-list-product01 li')->each(
             function ($el) {
+
                 if (null === $el->attr('data-content_id')) {
-                    return false;
+                    $href = $el->filter('a')->attr('href');
+                    $data = array_reverse(explode('/', $href));
+                    foreach ($data as $item) {
+                        if (str_contains($item, 'id=')) {
+                            $itemId = explode('=', $item)[1];
+                        }
+                    }
+                } else {
+                    $itemId = $el->attr('data-content_id');
                 }
 
-                $itemId = $el->attr('data-content_id');
+                if (!$itemId) {
+                    return false;
+                }
 
                 return [
                     'url' => R18::BASE_URL . '/videos/vod/movies/detail/-/id=' . $itemId,
