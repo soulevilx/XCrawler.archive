@@ -17,6 +17,11 @@ class MovieEventSubscriberTest extends JavTestCase
     public function testMovieCreatedWillTriggerNotification()
     {
         $movie = Movie::factory()->create();
+        ApplicationService::setConfig(
+            'jav',
+            'enable_notification',
+            true
+        );
         Event::dispatch(new MovieCreated($movie));
 
         Notification::assertSentTo(
