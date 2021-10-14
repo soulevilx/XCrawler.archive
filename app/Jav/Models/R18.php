@@ -10,6 +10,7 @@ use App\Jav\Models\Interfaces\MovieInterface;
 use App\Jav\Models\Traits\HasDefaultMovie;
 use App\Jav\Models\Traits\HasMovieObserver;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -84,6 +85,7 @@ class R18 extends BaseModel implements MovieInterface
         'cover' => 'string',
         'title' => 'string',
         'dvd_id' => 'string',
+        'content_id' => 'string',
         'maker' => 'string',
         'label' => 'string',
         'channels' => 'array',
@@ -104,9 +106,9 @@ class R18 extends BaseModel implements MovieInterface
         'deleted_at',
     ];
 
-    public function isDownloadable(): bool
+    public function movie(): BelongsTo
     {
-        return false;
+        return $this->belongsTo(Movie::class, 'content_id', 'content_id');
     }
 
     public function getName(): ?string

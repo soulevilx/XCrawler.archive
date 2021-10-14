@@ -8,11 +8,11 @@ interface MovieInterface
 
     public function getDvdId(): ?string;
 
+    public function getContentId(): ?string;
+
     public function getGenres(): array;
 
     public function getPerformers(): array;
-
-    public function isDownloadable(): bool;
 
     public function refetch(): self;
 }

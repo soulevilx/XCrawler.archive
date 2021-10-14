@@ -20,6 +20,11 @@ trait HasDefaultMovie
         return $this->dvd_id ?? null;
     }
 
+    public function getContentId(): ?string
+    {
+        return $this->content_id ?? null;
+    }
+
     public function getName(): ?string
     {
         return $this->name ?? null;
@@ -33,11 +38,6 @@ trait HasDefaultMovie
     public function getPerformers(): array
     {
         return $this->performers ?? [];
-    }
-
-    public function isDownloadable(): bool
-    {
-        return false;
     }
 
     public function movie(): BelongsTo

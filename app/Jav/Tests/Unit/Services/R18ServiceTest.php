@@ -93,6 +93,8 @@ class R18ServiceTest extends JavTestCase
         });
     }
 
+
+
     public function testRelease()
     {
         $this->loadR18Mocker();

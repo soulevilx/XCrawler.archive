@@ -13,4 +13,14 @@
             @include('pages.jav.includes.controls', ['movie' => $movie])
         </div>
     @endif
+    <div class="card-footer text-muted">
+        <div class="row">
+            <div class="col-6">
+                <span class="text-left"><i class="far fa-calendar mr-2"></i>{{$movie->created_at}}</span>
+            </div>
+            <div class="col-6">
+                <span class="text-left float-right"><i class="far fa-calendar mr-2"></i>{{$movie->updated_at}}</span>
+            </div>
+        </div>
+    </div>
 </div>

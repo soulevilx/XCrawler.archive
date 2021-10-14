@@ -18,9 +18,7 @@ class R18ModelTest extends TestCase
 
         $this->assertNull($r18->movie);
 
-        $r18->update([
-            'state_code' => State::STATE_COMPLETED,
-        ]);
+        $r18->update(['state_code' => State::STATE_COMPLETED]);
 
         $r18->refresh();
         $this->assertEquals($r18->dvd_id, $r18->movie->dvd_id);
