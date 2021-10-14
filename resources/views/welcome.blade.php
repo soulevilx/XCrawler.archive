@@ -7,27 +7,13 @@
                 <div class="col-xl-6 col-xxl-5 d-flex">
                     <div class="w-100">
                         <div class="row">
-                            <div class="col-sm-6">
-                                <div class="card">
-                                    @include('layouts.block', ['title' => 'R18', 'total' => $total['r18'], 'inc' =>$inc['r18']])
-
+                            @foreach($data as $key => $values)
+                                <div class="col-sm-6">
+                                    <div class="card">
+                                        @include('includes.block', ['title' => $key, 'total' => $values['total'], 'percent' =>$values['percent'], 'init' => $values['init']])
+                                    </div>
                                 </div>
-                                <div class="card">
-
-                                    @include('layouts.block', ['title' => 'OneJav', 'total' => $total['onejav'], 'inc' =>$inc['onejav']])
-
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="card">
-
-                                    @include('layouts.block', ['title' => 'XCity Idols', 'total' => $total['xcityIdols'], 'inc' =>$inc['xcityIdols']])
-
-                                </div>
-                                <div class="card">
-                                    @include('layouts.block', ['title' => 'XCity Videos', 'total' => $total['xcityVideos'], 'inc' =>$inc['xcityVideos']])
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>

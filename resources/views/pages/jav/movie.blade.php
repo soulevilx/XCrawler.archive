@@ -17,7 +17,7 @@
                             @include('pages.jav.includes.genres', ['genres' => $movie->genres])
                         </div>
                         <div class="col-md-12">
-                            @include('pages.jav.includes.genres', ['genres' => $movie->performers])
+                            @include('pages.jav.includes.performers', ['performers' => $movie->performers])
                         </div>
                         <div class="col-md-12">
                             <div class="shadow p-3 mb-5 bg-white rounded">
