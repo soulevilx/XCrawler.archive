@@ -3,6 +3,7 @@
 namespace App\Jav\Tests\Unit\Models;
 
 use App\Core\Models\State;
+use App\Core\Services\ApplicationService;
 use App\Jav\Models\Movie;
 use App\Jav\Models\Onejav;
 use App\Jav\Notifications\MovieCreatedNotification;
@@ -17,6 +18,11 @@ class OnejavModelTest extends JavTestCase
 {
     public function testModel()
     {
+        ApplicationService::setConfig(
+            'jav',
+            'enable_notification',
+            true
+        );
         $onejav = Onejav::factory()->create();
 
         $this->assertInstanceOf(Movie::class, $onejav->movie);
@@ -47,8 +53,7 @@ class OnejavModelTest extends JavTestCase
         $this->mocker = $this->getClientMock();
         $this->mocker
             ->shouldReceive('get')
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021.html'))
-        ;
+            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021.html'));
         app()->instance(XCrawlerClient::class, $this->mocker);
         $onejav = Onejav::factory()->create();
         $onejav->refetch();

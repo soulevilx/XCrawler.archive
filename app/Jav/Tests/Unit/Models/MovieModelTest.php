@@ -8,7 +8,6 @@ use App\Jav\Models\Onejav;
 use App\Jav\Models\R18;
 use App\Jav\Tests\JavTestCase;
 
-
 class MovieModelTest extends JavTestCase
 {
     public function testModel()
@@ -24,16 +23,18 @@ class MovieModelTest extends JavTestCase
             'model_type' => Movie::class,
             'title' => $movie->dvd_id,
         ]);
+        $this->assertInstanceOf(WordPressPost::class, $movie->refresh()->wordpress);
+
         Onejav::factory()->create([
             'dvd_id' => $movie->dvd_id,
         ]);
+        $this->assertInstanceOf(Onejav::class, $movie->refresh()->onejav);
+
         R18::factory()->create([
             'dvd_id' => $movie->dvd_id,
+            'content_id' => $movie->content_id,
         ]);
 
-        $movie->refresh();
-        $this->assertInstanceOf(WordPressPost::class, $movie->wordpress);
-        $this->assertInstanceOf(Onejav::class, $movie->onejav);
-        $this->assertInstanceOf(R18::class, $movie->r18);
+        $this->assertInstanceOf(R18::class, $movie->refresh()->r18);
     }
 }

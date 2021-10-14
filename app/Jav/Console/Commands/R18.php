@@ -16,7 +16,7 @@ class R18 extends Command
      *
      * @var string
      */
-    protected $signature = 'jav:r18 {task} {--id=}';
+    protected $signature = 'jav:r18 {task} {--id=} {--limit=1}';
 
     /**
      * The console command description.
@@ -43,8 +43,15 @@ class R18 extends Command
             case 'item':
                 if ($id = $this->input->getOption('id')) {
                     $model = R18Model::find($id);
-                } else {
+                } elseif ($limit = $this->input->getOption('id')) {
                     $model = R18Model::byState(State::STATE_INIT)->first();
+                } else {
+                    $models = R18Model::byState(State::STATE_INIT)->limit($limit)->get();
+                    foreach ($models as $model) {
+                        ItemFetch::dispatch($model)->onQueue('crawling');
+                    }
+
+                    return;
                 }
 
                 if ($model) {

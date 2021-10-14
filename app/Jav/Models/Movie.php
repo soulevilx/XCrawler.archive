@@ -14,6 +14,7 @@ use Illuminate\Support\Collection;
 /**
  * @property $series
  * @property string $dvd_id
+ * @property string $content_id
  * @property Collection|Performer[] $performers
  * @property Collection|Genre[] $genres
  * @property-read Onejav $onejav
@@ -78,9 +79,9 @@ class Movie extends Model
         return $model;
     }
 
-    public static function findByDvdId(string $dvdId)
+    public static function findBy(string $fieldName, string $value)
     {
-        return self::where('dvd_id', $dvdId)->first();
+        return self::where($fieldName, $value)->first();
     }
 
     public function genres(): BelongsToMany
@@ -105,7 +106,7 @@ class Movie extends Model
 
     public function r18(): HasOne
     {
-        return $this->hasOne(R18::class, 'dvd_id', 'dvd_id');
+        return $this->hasOne(R18::class, 'content_id', 'content_id');
     }
 
     public function isDownloadable(): bool

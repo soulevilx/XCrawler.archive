@@ -9,36 +9,92 @@ use App\Jav\Models\Genre;
 use App\Jav\Models\Interfaces\MovieInterface;
 use App\Jav\Models\Movie;
 use App\Jav\Models\Performer;
+use App\Jav\Models\R18;
 use Illuminate\Support\Facades\Event;
 
 class MovieService
 {
-    public Movie $movie;
+    /**
+     * @var Movie $movie
+     */
+    public $movie;
 
-    public function create(MovieInterface $model)
+    public function create(MovieInterface $model): Movie
     {
-        $this->movie = Movie::firstOrCreate([
-            'dvd_id' => $model->getDvdId(),
-        ], ['is_downloadable' => $model->isDownloadable()] + $model->toArray());
+        /**
+         * R18 without DvdID
+         */
+        $data = $model->toArray();
+        $data['dvd_id'] = $model->getDvdId();
+        $data['name'] = $model->getName();
 
+        if ($model instanceof R18) {
+            $data['content_id'] = $model->getContentId();
+            if ($movie = Movie::findBy('content_id', $model->getContentId())) {
+                /**
+                 * Case 1 : Check by content id
+                 */
+                $this->movie = $movie;
+            } elseif ($model->getDvdId() && $movie = Movie::findBy('dvd_id', $model->getDvdId())) {
+                /**
+                 * Case 2 : Check by dvd_id
+                 */
+                $this->movie = $movie;
+            }
+
+            if ($this->movie) {
+                $this->movie->update($data);
+            } else {
+                /**
+                 * R18 always had content_id
+                 */
+                $this->movie = Movie::create($data);
+            }
+        } else {
+            $this->movie = Movie::updateOrCreate([
+                'dvd_id' => $model->getDvdId(),
+            ], $data);
+        }
+
+        $this->createGenres($this->movie, $model->getGenres());
+        $this->createPerformers($this->movie, $model->getPerformers());
+
+        /**
+         * Only dispatch event for created case
+         */
+        if ($this->movie->wasRecentlyCreated) {
+            Event::dispatch(new MovieCreated($this->movie));
+        }
+
+        return $this->movie;
+    }
+
+    public function createGenres(Movie $movie, array $genres = []): array
+    {
         $genreIds = [];
-        foreach ($model->getGenres() as $genre) {
+        foreach ($genres as $genre) {
             $genreIds[] = Genre::firstOrCreate([
                 'name' => $genre,
             ])->id;
         }
 
+        $movie->genres()->syncWithoutDetaching($genreIds);
+
+        return $genreIds;
+    }
+
+    public function createPerformers(Movie $movie, array $performers = []): array
+    {
         $actorIds = [];
-        foreach ($model->getPerformers() as $actor) {
+        foreach ($performers as $actor) {
             $actorIds[] = Performer::firstOrCreate([
                 'name' => $actor,
             ])->id;
         }
 
-        $this->movie->genres()->syncWithoutDetaching($genreIds);
-        $this->movie->performers()->syncWithoutDetaching($actorIds);
+        $movie->performers()->syncWithoutDetaching($actorIds);
 
-        Event::dispatch(new MovieCreated($this->movie));
+        return $actorIds;
     }
 
     public function createWordPressPost(Movie $movie, bool $force = false): ?WordPressPost
@@ -51,7 +107,7 @@ class MovieService
         }
 
         return $this->movie->wordpress()->create([
-            'title' => $this->movie->dvd_id,
+            'title' => $this->movie->dvd_id ?? $this->movie->content_id,
             'state_code' => State::STATE_INIT,
         ]);
     }

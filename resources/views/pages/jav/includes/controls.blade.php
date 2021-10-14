@@ -11,7 +11,6 @@
         <div class="btn-group mr-2" role="group" aria-label="First group">
             @include('pages.jav.includes.resync', ['movie' => $movie])
         </div>
-
         <div class="btn-group mr-2 float-right text-right" role="group" aria-label="Second group">
             <img src="https://www.r18.com/assets/image/common/logo.svg"/>
         </div>
