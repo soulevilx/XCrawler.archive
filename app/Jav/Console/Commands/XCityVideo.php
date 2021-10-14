@@ -4,9 +4,9 @@ namespace App\Jav\Console\Commands;
 
 use App\Core\Models\State;
 use App\Jav\Jobs\XCity\VideoItemFetch;
+use App\Jav\Models\XCityVideo as XCityVideoModel;
 use App\Jav\Services\XCityVideoService;
 use Illuminate\Console\Command;
-use \App\Jav\Models\XCityVideo as XCityVideoModel;
 
 class XCityVideo extends Command
 {
@@ -15,7 +15,7 @@ class XCityVideo extends Command
      *
      * @var string
      */
-    protected $signature = 'jav:xcity-video {task}';
+    protected $signature = 'jav:xcity-video {task} {--id=} {--limit=5}';
 
     /**
      * The console command description.
@@ -38,7 +38,14 @@ class XCityVideo extends Command
                 break;
 
             case 'item':
-                if ($model = XCityVideoModel::byState(State::STATE_INIT)->first()) {
+                $query = XCityVideoModel::byState(State::STATE_INIT);
+                if ($limit = $this->input->getOption('limit')) {
+                    $query = $query->limit($limit);
+                } elseif ($id = $this->input->getOption('id')) {
+                    $query = $query->where('id', $id);
+                }
+
+                foreach ($query->cursor() as $model) {
                     VideoItemFetch::dispatch($model)->onQueue('crawling');
                 }
 
