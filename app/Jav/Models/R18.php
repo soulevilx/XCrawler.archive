@@ -119,15 +119,17 @@ class R18 extends BaseModel implements MovieInterface
     public function refetch(): self
     {
         $crawler = app(R18Crawler::class);
-        $item = $crawler->getItem($this->content_id);
+
         // Can't get item
-        if (!$item) {
+        if (!$item = $crawler->getItem($this->content_id)) {
             return $this;
         }
+
         $item['runtime'] = $item['runtime_minutes'];
         $item['release_date'] = Carbon::createFromFormat('Y-m-d H:m:s', $item['release_date']);
-        $item['maker'] = $item['maker']['name'];
-        $item['label'] = $item['label']['name'];
+
+        $item['maker'] = $item['maker']['name'] ?? null;
+        $item['label'] = $item['label']['name'] ?? null;
 
         $item['series'] = $item['series'] ? $item['series']['name'] : [];
 
