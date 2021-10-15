@@ -12,11 +12,15 @@ class FlickrPeopleInfo extends BaseProcessJob
     public function process(): bool
     {
         $service = app(FlickrService::class);
-        $model = $this->process->model;
+
+        if (!$model = $this->process->model) {
+            return false;
+        }
+
         $info = $service->people()->getInfo($model->nsid);
 
         if (!$info) {
-            return true;
+            return false;
         }
 
         return $model->update($info);
