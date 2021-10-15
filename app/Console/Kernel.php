@@ -44,6 +44,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('flickr:contacts')->weekly();
         $schedule->command('flickr:people info');
         $schedule->command('flickr:people photos');
+        $schedule->command('flickr:people favorites');
         $schedule->command('flickr:photosets list');
         $schedule->command('flickr:photosets photos');
         $schedule->command('flickr:photo sizes');
