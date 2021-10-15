@@ -24,7 +24,9 @@ class FlickrEventSubscriber
 
     public function handleUserDeleted(ErrorUserDeleted $event)
     {
-        $contact = FlickrContact::where('nsid', $event->nsid)->first();
+        if (!$contact = FlickrContact::where('nsid', $event->nsid)->first()) {
+            return;
+        }
         $contact->process()->delete();
 
         foreach ($contact->albums as $album) {
