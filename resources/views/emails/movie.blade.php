@@ -16,8 +16,8 @@
 
 <!-- wp:list -->
 <ul>
-    <li><strong>Performers:</strong> {!! $performers !!}</li>
-    <li><strong>Genres:</strong> {!! $genres !!}</li>
+    <li><strong>Performers:</strong> {!! $htmlPerformers !!}</li>
+    <li><strong>Genres:</strong> {!! $htmlGenres !!}</li>
     <li><strong>Content ID:</strong> {{ $movie->content_id }}</li>
     <li><strong>DVD ID:</strong> {{ $movie->dvd_id }}</li>
     @if($onejav)

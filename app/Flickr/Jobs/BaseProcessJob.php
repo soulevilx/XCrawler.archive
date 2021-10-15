@@ -12,7 +12,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-abstract class BaseProcessJob implements ShouldQueue, ShouldBeUnique
+abstract class BaseProcessJob implements ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;
@@ -29,16 +29,6 @@ abstract class BaseProcessJob implements ShouldQueue, ShouldBeUnique
 
     public function __construct(public FlickrProcess $process)
     {
-    }
-
-    /**
-     * The unique ID of the job.
-     *
-     * @return string
-     */
-    public function uniqueId()
-    {
-        return $this->process->model->id;
     }
 
     public function handle()

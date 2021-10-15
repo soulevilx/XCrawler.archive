@@ -13,7 +13,7 @@ class FlickrPhoto extends Command
      *
      * @var string
      */
-    protected $signature = 'flickr:photo {task}';
+    protected $signature = 'flickr:photo {task} {--limit=5}';
 
     /**
      * The console command description.
@@ -33,10 +33,8 @@ class FlickrPhoto extends Command
 
     protected function photoGetSizes()
     {
-        if (!$photo = FlickrPhotoModel::whereNull('sizes')->first()) {
-            return;
+        foreach (FlickrPhotoModel::whereNull('sizes')->limit($this->input->getOption('limit'))->cursor() as $photo) {
+            FlickrPhotoSizes::dispatch($photo)->onQueue('api');
         }
-
-        FlickrPhotoSizes::dispatch($photo)->onQueue('api');
     }
 }
