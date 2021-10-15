@@ -11,7 +11,11 @@ class FlickrFavorites extends BaseProcessJob
     public function process(): bool
     {
         $service = app(FlickrService::class);
-        $model = $this->process->model;
+
+        if (!$model = $this->process->model) {
+            return false;
+        }
+
         $photos = $service->favorites()->getListAll($model->nsid);
 
         if (empty($photos)) {

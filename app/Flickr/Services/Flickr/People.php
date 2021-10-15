@@ -2,9 +2,11 @@
 
 namespace App\Flickr\Services\Flickr;
 
+use App\Flickr\Events\ErrorUserDeleted;
 use App\Flickr\Exceptions\FlickrRequestFailed;
 use App\Flickr\Models\FlickrContact;
 use App\Flickr\Services\FlickrService;
+use Illuminate\Support\Facades\Event;
 
 class People extends BaseFlickr
 {
@@ -15,7 +17,7 @@ class People extends BaseFlickr
         } catch (FlickrRequestFailed $exception) {
             switch ($exception->getCode()) {
                 case FlickrService::FLICKR_ERROR_USER_DELETED:
-                    FlickrContact::where('nsid', $user_id)->delete();
+                    Event::dispatch(new ErrorUserDeleted($user_id));
                     return null;
             }
         }
