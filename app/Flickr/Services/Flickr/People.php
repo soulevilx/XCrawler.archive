@@ -58,8 +58,8 @@ class People extends BaseFlickr
         } catch (FlickrRequestFailed $exception) {
             switch ($exception->getCode()) {
                 case FlickrService::FLICKR_ERROR_USER_DELETED:
-                    FlickrContact::where('nsid', $user_id)->delete();
-                   break;
+                    Event::dispatch(new ErrorUserDeleted($user_id));
+                    break;
             }
         }
 
