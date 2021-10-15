@@ -6,17 +6,19 @@ use App\Core\Models\State;
 use App\Flickr\Models\FlickrAlbum;
 use App\Flickr\Models\FlickrContact;
 use App\Flickr\Models\FlickrProcess;
+use Illuminate\Database\Eloquent\Collection;
 
 trait HasProcesses
 {
-    protected function getProcessItem(string $step, string $modelType = FlickrContact::class): FlickrProcess
+    protected function getProcessItem(string $step, string $modelType = FlickrContact::class): Collection
     {
-        $process = FlickrProcess::byState(State::STATE_INIT)
+        $processes = FlickrProcess::byState(State::STATE_INIT)
             ->where('step', $step)
             ->where('model_type', $modelType)
-            ->first();
+            ->limit(4)
+            ->get();
 
-        if (!$process) {
+        if ($processes->isEmpty()) {
             switch ($step) {
                 case FlickrProcess::STEP_PEOPLE_INFO:
                 case FlickrProcess::STEP_PEOPLE_PHOTOS:
@@ -38,26 +40,31 @@ trait HasProcesses
                     break;
             }
 
-            $process = FlickrProcess::byState(State::STATE_INIT)
+            $processes = FlickrProcess::byState(State::STATE_INIT)
                 ->where('step', $step)
-                ->first();
+                ->limit(4)
+                ->get();
         }
 
+        $data = [];
+        foreach ($processes as $process) {
+            $data[] = [
+                $process->model_id,
+                $process->model_type,
+                $process->step,
+            ];
+        }
         $this->table(
             [
                 'model_id',
                 'model_type',
                 'step',
             ],
-            [
-                [
-                    $process->model_id,
-                    $process->model_type,
-                    $process->step,
-                ],
-            ]
+
+                $data
+
         );
 
-        return $process;
+        return $processes;
     }
 }
