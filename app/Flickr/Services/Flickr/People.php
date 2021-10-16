@@ -2,25 +2,11 @@
 
 namespace App\Flickr\Services\Flickr;
 
-use App\Flickr\Events\ErrorUserDeleted;
-use App\Flickr\Exceptions\FlickrRequestFailed;
-use App\Flickr\Models\FlickrContact;
-use App\Flickr\Services\FlickrService;
-use Illuminate\Support\Facades\Event;
-
 class People extends BaseFlickr
 {
     public function getInfo(string $user_id): ?array
     {
-        try {
-            return $this->call(func_get_args(), __FUNCTION__)['person'];
-        } catch (FlickrRequestFailed $exception) {
-            switch ($exception->getCode()) {
-                case FlickrService::FLICKR_ERROR_USER_DELETED:
-                    Event::dispatch(new ErrorUserDeleted($user_id));
-                    return null;
-            }
-        }
+        return $this->call(func_get_args(), __FUNCTION__)['person'];
     }
 
     /**
@@ -50,20 +36,10 @@ class People extends BaseFlickr
         int    $page = 1
     ): array
     {
-        try {
-            $response = $this->call(func_get_args(), __FUNCTION__);
-            $response['photos']['photo'] = collect($response['photos']['photo']);
+        $response = $this->call(func_get_args(), __FUNCTION__);
+        $response['photos']['photo'] = collect($response['photos']['photo']);
 
-            return $response['photos'];
-        } catch (FlickrRequestFailed $exception) {
-            switch ($exception->getCode()) {
-                case FlickrService::FLICKR_ERROR_USER_DELETED:
-                    Event::dispatch(new ErrorUserDeleted($user_id));
-                    break;
-            }
-        }
-
-        return [];
+        return $response['photos'];
     }
 
     public function getPhotosAll(

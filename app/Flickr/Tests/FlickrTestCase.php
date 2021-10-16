@@ -83,7 +83,7 @@ class FlickrTestCase extends TestCase
                     'safe_search' => 3,
                 ]
             )
-            ->andReturn(json_encode(['stat' => 'fail', 'code' => FlickrService::FLICKR_ERROR_USER_DELETED]));
+            ->andReturn(json_encode(['stat' => 'fail', 'code' => FlickrService::ERROR_CODE_USER_DELETED]));
 
         $this->flickrMocker->shouldReceive('requestJson')
             ->with(
@@ -226,6 +226,6 @@ class FlickrTestCase extends TestCase
                 'POST',
                 ['user_id' => 'deleted']
             )
-            ->andReturn(json_encode(['stat' => 'fail', 'code' => FlickrService::FLICKR_ERROR_USER_DELETED]));
+            ->andReturn(json_encode(['stat' => 'fail', 'code' => FlickrService::ERROR_CODE_USER_DELETED]));
     }
 }

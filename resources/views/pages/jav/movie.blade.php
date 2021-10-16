@@ -1,12 +1,19 @@
 @extends('layouts.base')
-
+@if($movie)
+@section('meta')
+    <meta property="og:title" content="{{$movie->dvd_id}}" />
+    <meta property="og:type" content="video.movie" />
+    <meta property="og:url" content="{{url()->current()}}" />
+    <meta property="og:image" content="{{$movie->cover}}" />
+@endsection
 @section('content')
     <main class="content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-6">
                     <figure class="figure">
-                        <img src="https://via.placeholder.com/150" class="card-img-top lazy" data-src="{{$movie->cover}}"
+                        <img src="https://via.placeholder.com/150" class="card-img-top lazy"
+                             data-src="{{$movie->cover}}"
                              alt="{{$movie->dvd_id}}" width="100%"/>
                         <figcaption class="figure-caption">{{$movie->dvd_id}}</figcaption>
                     </figure>
@@ -98,3 +105,4 @@
         </div>
     </main>
 @endsection
+@endif

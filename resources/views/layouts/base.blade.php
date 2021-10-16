@@ -14,6 +14,7 @@
 
     @yield('css')
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    @yield('meta')
 </head>
 <body class="antialiased">
 <div class="wrapper">

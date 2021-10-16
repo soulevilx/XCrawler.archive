@@ -2,6 +2,7 @@
 
 namespace App\Jav\Models;
 
+use App\Core\Models\Download;
 use App\Core\Models\Traits\HasFactory;
 use App\Jav\Crawlers\OnejavCrawler;
 use App\Jav\Models\Interfaces\MovieInterface;
@@ -14,6 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * @property string $url
  * @property string $torrent
+ * @property-read Download $downloads
  */
 class Onejav extends Model implements MovieInterface
 {
@@ -64,11 +66,6 @@ class Onejav extends Model implements MovieInterface
         return 'dvd_id';
     }
 
-    public function isDownloadable(): bool
-    {
-        return true;
-    }
-
     /**
      * Onejav have no state.
      */
@@ -84,7 +81,16 @@ class Onejav extends Model implements MovieInterface
 
         $this->update($item->getArrayCopy());
 
+        /**
+         * @TODO
+         * If refetch changing dvd_id we'll lost connect with Movie
+         */
         return $this->refresh();
+    }
+
+    public function downloads()
+    {
+        return $this->morphMany(Download::class, 'model');
     }
 
     public function download()
@@ -92,14 +98,24 @@ class Onejav extends Model implements MovieInterface
         $this->refetch();
         $file = fopen(config('services.jav.download_dir') . '/' . basename($this->torrent), 'wb');
 
-        $client = app()->makeWith(Client::class, [
-            'config' => [
+        $client = app(Client::class);
+
+        $response = $client->request(
+            'GET',
+            $this->torrent,
+            [
+                'sink' => $file,
                 'base_uri' => self::BASE_URL,
-                ],
-        ]);
+            ]
+        );
 
-        $response = $client->request('GET', $this->torrent, ['sink' => $file]);
+        if ($response->getStatusCode() === 200) {
+            return Download::create([
+                'model_id' => $this->id,
+                'model_type' => $this->getMorphClass(),
+            ]);
+        }
 
-        return $response->getStatusCode() === 200;
+        return false;
     }
 }

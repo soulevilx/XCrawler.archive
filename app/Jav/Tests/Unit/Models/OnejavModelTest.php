@@ -44,7 +44,6 @@ class OnejavModelTest extends JavTestCase
             }
         );
 
-        $this->assertTrue($onejav->isDownloadable());
         $this->assertNull($onejav->getName());
     }
 

@@ -3,6 +3,7 @@
 namespace App\Flickr\Tests\Unit\Jobs;
 
 use App\Core\Models\State;
+use App\Flickr\Exceptions\UserDeleted;
 use App\Flickr\Jobs\FlickrContacts;
 use App\Flickr\Jobs\FlickrPeopleInfo;
 use App\Flickr\Jobs\FlickrPeoplePhotos;
@@ -44,6 +45,7 @@ class FlickrPeoplePhotosTest extends FlickrTestCase
         $contact = FlickrContact::factory()->create([
             'nsid' => 'deleted',
         ]);
+
         $contactProcess = FlickrProcess::factory()->create([
             'model_id' => $contact->id,
             'model_type' => $contact->getMorphClass(),
@@ -52,6 +54,7 @@ class FlickrPeoplePhotosTest extends FlickrTestCase
         ]);
 
         FlickrPeoplePhotos::dispatch($contactProcess);
+        //$this->expectException(UserDeleted::class);
         $this->assertSoftDeleted($contact);
     }
 }

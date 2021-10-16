@@ -1,5 +1,7 @@
 <?php
 
+use App\Core\Logging\Handler;
+use App\Core\Logging\Logger;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
@@ -37,13 +39,15 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['bugsnag'],
+            'channels' => ['database'],
             'ignore_exceptions' => false,
         ],
 
-        // Create a bugsnag logging channel:
-        'bugsnag' => [
-            'driver' => 'bugsnag',
+        'database' => [
+            'driver' => 'custom',
+            'handler' => Handler::class,
+            'via' => Logger::class,
+            'level' => 'debug',
         ],
 
         'single' => [

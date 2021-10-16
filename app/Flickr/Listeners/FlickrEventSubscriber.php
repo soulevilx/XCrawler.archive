@@ -3,7 +3,7 @@
 namespace App\Flickr\Listeners;
 
 use App\Core\Models\RequestFailed;
-use App\Flickr\Events\ErrorUserDeleted;
+use App\Flickr\Events\UserDeleted;
 use App\Flickr\Events\FlickrRequestFailed;
 use App\Flickr\Models\FlickrContact;
 use App\Flickr\Services\FlickrService;
@@ -22,13 +22,14 @@ class FlickrEventSubscriber
         ]);
     }
 
-    public function handleUserDeleted(ErrorUserDeleted $event)
+    public function handleUserDeleted(UserDeleted $event)
     {
         if (!$contact = FlickrContact::where('nsid', $event->nsid)->first()) {
             return;
         }
-        $contact->process()->delete();
 
+//        $contact->process()->delete();
+//
         foreach ($contact->albums as $album) {
             $album->process()->delete();
         }
@@ -49,7 +50,7 @@ class FlickrEventSubscriber
         );
 
         $events->listen(
-            [ErrorUserDeleted::class],
+            [UserDeleted::class],
             self::class . '@handleUserDeleted'
         );
     }
