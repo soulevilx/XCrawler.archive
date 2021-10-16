@@ -66,11 +66,6 @@ class Onejav extends Model implements MovieInterface
         return 'dvd_id';
     }
 
-    public function isDownloadable(): bool
-    {
-        return true;
-    }
-
     /**
      * Onejav have no state.
      */
