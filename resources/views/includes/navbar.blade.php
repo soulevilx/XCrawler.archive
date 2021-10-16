@@ -22,14 +22,14 @@
             </ul>
             <form class="form-inline my-2 my-lg-0 mr-2" action="{{route('movies.index' )}}" method="get">
                 <select class="form-control form-control-sm mr-2" name="orderBy">
-                    @include('includes.bootstrap.option', ['value' => 'created_at', 'name' => 'orderBy', 'text' => 'Created at'])
+                    @include('includes.bootstrap.option', ['value' => 'created_at', 'default'=> true, 'created_at', 'name' => 'orderBy', 'text' => 'Created at'])
                     @include('includes.bootstrap.option', ['value' => 'updated_at', 'name' => 'orderBy', 'text' => 'Updated at'])
                     @include('includes.bootstrap.option', ['value' => 'release_date', 'name' => 'orderBy', 'text' => 'Release date'])
                 </select>
 
                 <select class="form-control form-control-sm mr-2" name="orderDir">
                     @include('includes.bootstrap.option', ['value' => 'asc', 'name' => 'orderDir', 'text' => 'ASC'])
-                    @include('includes.bootstrap.option', ['value' => 'desc', 'name' => 'orderDir', 'text' => 'DESC'])
+                    @include('includes.bootstrap.option', ['value' => 'desc', 'default'=> true, 'name' => 'orderDir', 'text' => 'DESC'])
                 </select>
                 <button class="btn btn-info btn-sm my-2 my-sm-0" type="submit"><i class="fas fa-filter mr-2"></i>Filter
                 </button>
