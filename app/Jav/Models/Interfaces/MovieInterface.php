@@ -13,6 +13,4 @@ interface MovieInterface
     public function getGenres(): array;
 
     public function getPerformers(): array;
-
-    public function refetch(): self;
 }

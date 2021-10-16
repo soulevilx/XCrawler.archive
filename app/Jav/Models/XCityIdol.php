@@ -72,18 +72,6 @@ class XCityIdol extends BaseModel
         'other' => 'string',
     ];
 
-    public function refetch()
-    {
-        $crawler = app(XCityIdolCrawler::class);
-
-        $id = trim(str_replace('detail/', '', $this->url), '/');
-        if ($item = $crawler->getItem($id)) {
-            $this->update($item->getArrayCopy());
-        }
-
-        return $this->refresh();
-    }
-
     public function performer(): BelongsTo
     {
         return $this->belongsTo(Performer::class, 'name', 'name');

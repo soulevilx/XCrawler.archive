@@ -10,6 +10,7 @@ use App\Jav\Models\Genre;
 use App\Jav\Models\Movie;
 use App\Jav\Models\Performer;
 use App\Jav\Services\Movie\MovieService;
+use App\Jav\Services\R18Service;
 use App\Jav\Services\WordPressPostService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -95,9 +96,12 @@ class MoviesController extends BaseController
         );
     }
 
-    public function resync(Movie $movie)
+    public function resync(Movie $movie, R18Service $service)
     {
-        $movie?->r18?->refetch();
+        if ($movie->r18) {
+            $service->refetch($movie->r18);
+            $movie->refresh();
+        }
 
         return redirect()->route('movie.show', ['movie' => $movie]);
     }

@@ -7,6 +7,7 @@ use App\Jav\Events\XCityVideoCompleted;
 use App\Jav\Models\Performer;
 use App\Jav\Models\XCityIdol;
 use App\Jav\Models\XCityVideo;
+use App\Jav\Services\XCityVideoService;
 use App\Jav\Tests\JavTestCase;
 use App\Jav\Tests\Traits\XCityVideoMocker;
 use Illuminate\Support\Facades\Event;
@@ -38,7 +39,7 @@ class XCityVideoModelTest extends JavTestCase
             'url' => '/avod/detail/?id=147028',
         ]);
 
-        $video->refetch();
+       $video = app(XCityVideoService::class)->refetch($video);
         $this->assertEquals('NACR292', $video->item_number);
         $this->assertEquals([
             'Kaho Imai',

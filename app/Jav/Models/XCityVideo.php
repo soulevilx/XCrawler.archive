@@ -67,18 +67,6 @@ class XCityVideo extends BaseModel
         'running_time' => 'integer',
     ];
 
-    public function refetch()
-    {
-        $crawler = app(XCityVideoCrawler::class);
-
-        $id = trim(str_replace('/avod/detail/?id=', '', $this->url), '/');
-        if ($item = $crawler->getItem('/avod/detail/', ['id' => $id])) {
-            $this->update($item->getArrayCopy());
-        }
-
-        return $this->refresh();
-    }
-
     public function movie()
     {
         return $this->belongsTo(Movie::class, 'dvd_id', 'dvd_id');
