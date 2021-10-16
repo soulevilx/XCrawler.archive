@@ -6,6 +6,10 @@
         <div class="btn-group mr-2" role="group" aria-label="First group">
             @include('pages.jav.includes.download', ['onejav' => $movie->onejav])
         </div>
+    @else
+        <div class="btn-group mr-2" role="group" aria-label="First group">
+            @include('pages.jav.includes.requestdownload', ['movie' => $movie])
+        </div>
     @endif
     @if(!is_null($movie->r18))
         <div class="btn-group mr-2" role="group" aria-label="First group">

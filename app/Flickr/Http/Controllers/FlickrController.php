@@ -27,16 +27,7 @@ class FlickrController extends BaseResourceController
         $user = $service->urls()->lookupUser($request->input('url'));
         $url = explode('/', $request->input('url'));
         $albumId = end($url);
-        return response()->view(
-            'pages.flickr.index',
-            [
-                'messages' => [
-                    [
-                        'type' => 'info',
-                        'message' => 'Downloading Albumid <strong>' . $albumId. '</strong> from user ID ' . $user['id'],
-                    ],
-                ],
-            ]
-        );
+        session()->flash('message', ['Downloading Albumid <strong>' . $albumId. '</strong> from user ID ' . $user['id'], 'type' => 'info']);
+        return response()->view('pages.flickr.index',);
     }
 }

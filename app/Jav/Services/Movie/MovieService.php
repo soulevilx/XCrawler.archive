@@ -103,6 +103,7 @@ class MovieService
 
         // Already posted to WordPress
         if (!$force && $this->movie->wordpress()->where('state_code', State::STATE_COMPLETED)->exists()) {
+            session()->flash('message', ['message' => 'This movie already posted on WordPress', 'type' => 'warning']);
             return null;
         }
 
@@ -110,5 +111,14 @@ class MovieService
             'title' => $this->movie->dvd_id ?? $this->movie->content_id,
             'state_code' => State::STATE_INIT,
         ]);
+    }
+
+    public function requestDownload(Movie $movie)
+    {
+        if (!$movie->requestDownload()->exists()) {
+            return $movie->requestDownload()->create();
+        }
+
+        session()->flash('message', ['message' => 'Movie download in queued', 'type' => 'info']);
     }
 }
