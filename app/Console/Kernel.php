@@ -28,22 +28,22 @@ class Kernel extends ConsoleKernel
         $schedule->command('jav:r18 release')->everyFiveMinutes();
         $schedule->command('jav:r18 daily')->dailyAt('12:00');
         $schedule->command('jav:r18 item --limit=5');
-        $schedule->command('jav:r18 cleanup')->everyMinute();
 
         // XCity Idol
         $schedule->command('jav:xcity-idol release')->everyFiveMinutes();
         $schedule->command('jav:xcity-idol daily')->dailyAt('12:00');
-        $schedule->command('jav:xcity-idol item');
+        $schedule->command('jav:xcity-idol item --limit=5');
 
         // XCity Video
         $schedule->command('jav:xcity-video release')->everyFiveMinutes();
         $schedule->command('jav:xcity-video daily')->dailyAt('12:00');
-        $schedule->command('jav:xcity-video item');
+        $schedule->command('jav:xcity-video item --limit=5');
 
         // Flickr
         $schedule->command('flickr:contacts')->weekly();
         $schedule->command('flickr:people info');
         $schedule->command('flickr:people photos');
+        $schedule->command('flickr:people favorites');
         $schedule->command('flickr:photosets list');
         $schedule->command('flickr:photosets photos');
         $schedule->command('flickr:photo sizes');

@@ -54,7 +54,8 @@ class FlickrPeople extends Command
          * Whenever contact is created it'll create process STEP_PEOPLE_INFO
          * This process will fetch detail people information
          */
-        if ($process = $this->getProcessItem(FlickrProcess::STEP_PEOPLE_INFO)) {
+        $processes = $this->getProcessItem(FlickrProcess::STEP_PEOPLE_INFO);
+        foreach ($processes as $process) {
             FlickrPeopleInfo::dispatch($process)->onQueue('api');
         }
     }
@@ -65,15 +66,16 @@ class FlickrPeople extends Command
          * After STEP_PEOPLE_INFO completed will create STEP_PEOPLE_PHOTOS
          * This process will fetch all photos of an contact
          */
-
-        if ($process = $this->getProcessItem(FlickrProcess::STEP_PEOPLE_PHOTOS)) {
+        $processes = $this->getProcessItem(FlickrProcess::STEP_PEOPLE_PHOTOS);
+        foreach ($processes as $process) {
             FlickrPeoplePhotosJob::dispatch($process)->onQueue('api');
         }
     }
 
     protected function peopleFavorites()
     {
-        if ($process = $this->getProcessItem(FlickrProcess::STEP_PEOPLE_FAVORITE_PHOTOS)) {
+        $processes = $this->getProcessItem(FlickrProcess::STEP_PEOPLE_FAVORITE_PHOTOS);
+        foreach ($processes as $process) {
             FlickrFavorites::dispatch($process)->onQueue('api');
         }
     }

@@ -11,6 +11,10 @@ class XCityIdolEventSubscriber
     public function onIdolCompleted(XCityIdolCompleted $event)
     {
         $model = $event->model;
+        if (!$model->name) {
+            return;
+        }
+
         Performer::firstOrCreate([
             'name' => $model->name,
         ], [

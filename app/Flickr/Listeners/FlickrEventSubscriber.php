@@ -3,7 +3,9 @@
 namespace App\Flickr\Listeners;
 
 use App\Core\Models\RequestFailed;
+use App\Flickr\Events\ErrorUserDeleted;
 use App\Flickr\Events\FlickrRequestFailed;
+use App\Flickr\Models\FlickrContact;
 use App\Flickr\Services\FlickrService;
 use Illuminate\Events\Dispatcher;
 
@@ -19,6 +21,21 @@ class FlickrEventSubscriber
             'message' => $event->message
         ]);
     }
+
+    public function handleUserDeleted(ErrorUserDeleted $event)
+    {
+        if (!$contact = FlickrContact::where('nsid', $event->nsid)->first()) {
+            return;
+        }
+        $contact->process()->delete();
+
+        foreach ($contact->albums as $album) {
+            $album->process()->delete();
+        }
+
+        $contact->delete();
+    }
+
     /**
      * Register the listeners for the subscriber.
      *
@@ -29,6 +46,11 @@ class FlickrEventSubscriber
         $events->listen(
             [FlickrRequestFailed::class],
             self::class . '@handleFlickrRequestFailed'
+        );
+
+        $events->listen(
+            [ErrorUserDeleted::class],
+            self::class . '@handleUserDeleted'
         );
     }
 }

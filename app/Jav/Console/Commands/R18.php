@@ -52,9 +52,7 @@ class R18 extends Command
                     ItemFetch::dispatch($model)->onQueue('crawling');
                 }
 
-                break;
-            case 'cleanup':
-                if ($model = R18Model::byState(State::STATE_PROCESSING)->first()) {
+                foreach (R18Model::byState(State::STATE_PROCESSING)->limit($this->input->getOption('limit'))->cursor() as $model) {
                     ItemFetch::dispatch($model)->onQueue('crawling');
                 }
 

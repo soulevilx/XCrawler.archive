@@ -47,8 +47,10 @@ class FlickrPhotoSets extends Command
      */
     protected function photosetsGetList()
     {
-        $process = $this->getProcessItem(FlickrProcess::STEP_PHOTOSETS_LIST);
-        FlickrPhotoSetsJob::dispatch($process)->onQueue('api');
+        $processes = $this->getProcessItem(FlickrProcess::STEP_PHOTOSETS_LIST);
+        foreach ($processes as $process) {
+            FlickrPhotoSetsJob::dispatch($process)->onQueue('api');
+        }
     }
 
     /**
@@ -57,10 +59,13 @@ class FlickrPhotoSets extends Command
      */
     protected function photosetsGetPhotos()
     {
-        $process = $this->getProcessItem(
+        $processes = $this->getProcessItem(
             FlickrProcess::STEP_PHOTOSETS_PHOTOS,
             FlickrAlbum::class
         );
-        FlickrPhotoSetsPhotos::dispatch($process)->onQueue('api');
+
+        foreach ($processes as $process) {
+            FlickrPhotoSetsPhotos::dispatch($process)->onQueue('api');
+        }
     }
 }
