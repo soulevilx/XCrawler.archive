@@ -1,6 +1,11 @@
 @extends('layouts.base')
-
 @if($movie)
+@section('meta')
+    <meta property="og:title" content="{{$movie->dvd_id}}" />
+    <meta property="og:type" content="video.movie" />
+    <meta property="og:url" content="{{url()->current()}}" />
+    <meta property="og:image" content="{{$movie->cover}}" />
+@endsection
 @section('content')
     <main class="content">
         <div class="container-fluid">
