@@ -25,8 +25,8 @@ class Handler extends AbstractProcessingHandler
             'record_datetime' => $record['datetime']->format('Y-m-d H:i:s'),
             'extra'         => json_encode($record['extra']),
             'formatted'     => $record['formatted'],
-            'remote_addr'   => $_SERVER['REMOTE_ADDR'],
-            'user_agent'    => $_SERVER['HTTP_USER_AGENT'],
+            'remote_addr'   => $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1',
+            'user_agent'    => $_SERVER['HTTP_USER_AGENT'] ?? null,
             'created_at' => Carbon::now()
         );
 

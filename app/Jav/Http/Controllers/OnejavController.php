@@ -21,7 +21,7 @@ class OnejavController extends BaseController
             return response()->view(
                 'pages.jav.movie',
                 [
-                    'movie' => $onejav->movie->refresh(),
+                    'movie' => $onejav->movie?->refresh(),
                     'messages' => [
                         [
                             'type' => 'primary',

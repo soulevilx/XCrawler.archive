@@ -11,6 +11,7 @@ use Illuminate\Notifications\Messages\SlackAttachment;
 use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Routing\UrlGenerator;
+use Spatie\RateLimitedMiddleware\RateLimited;
 
 class MovieCreatedNotification extends Notification implements ShouldQueue
 {
@@ -21,6 +22,20 @@ class MovieCreatedNotification extends Notification implements ShouldQueue
      */
     public function __construct(public Movie $movie)
     {
+    }
+
+    public function middleware()
+    {
+        if ('testing' === config('app.env')) {
+            return [];
+        }
+
+        $rateLimitedMiddleware = (new RateLimited())
+            ->allow(2) // Allow 2 job
+            ->everySecond() // In second
+            ->releaseAfterMinutes(1); // Release back to pool
+
+        return [$rateLimitedMiddleware];
     }
 
     /**

@@ -6,19 +6,37 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <form class="form-inline my-2 my-lg-0" action="{{route('movies.index')}}" method="get">
-            <input type="hidden" name="downloadable[]" value="true">
-            <button class="btn btn-info btn-sm my-2 my-sm-0" type="submit"><i class="fas fa-cloud-download-alt mr-2"></i>OneJav</button>
+            <input type="hidden" name="whereHas[]" value="onejav">
+            <button class="btn btn-info btn-sm my-2 my-sm-0" type="submit"><i
+                    class="fas fa-cloud-download-alt mr-2"></i>OneJav
+            </button>
         </form>
         <form class="form-inline my-2 my-lg-0 ml-2" action="{{route('movies.index')}}" method="get">
             <input type="hidden" name="whereHas[]" value="r18">
-            <button class="btn btn-info btn-sm my-2 my-sm-0" type="submit"><i class="fas fa-ticket-alt mr-2"></i>R18</button>
+            <button class="btn btn-info btn-sm my-2 my-sm-0" type="submit"><i class="fas fa-ticket-alt mr-2"></i>R18
+            </button>
         </form>
+
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
             </ul>
-            <form class="form-inline my-2 my-lg-0" action="{{route('movies.index' )}}" method="get">
+            <form class="form-inline my-2 my-lg-0 mr-2" action="{{route('movies.index' )}}" method="get">
+                <select class="form-control form-control-sm mr-2" name="orderBy">
+                    @include('includes.bootstrap.option', ['value' => 'created_at', 'name' => 'orderBy', 'text' => 'Created at'])
+                    @include('includes.bootstrap.option', ['value' => 'updated_at', 'name' => 'orderBy', 'text' => 'Updated at'])
+                    @include('includes.bootstrap.option', ['value' => 'release_date', 'name' => 'orderBy', 'text' => 'Release date'])
+                </select>
+
+                <select class="form-control form-control-sm mr-2" name="orderDir">
+                    @include('includes.bootstrap.option', ['value' => 'asc', 'name' => 'orderDir', 'text' => 'ASC'])
+                    @include('includes.bootstrap.option', ['value' => 'desc', 'name' => 'orderDir', 'text' => 'DESC'])
+                </select>
+                <button class="btn btn-info btn-sm my-2 my-sm-0" type="submit"><i class="fas fa-filter mr-2"></i>Filter
+                </button>
+            </form>
+            <form class="form-inline my-2 my-lg-0 mr-2" action="{{route('movies.index' )}}" method="get">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
-                       name="keyword">
+                       name="keyword" value="{{app('request')->input('keyword') ?? null}}">
                 <div class="input-group-append">
                     <button class="btn btn-primary my-2 my-sm-0" type="submit"><i class="fas fa-search mr-2"></i>Search
                     </button>
