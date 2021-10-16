@@ -3,17 +3,18 @@
 namespace App\Flickr\Tests\Unit\Services;
 
 use App\Flickr\Exceptions\FlickrRequestFailed;
+use App\Flickr\Exceptions\UserDeleted;
 use App\Flickr\Models\FlickrContact;
 use App\Flickr\Services\FlickrService;
 use App\Flickr\Tests\FlickrTestCase;
+use Illuminate\Support\Facades\Event;
 
 class FlickrServiceTest extends FlickrTestCase
 {
     public function testRequestFailed()
     {
-        $this->expectException(FlickrRequestFailed::class);
         $this->service->request('flickr.contacts.getList', ['fail' => true]);
-        $this->assertDatabaseHas('request_failed', [
+        $this->assertDatabaseHas('request_fails', [
             'service' => FlickrService::SERVICE,
             'path' => 'flickr.contacts.getList'
         ]);
@@ -59,12 +60,14 @@ class FlickrServiceTest extends FlickrTestCase
             'nsid' => 'deleted',
         ]);
 
+        $this->expectException(UserDeleted::class);
         $this->service->people()->getInfo('deleted');
         $this->assertSoftDeleted($people);
     }
 
     public function testPeopleGetPhotosUserDeleted()
     {
+        $this->expectException(UserDeleted::class);
         $this->assertEmpty($this->service->people()->getPhotos('deleted'));
     }
 

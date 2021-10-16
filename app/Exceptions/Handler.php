@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use App\Flickr\Events\FlickrRequestFailed;
+use App\Flickr\Exceptions\UserDeleted;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -14,7 +15,6 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        FlickrRequestFailed::class
     ];
 
     /**
@@ -35,8 +35,7 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        $this->reportable(function (UserDeleted $e) {
         });
     }
 }

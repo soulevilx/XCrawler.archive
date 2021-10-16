@@ -3,7 +3,7 @@
 namespace App\Flickr\Services;
 
 use App\Flickr\Events\FlickrRequestFailed;
-use App\Flickr\Exceptions\FlickrRequestFailed as FlickrRequestFailedException;
+use App\Flickr\Events\UserDeleted;
 use App\Flickr\Services\Flickr\Contacts;
 use App\Flickr\Services\Flickr\Entities\Album;
 use App\Flickr\Services\Flickr\Favorites;
@@ -32,7 +32,8 @@ class FlickrService
      */
     protected $oauthRequestToken;
 
-    public const FLICKR_ERROR_USER_DELETED = 5;
+    public const ERROR_CODE_USER_NOT_FOUND = 1;
+    public const ERROR_CODE_USER_DELETED = 5;
 
     public function __construct(private ?string $apiKey = null, private ?string $secret = null)
     {
@@ -107,10 +108,14 @@ class FlickrService
          */
         if ($jsonResponse['stat'] === 'fail') {
             Event::dispatch(new FlickrRequestFailed($path, $params, $jsonResponse['message'] ?? null));
-            throw new FlickrRequestFailedException(
-                $jsonResponse['message'] ?? 'Flickr request failed',
-                $jsonResponse['code'] ?? 0
-            );
+            switch ($jsonResponse['code'] ?? null) {
+                case self::ERROR_CODE_USER_DELETED:
+                    Event::dispatch(new UserDeleted($params['user_id']));
+                    throw new \App\Flickr\Exceptions\UserDeleted(
+                        'The user id passed matched a deleted Flickr user.',
+                        $jsonResponse['code']
+                );
+            }
         }
 
         unset($jsonResponse['stat']);

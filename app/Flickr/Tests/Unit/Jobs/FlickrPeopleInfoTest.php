@@ -3,6 +3,7 @@
 namespace App\Flickr\Tests\Unit\Jobs;
 
 use App\Core\Models\State;
+use App\Flickr\Exceptions\UserDeleted;
 use App\Flickr\Jobs\FlickrPeopleInfo;
 use App\Flickr\Models\FlickrContact;
 use App\Flickr\Models\FlickrProcess;
@@ -30,6 +31,7 @@ class FlickrPeopleInfoTest extends FlickrTestCase
             'nsid' => 'deleted',
         ]);
         $process = $contact->processStep(FlickrProcess::STEP_PEOPLE_INFO);
+        $this->expectException(UserDeleted::class);
         FlickrPeopleInfo::dispatch($process);
 
         $this->assertSoftDeleted($contact);

@@ -2,6 +2,7 @@
 
 namespace App\Flickr\Jobs;
 
+use App\Flickr\Exceptions\UserDeleted;
 use App\Flickr\Services\FlickrService;
 
 class FlickrPeoplePhotos extends BaseProcessJob
@@ -14,20 +15,25 @@ class FlickrPeoplePhotos extends BaseProcessJob
             return false;
         }
 
-        $photos = $service->people()->getPhotos($model->nsid);
+        try {
+            $photos = $service->people()->getPhotos($model->nsid);
 
-        if (empty($photos)) {
+            if (empty($photos)) {
+                return true;
+            }
+
+            // Create new photos
+            $photos['photo']->each(function ($photo) use ($model) {
+                $model->photos()->firstOrCreate([
+                    'id' => $photo['id'],
+                    'owner' => $photo['owner'],
+                ], $photo);
+            });
+
             return true;
+        } catch (UserDeleted $exception) {
+            $this->process->delete();
+            return false;
         }
-
-        // Create new photos
-        $photos['photo']->each(function ($photo) use ($model) {
-            $model->photos()->firstOrCreate([
-                'id' => $photo['id'],
-                'owner' => $photo['owner'],
-            ], $photo);
-        });
-
-        return true;
     }
 }

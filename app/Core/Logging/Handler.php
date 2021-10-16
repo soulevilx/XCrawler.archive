@@ -3,7 +3,7 @@
 namespace App\Core\Logging;
 
 use Carbon\Carbon;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
 
