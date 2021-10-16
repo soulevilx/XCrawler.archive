@@ -1,12 +1,14 @@
 @extends('layouts.base')
 
+@if($movie)
 @section('content')
     <main class="content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-6">
                     <figure class="figure">
-                        <img src="https://via.placeholder.com/150" class="card-img-top lazy" data-src="{{$movie->cover}}"
+                        <img src="https://via.placeholder.com/150" class="card-img-top lazy"
+                             data-src="{{$movie->cover}}"
                              alt="{{$movie->dvd_id}}" width="100%"/>
                         <figcaption class="figure-caption">{{$movie->dvd_id}}</figcaption>
                     </figure>
@@ -98,3 +100,4 @@
         </div>
     </main>
 @endsection
+@endif
