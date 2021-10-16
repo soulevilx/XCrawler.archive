@@ -27,7 +27,7 @@
         @show
 
         @section('messages')
-            @include('includes.messages', ['messages', $messages ?? null])
+            @include('includes.messages')
             @include('includes.confirm', ['confirm', $confirm ?? null])
         @show
 

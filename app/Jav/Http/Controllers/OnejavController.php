@@ -18,16 +18,11 @@ class OnejavController extends BaseController
     {
         if ($onejav->download()) {
             $saveTo = config('services.jav.download_dir') . '/' . basename($onejav->torrent);
+            session()->flash('message', ['message' => 'Download completed. ' . $saveTo, 'type' => 'primary']);
             return response()->view(
                 'pages.jav.movie',
                 [
                     'movie' => $onejav->movie?->refresh(),
-                    'messages' => [
-                        [
-                            'type' => 'primary',
-                            'message' => 'Download completed. ' . $saveTo,
-                        ],
-                    ],
                 ]
             );
         }

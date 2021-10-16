@@ -3,6 +3,7 @@
 namespace App\Jav\Http\Controllers;
 
 use App\Core\Http\Controllers\BaseController;
+use App\Core\Services\MessagesService;
 use App\Jav\Http\Requests\PostWordPressRequest;
 use App\Jav\Http\Requests\ShowMoviesRequest;
 use App\Jav\Models\Genre;
@@ -73,15 +74,9 @@ class MoviesController extends BaseController
                 'pages.jav.movie',
                 [
                     'movie' => $movie,
-                    'messages' => [
-                        [
-                            'type' => 'danger',
-                            'message' => 'Can not create WordPress Post' . $request->input('confirm'),
-                        ],
-                    ],
                     'confirm' => [
                         'message' => 'Confirm repost',
-                    ]
+                    ],
                 ]
             );
         }
@@ -103,6 +98,13 @@ class MoviesController extends BaseController
     public function resync(Movie $movie)
     {
         $movie?->r18?->refetch();
+
+        return redirect()->route('movie.show', ['movie' => $movie]);
+    }
+
+    public function requestDownload(Movie $movie, MovieService $service)
+    {
+        $service->requestDownload($movie);
 
         return redirect()->route('movie.show', ['movie' => $movie]);
     }

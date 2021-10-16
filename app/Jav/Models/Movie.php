@@ -114,6 +114,11 @@ class Movie extends Model
         return $this->onejav()->exists();
     }
 
+    public function requestDownload(): MorphOne
+    {
+        return $this->morphOne(RequestDownload::class, 'model');
+    }
+
     public function series()
     {
         return is_array($this->series) ? implode(', ', $this->series) : $this->series;
