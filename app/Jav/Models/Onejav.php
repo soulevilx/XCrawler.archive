@@ -2,7 +2,7 @@
 
 namespace App\Jav\Models;
 
-use App\Core\Models\Downloads;
+use App\Core\Models\Download;
 use App\Core\Models\Traits\HasFactory;
 use App\Jav\Crawlers\OnejavCrawler;
 use App\Jav\Models\Interfaces\MovieInterface;
@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * @property string $url
  * @property string $torrent
+ * @property-read Download $downloads
  */
 class Onejav extends Model implements MovieInterface
 {
@@ -94,7 +95,7 @@ class Onejav extends Model implements MovieInterface
 
     public function downloads()
     {
-        return $this->morphMany(Downloads::class, 'model');
+        return $this->morphMany(Download::class, 'model');
     }
 
     public function download()
@@ -114,7 +115,7 @@ class Onejav extends Model implements MovieInterface
         );
 
         if ($response->getStatusCode() === 200) {
-            return Downloads::create([
+            return Download::create([
                 'model_id' => $this->id,
                 'model_type' => $this->getMorphClass(),
             ]);

@@ -5,13 +5,19 @@ namespace App\Core\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Downloads extends Model
+class Download extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'model_id',
         'model_type',
-        'count'
+        'count',
+    ];
+
+    protected $casts = [
+        'model_id' => 'integer',
+        'model_type' => 'string',
+        'count' => 'integer',
     ];
 }
