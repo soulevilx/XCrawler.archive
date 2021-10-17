@@ -3,6 +3,7 @@
 namespace App\Jav\Observers;
 
 use App\Jav\Models\Onejav;
+use App\Jav\Services\OnejavService;
 
 class OnejavObserver
 {
@@ -12,7 +13,7 @@ class OnejavObserver
             return;
         }
 
-        if ($onejav->download()) {
+        if (app(OnejavService::class)->download($onejav)) {
             $onejav->movie->requestDownload()->delete();
         }
     }

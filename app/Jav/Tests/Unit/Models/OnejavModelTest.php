@@ -7,6 +7,7 @@ use App\Core\Services\ApplicationService;
 use App\Jav\Models\Movie;
 use App\Jav\Models\Onejav;
 use App\Jav\Notifications\MovieCreatedNotification;
+use App\Jav\Services\OnejavService;
 use App\Jav\Tests\JavTestCase;
 use Illuminate\Notifications\AnonymousNotifiable;
 use Illuminate\Support\Facades\Notification;
@@ -47,6 +48,10 @@ class OnejavModelTest extends JavTestCase
         $this->assertNull($onejav->getName());
     }
 
+    /**
+     * @todo Move this test to Service
+     * @return void
+     */
     public function testModelRefetch()
     {
         $this->mocker = $this->getClientMock();
@@ -55,7 +60,7 @@ class OnejavModelTest extends JavTestCase
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021.html'));
         app()->instance(XCrawlerClient::class, $this->mocker);
         $onejav = Onejav::factory()->create();
-        $onejav->refetch();
+        $onejav = app(OnejavService::class)->refetch($onejav);
 
         $this->assertEquals('WAAA-088', $onejav->dvd_id);
     }

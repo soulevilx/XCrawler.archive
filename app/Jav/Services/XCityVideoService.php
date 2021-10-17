@@ -55,7 +55,17 @@ class XCityVideoService implements ServiceInterface
 
     public function item(Model $model): XCityVideo
     {
-        return $model->refetch();
+        return $this->refetch($model);
+    }
+
+    public function refetch(XCityVideo $model): XCityVideo
+    {
+        $id = trim(str_replace('/avod/detail/?id=', '', $model->url), '/');
+        if ($item = $this->crawler->getItem('/avod/detail/', ['id' => $id])) {
+            $model->update($item->getArrayCopy());
+        }
+
+        return $model;
     }
 
     public function daily()

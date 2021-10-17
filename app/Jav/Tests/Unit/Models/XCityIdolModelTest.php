@@ -6,6 +6,7 @@ use App\Core\Models\State;
 use App\Jav\Events\XCityIdolCompleted;
 use App\Jav\Models\Performer;
 use App\Jav\Models\XCityIdol;
+use App\Jav\Services\XCityIdolService;
 use App\Jav\Tests\JavTestCase;
 use App\Jav\Tests\Traits\XCityIdolMocker;
 use Illuminate\Support\Facades\Event;
@@ -32,7 +33,7 @@ class XCityIdolModelTest extends JavTestCase
             'url' => 'detail/13125/',
         ]);
 
-        $idol->refetch();
+        $idol = app(XCityIdolService::class)->refetch($idol);
         $this->assertEquals('Yuna Ogura', $idol->name);
     }
 

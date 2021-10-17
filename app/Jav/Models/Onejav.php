@@ -4,11 +4,10 @@ namespace App\Jav\Models;
 
 use App\Core\Models\Download;
 use App\Core\Models\Traits\HasFactory;
-use App\Jav\Crawlers\OnejavCrawler;
 use App\Jav\Models\Interfaces\MovieInterface;
 use App\Jav\Models\Traits\HasDefaultMovie;
 use App\Jav\Models\Traits\HasMovieObserver;
-use GuzzleHttp\Client;
+use App\Jav\Services\OnejavService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -74,48 +73,8 @@ class Onejav extends Model implements MovieInterface
         return true;
     }
 
-    public function refetch(): self
-    {
-        $crawler = app(OnejavCrawler::class);
-        $item = $crawler->getItems($this->url)->first();
-
-        $this->update($item->getArrayCopy());
-
-        /**
-         * @TODO
-         * If refetch changing dvd_id we'll lost connect with Movie
-         */
-        return $this->refresh();
-    }
-
     public function downloads()
     {
         return $this->morphMany(Download::class, 'model');
-    }
-
-    public function download()
-    {
-        $this->refetch();
-        $file = fopen(config('services.jav.download_dir') . '/' . basename($this->torrent), 'wb');
-
-        $client = app(Client::class);
-
-        $response = $client->request(
-            'GET',
-            $this->torrent,
-            [
-                'sink' => $file,
-                'base_uri' => self::BASE_URL,
-            ]
-        );
-
-        if ($response->getStatusCode() === 200) {
-            return Download::create([
-                'model_id' => $this->id,
-                'model_type' => $this->getMorphClass(),
-            ]);
-        }
-
-        return false;
     }
 }

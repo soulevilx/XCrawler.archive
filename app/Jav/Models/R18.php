@@ -9,6 +9,7 @@ use App\Jav\Crawlers\R18Crawler;
 use App\Jav\Models\Interfaces\MovieInterface;
 use App\Jav\Models\Traits\HasDefaultMovie;
 use App\Jav\Models\Traits\HasMovieObserver;
+use App\Jav\Services\R18Service;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -114,51 +115,6 @@ class R18 extends BaseModel implements MovieInterface
     public function getName(): ?string
     {
         return $this->title;
-    }
-
-    public function refetch(): self
-    {
-        $crawler = app(R18Crawler::class);
-
-        // Can't get item
-        if (!$item = $crawler->getItem($this->content_id)) {
-            return $this;
-        }
-
-        $item['runtime'] = $item['runtime_minutes'];
-        $item['release_date'] = Carbon::createFromFormat('Y-m-d H:m:s', $item['release_date']);
-
-        $item['maker'] = $item['maker']['name'] ?? null;
-        $item['label'] = $item['label']['name'] ?? null;
-
-        $item['series'] = $item['series'] ? $item['series']['name'] : [];
-
-        if (is_array($item['categories'])) {
-            foreach ($item['categories'] as $genre) {
-                $item['genres'][] = $genre['name'];
-            }
-        }
-
-        if (is_array($item['actresses'])) {
-            foreach ($item['actresses'] as $performer) {
-                $item['performers'][] = $performer['name'];
-            }
-        }
-
-        if (is_array($item['channels'])) {
-            foreach ($item['channels'] as $channel) {
-                $item['channels'][] = $channel['name'];
-            }
-        }
-
-        //$item['url'] = $item['detail_url'];
-        $item['cover'] = $item['cover'] ?? $item['images']['jacket_image']['large'];
-
-        if ($item) {
-            $this->update($item);
-        }
-
-        return $this->refresh();
     }
 
     /**
