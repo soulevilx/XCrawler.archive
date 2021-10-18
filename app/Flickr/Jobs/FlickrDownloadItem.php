@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Flickr\Jobs\Download;
+namespace App\Flickr\Jobs;
 
 use App\Core\Models\State;
 use App\Flickr\Jobs\Traits\HasFlickrMiddleware;

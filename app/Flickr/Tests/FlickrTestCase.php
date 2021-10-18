@@ -2,6 +2,8 @@
 
 namespace App\Flickr\Tests;
 
+use App\Flickr\Services\Flickr\People;
+use App\Flickr\Services\Flickr\PhotoSets;
 use App\Flickr\Services\FlickrService;
 use Mockery\LegacyMockInterface;
 use Mockery\MockInterface;
@@ -68,21 +70,6 @@ class FlickrTestCase extends TestCase
                 ]
             )
             ->andReturn($this->getFixture('people.getPhotos_1.json'));
-        /**
-         * User deleted case
-         */
-        $this->flickrMocker->shouldReceive('requestJson')
-            ->with(
-                'flickr.people.getPhotos',
-                'POST',
-                [
-                    'user_id' => 'deleted',
-                    'per_page' => 500,
-                    'page' => 1,
-                    'safe_search' => 3,
-                ]
-            )
-            ->andReturn(json_encode(['stat' => 'fail', 'code' => FlickrService::ERROR_CODE_USER_DELETED]));
 
         $this->flickrMocker->shouldReceive('requestJson')
             ->with(
@@ -211,20 +198,55 @@ class FlickrTestCase extends TestCase
     {
         $this->flickrMocker->shouldReceive('requestJson')
             ->with(
-                'flickr.contacts.getList',
+                'flickr.people.getInfo',
                 'POST',
-                ['fail' => true]
+                ['user_id' => 'deleted']
             )
-            ->andReturn(
-                json_encode(['stat' => 'fail'])
-            );
+            ->andReturn(json_encode(['stat' => 'fail', 'code' => People::ERROR_CODE_USER_DELETED]));
 
         $this->flickrMocker->shouldReceive('requestJson')
             ->with(
                 'flickr.people.getInfo',
                 'POST',
-                ['user_id' => 'deleted']
+                ['user_id' => 'null']
             )
-            ->andReturn(json_encode(['stat' => 'fail', 'code' => FlickrService::ERROR_CODE_USER_DELETED]));
+            ->andReturn(null);
+
+        $this->flickrMocker->shouldReceive('requestJson')
+            ->with(
+                'flickr.people.getPhotos',
+                'POST',
+                [
+                    'user_id' => 'deleted',
+                    'per_page' => People::PER_PAGE,
+                    'page' => 1,
+                    'safe_search' => 3,
+                ]
+            )
+            ->andReturn(json_encode(['stat' => 'fail', 'code' => People::ERROR_CODE_USER_DELETED]));
+
+        $this->flickrMocker->shouldReceive('requestJson')
+            ->with(
+                'flickr.photosets.getInfo',
+                'POST',
+                [
+                    'photoset_id' => -1,
+                    'user_id' => 'deleted'
+                ]
+            )
+            ->andReturn(json_encode(['stat' => 'fail', 'code' => PhotoSets::ERROR_CODE_PHOTOSET_NOT_FOUND]));
+
+        $this->flickrMocker->shouldReceive('requestJson')
+            ->with(
+                'flickr.photosets.getPhotos',
+                'POST',
+                [
+                    'photoset_id' => 999,
+                    'user_id' => 'deleted',
+                    'page' => 1,
+                    'per_page' => 500
+                ]
+            )
+            ->andReturn(json_encode(['stat' => 'fail', 'code' => PhotoSets::ERROR_CODE_PHOTOSET_NOT_FOUND]));
     }
 }

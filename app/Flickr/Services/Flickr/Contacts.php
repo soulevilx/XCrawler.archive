@@ -2,18 +2,19 @@
 
 namespace App\Flickr\Services\Flickr;
 
-use App\Flickr\Services\FlickrService;
-use Illuminate\Support\Collection;
+use App\Flickr\Exceptions\FlickrGeneralException;
 
 class Contacts extends BaseFlickr
 {
-    public function getListAll(?string $filter = null, ?int $page = null, ?int $per_page = 1000, ?string $sort = null)
+    public const PER_PAGE = 1000;
+
+    public function getListAll(?string $filter = null, ?int $page = null, ?int $per_page = self::PER_PAGE, ?string $sort = null)
     {
         $data = $this->getList($filter, $page, $per_page, $sort);
         $list = $data['contact'];
 
         for ($page = 2; $page <= $data['pages']; $page++) {
-            $data =$this->getList($filter, $page,$per_page, $sort);
+            $data = $this->getList($filter, $page, $per_page, $sort);
             $list = $list->merge($data['contact']);
         }
 
@@ -26,9 +27,9 @@ class Contacts extends BaseFlickr
      * @param int|null $per_page
      * @param string|null $sort
      * @return array
-     * @throws \ReflectionException
+     * @throws \ReflectionException|FlickrGeneralException
      */
-    public function getList(?string $filter = null, ?int $page = null, ?int $per_page = 1000, ?string $sort = null)
+    public function getList(?string $filter = null, ?int $page = null, ?int $per_page = self::PER_PAGE, ?string $sort = null)
     {
         $data = $this->call(func_get_args(), __FUNCTION__);
         $data['contacts']['contact'] = collect($data['contacts']['contact']);

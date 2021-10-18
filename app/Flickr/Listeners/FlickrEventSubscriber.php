@@ -3,7 +3,7 @@
 namespace App\Flickr\Listeners;
 
 use App\Core\Models\RequestFailed;
-use App\Flickr\Events\UserDeleted;
+use App\Flickr\Events\Errors\UserDeleted;
 use App\Flickr\Events\FlickrRequestFailed;
 use App\Flickr\Models\FlickrContact;
 use App\Flickr\Services\FlickrService;
@@ -18,13 +18,13 @@ class FlickrEventSubscriber
             'endpoint' => 'https://api.flickr.com/services/rest/',
             'path' => $event->path,
             'params' => $event->params,
-            'message' => $event->message
+            'message' => $event->response['message'] ?? null
         ]);
     }
 
     public function handleUserDeleted(UserDeleted $event)
     {
-        if (!$contact = FlickrContact::where('nsid', $event->nsid)->first()) {
+        if (!$contact = FlickrContact::where('nsid', $event->params['user_id'] ?? null)->first()) {
             return;
         }
 
