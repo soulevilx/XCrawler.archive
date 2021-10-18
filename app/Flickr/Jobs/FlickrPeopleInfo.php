@@ -23,6 +23,7 @@ class FlickrPeopleInfo extends BaseProcessJob
             return false;
         }
 
+        $info['description'] = strip_tags($info['description']);
         return $model->update($info);
     }
 }

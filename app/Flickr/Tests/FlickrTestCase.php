@@ -53,7 +53,6 @@ class FlickrTestCase extends TestCase
             )
             ->andReturn($this->getFixture('people.getInfo.json'));
 
-
         /**
          * flickr.people.getPhotos
          */
@@ -176,28 +175,28 @@ class FlickrTestCase extends TestCase
                     'POST',
                     ['photoset_id' => '72157688392979533', 'user_id' => '94529704@N02', 'page' => $page, 'per_page' => 50]
                 )
-                ->andReturn($this->getFixture('photosets.getPhotos_'. $page.'.json'));
+                ->andReturn($this->getFixture('photosets.getPhotos_' . $page . '.json'));
             $this->flickrMocker->shouldReceive('requestJson')
                 ->with(
                     'flickr.photosets.getPhotos',
                     'POST',
                     ['photoset_id' => '72157688392979533', 'user_id' => '94529704@N02', 'page' => $page, 'per_page' => 500]
                 )
-                ->andReturn($this->getFixture('photosets.getPhotos_'. $page.'.json'));
+                ->andReturn($this->getFixture('photosets.getPhotos_' . $page . '.json'));
             $this->flickrMocker->shouldReceive('requestJson')
                 ->with(
                     'flickr.photosets.getPhotos',
                     'POST',
                     ['photoset_id' => '72157719703391487', 'user_id' => '51838687@N07', 'page' => $page, 'per_page' => 50]
                 )
-                ->andReturn($this->getFixture('photosets.getPhotos_'. $page.'.json'));
+                ->andReturn($this->getFixture('photosets.getPhotos_' . $page . '.json'));
             $this->flickrMocker->shouldReceive('requestJson')
                 ->with(
                     'flickr.photosets.getPhotos',
                     'POST',
                     ['photoset_id' => '72157719703391487', 'user_id' => '51838687@N07', 'page' => $page, 'per_page' => 500]
                 )
-                ->andReturn($this->getFixture('photosets.getPhotos_'. $page.'.json'));
+                ->andReturn($this->getFixture('photosets.getPhotos_' . $page . '.json'));
         }
 
 
