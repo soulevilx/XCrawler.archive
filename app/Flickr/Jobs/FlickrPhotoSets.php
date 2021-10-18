@@ -11,7 +11,7 @@ class FlickrPhotoSets extends AbstractProcessJob
     {
         $photosets = $this->service->photosets()->getListAll($this->process->model->nsid);
         $photosets->each(function ($photoset) {
-            if (!FlickrAlbum::where(['id' => $photoset['id'], 'owner' => $photoset['id']])->exits()) {
+            if (!FlickrAlbum::where(['id' => $photoset['id'], 'owner' => $photoset['id']])->exists()) {
                 $this->process->model->albums()->firstOrCreate(
                     [
                         'id' => $photoset['id'],
