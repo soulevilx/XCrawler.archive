@@ -3,6 +3,7 @@
 namespace App\Flickr\Services;
 
 use App\Flickr\Events\FlickrRequestFailed;
+use App\Flickr\Jobs\FlickrRequestDownloadAlbum;
 use App\Flickr\Services\Flickr\Contacts;
 use App\Flickr\Services\Flickr\Entities\Album;
 use App\Flickr\Services\Flickr\Favorites;
@@ -167,6 +168,11 @@ class FlickrService
     {
         $album = app(Album::class);
         $album->loadFromUrl($albumUrl);
+
+        FlickrRequestDownloadAlbum::dispatch(
+            $album->getAlbumId(),
+            $album->getUserNsid(),
+        )->onQueue('api');
 
         return $album;
     }
