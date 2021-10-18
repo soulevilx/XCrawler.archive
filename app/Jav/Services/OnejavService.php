@@ -2,11 +2,13 @@
 
 namespace App\Jav\Services;
 
+use App\Core\Models\Download;
 use App\Core\Services\ApplicationService;
 use App\Jav\Crawlers\OnejavCrawler;
 use App\Jav\Models\Onejav;
 use App\Jav\Services\Interfaces\ServiceInterface;
 use App\Jav\Services\Traits\HasAttributes;
+use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Model;
 
 class OnejavService implements ServiceInterface
@@ -66,7 +68,7 @@ class OnejavService implements ServiceInterface
 
     public function item(Model $model): Onejav
     {
-        return $model->refetch();
+        return $this->refetch($model);
     }
 
     private function update(\ArrayObject $item)
@@ -75,5 +77,44 @@ class OnejavService implements ServiceInterface
             ['url' => $item->url],
             $item->getArrayCopy()
         );
+    }
+
+    public function download(Onejav $onejav): bool
+    {
+        $onejav = $this->refetch($onejav);
+        $fileName = config('services.jav.download_dir').'/' . basename($onejav->torrent);
+        $file = fopen($fileName, 'wb');
+        $response = app(Client::class)->request(
+            'GET',
+            $onejav->torrent,
+            [
+                'sink' => $file,
+                'base_uri' => Onejav::BASE_URL,
+            ]
+        );
+
+        if ($response->getStatusCode() === 200) {
+            Download::create([
+                'model_id' => $onejav->id,
+                'model_type' => Onejav::class,
+            ]);
+
+            return true;
+        }
+
+        session()->flash('message', ['message' => 'Download completed. ' . $fileName, 'type' => 'primary']);
+        return false;
+    }
+
+    public function refetch(Onejav $onejav): Onejav
+    {
+        $item = $this->crawler->getItems($onejav->url)->first();
+        $onejav->update($item->getArrayCopy());
+
+        /**
+         * @TODO
+         * If refetch changing dvd_id we'll lost connect with Movie
+         */
+        return $onejav;
     }
 }

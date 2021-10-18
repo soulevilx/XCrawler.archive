@@ -77,6 +77,16 @@ class XCityIdolService implements ServiceInterface
 
     public function item(Model $model): XCityIdol
     {
-        return $model->refetch();
+        return $this->refetch($model);
+    }
+
+    public function refetch(XCityIdol $model): XCityIdol
+    {
+        $id = trim(str_replace('detail/', '', $model->url), '/');
+        if ($item = $this->crawler->getItem($id)) {
+            $model->update($item->getArrayCopy());
+        }
+
+        return $model;
     }
 }
