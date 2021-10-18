@@ -2,8 +2,17 @@
 
 namespace App\Flickr\Services\Flickr;
 
+use App\Flickr\Events\Errors\PhotosetNotFound;
+
 class PhotoSets extends BaseFlickr
 {
+    public const ERROR_CODE_PHOTOSET_NOT_FOUND = 1;
+    public const ERROR_CODE_PHOTOSET_USER_FOUND = 2;
+
+    public const EVENT_MAPS = [
+        self::ERROR_CODE_PHOTOSET_NOT_FOUND => PhotosetNotFound::class,
+    ];
+
     public function getList(
         string  $user_id,
         int     $page = 1,
@@ -14,6 +23,7 @@ class PhotoSets extends BaseFlickr
     )
     {
         $response = $this->call(func_get_args(), __FUNCTION__);
+
         $response['photosets']['photoset'] = collect($response['photosets']['photoset']);
 
         return $response['photosets'];
@@ -120,7 +130,7 @@ class PhotoSets extends BaseFlickr
         return $list;
     }
 
-    public function getInfo(int $photoset_id, string $user_id)
+    public function getInfo(int $photoset_id, string $user_id): array
     {
         return $this->call(func_get_args(), __FUNCTION__)['photoset'];
     }

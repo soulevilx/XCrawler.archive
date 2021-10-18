@@ -3,13 +3,12 @@
 namespace App\Flickr\Tests\Unit\Jobs;
 
 use App\Core\Models\State;
+use App\Flickr\Exceptions\FlickrGeneralException;
 use App\Flickr\Exceptions\UserDeleted;
-use App\Flickr\Jobs\FlickrContacts;
-use App\Flickr\Jobs\FlickrPeopleInfo;
 use App\Flickr\Jobs\FlickrPeoplePhotos;
 use App\Flickr\Models\FlickrContact;
-use App\Flickr\Models\FlickrProcess;
 use App\Flickr\Models\FlickrPhoto;
+use App\Flickr\Models\FlickrProcess;
 use App\Flickr\Tests\FlickrTestCase;
 
 class FlickrPeoplePhotosTest extends FlickrTestCase
@@ -53,8 +52,10 @@ class FlickrPeoplePhotosTest extends FlickrTestCase
             'state_code' => State::STATE_COMPLETED,
         ]);
 
-        FlickrPeoplePhotos::dispatch($contactProcess);
-        //$this->expectException(UserDeleted::class);
-        $this->assertSoftDeleted($contact);
+        try {
+            FlickrPeoplePhotos::dispatch($contactProcess);
+        } catch (FlickrGeneralException $exception) {
+            $this->assertSoftDeleted($contact);
+        }
     }
 }

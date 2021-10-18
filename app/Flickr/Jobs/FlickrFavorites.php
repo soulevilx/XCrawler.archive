@@ -6,17 +6,11 @@ use App\Core\Models\State;
 use App\Flickr\Models\FlickrContact;
 use App\Flickr\Services\FlickrService;
 
-class FlickrFavorites extends BaseProcessJob
+class FlickrFavorites extends AbstractProcessJob
 {
     public function process(): bool
     {
-        $service = app(FlickrService::class);
-
-        if (!$model = $this->process->model) {
-            return false;
-        }
-
-        $photos = $service->favorites()->getListAll($model->nsid);
+        $photos = $this->service->favorites()->getListAll($this->process->model->nsid);
 
         if (empty($photos)) {
             return true;
@@ -24,11 +18,13 @@ class FlickrFavorites extends BaseProcessJob
 
         // Create new photos
         $photos->each(function ($photo) {
-            $contact = FlickrContact::firstOrCreate([
-                'nsid' => $photo['owner'],
-            ], [
-                'state_code' => State::STATE_INIT,
-            ]);
+            if (!$contact = FlickrContact::where('nsid', $photo['owner'])) {
+                $contact = FlickrContact::create([
+                    'nsid' => $photo['owner'],
+                ], [
+                    'state_code' => State::STATE_INIT,
+                ]);
+            }
 
             $contact->photos()->firstOrCreate([
                 'id' => $photo['id'],

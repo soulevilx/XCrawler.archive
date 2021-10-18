@@ -2,28 +2,18 @@
 
 namespace App\Flickr\Jobs;
 
-use App\Flickr\Services\FlickrService;
-
 /**
  * First step in whole process
  */
-class FlickrPeopleInfo extends BaseProcessJob
+class FlickrPeopleInfo extends AbstractProcessJob
 {
     public function process(): bool
     {
-        $service = app(FlickrService::class);
-
-        if (!$model = $this->process->model) {
-            return false;
-        }
-
-        $info = $service->people()->getInfo($model->nsid);
-
-        if (!$info) {
+        if (!$info = $this->service->people()->getInfo($this->process->model->nsid)) {
             return false;
         }
 
         $info['description'] = strip_tags($info['description']);
-        return $model->update($info);
+        return $this->process->model->update($info);
     }
 }

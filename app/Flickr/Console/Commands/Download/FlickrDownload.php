@@ -3,7 +3,7 @@
 namespace App\Flickr\Console\Commands\Download;
 
 use App\Core\Models\State;
-use App\Flickr\Jobs\Download\FlickrDownloadItem as FlickrDownloadItemJob;
+use App\Flickr\Jobs\FlickrDownloadItem as FlickrDownloadItemJob;
 use App\Flickr\Jobs\FlickrRequestDownloadAlbum;
 use App\Flickr\Models\FlickrDownloadItem;
 use App\Flickr\Services\FlickrService;

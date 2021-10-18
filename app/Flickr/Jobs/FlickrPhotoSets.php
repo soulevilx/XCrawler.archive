@@ -3,21 +3,14 @@
 namespace App\Flickr\Jobs;
 
 use App\Core\Models\State;
-use App\Flickr\Services\FlickrService;
 
-class FlickrPhotoSets extends BaseProcessJob
+class FlickrPhotoSets extends AbstractProcessJob
 {
     public function process(): bool
     {
-        $service = app(FlickrService::class);
-
-        if (!$model = $this->process->model) {
-            return false;
-        }
-
-        $photosets = $service->photosets()->getListAll($model->nsid);
-        $photosets->each(function ($photoset) use ($model) {
-            $model->albums()->firstOrCreate(
+        $photosets = $this->service->photosets()->getListAll($this->process->model->nsid);
+        $photosets->each(function ($photoset) {
+            $this->process->model->albums()->firstOrCreate(
                 [
                     'id' => $photoset['id'],
                     'owner' => $photoset['owner'],
