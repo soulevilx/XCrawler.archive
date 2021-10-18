@@ -19,6 +19,18 @@ class FlickrServiceTest extends FlickrTestCase
         ]);
     }
 
+    public function testRequestFailedNull()
+    {
+        try {
+            $this->service->people()->getInfo('null');
+        } catch (\Exception $exception) {
+            $this->assertDatabaseHas('request_fails', [
+                'service' => FlickrService::SERVICE,
+                'path' => 'flickr.people.getInfo'
+            ]);
+        }
+    }
+
     public function testContacts()
     {
         $this->assertEquals($this->totalContacts, $this->service->contacts()->getListAll()->count());

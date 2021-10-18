@@ -206,6 +206,14 @@ class FlickrTestCase extends TestCase
 
         $this->flickrMocker->shouldReceive('requestJson')
             ->with(
+                'flickr.people.getInfo',
+                'POST',
+                ['user_id' => 'null']
+            )
+            ->andReturn(null);
+
+        $this->flickrMocker->shouldReceive('requestJson')
+            ->with(
                 'flickr.people.getPhotos',
                 'POST',
                 [
