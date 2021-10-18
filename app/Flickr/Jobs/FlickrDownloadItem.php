@@ -33,6 +33,9 @@ class FlickrDownloadItem implements ShouldQueue
         if (!$photo->hasSizes()) {
             $sizes = $service->photos()->getSizes($photo->id);
             $photo->sizes = $sizes['size'];
+            $photo->update([
+                'sizes' => $sizes['size']->toArray(),
+            ]);
         }
 
         $url = $photo->largestSize()['source'];
