@@ -13,12 +13,25 @@
                     <i class="fas fa-video"></i><span class="align-middle">Movies @include('includes.bootstrap.badge', ['text' => \App\Jav\Models\Movie::count(), 'isPill' => true])</span>
                 </a>
             </li>
+
+            <li class="sidebar-header">
+                Flickr
+            </li>
             <li class="sidebar-item">
                 <a class="sidebar-link" href="{{route('flickr.index')}}">
-                    <i class="fab fa-flickr"></i><span class="align-middle">Flickr</span>
+                    <i class="fab fa-flickr"></i><span class="align-middle">Index</span>
                 </a>
             </li>
 
+            <li class="sidebar-header">
+                Configuration
+            </li>
+
+            <li class="sidebar-item">
+                <a class="sidebar-link" href="{{route('configurations.index')}}">
+                    <i class="fab fa-flickr"></i><span class="align-middle">Index</span>
+                </a>
+            </li>
         </ul>
         <div class="sidebar-cta">
             <div class="sidebar-cta-content">

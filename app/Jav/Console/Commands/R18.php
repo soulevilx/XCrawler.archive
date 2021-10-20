@@ -44,7 +44,9 @@ class R18 extends Command
                 $query = R18Model::byState(State::STATE_INIT);
                 if ($limit = $this->input->getOption('limit')) {
                     $query = $query->limit($limit);
-                } elseif ($id = $this->input->getOption('id')) {
+                }
+
+                if ($id = $this->input->getOption('id')) {
                     $query = $query->where('id', $id);
                 }
 
@@ -53,7 +55,7 @@ class R18 extends Command
                 }
 
                 foreach (R18Model::byState(State::STATE_PROCESSING)->limit($this->input->getOption('limit'))->cursor() as $model) {
-                    ItemFetch::dispatch($model)->onQueue('crawling');
+                    ItemFetch::dispatch($model)->onConnection('crawling');
                 }
 
                 break;
