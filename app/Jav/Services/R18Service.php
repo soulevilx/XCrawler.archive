@@ -17,6 +17,8 @@ class R18Service implements ServiceInterface
 
     protected R18 $model;
 
+    public const SERVICE_LABEL = 'R18';
+
     public function __construct(protected R18Crawler $crawler)
     {
     }

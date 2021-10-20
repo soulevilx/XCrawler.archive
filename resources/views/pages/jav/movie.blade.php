@@ -1,4 +1,5 @@
 @extends('layouts.base')
+
 @if($movie)
 @section('meta')
     <meta property="og:title" content="{{$movie->dvd_id}}" />

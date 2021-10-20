@@ -17,6 +17,8 @@ class OnejavService implements ServiceInterface
 
     protected Onejav $model;
 
+    public const SERVICE_LABEL = 'Onejav';
+
     public function __construct(protected OnejavCrawler $crawler)
     {
     }
@@ -99,10 +101,10 @@ class OnejavService implements ServiceInterface
                 'model_type' => Onejav::class,
             ]);
 
+            session()->flash('message', ['message' => 'Download completed. ' . $fileName, 'type' => 'primary']);
             return true;
         }
 
-        session()->flash('message', ['message' => 'Download completed. ' . $fileName, 'type' => 'primary']);
         return false;
     }
 

@@ -20,6 +20,8 @@ class XCityIdolService implements ServiceInterface
 
     protected XCityIdol $idol;
 
+    public const SERVICE_LABEL = 'XCity idols';
+
     public function __construct(protected XCityIdolCrawler $crawler, protected ApplicationService $service)
     {
     }

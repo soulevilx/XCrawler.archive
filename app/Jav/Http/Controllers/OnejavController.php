@@ -18,10 +18,7 @@ class OnejavController extends BaseController
     public function download(Onejav $onejav, OnejavService $service)
     {
         if ($service->download($onejav)) {
-            return response()->view(
-                'pages.jav.movie',
-                ['movie' => $onejav->movie?->refresh()]
-            );
+            return redirect()->route('movie.show', ['movie' => $onejav->movie]);
         }
 
         return response(null, 404);

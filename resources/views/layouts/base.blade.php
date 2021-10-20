@@ -31,9 +31,7 @@
             @include('includes.confirm', ['confirm', $confirm ?? null])
         @show
 
-        @section('navbar')
-            @include('includes.navbar')
-        @show
+        @yield('navbar')
 
         @yield('content')
 
