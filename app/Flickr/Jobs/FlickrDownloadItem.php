@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Flickr\Jobs\Download;
+namespace App\Flickr\Jobs;
 
 use App\Core\Models\State;
 use App\Flickr\Jobs\Traits\HasFlickrMiddleware;
@@ -33,6 +33,9 @@ class FlickrDownloadItem implements ShouldQueue
         if (!$photo->hasSizes()) {
             $sizes = $service->photos()->getSizes($photo->id);
             $photo->sizes = $sizes['size'];
+            $photo->update([
+                'sizes' => $sizes['size']->toArray(),
+            ]);
         }
 
         $url = $photo->largestSize()['source'];

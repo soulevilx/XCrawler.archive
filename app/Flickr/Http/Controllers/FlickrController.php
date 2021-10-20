@@ -24,10 +24,16 @@ class FlickrController extends BaseResourceController
 
     public function downloadAlbum(DownloadAlbumRequest $request, FlickrService $service)
     {
-        $user = $service->urls()->lookupUser($request->input('url'));
-        $url = explode('/', $request->input('url'));
-        $albumId = end($url);
-        session()->flash('message', ['Downloading Albumid <strong>' . $albumId. '</strong> from user ID ' . $user['id'], 'type' => 'info']);
-        return response()->view('pages.flickr.index',);
+        $album = $service->downloadAlbum($request->input('url'));
+
+        session()->flash(
+            'message',
+            [
+                'message' => 'Downloading Albumid <strong>' . $album->getAlbumId() . '</strong> from user ID ' . $album->getUserNsid(),
+                'type' => 'info'
+            ]
+        );
+
+        return response()->view('pages.flickr.index');
     }
 }

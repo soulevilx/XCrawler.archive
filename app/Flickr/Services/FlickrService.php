@@ -3,7 +3,7 @@
 namespace App\Flickr\Services;
 
 use App\Flickr\Events\FlickrRequestFailed;
-use App\Flickr\Events\UserDeleted;
+use App\Flickr\Jobs\FlickrRequestDownloadAlbum;
 use App\Flickr\Services\Flickr\Contacts;
 use App\Flickr\Services\Flickr\Entities\Album;
 use App\Flickr\Services\Flickr\Favorites;
@@ -11,6 +11,7 @@ use App\Flickr\Services\Flickr\People;
 use App\Flickr\Services\Flickr\Photos;
 use App\Flickr\Services\Flickr\PhotoSets;
 use App\Flickr\Services\Flickr\Urls;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use OAuth\Common\Consumer\Credentials;
@@ -32,8 +33,8 @@ class FlickrService
      */
     protected $oauthRequestToken;
 
-    public const ERROR_CODE_USER_NOT_FOUND = 1;
-    public const ERROR_CODE_USER_DELETED = 5;
+    public const ERROR_CODE_NOT_FOUND = 1;
+    public const ERROR_CODE_DELETED = 5;
 
     public function __construct(private ?string $apiKey = null, private ?string $secret = null)
     {
@@ -97,28 +98,15 @@ class FlickrService
         $jsonResponse = json_decode($response, true);
 
         if (null === $jsonResponse) {
-            Event::dispatch(new FlickrRequestFailed($path, $params));
-            throw new \Exception("Unable to decode Flickr response to $path request: " . $response);
+            Event::dispatch(new FlickrRequestFailed($path, $params, []));
+            throw new Exception("Unable to decode Flickr response to $path request: " . $response);
         }
 
         $jsonResponse = $this->cleanTextNodes($jsonResponse);
 
-        /**
-         * @TODO Handle User not found / deleted
-         */
         if ($jsonResponse['stat'] === 'fail') {
-            Event::dispatch(new FlickrRequestFailed($path, $params, $jsonResponse['message'] ?? null));
-            switch ($jsonResponse['code'] ?? null) {
-                case self::ERROR_CODE_USER_DELETED:
-                    Event::dispatch(new UserDeleted($params['user_id']));
-                    throw new \App\Flickr\Exceptions\UserDeleted(
-                        'The user id passed matched a deleted Flickr user.',
-                        $jsonResponse['code']
-                );
-            }
+            Event::dispatch(new FlickrRequestFailed($path, $params, $jsonResponse));
         }
-
-        unset($jsonResponse['stat']);
 
         return $jsonResponse;
     }
@@ -180,6 +168,11 @@ class FlickrService
     {
         $album = app(Album::class);
         $album->loadFromUrl($albumUrl);
+
+        FlickrRequestDownloadAlbum::dispatch(
+            $album->getAlbumId(),
+            $album->getUserNsid(),
+        )->onQueue('api');
 
         return $album;
     }

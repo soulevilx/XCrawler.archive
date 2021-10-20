@@ -2,6 +2,7 @@
 
 namespace App\Flickr\Services\Flickr;
 
+use App\Flickr\Exceptions\FlickrGeneralException;
 use App\Flickr\Services\FlickrService;
 use ReflectionMethod;
 
@@ -21,6 +22,10 @@ class BaseFlickr
     }
 
     /**
+     * @param array $args
+     * @param string $method
+     * @return array
+     * @throws FlickrGeneralException
      * @throws \ReflectionException
      */
     protected function call(array $args, string $method): array
@@ -31,12 +36,18 @@ class BaseFlickr
             $parameters[$parameter->name] = $args[$index] ?? $parameter->getDefaultValue();
         }
 
-        return call_user_func(
+        $data = call_user_func(
             [
                 $this->service, 'request',
             ],
             $this->buildPath($method),
             $parameters
         );
+
+        if (isset($data['stat']) && $data['stat'] === 'fail') {
+            throw new FlickrGeneralException($data['message'] ?? '', $data['code'] ?? null);
+        }
+
+        return $data;
     }
 }
