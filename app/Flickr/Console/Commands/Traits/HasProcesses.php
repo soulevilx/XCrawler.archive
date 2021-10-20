@@ -15,7 +15,7 @@ trait HasProcesses
         $processes = FlickrProcess::byState(State::STATE_INIT)
             ->where('step', $step)
             ->where('model_type', $modelType)
-            ->limit(4)
+            ->limit(2)
             ->get();
 
         if ($processes->isEmpty()) {
@@ -60,9 +60,7 @@ trait HasProcesses
                 'model_type',
                 'step',
             ],
-
-                $data
-
+            $data
         );
 
         return $processes;
