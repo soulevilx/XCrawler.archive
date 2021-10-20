@@ -1,6 +1,5 @@
 @extends('layouts.base')
-@section('navbar')
-@endsection
+
 @section('content')
     <main class="content">
         <div class="container-fluid">

@@ -18,6 +18,8 @@ class XCityVideoService implements ServiceInterface
 
     protected XCityVideo $video;
 
+    public const SERVICE_LABEL = 'XCity videos';
+
     public function __construct(protected XCityVideoCrawler $crawler, protected ApplicationService $service)
     {
     }
