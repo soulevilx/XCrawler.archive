@@ -2,6 +2,7 @@
 
 namespace App\Core\Providers;
 
+use App\Core\Exceptions\NetworkError;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
 use RuntimeException;
@@ -18,11 +19,11 @@ class BaseServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->testCacheConnection();
+        $this->testNetwork();
         $this->loadMigrations();
         $this->loadConfigs();
 
-        foreach ($this->routes as $route)
-        {
+        foreach ($this->routes as $route) {
             $this->loadRoutes($route);
         }
     }
@@ -52,7 +53,7 @@ class BaseServiceProvider extends ServiceProvider
     {
         foreach ($this->configs as $dir => $configs) {
             foreach ($configs as $config) {
-                $configFile = $dir.'/'.$config.'.php';
+                $configFile = $dir . '/' . $config . '.php';
                 if (!file_exists($configFile)) {
                     continue;
                 }
@@ -75,6 +76,26 @@ class BaseServiceProvider extends ServiceProvider
         } catch (Throwable $e) {
             report(new RuntimeException('Redis cache connection error, falling back to in-memory driver', 0, $e));
             config(['cache.default' => 'array']);
+        }
+    }
+
+    private function testNetwork(): void
+    {
+        if (app()->environment('testing')) {
+            return;
+        }
+
+        $isConnected = false;
+        $connected = @fsockopen("www.example.com", 80);
+
+        //website, port  (try 80 or 443)
+        if ($connected) {
+            $isConnected = true; //action when connected
+            fclose($connected);
+        }
+
+        if (!$isConnected) {
+            throw new NetworkError();
         }
     }
 
