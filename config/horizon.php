@@ -179,7 +179,7 @@ return [
             'memory' => env('HORIZON_MEMORY', 1024),
             'tries' => env('HORIZON_TRIES', 3),
             'nice' => 0,
-            'timeout' => 3600,
+            'timeout' => 7200,
             'retry_after' => 1800,
         ],
         'crawling' => [
@@ -190,7 +190,7 @@ return [
             'memory' => env('HORIZON_MEMORY', 1024),
             'tries' => env('HORIZON_TRIES', 3),
             'nice' => 0,
-            'timeout' => 3600,
+            'timeout' => 7200,
             'retry_after' => 1800,
         ],
         'api' => [
@@ -201,7 +201,7 @@ return [
             'memory' => env('HORIZON_MEMORY', 1024),
             'tries' => env('HORIZON_TRIES', 3),
             'nice' => 0,
-            'timeout' => 3600,
+            'timeout' => 7200,
             'retry_after' => 1800,
         ],
     ],
