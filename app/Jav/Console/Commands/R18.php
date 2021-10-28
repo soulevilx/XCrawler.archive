@@ -54,7 +54,7 @@ class R18 extends Command
                     ItemFetch::dispatch($model)->onQueue('crawling');
                 }
 
-                foreach (R18Model::byState(State::STATE_PROCESSING)->limit($this->input->getOption('limit'))->cursor() as $model) {
+                foreach (R18Model::byState(State::STATE_PROCESSING)->cursor() as $model) {
                     ItemFetch::dispatch($model)->onConnection('crawling');
                 }
 
