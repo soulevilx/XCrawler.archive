@@ -186,6 +186,7 @@ class FlickrTestCase extends TestCase
                 ->andReturn($this->getFixture('photosets.getPhotos_' . $page . '.json'));
         }
 
+        $this->favorites();
 
         $serviceMocker->shouldReceive('createService')
             ->andReturn($this->flickrMocker);
@@ -248,5 +249,15 @@ class FlickrTestCase extends TestCase
                 ]
             )
             ->andReturn(json_encode(['stat' => 'fail', 'code' => PhotoSets::ERROR_CODE_PHOTOSET_NOT_FOUND]));
+    }
+
+    private function favorites()
+    {
+        $this->flickrMocker->shouldReceive('requestJson')
+            ->withSomeOfArgs(
+                'flickr.favorites.getList',
+                'POST',
+            )
+            ->andReturn($this->getFixture('favorites.getList.json'));
     }
 }
