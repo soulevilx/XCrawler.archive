@@ -95,7 +95,7 @@ class FlickrContact extends BaseModel
 
     public static function findByNsid(string $nsid)
     {
-        return self::where('nsid', $nsid)->first();
+        return self::withTrashed()->where('nsid', $nsid)->first();
     }
 
     public function process()
