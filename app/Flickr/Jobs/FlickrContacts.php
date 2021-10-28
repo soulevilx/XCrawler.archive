@@ -23,8 +23,9 @@ class FlickrContacts implements ShouldQueue
         $service->contacts()->getListAll()->each(function ($contact) {
             $nsid = $contact['nsid'];
             unset($contact['nsid']);
-            if (!FlickrContact::where('nsid', $nsid)->exists()) {
-                FlickrContact::firstOrCreate([
+
+            if (!FlickrContact::findByNsid($nsid)) {
+                FlickrContact::withTrashed()->firstOrCreate([
                     'nsid' => $nsid,
                 ], $contact + ['state_code' => State::STATE_INIT]);
             }
