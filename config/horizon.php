@@ -174,12 +174,12 @@ return [
         'default' => [
             'connection' => 'redis',
             'queue' => ['default'],
-            'balance' => 'auto',
+            'balance' => 'false',
             'maxProcesses' => env('HORIZON_DEFAULT_MAX_PROCESSES', 1),
             'memory' => env('HORIZON_MEMORY', 1024),
             'tries' => env('HORIZON_TRIES', 3),
             'nice' => 0,
-            'timeout' => 7200,
+            'timeout' => 7000,
             'retry_after' => 1800,
         ],
         'crawling' => [
@@ -190,7 +190,7 @@ return [
             'memory' => env('HORIZON_MEMORY', 1024),
             'tries' => env('HORIZON_TRIES', 3),
             'nice' => 0,
-            'timeout' => 7200,
+            'timeout' => 7000,
             'retry_after' => 1800,
         ],
         'api' => [
@@ -201,7 +201,7 @@ return [
             'memory' => env('HORIZON_MEMORY', 1024),
             'tries' => env('HORIZON_TRIES', 3),
             'nice' => 0,
-            'timeout' => 7200,
+            'timeout' => 7000,
             'retry_after' => 1800,
         ],
     ],
