@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Queue\MaxAttemptsExceededException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -13,6 +14,7 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
+        MaxAttemptsExceededException::class,
     ];
 
     /**
