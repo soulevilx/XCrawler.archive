@@ -56,14 +56,6 @@ class R18 extends Command
                     }
                 }
 
-                if ($items = R18Model::byState(State::STATE_PROCESSING)->get()) {
-                    if (!$items->isEmpty()) {
-                        $items->each(function ($item) {
-                            ItemFetch::dispatch($item)->onConnection('crawling');
-                        });
-                    }
-                }
-
                 break;
         }
     }
