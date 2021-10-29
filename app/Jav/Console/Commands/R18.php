@@ -57,8 +57,10 @@ class R18 extends Command
                 }
 
                 if ($items = R18Model::byState(State::STATE_PROCESSING)->get()) {
-                    foreach ($items as $model) {
-                        ItemFetch::dispatch($model)->onConnection('crawling');
+                    if (!$items->isEmpty()) {
+                        $items->each(function ($item) {
+                            ItemFetch::dispatch($item)->onConnection('crawling');
+                        });
                     }
                 }
 
