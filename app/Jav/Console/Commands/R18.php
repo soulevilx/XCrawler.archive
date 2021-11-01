@@ -50,12 +50,10 @@ class R18 extends Command
                     $query = $query->where('id', $id);
                 }
 
-                foreach ($query->cursor() as $model) {
-                    ItemFetch::dispatch($model)->onQueue('crawling');
-                }
-
-                foreach (R18Model::byState(State::STATE_PROCESSING)->limit($this->input->getOption('limit'))->cursor() as $model) {
-                    ItemFetch::dispatch($model)->onConnection('crawling');
+                if ($items = $query->get()) {
+                    foreach ($items as $model) {
+                        ItemFetch::dispatch($model)->onQueue('crawling');
+                    }
                 }
 
                 break;

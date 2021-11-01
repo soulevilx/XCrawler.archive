@@ -62,6 +62,11 @@ class R18Test extends JavTestCase
         });
     }
 
+    public function testR18ItemWithNoItems()
+    {
+        $this->artisan('jav:r18 item --limit=5');
+    }
+
     public function testR18SpecificItem()
     {
         $r18 = R18::factory()->create();
