@@ -2,7 +2,7 @@ build:
   environment:
     php: '8.0'
     mysql: '5.7'
-    mongodb: '4'
+    mongodb: '4.0'
     hosts:
       laravel.dev: '127.0.0.1'
     variables:
