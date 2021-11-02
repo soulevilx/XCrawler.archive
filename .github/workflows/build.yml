@@ -24,6 +24,10 @@ jobs:
         ports:
           - 3308:6379
         options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      mongo:
+        image: mongo
+        ports:
+          - 3309:27017
     steps:
       - uses: actions/checkout@v2
         with:
