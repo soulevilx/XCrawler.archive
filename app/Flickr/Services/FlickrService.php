@@ -115,7 +115,7 @@ class FlickrService
         if (isset($jsonResponse['stat']) && $jsonResponse['stat'] === 'fail') {
             Event::dispatch(new FlickrRequestFailed($path, $params, $jsonResponse ?? []));
 
-            throw new FlickrGeneralException($data['message'] ?? '', $data['code'] ?? null);
+            throw new FlickrGeneralException($jsonResponse['message'] ?? '', $jsonResponse['code'] ?? null);
         }
 
         return $this->cleanTextNodes($jsonResponse);
