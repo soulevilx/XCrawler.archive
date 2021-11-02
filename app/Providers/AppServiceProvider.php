@@ -16,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        if (Schema::connection('telescope')->hasTable('telescope_entries')) {
+        if (app()->environment('testing') && Schema::connection('telescope')->hasTable('telescope_entries')) {
             Telescope::ignoreMigrations();
         }
     }
