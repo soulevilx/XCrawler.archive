@@ -2,6 +2,7 @@ build:
   environment:
     php: '8.0'
     mysql: '5.7'
+    mongo: '4'
     hosts:
       laravel.dev: '127.0.0.1'
     variables:
