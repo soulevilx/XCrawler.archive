@@ -29,7 +29,7 @@ class Contacts extends BaseFlickr
      * @return array
      * @throws \ReflectionException|FlickrGeneralException
      */
-    public function getList(?string $filter = null, ?int $page = null, ?int $per_page = self::PER_PAGE, ?string $sort = null)
+    public function getList(?string $filter = null, ?int $page = null, ?int $per_page = self::PER_PAGE, ?string $sort = null): array
     {
         $data = $this->call(func_get_args(), __FUNCTION__);
         $data['contacts']['contact'] = collect($data['contacts']['contact']);

@@ -4,9 +4,9 @@ namespace App\Flickr\Console\Commands;
 
 use App\Core\Models\State;
 use App\Flickr\Models\FlickrContact;
+use App\Flickr\Models\FlickrPhoto as FlickrPhotoModel;
 use App\Flickr\Models\FlickrProcess;
 use Illuminate\Console\Command;
-use App\Flickr\Models\FlickrPhoto as FlickrPhotoModel;
 
 class Migration extends Command
 {

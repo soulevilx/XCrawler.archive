@@ -3,8 +3,8 @@
 namespace App\Jav\Tests\Feature\Console;
 
 use App\Jav\Jobs\XCity\GetIdolItemLinks;
-use App\Jav\Jobs\XCity\InitIdolIndex;
 use App\Jav\Jobs\XCity\IdolItemFetch;
+use App\Jav\Jobs\XCity\InitIdolIndex;
 use App\Jav\Models\XCityIdol;
 use App\Jav\Tests\JavTestCase;
 use App\Jav\Tests\Traits\XCityIdolMocker;

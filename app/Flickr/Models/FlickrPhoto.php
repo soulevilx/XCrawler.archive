@@ -6,11 +6,13 @@ use App\Core\Models\BaseModel;
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class FlickrPhoto extends BaseModel
 {
     use HasFactory;
     use HasStates;
+    use SoftDeletes;
 
     /**
      * Indicates if the IDs are auto-incrementing.

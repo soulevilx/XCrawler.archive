@@ -184,6 +184,7 @@ return [
         FlickrEventServiceProvider::class,
 
         Studio\Totem\Providers\TotemServiceProvider::class,
+        Jenssegers\Mongodb\MongodbServiceProvider::class,
     ],
 
     /*

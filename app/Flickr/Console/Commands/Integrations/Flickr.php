@@ -5,7 +5,6 @@ namespace App\Flickr\Console\Commands\Integrations;
 use App\Flickr\Services\FlickrService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
-use Symfony\Component\Console\Helper\TableSeparator;
 
 class Flickr extends Command
 {

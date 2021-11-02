@@ -13,7 +13,7 @@ class FlickrPhotoFactory extends Factory
     public function definition()
     {
         return [
-            'id' => $this->faker->numerify,
+            'id' => $this->faker->numberBetween(1),
             'owner' => FlickrContact::factory()->create(['nsid' => $this->faker->uuid])->nsid
         ];
     }

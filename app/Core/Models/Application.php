@@ -3,7 +3,6 @@
 namespace App\Core\Models;
 
 use App\Core\Models\Traits\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Application extends BaseModel

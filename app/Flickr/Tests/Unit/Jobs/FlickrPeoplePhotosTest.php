@@ -4,7 +4,6 @@ namespace App\Flickr\Tests\Unit\Jobs;
 
 use App\Core\Models\State;
 use App\Flickr\Exceptions\FlickrGeneralException;
-use App\Flickr\Exceptions\UserDeleted;
 use App\Flickr\Jobs\FlickrPeoplePhotos;
 use App\Flickr\Models\FlickrContact;
 use App\Flickr\Models\FlickrPhoto;
@@ -24,6 +23,7 @@ class FlickrPeoplePhotosTest extends FlickrTestCase
 
         $contactProcess->refresh();
         $contactProcess->model->refresh();
+
         $this->assertEquals(State::STATE_COMPLETED, $contactProcess->state_code);
         $this->assertEquals(358, FlickrPhoto::where('owner', $contactProcess->model->nsid)->count());
         $this->assertDatabaseHas('flickr_contact_processes', [

@@ -2,8 +2,8 @@
 
 namespace App\Core\Logging;
 
+use App\Core\Models\Log;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
 
@@ -16,7 +16,7 @@ class Handler extends AbstractProcessingHandler
 
     protected function write(array $record): void
     {
-        $data = array(
+        Log::create([
             'message'       => $record['message'],
             'context'       => json_encode($record['context']),
             'level'         => $record['level'],
@@ -28,8 +28,6 @@ class Handler extends AbstractProcessingHandler
             'remote_addr'   => $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1',
             'user_agent'    => $_SERVER['HTTP_USER_AGENT'] ?? null,
             'created_at' => Carbon::now()
-        );
-
-        DB::table('logs')->insert($data);
+        ]);
     }
 }

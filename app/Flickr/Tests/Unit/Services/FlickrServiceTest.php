@@ -2,10 +2,12 @@
 
 namespace App\Flickr\Tests\Unit\Services;
 
+use App\Flickr\Events\FlickrRequestFailed;
 use App\Flickr\Exceptions\FlickrGeneralException;
 use App\Flickr\Models\FlickrContact;
 use App\Flickr\Services\FlickrService;
 use App\Flickr\Tests\FlickrTestCase;
+use Illuminate\Support\Facades\Event;
 
 class FlickrServiceTest extends FlickrTestCase
 {
@@ -13,34 +15,67 @@ class FlickrServiceTest extends FlickrTestCase
     {
         $this->expectException(FlickrGeneralException::class);
         $this->service->people()->getInfo('deleted');
-        $this->assertDatabaseHas('request_fails', [
+        $this->assertDatabaseHas('client_requests', [
             'service' => FlickrService::SERVICE,
-            'path' => 'flickr.people.getInfo'
-        ]);
+            'endpoint' => 'flickr.people.getInfo',
+        ], 'mongodb');
     }
 
     public function testRequestFailedNull()
     {
-        try {
-            $this->service->people()->getInfo('null');
-        } catch (\Exception $exception) {
-            $this->assertDatabaseHas('request_fails', [
-                'service' => FlickrService::SERVICE,
-                'path' => 'flickr.people.getInfo'
-            ]);
-        }
+        $this->expectException(FlickrGeneralException::class);
+        $this->service->people()->getInfo('null');
+
+        $this->assertDatabaseHas('client_requests', [
+            'service' => FlickrService::SERVICE,
+            'endpoint' => 'flickr.people.getInfo',
+        ], 'mongodb');
+    }
+
+    public function testRequestWithException()
+    {
+        $this->expectException(FlickrGeneralException::class);
+        $this->service->people()->getInfo('exception');
+
+        $this->assertDatabaseHas('client_requests', [
+            'service' => FlickrService::SERVICE,
+            'endpoint' => 'flickr.people.getInfo',
+            'code' => 9999,
+            'message' => 'TokenResponseException'
+        ], 'mongodb');
     }
 
     public function testContacts()
     {
         $this->assertEquals($this->totalContacts, $this->service->contacts()->getListAll()->count());
-        $this->assertEquals(1000, $this->service->contacts()->getList(null, null, 1000)['contact']->count());
+        $this->assertEquals(
+            1000,
+            $this->service->contacts()->getList(null, null, 1000)['contact']->count()
+        );
+    }
+
+    public function testContactsFailed()
+    {
+        $this->expectException(FlickrGeneralException::class);
+        Event::fake(FlickrRequestFailed::class);
+        $this->service->contacts()->getList(null, null, 9999);
+        Event::assertDispatched(FlickrRequestFailed::class);
     }
 
     public function testPeopleInfo()
     {
-        $this->assertEquals($this->nsid, $this->service->people()->getInfo($this->nsid)['nsid']);
-        $this->assertEquals('SoulEvilX', $this->service->people()->getInfo($this->nsid)['username']);
+        $this->assertEquals(
+            $this->nsid,
+            $this->service->people()->getInfo($this->nsid)['nsid']
+        );
+        $this->assertEquals(
+            'SoulEvilX',
+            $this->service->people()->getInfo($this->nsid)['username']
+        );
+    }
+
+    public function testPeopleGetPhotos()
+    {
         $this->assertEquals(150, $this->service->people()->getPhotos(
             $this->nsid,
             3,

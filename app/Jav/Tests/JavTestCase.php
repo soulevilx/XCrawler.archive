@@ -2,11 +2,6 @@
 
 namespace App\Jav\Tests;
 
-use App\Core\Client;
-use Jooservices\XcrawlerClient\Interfaces\ResponseInterface;
-use Jooservices\XcrawlerClient\Response\DomResponse;
-use Jooservices\XcrawlerClient\XCrawlerClient;
-use Mockery\LegacyMockInterface;
 use Mockery\MockInterface;
 use Tests\TestCase;
 

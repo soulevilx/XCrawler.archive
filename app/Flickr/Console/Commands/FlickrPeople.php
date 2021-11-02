@@ -23,7 +23,7 @@ class FlickrPeople extends Command
      *
      * @var string
      */
-    protected $signature = 'flickr:people {task}';
+    protected $signature = 'flickr:people {task=default}';
 
     /**
      * The console command description.
@@ -45,6 +45,10 @@ class FlickrPeople extends Command
             case 'favorites':
                 $this->peopleFavorites();
                 break;
+            default:
+                $this->peopleInfo();
+                $this->peoplePhotos();
+                $this->peopleFavorites();
         }
     }
 
