@@ -108,8 +108,8 @@ class FlickrService
             }
         } catch (TokenResponseException $exception) {
             $jsonResponse['stat'] = 'fail';
-            $jsonResponse['code'] = 9999;
-            $jsonResponse['message'] = 'TokenResponseException';
+            $jsonResponse['code'] = $exception->getCode();
+            $jsonResponse['message'] = $exception->getMessage();
         }
 
         if (isset($jsonResponse['stat']) && $jsonResponse['stat'] === 'fail') {
