@@ -30,20 +30,17 @@ class ClientTest extends TestCase
 
     public function testClientServiceRequestSucceed()
     {
-        Event::fake();
         $this->mocker->shouldReceive('get')
             ->andReturn($this->getSuccessfulMockedResponse(new DomResponse()));
         app()->instance(XCrawlerClient::class, $this->mocker);
         $client = app(Client::class)->init('test', new DomResponse());
         $client->request($this->faker->slug);
 
-        Event::assertDispatched(ClientRequested::class);
-
         $this->assertDatabaseHas('client_requests', [
             'service' => 'test',
             'base_uri' => 'https://fake.com',
             'is_succeed' => true,
-        ]);
+        ], 'mongodb');
     }
 
     public function testClientServiceRequestFailed()
@@ -60,7 +57,7 @@ class ClientTest extends TestCase
             'service' => 'test',
             'base_uri' => 'https://fake.com',
             'is_succeed' => false,
-        ]);
+        ], 'mongodb');
 
         Notification::assertSentTo(new AnonymousNotifiable(), ClientRequestFailedNotification::class);
     }
@@ -78,7 +75,7 @@ class ClientTest extends TestCase
             'service' => 'test',
             'base_uri' => 'https://fake.com',
             'is_succeed' => false,
-        ]);
+        ], 'mongodb');
 
         Notification::assertSentTo(new AnonymousNotifiable(), ClientRequestFailedNotification::class);
     }
