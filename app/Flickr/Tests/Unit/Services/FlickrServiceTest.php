@@ -21,14 +21,13 @@ class FlickrServiceTest extends FlickrTestCase
 
     public function testRequestFailedNull()
     {
-        try {
-            $this->service->people()->getInfo('null');
-        } catch (\Exception $exception) {
-            $this->assertDatabaseHas('client_requests', [
-                'service' => FlickrService::SERVICE,
-                'endpoint' => 'flickr.people.getInfo',
-            ], 'mongodb');
-        }
+        $this->expectException(FlickrGeneralException::class);
+        $this->service->people()->getInfo('null');
+        $this->assertDatabaseHas('client_requests', [
+            'service' => FlickrService::SERVICE,
+            'endpoint' => 'flickr.people.getInfo',
+            'code' => 999,
+        ], 'mongodb');
     }
 
     public function testContacts()
