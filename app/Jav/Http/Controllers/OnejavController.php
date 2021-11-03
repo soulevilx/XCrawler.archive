@@ -21,6 +21,6 @@ class OnejavController extends BaseController
             return redirect()->route('movie.show', ['movie' => $onejav->movie]);
         }
 
-        return redirect()->route('movie.index');
+        return redirect()->route('movies.index');
     }
 }
