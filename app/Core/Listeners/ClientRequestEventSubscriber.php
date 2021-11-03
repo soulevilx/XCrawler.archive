@@ -8,6 +8,7 @@ use App\Core\Notifications\ClientRequestFailedNotification;
 use App\Core\Services\ApplicationService;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Str;
 use Jooservices\XcrawlerClient\Response\DomResponse;
 
 class ClientRequestEventSubscriber
@@ -24,7 +25,7 @@ class ClientRequestEventSubscriber
             'base_uri' => config('services' . '.' . $event->service . '.base_url'),
             'endpoint' => $response->getEndpoint() ?? $event->endpoint,
             'payload' => $event->payload,
-            'body' => trim($response->getBody()),
+            'body' => Str::substr((trim($response->getBody())), 0, 100),
             'is_succeed' => $response->isSuccessful(),
             //'messages' => is_array($response) ? $response['message'] ?? null : $response->getResponseMessage(),
             //'code' => $response['code'] ?? null,
