@@ -25,7 +25,7 @@ class ClientRequestEventSubscriber
             'base_uri' => config('services' . '.' . $event->service . '.base_url'),
             'endpoint' => $response->getEndpoint() ?? $event->endpoint,
             'payload' => $event->payload,
-            'body' => Str::substr((trim($response->getBody())), 0, 100),
+            'body' => Str::words((trim($response->getBody())), 100, ' ...'),
             'is_succeed' => $response->isSuccessful(),
             //'messages' => is_array($response) ? $response['message'] ?? null : $response->getResponseMessage(),
             //'code' => $response['code'] ?? null,
