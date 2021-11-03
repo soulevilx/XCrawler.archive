@@ -2,6 +2,7 @@
 
 namespace App\Flickr\Listeners;
 
+use App\Core\Models\ClientRequest;
 use App\Core\Models\RequestFailed;
 use App\Flickr\Events\Errors\UserDeleted;
 use App\Flickr\Events\FlickrRequestFailed;
@@ -13,12 +14,16 @@ class FlickrEventSubscriber
 {
     public function handleFlickrRequestFailed(FlickrRequestFailed $event)
     {
-        RequestFailed::create([
+        $response = $event->response;
+        ClientRequest::create([
             'service' => FlickrService::SERVICE,
-            'endpoint' => 'https://api.flickr.com/services/rest/',
-            'path' => $event->path,
-            'params' => $event->params,
-            'message' => $event->response['message'] ?? null
+            'base_uri' => 'https://api.flickr.com/services/rest/',
+            'endpoint' => $event->path,
+            'payload' => $event->params,
+            'body' => null,
+            'messages' => $response['message'] ?? null,
+            'code' => $response['code'] ?? null,
+            'is_succeed' => false,
         ]);
     }
 

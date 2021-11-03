@@ -13,10 +13,10 @@ class FlickrServiceTest extends FlickrTestCase
     {
         $this->expectException(FlickrGeneralException::class);
         $this->service->people()->getInfo('deleted');
-        $this->assertDatabaseHas('request_fails', [
+        $this->assertDatabaseHas('client_requests', [
             'service' => FlickrService::SERVICE,
-            'path' => 'flickr.people.getInfo'
-        ]);
+            'endpoint' => 'flickr.people.getInfo',
+        ], 'mongodb');
     }
 
     public function testRequestFailedNull()
@@ -24,10 +24,10 @@ class FlickrServiceTest extends FlickrTestCase
         try {
             $this->service->people()->getInfo('null');
         } catch (\Exception $exception) {
-            $this->assertDatabaseHas('request_fails', [
+            $this->assertDatabaseHas('client_requests', [
                 'service' => FlickrService::SERVICE,
-                'path' => 'flickr.people.getInfo'
-            ]);
+                'endpoint' => 'flickr.people.getInfo',
+            ], 'mongodb');
         }
     }
 

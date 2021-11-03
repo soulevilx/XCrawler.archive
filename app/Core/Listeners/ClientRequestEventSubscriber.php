@@ -8,11 +8,15 @@ use App\Core\Notifications\ClientRequestFailedNotification;
 use App\Core\Services\ApplicationService;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Support\Facades\Notification;
+use Jooservices\XcrawlerClient\Response\DomResponse;
 
 class ClientRequestEventSubscriber
 {
     public function handleClientRequested(ClientRequested $event)
     {
+        /**
+         * @var DomResponse $response
+         */
         $response = $event->response;
 
         ClientRequest::create([
@@ -22,6 +26,8 @@ class ClientRequestEventSubscriber
             'payload' => $event->payload,
             'body' => trim($response->getBody()),
             'is_succeed' => $response->isSuccessful(),
+            //'messages' => is_array($response) ? $response['message'] ?? null : $response->getResponseMessage(),
+            //'code' => $response['code'] ?? null,
         ]);
 
         if (!$response->isSuccessful() && ApplicationService::getConfig('core', 'enable_slack_notification', false)) {
