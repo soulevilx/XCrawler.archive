@@ -2,13 +2,16 @@
 
 namespace App\Flickr\Tests\Unit\Services;
 
+use App\Flickr\Events\FlickrRequestFailed;
 use App\Flickr\Exceptions\FlickrGeneralException;
 use App\Flickr\Models\FlickrContact;
 use App\Flickr\Services\FlickrService;
 use App\Flickr\Tests\FlickrTestCase;
+use Illuminate\Support\Facades\Event;
 
 class FlickrServiceTest extends FlickrTestCase
 {
+
     public function testRequestFailed()
     {
         $this->expectException(FlickrGeneralException::class);
@@ -30,10 +33,31 @@ class FlickrServiceTest extends FlickrTestCase
         ], 'mongodb');
     }
 
+    public function testRequestWithException()
+    {
+        $this->expectException(FlickrGeneralException::class);
+        $this->service->people()->getInfo('exception');
+
+        $this->assertDatabaseHas('client_requests', [
+            'service' => FlickrService::SERVICE,
+            'endpoint' => 'flickr.people.getInfo',
+            'code' => 9999,
+            'message' => 'TokenResponseException'
+        ], 'mongodb');
+    }
+
     public function testContacts()
     {
         $this->assertEquals($this->totalContacts, $this->service->contacts()->getListAll()->count());
         $this->assertEquals(1000, $this->service->contacts()->getList(null, null, 1000)['contact']->count());
+    }
+
+    public function testContactsFailed()
+    {
+        Event::fake(FlickrRequestFailed::class);
+        $this->expectException(FlickrGeneralException::class);
+        $this->service->contacts()->getList(null, null, 9999);
+        Event::assertDispatched(FlickrRequestFailed::class);
     }
 
     public function testPeopleInfo()
