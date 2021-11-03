@@ -6,7 +6,6 @@ use App\Jav\Models\Onejav;
 use App\Jav\Tests\JavTestCase;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
-use Illuminate\Support\Facades\Log;
 use Jooservices\XcrawlerClient\Response\DomResponse;
 use Jooservices\XcrawlerClient\XCrawlerClient;
 

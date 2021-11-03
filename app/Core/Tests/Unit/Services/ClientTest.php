@@ -3,11 +3,9 @@
 namespace App\Core\Tests\Unit\Services;
 
 use App\Core\Client;
-use App\Core\Events\ClientRequested;
 use App\Core\Notifications\ClientRequestFailedNotification;
 use App\Core\Services\ApplicationService;
 use Illuminate\Notifications\AnonymousNotifiable;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 use Jooservices\XcrawlerClient\Interfaces\ResponseInterface;
 use Jooservices\XcrawlerClient\Response\DomResponse;

@@ -3,10 +3,9 @@
 namespace App\Flickr\Tests\Unit\Models;
 
 use App\Flickr\Models\FlickrAlbum;
-use App\Flickr\Models\FlickrProcess;
+use App\Flickr\Models\FlickrContact as FlickrContactModel;
 use App\Flickr\Models\FlickrPhoto;
 use App\Flickr\Tests\FlickrTestCase;
-use App\Flickr\Models\FlickrContact as FlickrContactModel;
 
 class FlickrContactTest extends FlickrTestCase
 {

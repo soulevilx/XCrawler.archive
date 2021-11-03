@@ -3,7 +3,6 @@
 namespace App\Jav\Tests\Feature\Console;
 
 use App\Core\Services\ApplicationService;
-use App\Jav\Jobs\XCity\IdolItemFetch;
 use App\Jav\Jobs\XCity\InitVideoIndex;
 use App\Jav\Jobs\XCity\VideoItemFetch;
 use App\Jav\Models\XCityVideo;

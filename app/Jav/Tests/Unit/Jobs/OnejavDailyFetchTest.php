@@ -2,9 +2,7 @@
 
 namespace App\Jav\Tests\Unit\Jobs;
 
-use App\Core\Services\ApplicationService;
 use App\Jav\Jobs\Onejav\DailyFetch;
-use App\Jav\Jobs\Onejav\ReleaseFetch;
 use App\Jav\Tests\JavTestCase;
 use App\Jav\Tests\Traits\OnejavMocker;
 

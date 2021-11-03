@@ -9,7 +9,6 @@ use App\Flickr\Services\FlickrService;
 use Mockery\LegacyMockInterface;
 use Mockery\MockInterface;
 use OAuth\Common\Http\Exception\TokenResponseException;
-use OAuth\OAuth1\Token\StdOAuth1Token;
 use OAuth\ServiceFactory;
 use Tests\TestCase;
 

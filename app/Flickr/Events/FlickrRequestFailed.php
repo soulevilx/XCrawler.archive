@@ -4,7 +4,6 @@ namespace App\Flickr\Events;
 
 use App\Flickr\Services\Flickr\People;
 use App\Flickr\Services\Flickr\PhotoSets;
-use Illuminate\Support\Facades\Event;
 
 class FlickrRequestFailed
 {

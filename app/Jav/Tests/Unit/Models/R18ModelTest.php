@@ -4,7 +4,6 @@ namespace App\Jav\Tests\Unit\Models;
 
 use App\Core\Models\State;
 use App\Jav\Models\R18;
-use App\Jav\Services\Movie\Observers\MovieObserver;
 use Tests\TestCase;
 
 class R18ModelTest extends TestCase

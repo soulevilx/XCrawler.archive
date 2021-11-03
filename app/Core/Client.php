@@ -3,7 +3,6 @@
 namespace App\Core;
 
 use App\Core\Events\ClientRequested;
-use App\Core\Models\ClientRequest;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;

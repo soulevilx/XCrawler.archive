@@ -3,7 +3,6 @@
 namespace App\Flickr\Listeners;
 
 use App\Core\Models\ClientRequest;
-use App\Core\Models\RequestFailed;
 use App\Flickr\Events\Errors\UserDeleted;
 use App\Flickr\Events\FlickrRequestFailed;
 use App\Flickr\Models\FlickrContact;

@@ -5,8 +5,8 @@ namespace App\Flickr\Tests\Unit\Models;
 use App\Core\Models\State;
 use App\Flickr\Models\FlickrAlbum;
 use App\Flickr\Models\FlickrContact;
-use App\Flickr\Models\FlickrProcess;
 use App\Flickr\Models\FlickrPhoto;
+use App\Flickr\Models\FlickrProcess;
 use App\Flickr\Tests\FlickrTestCase;
 
 class FlickrAlbumTest extends FlickrTestCase
