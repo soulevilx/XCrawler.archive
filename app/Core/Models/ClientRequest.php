@@ -2,14 +2,9 @@
 
 namespace App\Core\Models;
 
-use App\Core\Client;
-use App\Core\Models\Traits\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Jooservices\XcrawlerClient\Response\DomResponse;
-
-class ClientRequest extends Model
+class ClientRequest extends BaseMongo
 {
-    use HasFactory;
+    protected $collection = 'client_requests';
 
     protected $fillable = [
         'service',
@@ -17,6 +12,8 @@ class ClientRequest extends Model
         'endpoint',
         'payload',
         'body',
+        'messages',
+        'code',
         'is_succeed',
     ];
 
@@ -26,8 +23,8 @@ class ClientRequest extends Model
         'endpoint' => 'string',
         'payload' => 'array',
         'body' => 'string',
+        'messages' => 'string',
+        'code' => 'integer',
         'is_succeed' => 'boolean',
     ];
-
-    protected $table = 'client_requests';
 }

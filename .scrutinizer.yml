@@ -2,6 +2,7 @@ build:
   environment:
     php: '8.0'
     mysql: '5.7'
+    mongodb: '4.0'
     hosts:
       laravel.dev: '127.0.0.1'
     variables:
@@ -13,6 +14,8 @@ build:
       DB_DATABASE: 'scrutinizer'
       DB_USERNAME: 'root'
       DB_PASSWORD: ''
+      DB_PORT: '3306'
+      MONGODB_PORT: '27017'
       MAIL_DRIVER: 'log'
       TELESCOPE_DB_CONNECTION: 'telescope'
       TELESCOPE_DB_HOST: '127.0.0.1'
