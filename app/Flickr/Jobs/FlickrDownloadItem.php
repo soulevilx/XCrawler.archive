@@ -43,7 +43,7 @@ class FlickrDownloadItem implements ShouldQueue
         if (!$storage->exists($dir)) {
             $storage->createDir($dir);
         }
-        $file = fopen($storage->path($dir) .'/' . basename($url), 'wb');
+        $file = fopen($storage->path($dir) . '/' . basename($url), 'wb');
 
         if (!app()->environment('testing')) {
             $client = app(Client::class);
