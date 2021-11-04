@@ -3,16 +3,15 @@
 namespace App\Flickr\Console\Commands;
 
 use App\Flickr\Jobs\FlickrContacts as FlickrContactsJob;
-use Illuminate\Console\Command;
 
-class FlickrContacts extends Command
+class FlickrContacts extends AbstractBaseCommand
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'flickr:contacts';
+    protected $signature = 'flickr:contacts {task=contacts}';
 
     /**
      * The console command description.
@@ -21,9 +20,10 @@ class FlickrContacts extends Command
      */
     protected $description = 'Get all contacts from authorized user';
 
-    public function handle()
+    public function flickrContacts(): bool
     {
-        $this->output->title('Flickr contacts');
         FlickrContactsJob::dispatch()->onQueue('api');
+
+        return true;
     }
 }

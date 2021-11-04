@@ -30,7 +30,7 @@ class FlickrRequestDownloadAlbumTest extends FlickrTestCase
             ->shouldReceive('request')
             ->andReturn(new Response);
 
-            app()->instance(Client::class, $mocker);
+        app()->instance(Client::class, $mocker);
 
         $albumId = 72157719703391487;
         $nsid = '51838687@N07';
@@ -73,13 +73,9 @@ class FlickrRequestDownloadAlbumTest extends FlickrTestCase
         foreach ($album->photos()->cursor() as $photo) {
             $this->assertDatabaseHas('flickr_download_items', [
                 'photo_id' => $photo->id,
-                'state_code' => State::STATE_INIT,
+                'state_code' => State::STATE_COMPLETED, // Observer
                 'download_id' => $download->id,
             ]);
-        }
-
-        for ($count = 0; $count <= $download->items()->count(); $count++) {
-            $this->artisan('flickr:download downloadItem');
         }
 
         Event::assertDispatched(FlickrDownloadCompleted::class, function ($event) use ($download) {
