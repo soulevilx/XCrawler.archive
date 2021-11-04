@@ -13,7 +13,7 @@ class CreateFlickrContactsTable extends Migration
      */
     public function up()
     {
-        Schema::connection('flickr')->create('flickr_contacts', function (Blueprint $table) {
+        Schema::create('flickr_contacts', function (Blueprint $table) {
             $table->id();
 
             $table->string('nsid')->unique();

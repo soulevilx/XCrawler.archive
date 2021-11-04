@@ -3,6 +3,7 @@
 namespace App\Flickr\Tests;
 
 use App\Core\Models\ClientRequest;
+use App\Flickr\Models\FlickrSizes;
 use App\Flickr\Services\Flickr\People;
 use App\Flickr\Services\Flickr\PhotoSets;
 use App\Flickr\Services\FlickrService;
@@ -42,7 +43,7 @@ class FlickrTestCase extends TestCase
         app()->instance(ServiceFactory::class, $serviceMocker);
         $this->service = app(FlickrService::class);
 
-        ClientRequest::truncate();
+        FlickrSizes::truncate();
     }
 
     private function favorites()

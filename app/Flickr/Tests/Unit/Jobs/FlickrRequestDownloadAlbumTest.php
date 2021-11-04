@@ -40,13 +40,13 @@ class FlickrRequestDownloadAlbumTest extends FlickrTestCase
         // Step 1: Make sure this contact is created. Because it's linked with Album
         $this->assertDatabaseHas('flickr_contacts', [
             'nsid' => $nsid,
-        ]);
+        ], 'flickr');
 
         // Step 2: Make sure album is created
         $this->assertDatabaseHas('flickr_albums', [
             'id' => $albumId,
             'owner' => $nsid,
-        ]);
+        ], 'flickr');
 
         $album = FlickrAlbum::find($albumId);
         // Step 4: And now download request will be created
@@ -55,7 +55,7 @@ class FlickrRequestDownloadAlbumTest extends FlickrTestCase
             'model_id' => $album->id,
             'model_type' => FlickrAlbum::class,
             'total' => $album->photos
-        ]);
+        ], 'flickr');
 
         // Step 5: Get all photos of photoset
         $this->assertEquals($album->photos()->count(), $album->photos);
@@ -75,7 +75,7 @@ class FlickrRequestDownloadAlbumTest extends FlickrTestCase
                 'photo_id' => $photo->id,
                 'state_code' => State::STATE_COMPLETED, // Observer
                 'download_id' => $download->id,
-            ]);
+            ], 'flickr');
         }
 
         Event::assertDispatched(FlickrDownloadCompleted::class, function ($event) use ($download) {

@@ -4,6 +4,7 @@ namespace App\Flickr\Models;
 
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property-read FlickrContact|FlickrAlbum $model
@@ -12,8 +13,9 @@ class FlickrProcess extends BaseFlickrModel
 {
     use HasFactory;
     use HasStates;
+    use SoftDeletes;
 
-    protected $table = 'flickr_contact_processes';
+    protected $table = 'flickr_processes';
 
     public const STEP_PEOPLE_INFO = 'people_info';
     public const STEP_PEOPLE_PHOTOS = 'people_photos';

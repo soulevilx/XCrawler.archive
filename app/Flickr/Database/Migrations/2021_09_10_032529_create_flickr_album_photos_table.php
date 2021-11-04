@@ -13,7 +13,7 @@ class CreateFlickrAlbumPhotosTable extends Migration
      */
     public function up()
     {
-        Schema::connection('flickr')->create('flickr_album_photos', function (Blueprint $table) {
+        Schema::create('flickr_album_photos', function (Blueprint $table) {
             $table->id();
 
             $table->unsignedBigInteger('photo_id');

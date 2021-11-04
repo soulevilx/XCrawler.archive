@@ -6,6 +6,9 @@ use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * @property-read FlickrSizes $sizes
+ */
 class FlickrPhoto extends BaseFlickrModel
 {
     use HasFactory;
@@ -28,7 +31,7 @@ class FlickrPhoto extends BaseFlickrModel
         'ispublic',
         'isfriend',
         'isfamily',
-        'sizes',
+        //'sizes',
         'isprimary',
     ];
 
@@ -43,7 +46,7 @@ class FlickrPhoto extends BaseFlickrModel
         'isfriend' => 'integer',
         'isfamily' => 'integer',
         'isprimary' => 'integer',
-        'sizes' => 'array',
+        //'sizes' => 'array',
     ];
 
     public function albums(): BelongsToMany
@@ -51,14 +54,23 @@ class FlickrPhoto extends BaseFlickrModel
         return $this->belongsToMany(FlickrAlbum::class, 'flickr_album_photos', 'photo_id', 'album_id')->withTimestamps();
     }
 
-    public function hasSizes(): bool
+    public function __get($key)
     {
-        return !empty($this->sizes);
+        if ($key === 'sizes') {
+            return $this->sizes()?->sizes;
+        }
+
+        return parent::__get($key);
+    }
+
+    public function sizes(): ?FlickrSizes
+    {
+        return FlickrSizes::where(['id' => $this->id])->first();
     }
 
     public function largestSize()
     {
-        if (!$this->hasSizes()) {
+        if (!$this->sizes) {
             return null;
         }
 
@@ -68,5 +80,13 @@ class FlickrPhoto extends BaseFlickrModel
         });
 
         return $sizes->last();
+    }
+
+    public function updateSizes(array $sizes): FlickrSizes
+    {
+        return FlickrSizes::updateOrCreate([
+            'id' => $this->id,
+            'sizes' => $sizes,
+        ]);
     }
 }

@@ -13,7 +13,7 @@ class CreateFlickrDownloadItemsTable extends Migration
      */
     public function up()
     {
-        Schema::connection('flickr')->create('flickr_download_items', function (Blueprint $table) {
+        Schema::create('flickr_download_items', function (Blueprint $table) {
             $table->id();
 
             $table->unsignedBigInteger('download_id')->index();

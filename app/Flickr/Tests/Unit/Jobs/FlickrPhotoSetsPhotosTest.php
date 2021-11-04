@@ -27,7 +27,7 @@ class FlickrPhotoSetsPhotosTest extends FlickrTestCase
         $album->refresh();
 
         $this->assertEquals(98, $album->photos()->count());
-        $this->assertDatabaseCount('flickr_photos', 98);
+        $this->assertDatabaseCount('flickr_photos', 98, 'flickr');
     }
 
     public function testJobAlbumDeleted()

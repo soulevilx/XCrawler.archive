@@ -4,6 +4,7 @@ namespace Tests;
 
 use App\Core\Models\ClientRequest;
 use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
@@ -22,6 +23,8 @@ abstract class TestCase extends BaseTestCase
 
     protected string $fixtures;
     protected bool $seed = true;
+
+    protected $connectionsToTransact = ['mysql', 'flickr'];
 
     public function setUp(): void
     {
