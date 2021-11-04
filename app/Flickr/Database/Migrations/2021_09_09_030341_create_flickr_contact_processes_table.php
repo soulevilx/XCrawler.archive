@@ -13,7 +13,7 @@ class CreateFlickrContactProcessesTable extends Migration
      */
     public function up()
     {
-        Schema::create('flickr_contact_processes', function (Blueprint $table) {
+        Schema::connection('flickr')->create('flickr_contact_processes', function (Blueprint $table) {
             $table->id();
 
             $table->unsignedBigInteger('model_id');

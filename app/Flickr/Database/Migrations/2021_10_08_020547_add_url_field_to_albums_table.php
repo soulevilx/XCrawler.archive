@@ -13,7 +13,7 @@ class AddUrlFieldToAlbumsTable extends Migration
      */
     public function up()
     {
-        Schema::table('flickr_albums', function (Blueprint $table) {
+        Schema::connection('flickr')->table('flickr_albums', function (Blueprint $table) {
             $table->string('url')->nullable()->index()->after('owner');
         });
     }

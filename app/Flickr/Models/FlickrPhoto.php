@@ -2,12 +2,11 @@
 
 namespace App\Flickr\Models;
 
-use App\Core\Models\BaseModel;
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class FlickrPhoto extends BaseModel
+class FlickrPhoto extends BaseFlickrModel
 {
     use HasFactory;
     use HasStates;

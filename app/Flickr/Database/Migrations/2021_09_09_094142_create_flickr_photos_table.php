@@ -13,7 +13,7 @@ class CreateFlickrPhotosTable extends Migration
      */
     public function up()
     {
-        Schema::create('flickr_photos', function (Blueprint $table) {
+        Schema::connection('flickr')->create('flickr_photos', function (Blueprint $table) {
             $table->id();
 
             $table->string('owner')->index();

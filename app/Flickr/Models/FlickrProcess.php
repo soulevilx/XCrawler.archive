@@ -2,14 +2,13 @@
 
 namespace App\Flickr\Models;
 
-use App\Core\Models\BaseModel;
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
 
 /**
  * @property-read FlickrContact|FlickrAlbum $model
  */
-class FlickrProcess extends BaseModel
+class FlickrProcess extends BaseFlickrModel
 {
     use HasFactory;
     use HasStates;
