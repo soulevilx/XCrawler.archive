@@ -51,8 +51,6 @@ class Kernel extends ConsoleKernel
 
         // WordPress
         $schedule->command('jav:email-wordpress');
-
-        $schedule->command('telescope:prune')->days(5);
     }
 
     /**
