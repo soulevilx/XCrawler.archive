@@ -17,7 +17,7 @@ class FlickrFavoritesJobTest extends FlickrTestCase
             'state_code' => State::STATE_INIT,
         ]);
 
-        $process = $contact->process()->where('step', FlickrProcess::STEP_PEOPLE_FAVORITE_PHOTOS)->first();
+        $process = $contact->processes()->where('step', FlickrProcess::STEP_PEOPLE_FAVORITE_PHOTOS)->first();
         FlickrFavorites::dispatch($process);
 
         $this->assertEquals(State::STATE_COMPLETED, $process->refresh()->state_code);
@@ -37,7 +37,7 @@ class FlickrFavoritesJobTest extends FlickrTestCase
             'state_code' => State::STATE_INIT,
         ]);
 
-        $process = $contact->process()->where('step', FlickrProcess::STEP_PEOPLE_FAVORITE_PHOTOS)->first();
+        $process = $contact->processes()->where('step', FlickrProcess::STEP_PEOPLE_FAVORITE_PHOTOS)->first();
         FlickrFavorites::dispatch($process);
 
         // This contact already deleted we wont sync photos

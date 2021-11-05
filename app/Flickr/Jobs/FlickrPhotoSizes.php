@@ -4,6 +4,7 @@ namespace App\Flickr\Jobs;
 
 use App\Flickr\Jobs\Traits\HasFlickrMiddleware;
 use App\Flickr\Models\FlickrPhoto;
+use App\Flickr\Models\FlickrSizes;
 use App\Flickr\Services\FlickrService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -44,8 +45,6 @@ class FlickrPhotoSizes implements ShouldQueue, ShouldBeUnique
     public function handle(FlickrService $service)
     {
         $sizes = $service->photos()->getSizes($this->photo->id);
-        $this->photo->update([
-            'sizes' => $sizes['size']->toArray(),
-        ]);
+        $this->photo->updateSizes($sizes['size']->toArray());
     }
 }

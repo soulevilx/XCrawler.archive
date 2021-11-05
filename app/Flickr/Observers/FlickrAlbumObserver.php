@@ -11,7 +11,7 @@ class FlickrAlbumObserver
     public function created(FlickrAlbum $album)
     {
         // Create STEP_PHOTOSETS_PHOTOS process
-        $album->process()->create([
+        $album->processes()->create([
             'step' => FlickrProcess::STEP_PHOTOSETS_PHOTOS,
             'state_code' => State::STATE_INIT,
         ]);

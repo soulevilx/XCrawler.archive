@@ -13,7 +13,7 @@ class Flickr extends Command
      *
      * @var string
      */
-    protected $signature = 'integration:flickr';
+    protected $signature = 'integrate:flickr';
 
     /**
      * The console command description.

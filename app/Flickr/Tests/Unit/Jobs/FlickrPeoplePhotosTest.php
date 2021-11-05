@@ -3,7 +3,6 @@
 namespace App\Flickr\Tests\Unit\Jobs;
 
 use App\Core\Models\State;
-use App\Flickr\Exceptions\FlickrGeneralException;
 use App\Flickr\Exceptions\UserDeleted;
 use App\Flickr\Jobs\FlickrPeoplePhotos;
 use App\Flickr\Models\FlickrContact;
@@ -26,24 +25,22 @@ class FlickrPeoplePhotosTest extends FlickrTestCase
         $contactProcess->model->refresh();
         $this->assertEquals(State::STATE_COMPLETED, $contactProcess->state_code);
         $this->assertEquals(358, FlickrPhoto::where('owner', $contactProcess->model->nsid)->count());
-        $this->assertDatabaseHas('flickr_contact_processes', [
+        $this->assertDatabaseHas('flickr_processes', [
             'model_id' => $contactProcess->model->id,
             'model_type' => FlickrContact::class,
             'step' => FlickrProcess::STEP_PHOTOSETS_LIST,
             'state_code' => State::STATE_INIT,
-        ]);
-        $this->assertDatabaseCount('flickr_photos', 358);
+        ], 'flickr');
+        $this->assertDatabaseCount('flickr_photos', 358, 'flickr');
 
         // Execute job again will not create duplicate
         FlickrPeoplePhotos::dispatch($contactProcess);
-        $this->assertDatabaseCount('flickr_photos', 358);
+        $this->assertDatabaseCount('flickr_photos', 358, 'flickr');
     }
 
     public function testJobWithDeletedUser()
     {
-        $contact = FlickrContact::factory()->create([
-            'nsid' => 'deleted',
-        ]);
+        $contact = FlickrContact::factory()->create(['nsid' => 'deleted']);
 
         $contactProcess = FlickrProcess::factory()->create([
             'model_id' => $contact->id,
@@ -52,10 +49,7 @@ class FlickrPeoplePhotosTest extends FlickrTestCase
             'state_code' => State::STATE_COMPLETED,
         ]);
 
-        try {
-            FlickrPeoplePhotos::dispatch($contactProcess);
-        } catch (FlickrGeneralException $exception) {
-            $this->assertSoftDeleted($contact);
-        }
+        FlickrPeoplePhotos::dispatch($contactProcess);
+        $this->assertSoftDeleted($contact);
     }
 }

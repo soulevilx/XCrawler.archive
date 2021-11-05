@@ -2,28 +2,24 @@
 
 namespace App\Flickr\Console\Commands;
 
-use App\Flickr\Console\Commands\Traits\HasProcesses;
 use App\Flickr\Jobs\FlickrFavorites;
 use App\Flickr\Jobs\FlickrPeopleInfo;
 use App\Flickr\Jobs\FlickrPeoplePhotos as FlickrPeoplePhotosJob;
 use App\Flickr\Models\FlickrProcess;
-use Illuminate\Console\Command;
 
 /**
  * Step 1
  * - Getting people information
  * - Getting people' photos
  */
-class FlickrPeople extends Command
+class FlickrPeople extends AbstractBaseCommand
 {
-    use HasProcesses;
-
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'flickr:people {task}';
+    protected $signature = 'flickr:people {task} {--limit=}';
 
     /**
      * The console command description.
@@ -32,51 +28,39 @@ class FlickrPeople extends Command
      */
     protected $description = 'Get people data. Tasks: info || photos';
 
-    public function handle()
-    {
-        $this->output->title('Flickr process people. Getting ' . ucfirst($this->argument('task')));
-        switch ($this->argument('task')) {
-            case 'info':
-                $this->peopleInfo();
-                break;
-            case 'photos':
-                $this->peoplePhotos();
-                break;
-            case 'favorites':
-                $this->peopleFavorites();
-                break;
-        }
-    }
-
-    protected function peopleInfo()
+    public function flickrInfo(): bool
     {
         /**
          * Whenever contact is created it'll create process STEP_PEOPLE_INFO
          * This process will fetch detail people information
          */
-        $processes = $this->getProcessItem(FlickrProcess::STEP_PEOPLE_INFO);
-        foreach ($processes as $process) {
-            FlickrPeopleInfo::dispatch($process)->onQueue('api');
-        }
+        $this->getProcessItem(FlickrProcess::STEP_PEOPLE_INFO)
+            ->each(function ($process) {
+                FlickrPeopleInfo::dispatch($process)->onQueue('api');
+            });
+
+        return true;
     }
 
-    protected function peoplePhotos()
+    public function flickrPhotos()
     {
         /**
          * After STEP_PEOPLE_INFO completed will create STEP_PEOPLE_PHOTOS
          * This process will fetch all photos of an contact
          */
-        $processes = $this->getProcessItem(FlickrProcess::STEP_PEOPLE_PHOTOS);
-        foreach ($processes as $process) {
+        $this->getProcessItem(FlickrProcess::STEP_PEOPLE_PHOTOS)->each(function ($process) {
             FlickrPeoplePhotosJob::dispatch($process)->onQueue('api');
-        }
+        });
+
+        return true;
     }
 
-    protected function peopleFavorites()
+    public function flickrFavorites()
     {
-        $processes = $this->getProcessItem(FlickrProcess::STEP_PEOPLE_FAVORITE_PHOTOS);
-        foreach ($processes as $process) {
+        $this->getProcessItem(FlickrProcess::STEP_PEOPLE_FAVORITE_PHOTOS)->each(function ($process) {
             FlickrFavorites::dispatch($process)->onQueue('api');
-        }
+        });
+
+        return true;
     }
 }

@@ -12,14 +12,14 @@ class FlickrContactEventSubscriberTest extends FlickrTestCase
     public function testFlickrContactCreated()
     {
         FlickrContact::factory()->create();
-        $this->assertDatabaseHas('flickr_contact_processes', [
+        $this->assertDatabaseHas('flickr_processes', [
             'step' => FlickrProcess::STEP_PEOPLE_INFO,
             'state_code' => State::STATE_INIT,
-        ]);
+        ], 'flickr');
 
-        $this->assertDatabaseHas('flickr_contact_processes', [
+        $this->assertDatabaseHas('flickr_processes', [
             'step' => FlickrProcess::STEP_PHOTOSETS_LIST,
             'state_code' => State::STATE_INIT,
-        ]);
+        ], 'flickr');
     }
 }

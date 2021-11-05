@@ -2,7 +2,8 @@
 
 namespace App\Flickr\Tests;
 
-use App\Core\Models\ClientRequest;
+use App\Flickr\Models\FlickrSizes;
+use App\Flickr\Services\Flickr\Contacts;
 use App\Flickr\Services\Flickr\People;
 use App\Flickr\Services\Flickr\PhotoSets;
 use App\Flickr\Services\FlickrService;
@@ -42,7 +43,7 @@ class FlickrTestCase extends TestCase
         app()->instance(ServiceFactory::class, $serviceMocker);
         $this->service = app(FlickrService::class);
 
-        ClientRequest::truncate();
+        FlickrSizes::truncate();
     }
 
     private function favorites()
@@ -63,7 +64,11 @@ class FlickrTestCase extends TestCase
                 'POST',
                 ['per_page' => 9999]
             )
-            ->andReturn(json_encode(['stat' => 'fail']));
+            ->andReturn(json_encode([
+                'stat' => 'fail',
+                'code' => Contacts::ERROR_CODE_INVALID_SORT_PARAMETER,
+                'message' => 'The possible values are: name and time.'
+            ]));
 
         $this->flickrMocker->shouldReceive('requestJson')
             ->with(
@@ -253,7 +258,7 @@ class FlickrTestCase extends TestCase
                 'flickr.photosets.getInfo',
                 'POST',
                 [
-                    'photoset_id' => -1,
+                    'photoset_id' => 999,
                     'user_id' => 'deleted'
                 ]
             )
@@ -286,10 +291,10 @@ class FlickrTestCase extends TestCase
     private function urls()
     {
         $this->flickrMocker->shouldReceive('requestJson')
-            ->with(
+            ->withSomeOfArgs(
                 'flickr.urls.lookupUser',
                 'POST',
-                ['url' => 'https://www.flickr.com/photos/51838687@N07/albums/72157719703391487']
+                //['url' => 'https://www.flickr.com/photos/51838687@N07/albums/72157719703391487']
             )
             ->andReturn($this->getFixture('urls.lookupUser.json'));
     }

@@ -30,12 +30,9 @@ class FlickrDownloadItem implements ShouldQueue
         $photo = $this->downloadItem->photo;
         $download = $this->downloadItem->download;
 
-        if (!$photo->hasSizes()) {
+        if (!$photo->sizes) {
             $sizes = $service->photos()->getSizes($photo->id);
-            $photo->sizes = $sizes['size'];
-            $photo->update([
-                'sizes' => $sizes['size']->toArray(),
-            ]);
+            $photo->updateSizes($sizes['size']->toArray());
         }
 
         $url = $photo->largestSize()['source'];
@@ -46,7 +43,7 @@ class FlickrDownloadItem implements ShouldQueue
         if (!$storage->exists($dir)) {
             $storage->createDir($dir);
         }
-        $file = fopen($storage->path($dir) . basename($url), 'wb');
+        $file = fopen($storage->path($dir) . '/' . basename($url), 'wb');
 
         if (!app()->environment('testing')) {
             $client = app(Client::class);

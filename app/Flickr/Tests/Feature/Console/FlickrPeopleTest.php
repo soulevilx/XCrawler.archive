@@ -27,17 +27,17 @@ class FlickrPeopleTest extends FlickrTestCase
     {
         Queue::fake();
         $contact = FlickrContact::factory()->create();
-        $contact->process()->delete();
+        $contact->processes()->delete();
 
         $this->artisan('flickr:people info');
 
-        $this->assertDatabaseHas('flickr_contact_processes', [
+        $this->assertDatabaseHas('flickr_processes', [
             'step' => FlickrProcess::STEP_PEOPLE_INFO,
             'state_code' => State::STATE_INIT,
             'deleted_at' => null,
             'model_id' => $contact->id,
             'model_type' => FlickrContact::class,
-        ]);
+        ], 'flickr');
     }
 
     public function testPhotos()

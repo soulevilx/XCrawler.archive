@@ -13,15 +13,15 @@ class FlickrPhotoSetsTest extends FlickrTestCase
     public function testJob()
     {
         $contact = FlickrContact::factory()->create();
-        $process = $contact->process()->where('step', FlickrProcess::STEP_PHOTOSETS_LIST)->first();
+        $process = $contact->processes()->where('step', FlickrProcess::STEP_PHOTOSETS_LIST)->first();
 
         FlickrPhotoSets::dispatch($process);
 
-        $this->assertDatabaseCount('flickr_albums', 23);
+        $this->assertDatabaseCount('flickr_albums', 23, 'flickr');
 
         // Execute again will not create duplicate
         FlickrPhotoSets::dispatch($process);
-        $this->assertDatabaseCount('flickr_albums', 23);
+        $this->assertDatabaseCount('flickr_albums', 23, 'flickr');
         $this->assertEquals(23, FlickrAlbum::where(['owner' => $contact->nsid])->count());
     }
 }

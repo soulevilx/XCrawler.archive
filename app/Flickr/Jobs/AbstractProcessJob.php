@@ -45,10 +45,7 @@ abstract class AbstractProcessJob implements ShouldQueue
                 $this->process->setState(State::STATE_COMPLETED);
                 return;
             }
-        } catch (FlickrGeneralException) {
-            $this->process->setState(State::STATE_FAILED);
-            return;
-        } catch (TokenResponseException $exception) {
+        } catch (FlickrGeneralException | TokenResponseException $exception) {
             $this->fail($exception);
             return;
         }

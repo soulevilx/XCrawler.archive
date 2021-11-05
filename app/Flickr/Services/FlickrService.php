@@ -39,7 +39,7 @@ class FlickrService
 
     public function __construct(private ?string $apiKey = null, private ?string $secret = null)
     {
-        $this->oauthTokenStorage = new Memory();
+        $this->oauthTokenStorage = new Memory;
     }
 
     protected function getClient(string $callbackUrl = 'oob')
