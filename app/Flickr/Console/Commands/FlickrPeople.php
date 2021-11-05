@@ -48,18 +48,20 @@ class FlickrPeople extends AbstractBaseCommand
          * After STEP_PEOPLE_INFO completed will create STEP_PEOPLE_PHOTOS
          * This process will fetch all photos of an contact
          */
-        $this->getProcessItem(FlickrProcess::STEP_PEOPLE_PHOTOS)->each(function ($process) {
-            FlickrPeoplePhotosJob::dispatch($process)->onQueue('api');
-        });
+        $this->getProcessItem(FlickrProcess::STEP_PEOPLE_PHOTOS)
+            ->each(function ($process) {
+                FlickrPeoplePhotosJob::dispatch($process)->onQueue('api');
+            });
 
         return true;
     }
 
     public function flickrFavorites()
     {
-        $this->getProcessItem(FlickrProcess::STEP_PEOPLE_FAVORITE_PHOTOS)->each(function ($process) {
-            FlickrFavorites::dispatch($process)->onQueue('api');
-        });
+        $this->getProcessItem(FlickrProcess::STEP_PEOPLE_FAVORITE_PHOTOS)
+            ->each(function ($process) {
+                FlickrFavorites::dispatch($process)->onQueue('api');
+            });
 
         return true;
     }

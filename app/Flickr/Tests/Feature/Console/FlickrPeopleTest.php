@@ -12,9 +12,15 @@ use Illuminate\Support\Facades\Queue;
 
 class FlickrPeopleTest extends FlickrTestCase
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        Queue::fake();
+    }
+
     public function testInfo()
     {
-        Queue::fake();
         $contact = FlickrContact::factory()->create();
         $this->artisan('flickr:people info');
 
@@ -25,7 +31,6 @@ class FlickrPeopleTest extends FlickrTestCase
 
     public function testInfoWhenNoProcesses()
     {
-        Queue::fake();
         $contact = FlickrContact::factory()->create();
         $contact->processes()->delete();
 
@@ -42,15 +47,15 @@ class FlickrPeopleTest extends FlickrTestCase
 
     public function testPhotos()
     {
-        Queue::fake();
-        $contactProcess = FlickrProcess::factory()->create([
-            'step' => FlickrProcess::STEP_PEOPLE_INFO,
-            'state_code' => State::STATE_COMPLETED,
-        ]);
+        $contact = FlickrContact::factory()->create();
+        $process = $contact->processes()->where([
+            'step' => FlickrProcess::STEP_PEOPLE_PHOTOS,
+        ])->first();
+
         $this->artisan('flickr:people photos');
 
-        Queue::assertPushed(FlickrPeoplePhotos::class, function ($job) use ($contactProcess) {
-            return $job->process->model->is($contactProcess->model);
+        Queue::assertPushed(FlickrPeoplePhotos::class, function ($job) use ($process) {
+            return $job->process->model->is($process->model);
         });
     }
 }
