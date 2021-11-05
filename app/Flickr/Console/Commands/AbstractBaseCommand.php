@@ -72,7 +72,7 @@ abstract class AbstractBaseCommand extends Command
                 case FlickrProcess::STEP_PEOPLE_PHOTOS:
                 case FlickrProcess::STEP_PHOTOSETS_LIST:
                     foreach (FlickrContact::cursor() as $contact) {
-                        $contact->process()->create([
+                        $contact->processes()->create([
                             'step' => $step,
                             'state_code' => State::STATE_INIT,
                         ]);
@@ -80,7 +80,7 @@ abstract class AbstractBaseCommand extends Command
                     break;
                 case FlickrProcess::STEP_PHOTOSETS_PHOTOS:
                     foreach (FlickrAlbum::cursor() as $album) {
-                        $album->process()->create([
+                        $album->processes()->create([
                             'step' => $step,
                             'state_code' => State::STATE_INIT,
                         ]);

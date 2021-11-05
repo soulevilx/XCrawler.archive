@@ -28,11 +28,11 @@ class FlickrPhoto extends BaseFlickrModel
         'server',
         'farm',
         'title',
-        'ispublic',
-        'isfriend',
-        'isfamily',
+//        'ispublic',
+//        'isfriend',
+//        'isfamily',
         //'sizes',
-        'isprimary',
+        //'isprimary',
     ];
 
     protected $casts = [
@@ -42,10 +42,10 @@ class FlickrPhoto extends BaseFlickrModel
         'server' => 'string',
         'farm' => 'string',
         'title' => 'string',
-        'ispublic' => 'integer',
-        'isfriend' => 'integer',
-        'isfamily' => 'integer',
-        'isprimary' => 'integer',
+//        'ispublic' => 'integer',
+//        'isfriend' => 'integer',
+//        'isfamily' => 'integer',
+//        'isprimary' => 'integer',
         //'sizes' => 'array',
     ];
 

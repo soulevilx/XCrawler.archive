@@ -4,6 +4,7 @@ namespace App\Flickr\Models;
 
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
+use App\Flickr\Models\Traits\HasProcesses;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
@@ -25,6 +26,7 @@ class FlickrContact extends BaseFlickrModel
     use HasFactory;
     use HasStates;
     use SoftDeletes;
+    use HasProcesses;
 
     protected $table = 'flickr_contacts';
 
@@ -95,11 +97,6 @@ class FlickrContact extends BaseFlickrModel
     public static function findByNsid(string $nsid)
     {
         return self::withTrashed()->where('nsid', $nsid)->first();
-    }
-
-    public function process()
-    {
-        return $this->morphMany(FlickrProcess::class, 'model');
     }
 
     public function processStep(string $step)

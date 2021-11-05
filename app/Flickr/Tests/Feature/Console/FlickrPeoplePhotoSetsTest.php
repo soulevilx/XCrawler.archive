@@ -42,7 +42,7 @@ class FlickrPeoplePhotoSetsTest extends FlickrTestCase
     {
         Queue::fake();
         $album = FlickrAlbum::factory()->create();
-        $album->process()->delete();
+        $album->processes()->delete();
 
         $this->artisan('flickr:photosets photos');
 

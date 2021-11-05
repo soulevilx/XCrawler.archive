@@ -4,6 +4,7 @@ namespace App\Flickr\Models;
 
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
+use App\Flickr\Models\Traits\HasProcesses;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -23,6 +24,7 @@ class FlickrAlbum extends BaseFlickrModel
     use HasFactory;
     use HasStates;
     use SoftDeletes;
+    use HasProcesses;
 
     /**
      * Indicates if the IDs are auto-incrementing.
@@ -64,10 +66,5 @@ class FlickrAlbum extends BaseFlickrModel
     public function contact()
     {
         return $this->belongsTo(FlickrContact::class, 'owner', 'nsid');
-    }
-
-    public function process()
-    {
-        return $this->morphMany(FlickrProcess::class, 'model');
     }
 }

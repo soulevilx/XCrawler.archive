@@ -27,7 +27,7 @@ class FlickrPeopleTest extends FlickrTestCase
     {
         Queue::fake();
         $contact = FlickrContact::factory()->create();
-        $contact->process()->delete();
+        $contact->processes()->delete();
 
         $this->artisan('flickr:people info');
 

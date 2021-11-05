@@ -13,7 +13,7 @@ class FlickrPhotoSetsTest extends FlickrTestCase
     public function testJob()
     {
         $contact = FlickrContact::factory()->create();
-        $process = $contact->process()->where('step', FlickrProcess::STEP_PHOTOSETS_LIST)->first();
+        $process = $contact->processes()->where('step', FlickrProcess::STEP_PHOTOSETS_LIST)->first();
 
         FlickrPhotoSets::dispatch($process);
 
