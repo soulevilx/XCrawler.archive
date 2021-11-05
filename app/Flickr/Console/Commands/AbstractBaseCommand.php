@@ -22,7 +22,7 @@ abstract class AbstractBaseCommand extends Command
 
     public function task()
     {
-        $task = $this->argument('task');
+        $task = (string) $this->argument('task');
         $method = 'flickr' . ucfirst($task);
 
         if (!method_exists($this, $method)) {
