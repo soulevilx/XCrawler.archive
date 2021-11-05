@@ -30,6 +30,7 @@ class FlickrEventSubscriber
 
         $pathMaps = [
             'flickr.people.getInfo' => People::class,
+            'flickr.people.getPhotos' => People::class,
         ];
 
         if (!empty($response)) {

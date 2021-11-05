@@ -6,14 +6,13 @@ class FlickrPeoplePhotos extends AbstractProcessJob
 {
     public function process(): bool
     {
-        $photos = $this->service->people()->getPhotos($this->process->model->nsid);
+        $photos = $this->service->people()->getPhotosAll($this->process->model->nsid);
 
-        if (empty($photos)) {
+        if ($photos->isEmpty()) {
             return true;
         }
 
-        // Create new photos
-        $photos['photo']->each(function ($photo) {
+        $photos->each(function ($photo) {
             $this->process->model->photos()->firstOrCreate([
                 'id' => $photo['id'],
                 'owner' => $photo['owner'],

@@ -4,6 +4,7 @@ namespace App\Flickr\Services\Flickr;
 
 use App\Flickr\Events\Errors\UserDeleted;
 use App\Flickr\Exceptions\FlickrGeneralException;
+use Illuminate\Support\Collection;
 
 class People extends BaseFlickr
 {
@@ -65,7 +66,7 @@ class People extends BaseFlickr
         string $extras = null,
         int    $per_page = self::PER_PAGE,
         int    $page = 1
-    )
+    ): Collection
     {
         $photos = $this->getPhotos(
             $user_id,
