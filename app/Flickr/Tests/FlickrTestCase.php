@@ -258,7 +258,7 @@ class FlickrTestCase extends TestCase
                 'flickr.photosets.getInfo',
                 'POST',
                 [
-                    'photoset_id' => -1,
+                    'photoset_id' => 999,
                     'user_id' => 'deleted'
                 ]
             )

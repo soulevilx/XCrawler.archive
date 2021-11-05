@@ -135,7 +135,12 @@ class FlickrServiceTest extends FlickrTestCase
     public function testPhotoSetsNotFound()
     {
         $this->expectException(FlickrGeneralException::class);
-        $this->service->photosets()->getInfo(-1, 'deleted');
+        $this->service->photosets()->getInfo(999, 'deleted');
+        $this->assertDatabaseHas('client_requests', [
+            'service' => FlickrService::SERVICE,
+            'endpoint' => 'flickr.photosets.getInfo',
+            'code' => 9999,
+        ], 'mongodb');
     }
 
     public function testPhotoSetsPhotos()
