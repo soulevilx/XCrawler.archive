@@ -11,22 +11,22 @@ class FlickrContactEventSubscriber
 {
     public function onFlickrContactCreated(FlickrContactCreated $event)
     {
-        $event->contact->process()->create([
+        $event->contact->processes()->create([
             'step' => FlickrProcess::STEP_PEOPLE_INFO,
             'state_code' => State::STATE_INIT,
         ]);
 
-        $event->contact->process()->create([
+        $event->contact->processes()->create([
             'step' => FlickrProcess::STEP_PEOPLE_PHOTOS,
             'state_code' => State::STATE_INIT,
         ]);
 
-        $event->contact->process()->create([
+        $event->contact->processes()->create([
             'step' => FlickrProcess::STEP_PHOTOSETS_LIST,
             'state_code' => State::STATE_INIT,
         ]);
 
-        $event->contact->process()->create([
+        $event->contact->processes()->create([
             'step' => FlickrProcess::STEP_PEOPLE_FAVORITE_PHOTOS,
             'state_code' => State::STATE_INIT,
         ]);

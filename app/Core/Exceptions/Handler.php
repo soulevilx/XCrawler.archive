@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Exceptions;
+namespace App\Core\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Queue\MaxAttemptsExceededException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -14,7 +13,7 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        MaxAttemptsExceededException::class,
+        //MaxAttemptsExceededException::class,
     ];
 
     /**
@@ -36,9 +35,9 @@ class Handler extends ExceptionHandler
     public function register()
     {
         $this->reportable(function (Throwable $e) {
-            if ($this->shouldReport($e) && app()->bound('sentry')) {
-                app('sentry')->captureException($e);
-            }
+//            if ($this->shouldReport($e) && app()->bound('sentry')) {
+//                app('sentry')->captureException($e);
+//            }
         });
     }
 }

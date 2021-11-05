@@ -12,9 +12,15 @@ use Illuminate\Support\Facades\Queue;
 
 class FlickrPeopleTest extends FlickrTestCase
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        Queue::fake();
+    }
+
     public function testInfo()
     {
-        Queue::fake();
         $contact = FlickrContact::factory()->create();
         $this->artisan('flickr:people info');
 
@@ -25,32 +31,31 @@ class FlickrPeopleTest extends FlickrTestCase
 
     public function testInfoWhenNoProcesses()
     {
-        Queue::fake();
         $contact = FlickrContact::factory()->create();
-        $contact->process()->delete();
+        $contact->processes()->delete();
 
         $this->artisan('flickr:people info');
 
-        $this->assertDatabaseHas('flickr_contact_processes', [
+        $this->assertDatabaseHas('flickr_processes', [
             'step' => FlickrProcess::STEP_PEOPLE_INFO,
             'state_code' => State::STATE_INIT,
             'deleted_at' => null,
             'model_id' => $contact->id,
             'model_type' => FlickrContact::class,
-        ]);
+        ], 'flickr');
     }
 
     public function testPhotos()
     {
-        Queue::fake();
-        $contactProcess = FlickrProcess::factory()->create([
-            'step' => FlickrProcess::STEP_PEOPLE_INFO,
-            'state_code' => State::STATE_COMPLETED,
-        ]);
+        $contact = FlickrContact::factory()->create();
+        $process = $contact->processes()->where([
+            'step' => FlickrProcess::STEP_PEOPLE_PHOTOS,
+        ])->first();
+
         $this->artisan('flickr:people photos');
 
-        Queue::assertPushed(FlickrPeoplePhotos::class, function ($job) use ($contactProcess) {
-            return $job->process->model->is($contactProcess->model);
+        Queue::assertPushed(FlickrPeoplePhotos::class, function ($job) use ($process) {
+            return $job->process->model->is($process->model);
         });
     }
 }

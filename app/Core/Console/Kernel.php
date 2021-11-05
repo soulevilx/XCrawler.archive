@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Console;
+namespace App\Core\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use function base_path;
 
 class Kernel extends ConsoleKernel
 {
@@ -47,10 +48,11 @@ class Kernel extends ConsoleKernel
         $schedule->command('flickr:photosets list');
         $schedule->command('flickr:photosets photos');
         $schedule->command('flickr:photo sizes');
-        $schedule->command('flickr:download downloadItem');
 
         // WordPress
         $schedule->command('jav:email-wordpress');
+
+        $schedule->command('telescope:prune')->days(5);
     }
 
     /**
@@ -60,9 +62,8 @@ class Kernel extends ConsoleKernel
     {
         $this->load([
             __DIR__.'/Commands',
-            __DIR__ . '/../Core/Console/Commands',
-            __DIR__.'/../Jav/Console/Commands',
-            __DIR__ . '/../Flickr/Console/Commands',
+            __DIR__.'/../../Jav/Console/Commands',
+            __DIR__ . '/../../Flickr/Console/Commands',
         ]);
 
         require base_path('routes/console.php');

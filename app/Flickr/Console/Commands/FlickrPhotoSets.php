@@ -7,15 +7,12 @@ use App\Flickr\Jobs\FlickrPhotoSets as FlickrPhotoSetsJob;
 use App\Flickr\Jobs\FlickrPhotoSetsPhotos;
 use App\Flickr\Models\FlickrAlbum;
 use App\Flickr\Models\FlickrProcess;
-use Illuminate\Console\Command;
 
 /**
  * Step 2 & 3
  */
-class FlickrPhotoSets extends Command
+class FlickrPhotoSets extends AbstractBaseCommand
 {
-    use HasProcesses;
-
     /**
      * The name and signature of the console command.
      *
@@ -30,42 +27,31 @@ class FlickrPhotoSets extends Command
      */
     protected $description = 'Get photosets data. Tasks: list || photos';
 
-    public function handle()
-    {
-        switch ($this->argument('task')) {
-            case 'list':
-                $this->photosetsGetList();
-                break;
-            case 'photos':
-                $this->photosetsGetPhotos();
-                break;
-        }
-    }
-
     /**
      * This step will be created right after contact is created
      */
-    protected function photosetsGetList()
+    protected function flickrList(): bool
     {
-        $processes = $this->getProcessItem(FlickrProcess::STEP_PHOTOSETS_LIST);
-        foreach ($processes as $process) {
+        $this->getProcessItem(FlickrProcess::STEP_PHOTOSETS_LIST)->each(function ($process) {
             FlickrPhotoSetsJob::dispatch($process)->onQueue('api');
-        }
+        });
+
+        return true;
     }
 
     /**
      * Step 3
      * This step will be created right after album is created
      */
-    protected function photosetsGetPhotos()
+    protected function flickrPhotos(): bool
     {
-        $processes = $this->getProcessItem(
+        $this->getProcessItem(
             FlickrProcess::STEP_PHOTOSETS_PHOTOS,
             FlickrAlbum::class
-        );
-
-        foreach ($processes as $process) {
+        )->each(function ($process) {
             FlickrPhotoSetsPhotos::dispatch($process)->onQueue('api');
-        }
+        });
+
+        return true;
     }
 }

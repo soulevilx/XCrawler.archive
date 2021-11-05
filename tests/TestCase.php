@@ -2,12 +2,13 @@
 
 namespace Tests;
 
+use App\Core\Models\ClientRequest;
 use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Jooservices\XcrawlerClient\Interfaces\ResponseInterface;
@@ -19,10 +20,11 @@ abstract class TestCase extends BaseTestCase
     use RefreshDatabase;
     use CreatesApplication;
     use WithFaker;
-    //use WithoutMiddleware;
 
     protected string $fixtures;
     protected bool $seed = true;
+
+    protected $connectionsToTransact = ['mysql', 'flickr'];
 
     public function setUp(): void
     {
@@ -30,6 +32,8 @@ abstract class TestCase extends BaseTestCase
 
         Notification::fake();
         Mail::fake();
+
+        ClientRequest::truncate();
     }
 
     /**

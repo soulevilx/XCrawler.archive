@@ -3,7 +3,6 @@
 namespace App\Core;
 
 use App\Core\Events\ClientRequested;
-use App\Core\Models\ClientRequest;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
@@ -101,16 +100,7 @@ class Client
     public function request(string $endpoint, array $payload = [], string $method = 'GET')
     {
         $response = $this->client->{strtolower($method)}($endpoint, $payload);
-        Event::dispatch(new ClientRequested($response));
-
-        ClientRequest::create([
-            'service' => $this->service,
-            'base_uri' => config('services'.'.'.$this->service.'.base_url'),
-            'endpoint' => $response->getEndpoint() ?? $endpoint,
-            'payload' => $payload,
-            'body' => trim($response->getBody()),
-            'is_succeed' => $response->isSuccessful(),
-        ]);
+        Event::dispatch(new ClientRequested($this->service, $endpoint, $payload, $response));
 
         return $response;
     }

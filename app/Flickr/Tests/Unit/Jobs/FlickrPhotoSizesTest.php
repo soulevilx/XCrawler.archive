@@ -15,6 +15,7 @@ class FlickrPhotoSizesTest extends FlickrTestCase
         FlickrPhotoSizes::dispatch($photo);
 
         $photo->refresh();
+
         $this->assertIsArray($photo->sizes);
         $this->assertIsArray($photo->sizes[0]);
     }

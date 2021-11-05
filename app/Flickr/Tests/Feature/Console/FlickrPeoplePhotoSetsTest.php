@@ -41,20 +41,21 @@ class FlickrPeoplePhotoSetsTest extends FlickrTestCase
     public function testPhotosWhenNoProcess()
     {
         Queue::fake();
-        $contact = FlickrContact::factory()->create();
-        $album = FlickrAlbum::factory()->create([
-            'owner' => $contact->nsid,
-        ]);
-        $album->process()->delete();
+        $album = FlickrAlbum::factory()->create();
+        $album->processes()->delete();
+
         $this->artisan('flickr:photosets photos');
 
-        $this->assertDatabaseHas('flickr_contact_processes', [
+        /**
+         * We'll automatically create new process if there is nothing
+         */
+        $this->assertDatabaseHas('flickr_processes', [
             'step' => FlickrProcess::STEP_PHOTOSETS_PHOTOS,
             'state_code' => State::STATE_INIT,
             'deleted_at' => null,
             'model_id' => $album->id,
             'model_type' => FlickrAlbum::class,
-        ]);
+        ], 'flickr');
 
         Queue::assertPushed(FlickrPhotoSetsPhotos::class, function ($job) use ($album) {
             return $job->process->model->is($album);

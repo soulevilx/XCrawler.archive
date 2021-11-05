@@ -5,7 +5,6 @@ namespace App\Flickr\Console\Commands\Integrations;
 use App\Flickr\Services\FlickrService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
-use Symfony\Component\Console\Helper\TableSeparator;
 
 class Flickr extends Command
 {
@@ -14,7 +13,7 @@ class Flickr extends Command
      *
      * @var string
      */
-    protected $signature = 'integration:flickr';
+    protected $signature = 'integrate:flickr';
 
     /**
      * The console command description.

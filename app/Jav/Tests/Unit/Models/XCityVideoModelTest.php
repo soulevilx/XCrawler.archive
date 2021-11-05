@@ -2,10 +2,7 @@
 
 namespace App\Jav\Tests\Unit\Models;
 
-use App\Core\Models\State;
 use App\Jav\Events\XCityVideoCompleted;
-use App\Jav\Models\Performer;
-use App\Jav\Models\XCityIdol;
 use App\Jav\Models\XCityVideo;
 use App\Jav\Services\XCityVideoService;
 use App\Jav\Tests\JavTestCase;

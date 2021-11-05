@@ -5,7 +5,6 @@ namespace App\Jav\Models;
 use App\Core\Models\BaseModel;
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
-use App\Jav\Crawlers\XCityVideoCrawler;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**

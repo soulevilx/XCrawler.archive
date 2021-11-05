@@ -44,8 +44,6 @@ class FlickrPhotoSizes implements ShouldQueue, ShouldBeUnique
     public function handle(FlickrService $service)
     {
         $sizes = $service->photos()->getSizes($this->photo->id);
-        $this->photo->update([
-            'sizes' => $sizes['size']->toArray(),
-        ]);
+        $this->photo->updateSizes($sizes['size']->toArray());
     }
 }

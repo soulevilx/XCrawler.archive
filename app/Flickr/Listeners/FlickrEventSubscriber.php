@@ -2,24 +2,57 @@
 
 namespace App\Flickr\Listeners;
 
-use App\Core\Models\RequestFailed;
+use App\Core\Models\ClientRequest;
 use App\Flickr\Events\Errors\UserDeleted;
 use App\Flickr\Events\FlickrRequestFailed;
 use App\Flickr\Models\FlickrContact;
+use App\Flickr\Services\Flickr\People;
 use App\Flickr\Services\FlickrService;
 use Illuminate\Events\Dispatcher;
+use Illuminate\Support\Facades\Event;
 
 class FlickrEventSubscriber
 {
     public function handleFlickrRequestFailed(FlickrRequestFailed $event)
     {
-        RequestFailed::create([
+        $response = $event->response;
+
+        ClientRequest::create([
             'service' => FlickrService::SERVICE,
-            'endpoint' => 'https://api.flickr.com/services/rest/',
-            'path' => $event->path,
-            'params' => $event->params,
-            'message' => $event->response['message'] ?? null
+            'base_uri' => 'https://api.flickr.com/services/rest/',
+            'endpoint' => $event->path,
+            'payload' => $event->params,
+            'body' => null,
+            'messages' => $response['message'] ?? null,
+            'code' => $response['code'] ?? null,
+            'is_succeed' => false,
         ]);
+
+        $pathMaps = [
+            'flickr.people.getInfo' => People::class,
+            'flickr.people.getPhotos' => People::class,
+        ];
+
+        if (!empty($response)) {
+            foreach (array_keys($pathMaps) as $key) {
+                if ($event->path !== $key) {
+                    continue;
+                }
+
+                $targetClass = $pathMaps[$key];
+
+                if (!isset($response['code']) || !isset($targetClass::EVENT_MAPS[$response['code']])) {
+                    continue;
+                }
+
+                $eventClass = $targetClass::EVENT_MAPS[$response['code']];
+                if (!class_exists($eventClass)) {
+                    continue;
+                }
+
+                Event::dispatch(new $eventClass($event->path, $event->params));
+            }
+        }
     }
 
     public function handleUserDeleted(UserDeleted $event)

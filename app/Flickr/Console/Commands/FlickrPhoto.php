@@ -4,9 +4,8 @@ namespace App\Flickr\Console\Commands;
 
 use App\Flickr\Jobs\FlickrPhotoSizes;
 use App\Flickr\Models\FlickrPhoto as FlickrPhotoModel;
-use Illuminate\Console\Command;
 
-class FlickrPhoto extends Command
+class FlickrPhoto extends AbstractBaseCommand
 {
     /**
      * The name and signature of the console command.
@@ -22,19 +21,13 @@ class FlickrPhoto extends Command
      */
     protected $description = 'Get photo data. Tasks: sizes';
 
-    public function handle()
+    protected function flickrSizes()
     {
-        switch ($this->argument('task')) {
-            case 'sizes':
-                $this->photoGetSizes();
-                break;
-        }
-    }
-
-    protected function photoGetSizes()
-    {
-        foreach (FlickrPhotoModel::whereNull('sizes')->limit($this->input->getOption('limit'))->cursor() as $photo) {
-            FlickrPhotoSizes::dispatch($photo)->onQueue('api');
-        }
+        FlickrPhotoModel::whereNull('sizes')
+            ->limit($this->option('limit'))
+            ->get()
+            ->each(function ($photo) {
+                FlickrPhotoSizes::dispatch($photo)->onQueue('api');
+            });
     }
 }

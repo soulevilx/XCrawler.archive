@@ -39,14 +39,14 @@ class FlickrPhotoTest extends FlickrTestCase
     public function testSizes()
     {
         $photo = FlickrPhoto::factory()->create();
-        $this->assertFalse($photo->hasSizes());
+        $this->assertNull($photo->sizes);
         $this->assertNull($photo->largestSize());
 
         FlickrPhotoSizes::dispatch($photo);
         $photo->refresh();
 
-        $this->assertTrue($photo->hasSizes());
-        $largestSize  = $photo->largestSize();
+        $this->assertNotNull($photo->sizes);
+        $largestSize = $photo->largestSize();
         $this->assertEquals('Original', $largestSize['label']);
         $this->assertEquals(5057, $largestSize['width']);
         $this->assertEquals(3636, $largestSize['height']);

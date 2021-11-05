@@ -174,6 +174,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\HorizonServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\TelescopeServiceProvider::class,
 
         CoreServiceProvider::class,
         CoreEventServiceProvider::class,
@@ -184,6 +185,7 @@ return [
         FlickrEventServiceProvider::class,
 
         Studio\Totem\Providers\TotemServiceProvider::class,
+        Jenssegers\Mongodb\MongodbServiceProvider::class,
     ],
 
     /*

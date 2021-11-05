@@ -3,6 +3,7 @@
 namespace App\Flickr\Services;
 
 use App\Flickr\Events\FlickrRequestFailed;
+use App\Flickr\Exceptions\FlickrGeneralException;
 use App\Flickr\Jobs\FlickrRequestDownloadAlbum;
 use App\Flickr\Services\Flickr\Contacts;
 use App\Flickr\Services\Flickr\Entities\Album;
@@ -11,10 +12,10 @@ use App\Flickr\Services\Flickr\People;
 use App\Flickr\Services\Flickr\Photos;
 use App\Flickr\Services\Flickr\PhotoSets;
 use App\Flickr\Services\Flickr\Urls;
-use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use OAuth\Common\Consumer\Credentials;
+use OAuth\Common\Http\Exception\TokenResponseException;
 use OAuth\Common\Http\Uri\UriInterface;
 use OAuth\Common\Storage\Memory;
 use OAuth\Common\Storage\TokenStorageInterface;
@@ -38,7 +39,7 @@ class FlickrService
 
     public function __construct(private ?string $apiKey = null, private ?string $secret = null)
     {
-        $this->oauthTokenStorage = new Memory();
+        $this->oauthTokenStorage = new Memory;
     }
 
     protected function getClient(string $callbackUrl = 'oob')
@@ -90,25 +91,31 @@ class FlickrService
         ]);
     }
 
-    public function request(string $path, array $params): array
+    public function request(string $path, array $params): ?array
     {
         $params = array_filter($params);
-        $response = $this->getClient()->requestJson($path, 'POST', $params);
+        try {
+            $response = $this->getClient()->requestJson($path, 'POST', $params);
+            $jsonResponse = json_decode($response, true);
 
-        $jsonResponse = json_decode($response, true);
-
-        if (null === $jsonResponse) {
-            Event::dispatch(new FlickrRequestFailed($path, $params, []));
-            throw new Exception("Unable to decode Flickr response to $path request: " . $response);
+            if (null === $jsonResponse) {
+                $jsonResponse['stat'] = 'fail';
+                $jsonResponse['code'] = 9999;
+                $jsonResponse['message'] = 'Unable to decode Flickr response to request';
+            }
+        } catch (TokenResponseException $exception) {
+            $jsonResponse['stat'] = 'fail';
+            $jsonResponse['code'] = 9999;
+            $jsonResponse['message'] = $exception->getMessage();
         }
 
-        $jsonResponse = $this->cleanTextNodes($jsonResponse);
+        if (isset($jsonResponse['stat']) && $jsonResponse['stat'] === 'fail') {
+            Event::dispatch(new FlickrRequestFailed($path, $params, $jsonResponse ?? []));
 
-        if ($jsonResponse['stat'] === 'fail') {
-            Event::dispatch(new FlickrRequestFailed($path, $params, $jsonResponse));
+            throw new FlickrGeneralException($jsonResponse['message'] ?? '', $jsonResponse['code'] ?? null);
         }
 
-        return $jsonResponse;
+        return $this->cleanTextNodes($jsonResponse);
     }
 
     /**

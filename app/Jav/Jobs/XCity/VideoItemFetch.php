@@ -3,10 +3,7 @@
 namespace App\Jav\Jobs\XCity;
 
 use App\Core\Models\State;
-use App\Jav\Jobs\Traits\HasCrawlingMiddleware;
-use App\Jav\Models\XCityIdol;
 use App\Jav\Models\XCityVideo;
-use App\Jav\Services\XCityIdolService;
 use App\Jav\Services\XCityVideoService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
