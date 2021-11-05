@@ -3,9 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Telescope\Telescope;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,9 +14,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        if (Schema::connection('mongodb')->hasTable('telescope_entries')) {
-            Telescope::ignoreMigrations();
-        }
     }
 
     /**
