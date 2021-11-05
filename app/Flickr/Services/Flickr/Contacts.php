@@ -7,6 +7,7 @@ use App\Flickr\Exceptions\FlickrGeneralException;
 class Contacts extends BaseFlickr
 {
     public const PER_PAGE = 1000;
+    public const ERROR_CODE_INVALID_SORT_PARAMETER = 1;
 
     public function getListAll(?string $filter = null, ?int $page = null, ?int $per_page = self::PER_PAGE, ?string $sort = null)
     {
