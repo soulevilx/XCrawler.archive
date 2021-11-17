@@ -5,6 +5,7 @@ namespace App\Flickr\Models;
 use App\Core\Models\State;
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property integer $id
@@ -13,7 +14,7 @@ use App\Core\Models\Traits\HasStates;
  * @property integer $total
  * @property-read FlickrAlbum|FlickrContact $model
  */
-class FlickrDownload extends BaseFlickrModel
+class FlickrDownload extends Model
 {
     use HasFactory;
     use HasStates;

@@ -2,9 +2,9 @@
 
 namespace App\Flickr\Models;
 
-use App\Core\Models\BaseMongo;
+use Illuminate\Database\Eloquent\Model;
 
-class FlickrSizes extends BaseMongo
+class FlickrSizes extends Model
 {
     protected $collection = 'flickr_sizes';
 

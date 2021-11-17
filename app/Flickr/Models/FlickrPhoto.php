@@ -4,12 +4,13 @@ namespace App\Flickr\Models;
 
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @property-read FlickrSizes $sizes
  */
-class FlickrPhoto extends BaseFlickrModel
+class FlickrPhoto extends Model
 {
     use HasFactory;
     use HasStates;
