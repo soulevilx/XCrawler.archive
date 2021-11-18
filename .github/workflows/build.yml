@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    # Test on Workstation
+    # Test on Runner 1
     runs-on: [ runner1 ]
     services:
       mysql:
@@ -36,7 +36,7 @@ jobs:
       - name: Setup PHP with coverage driver
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'
+          php-version: '8.1'
           coverage: pcov
           tools: php-cs-fixer, phpunit
         env:
