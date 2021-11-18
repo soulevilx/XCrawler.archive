@@ -12,7 +12,6 @@ use App\Jav\Services\Interfaces\ServiceInterface;
 use App\Jav\Services\Traits\HasAttributes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\Cache;
 
 class XCityIdolService implements ServiceInterface
 {
@@ -28,12 +27,12 @@ class XCityIdolService implements ServiceInterface
 
     public function getSubPages()
     {
-        if (Cache::has('xcity_idols_sub_pages')) {
-            return Cache::get('xcity_idols_sub_pages');
-        }
+        $subPages = ApplicationService::getConfig('xcity_idol', 'sub_pages');
 
-        $subPages = $this->crawler->getSubPages();
-        Cache::put('xcity_idols_sub_pages', $subPages, now()->addDays(7));
+        if (!$subPages) {
+            $subPages = $this->crawler->getSubPages();
+            ApplicationService::setConfig('xcity_idol', 'sub_pages', $subPages);
+        }
 
         return $subPages;
     }

@@ -26,10 +26,10 @@ class GetIdolItemLinks implements ShouldQueue
     public function handle(XCityIdolCrawler $crawler, XCityIdolService $service)
     {
         $configKey = $this->kana.'_current_page';
-        $totalPages = (int) ApplicationService::getConfig('xcity', $this->kana.'_total_pages', 1);
+        $totalPages = (int) ApplicationService::getConfig('xcity_idol', $this->kana.'_total_pages', 1);
 
         $this->page = $this->updateCurrentPage
-            ? ApplicationService::getConfig('xcity', $configKey, $this->page)
+            ? ApplicationService::getConfig('xcity_idol', $configKey, $this->page)
             : $this->page;
 
         $links = $crawler->getItemLinks(XCityIdol::INDEX_URL, ['kana' => $this->kana, 'page' => $this->page]);
@@ -50,6 +50,6 @@ class GetIdolItemLinks implements ShouldQueue
             $this->page = 1;
         }
 
-        ApplicationService::setConfig('xcity', $configKey, $this->page);
+        ApplicationService::setConfig('xcity_idol', $configKey, $this->page);
     }
 }

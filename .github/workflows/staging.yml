@@ -7,7 +7,7 @@ on:
 jobs:
   build:
     # Test on Workstation
-    runs-on: [ Workstation ]
+    runs-on: [ worker1 ]
     services:
       mysql:
         image: mysql:8.0.26

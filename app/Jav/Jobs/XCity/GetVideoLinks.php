@@ -32,12 +32,7 @@ class GetVideoLinks implements ShouldQueue
         ]);
 
         foreach ($links as $link) {
-            XCityVideo::firstOrCreate([
-                'url' => $link,
-            ], [
-                'state_code' => State::STATE_INIT,
-            ]);
+            XCityVideo::firstOrCreate(['url' => $link], ['state_code' => State::STATE_INIT]);
         }
     }
 }
-

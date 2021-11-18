@@ -40,6 +40,12 @@ class XCityVideoCrawler
             })
         )->unique()->toArray();
 
+        $item->genres = collect(
+            $response->getData()->filter('.bodyCol ul li a.genre')->each(static function ($el) {
+                return trim($el->text());
+            })
+        )->unique()->toArray();
+
         return $this->extractItemFields($response->getData(), $item);
     }
 
@@ -75,8 +81,7 @@ class XCityVideoCrawler
         return (int) $response->getData()
             ->filter('ul.pageScrl li.next')->previousAll()
             ->filter('li a')
-            ->text(null, false)
-        ;
+            ->text(null, false);
     }
 
     private function extractItemFields(Crawler $data, ArrayObject $item)
