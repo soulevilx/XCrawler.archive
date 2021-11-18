@@ -2,6 +2,7 @@
 
 namespace App\Flickr\Models;
 
+use App\Core\Models\BaseModel;
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * @property-read FlickrContact|FlickrAlbum $model
  */
-class FlickrProcess extends BaseFlickrModel
+class FlickrProcess extends BaseModel
 {
     use HasFactory;
     use HasStates;

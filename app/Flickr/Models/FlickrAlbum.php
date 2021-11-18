@@ -2,6 +2,7 @@
 
 namespace App\Flickr\Models;
 
+use App\Core\Models\BaseModel;
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
 use App\Flickr\Models\Traits\HasProcesses;
@@ -19,7 +20,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $description
  * @property string $google_album_id
  */
-class FlickrAlbum extends BaseFlickrModel
+class FlickrAlbum extends BaseModel
 {
     use HasFactory;
     use HasStates;

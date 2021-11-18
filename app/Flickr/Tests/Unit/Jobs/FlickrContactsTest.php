@@ -13,7 +13,7 @@ class FlickrContactsTest extends FlickrTestCase
     {
         FlickrContacts::dispatch();
 
-        $this->assertDatabaseCount('flickr_contacts', $this->totalContacts, 'flickr');
+        $this->assertDatabaseCount('flickr_contacts', $this->totalContacts);
         $this->assertEquals($this->totalContacts, FlickrContact::where(['state_code' => State::STATE_INIT])->count());
     }
 
@@ -29,7 +29,7 @@ class FlickrContactsTest extends FlickrTestCase
         FlickrContacts::dispatch();
 
         // Execute command again will not create duplicate contacts
-        $this->assertDatabaseCount('flickr_contacts', $this->totalContacts, 'flickr');
+        $this->assertDatabaseCount('flickr_contacts', $this->totalContacts);
         $this->assertEquals($this->totalContacts - 1, FlickrContact::where(['state_code' => State::STATE_INIT])->count());
     }
 }

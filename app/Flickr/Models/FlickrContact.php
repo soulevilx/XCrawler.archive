@@ -2,6 +2,7 @@
 
 namespace App\Flickr\Models;
 
+use App\Core\Models\BaseModel;
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
 use App\Flickr\Models\Traits\HasProcesses;
@@ -21,7 +22,7 @@ use Illuminate\Support\Collection;
  * @property-read  FlickrAlbum[]|Collection $albums
  * @package App\Models
  */
-class FlickrContact extends BaseFlickrModel
+class FlickrContact extends BaseModel
 {
     use HasFactory;
     use HasStates;

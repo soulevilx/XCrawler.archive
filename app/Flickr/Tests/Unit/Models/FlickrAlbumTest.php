@@ -31,7 +31,7 @@ class FlickrAlbumTest extends FlickrTestCase
             'model_type' => FlickrAlbum::class,
             'step' => FlickrProcess::STEP_PHOTOSETS_PHOTOS,
             'state_code' => State::STATE_INIT,
-        ], 'flickr');
+        ]);
     }
 
     public function testPhotos()
@@ -46,6 +46,6 @@ class FlickrAlbumTest extends FlickrTestCase
         $this->assertDatabaseHas('flickr_album_photos', [
             'photo_id' => $photo->id,
             'album_id' => $album->id,
-        ], 'flickr');
+        ]);
     }
 }
