@@ -30,12 +30,12 @@ class FlickrPeoplePhotosTest extends FlickrTestCase
             'model_type' => FlickrContact::class,
             'step' => FlickrProcess::STEP_PHOTOSETS_LIST,
             'state_code' => State::STATE_INIT,
-        ], 'flickr');
-        $this->assertDatabaseCount('flickr_photos', 358, 'flickr');
+        ]);
+        $this->assertDatabaseCount('flickr_photos', 358);
 
         // Execute job again will not create duplicate
         FlickrPeoplePhotos::dispatch($contactProcess);
-        $this->assertDatabaseCount('flickr_photos', 358, 'flickr');
+        $this->assertDatabaseCount('flickr_photos', 358);
     }
 
     public function testJobWithDeletedUser()

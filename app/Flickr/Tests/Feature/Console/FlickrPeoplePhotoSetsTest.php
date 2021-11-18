@@ -55,7 +55,7 @@ class FlickrPeoplePhotoSetsTest extends FlickrTestCase
             'deleted_at' => null,
             'model_id' => $album->id,
             'model_type' => FlickrAlbum::class,
-        ], 'flickr');
+        ]);
 
         Queue::assertPushed(FlickrPhotoSetsPhotos::class, function ($job) use ($album) {
             return $job->process->model->is($album);

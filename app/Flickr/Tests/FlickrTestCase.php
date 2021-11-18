@@ -42,8 +42,6 @@ class FlickrTestCase extends TestCase
 
         app()->instance(ServiceFactory::class, $serviceMocker);
         $this->service = app(FlickrService::class);
-
-        FlickrSizes::truncate();
     }
 
     private function favorites()

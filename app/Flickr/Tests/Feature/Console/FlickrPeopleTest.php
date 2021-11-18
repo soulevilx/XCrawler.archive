@@ -42,7 +42,7 @@ class FlickrPeopleTest extends FlickrTestCase
             'deleted_at' => null,
             'model_id' => $contact->id,
             'model_type' => FlickrContact::class,
-        ], 'flickr');
+        ]);
     }
 
     public function testPhotos()

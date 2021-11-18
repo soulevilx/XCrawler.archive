@@ -3,10 +3,7 @@
 namespace Tests;
 
 use App\Core\Models\ClientRequest;
-use Illuminate\Contracts\Console\Kernel;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Mail;
@@ -23,8 +20,6 @@ abstract class TestCase extends BaseTestCase
 
     protected string $fixtures;
     protected bool $seed = true;
-
-    protected $connectionsToTransact = ['mysql', 'flickr'];
 
     public function setUp(): void
     {
@@ -83,18 +78,5 @@ abstract class TestCase extends BaseTestCase
         $response->loadData();
 
         return $response;
-    }
-
-    protected function refreshTestDatabase()
-    {
-        if (!RefreshDatabaseState::$migrated) {
-            $this->artisan('migrate:fresh', $this->migrateFreshUsing());
-
-            $this->app[Kernel::class]->setArtisan(null);
-
-            RefreshDatabaseState::$migrated = true;
-        }
-
-        $this->beginDatabaseTransaction();
     }
 }
