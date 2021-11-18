@@ -24,7 +24,14 @@ class XCityVideoCrawler
             return null;
         }
 
-        $item = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
+        $item = new ArrayObject([
+            'url',
+            'name',
+            'cover',
+            'gallery',
+            'actresses',
+            'genres',
+        ], ArrayObject::ARRAY_AS_PROPS);
         $item->url = $url.'?'.http_build_query($payload);
 
         $item->name = $response->getData()->filter('#program_detail_title')->text(null, false);
