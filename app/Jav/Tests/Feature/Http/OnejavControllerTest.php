@@ -17,7 +17,7 @@ class OnejavControllerTest extends JavTestCase
         $this->mocker = $this->getClientMock();
         $this->mocker
             ->shouldReceive('get')
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021.html'));
+            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021_page_1.html'));
         app()->instance(XCrawlerClient::class, $this->mocker);
 
         $client = \Mockery::mock(Client::class);

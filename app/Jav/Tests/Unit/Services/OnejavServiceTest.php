@@ -125,8 +125,7 @@ class OnejavServiceTest extends JavTestCase
         $mocker
             ->shouldReceive('get')
             ->with($onejav->url, [])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021.html'))
-        ;
+            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021_page_1.html'));
         app()->instance(XCrawlerClient::class, $mocker);
 
         $this->service = app(OnejavService::class);
