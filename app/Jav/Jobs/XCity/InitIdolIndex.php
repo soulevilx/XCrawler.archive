@@ -29,11 +29,11 @@ class InitIdolIndex implements ShouldQueue
     {
         $configKey = $this->kana.'_total_pages';
 
-        if (ApplicationService::getConfig('xcity', $configKey)) {
+        if (ApplicationService::getConfig('xcity_idol', $configKey)) {
             return;
         }
 
         $totalPages = $crawler->getPages(XCityIdol::INDEX_URL, ['kana' => $this->kana]);
-        ApplicationService::setConfig('xcity', $configKey, $totalPages);
+        ApplicationService::setConfig('xcity_idol', $configKey, $totalPages);
     }
 }

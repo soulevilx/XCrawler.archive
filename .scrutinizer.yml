@@ -1,6 +1,11 @@
 build:
   environment:
-    php: '8.0'
+    php:
+      version: '8.0'
+      pecl_extensions:
+        - redis
+        - memcached
+        - pcov
     mysql: '5.7'
     mongodb: '4.0'
     hosts:
@@ -31,7 +36,6 @@ build:
       - ~/.composer/cache/
   dependencies:
     before:
-      - pecl install pcov
       - mysql -uroot -e 'CREATE DATABASE scrutinizer'
   tests:
     before:

@@ -1,16 +1,16 @@
-name: XCrawler - Staging deploy
+name: XCrawler - Build & Tests
 
 on:
   push:
     branches: [ develop ]
 
 jobs:
-  build:
-    # Test on Workstation
-    runs-on: [ Workstation ]
+  staging:
+    # Test on Runner 1
+    runs-on: [ develop ]
     services:
       mysql:
-        image: mysql:8.0.26
+        image: mysql:latest
         env:
           MYSQL_ROOT_PASSWORD: laravel
           MYSQL_USER: laravel
@@ -24,6 +24,10 @@ jobs:
         ports:
           - 3308:6379
         options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      mongo:
+        image: mongo
+        ports: # Map 27017 to 3309
+          - 3309:27017
     steps:
       - uses: actions/checkout@v2
         with:
@@ -32,9 +36,11 @@ jobs:
       - name: Setup PHP with coverage driver
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0.9'
+          php-version: '8.0'
           coverage: pcov
           tools: php-cs-fixer, phpunit
+        env:
+          runner: runner1
 
       - name: Verify MySQL connection from host
         run: |
@@ -63,7 +69,20 @@ jobs:
         run: |
           composer test-live
 
+      - name: Coverage
+        uses: actions/upload-artifact@v2
+        if: success()
+        with:
+          name: coverage
+          path: coverage.xml
+
+      - name: upload coverage to codecov.io
+        uses: codecov/codecov-action@v1
+        if: success()
+        with:
+          file: ./coverage.xml
+
       - name: Deploy
         if: success()
         run: |
-          ~/staging_deployer.sh -s
+          ~/deployer.sh -s

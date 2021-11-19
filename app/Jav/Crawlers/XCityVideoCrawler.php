@@ -24,7 +24,14 @@ class XCityVideoCrawler
             return null;
         }
 
-        $item = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
+        $item = new ArrayObject([
+            'url',
+            'name',
+            'cover',
+            'gallery',
+            'actresses',
+            'genres',
+        ], ArrayObject::ARRAY_AS_PROPS);
         $item->url = $url.'?'.http_build_query($payload);
 
         $item->name = $response->getData()->filter('#program_detail_title')->text(null, false);
@@ -36,6 +43,12 @@ class XCityVideoCrawler
 
         $item->actresses = collect(
             $response->getData()->filter('.bodyCol ul li.credit-links a')->each(static function ($el) {
+                return trim($el->text());
+            })
+        )->unique()->toArray();
+
+        $item->genres = collect(
+            $response->getData()->filter('.bodyCol ul li a.genre')->each(static function ($el) {
                 return trim($el->text());
             })
         )->unique()->toArray();
@@ -75,8 +88,7 @@ class XCityVideoCrawler
         return (int) $response->getData()
             ->filter('ul.pageScrl li.next')->previousAll()
             ->filter('li a')
-            ->text(null, false)
-        ;
+            ->text(null, false);
     }
 
     private function extractItemFields(Crawler $data, ArrayObject $item)

@@ -54,6 +54,14 @@ class XCityVideoCrawlerTest extends JavTestCase
         }
     }
 
+    public function testGetItemNoGenres()
+    {
+        foreach ([0] as $avodId) {
+            $item = $this->crawler->getItem('/avod/detail/', ['id' => $avodId]);
+            $this->assertEmpty($item->actresses);
+        }
+    }
+
     public function testGetItemFailed()
     {
         $this->assertNull($this->crawler->getItem('/avod/detail/', ['id' => 999]));

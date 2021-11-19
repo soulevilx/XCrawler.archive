@@ -6,7 +6,6 @@ use App\Core\Client;
 use ArrayObject;
 use Carbon\Carbon;
 use DateTime;
-use Exception;
 use Illuminate\Support\Collection;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -48,19 +47,9 @@ class OnejavCrawler
     public function search(string $keyword, string $by = 'search')
     {
         $items = collect();
-        $this->getItemsRecursive($items, $by.'/'.urlencode($keyword));
+        $this->getItemsRecursive($items, $by . '/' . urlencode($keyword));
 
         return $items;
-    }
-
-    public function tag(string $tag): Collection
-    {
-        return $this->search($tag, strtolower(__FUNCTION__));
-    }
-
-    public function actress(string $name): Collection
-    {
-        return $this->search($name, strtolower(__FUNCTION__));
     }
 
     public function getItemsRecursive(Collection &$items, string $url, array $payload = []): int
@@ -143,15 +132,10 @@ class OnejavCrawler
 
     private function convertStringToDateTime(string $date): ?DateTime
     {
-        try {
-            $date = trim($date, '/');
-            if (!$dateTime = DateTime::createFromFormat('Y/m/j', $date)) {
-                return null;
-            }
-
-            return $dateTime;
-        } catch (Exception) {
+        if (!$dateTime = DateTime::createFromFormat('Y/m/j', trim($date, '/'))) {
             return null;
         }
+
+        return $dateTime;
     }
 }

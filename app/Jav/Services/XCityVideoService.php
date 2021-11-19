@@ -31,10 +31,7 @@ class XCityVideoService implements ServiceInterface
             $this->service->get('xcity_video', 'from_date', config('services.xcity_video.from_date', 20010101))
         );
 
-        $toDate = Carbon::createFromFormat(
-            'Ymd',
-            $this->service->get('xcity_video', 'from_date', config('services.xcity_video.from_date', 20010101))
-        )->addDay();
+        $toDate = $fromDate->clone()->addDay();
 
         InitVideoIndex::dispatch([
             'from_date' => $fromDate->format('Ymd'),
