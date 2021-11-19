@@ -1,13 +1,13 @@
 name: XCrawler - Build & Tests
 
 on:
-  pull_request:
+  push:
     branches: [ develop ]
 
 jobs:
   staging:
     # Test on Runner 1
-    runs-on: [ runner1 ]
+    runs-on: [ develop ]
     services:
       mysql:
         image: mysql:latest
@@ -85,4 +85,4 @@ jobs:
       - name: Deploy
         if: success()
         run: |
-          ~/staging_deployer.sh -s
+          ~/deployer.sh -s
