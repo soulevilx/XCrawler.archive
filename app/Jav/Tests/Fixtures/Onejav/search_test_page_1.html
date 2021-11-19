@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta name="description" content="Popular JAV torrents from the last 7 days.">
+    <meta property="og:title" content="OneJAV">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+          integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css"
+          integrity="sha256-2k1KVsNPRXxZOsXQ8aqcZ9GOOwmJTMoOB5o5Qp1d6/s=" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-tooltip@2.0.2/dist/css/bulma-tooltip.min.css"
+          integrity="sha256-4sEalG00AgYSQIYA/likT3rU/pElCgDfnyHz/mf+j30=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/luminous-lightbox/2.3.3/luminous-basic.min.css"
+          integrity="sha512-qvPeSLkXsYxwQBnNswZ6Fri9TbDR2wOKSXzBFnuSFlOGbWob7KY8qrHU6F4YukwN6FmcdDWR1jYCbgWjf3nVkQ=="
+          crossorigin="anonymous"/>
+    <link rel="stylesheet" href="/static/css/onejav.3cb5340d07fa.css">
+
+    <link rel="apple-touch-icon" href="/static/img/onejav.5468a5a7d373.png">
+    <link rel="shortcut icon" href="/static/img/onejav.5468a5a7d373.png">
+    <title>Popular (7 days) - OneJAV.com - Free JAV Torrents</title>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-85812008-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'UA-85812008-1');
+    </script>
+
+</head>
+<body>
+
+
+<nav class="navbar is-fixed">
+    <div class="navbar-brand">
+        <a class="navbar-item" href="/">
+            <img src="/static/img/onejav.5468a5a7d373.png" width="30" height="30">
+            OneJAV
+        </a>
+        <div class="navbar-burger burger" data-target="navMenu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+    <div id="navMenu" class="navbar-menu">
+        <div class="navbar-start">
+            <a class="navbar-item" href="/">
+                <span class="icon">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                </span>
+                Home
+            </a>
+
+            <a class="navbar-item" href="/new">
+                <span class="icon">
+                    <i class="fa fa-lightbulb-o" aria-hidden="true"></i>
+                </span>
+
+                New
+            </a>
+            <a class="navbar-item" href="/popular/">
+                <span class="icon">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                </span>
+                <span>
+                    Popular
+                </span>
+            </a>
+            <a class="navbar-item" href="/tag/FC2">
+                <span class="icon">
+                    <i class="fa fa-fire" aria-hidden="true"></i>
+                </span>
+                <span>
+                    Amateur (FC2)
+                </span>
+            </a>
+            <a class="navbar-item tooltip is-tooltip-bottom" href="/tag/JavPlayer"
+               data-tooltip="Demosaiced videos by JavPlayer">
+                <span class="icon">
+                    <i class="fa fa-file-video-o" aria-hidden="true"></i>
+                </span>
+                <span>
+                    JavPlayer
+                </span>
+            </a>
+            <a class="navbar-item" href="/random/">
+                <span class="icon">
+                    <i class="fa fa-question" aria-hidden="true"></i>
+                </span>
+                <span>
+                    Random
+                </span>
+            </a>
+            <a class="navbar-item" href="/actress/">
+                <span class="icon">
+                    <i class="fa fa-female" aria-hidden="true"></i>
+                </span>
+                <span>
+                    Actresses
+                </span>
+            </a>
+            <a class="navbar-item" href="/tag/">
+                <i class="fa fa-tags" aria-hidden="true"></i>
+                Tags
+            </a>
+
+        </div>
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <form class="field is-grouped" method="get" action="/search/">
+                    <a class="control button is-danger is-outlined" href="/favorite/">
+                        <i class="fa fa-bookmark"></i>
+                    </a>
+
+                    <input class="input is-expanded" name="q" type="text" placeholder="Search torrents" value="">
+                    <button class="control button is-primary" type="submit">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container">
+
+    <nav class="breadcrumb box">
+        <ul>
+            <li class="is-active"><a href="#">Torrents</a></li>
+            <li><a href="/popular/">Popular</a></li>
+
+            <li class="is-active"><a href="#">7 days</a></li>
+
+        </ul>
+    </nav>
+
+
+    <div class="level">
+        <div class="level-left"></div>
+        <div class="level-right">
+            <div class="level-item tooltip is-tooltip-warning is-tooltip-active is-tooltip-left"
+                 data-tooltip="You can filter torrents with these buttons!">
+                <div class="field has-addons">
+
+                    <p class="control">
+                        <a class="button is-primary is-primary" href="/popular/">All</a>
+                    </p>
+                    <p class="control">
+                        <a class="button is-primary is-inverted" href="?jav=1">JAV</a>
+                    </p>
+                    <p class="control">
+                        <a class="button is-primary is-inverted" href="?amateur=1">Amateur</a>
+                    </p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="level">
+        <div class="level-left"></div>
+        <div class="level-right">
+            <div class="level-item">
+                <span>Torrents from the last </span>
+            </div>
+            <div class="level-item">
+                <div class="field has-addons">
+                    <p class="control">
+                        <a class="button is-primary is-inverted" href="/popular/60?">60 Days</a>
+                    </p>
+                    <p class="control">
+                        <a class="button is-primary is-inverted" href="/popular/30?">30 Days</a>
+                    </p>
+                    <p class="control">
+                        <a class="button is-primary" href="/popular/7?">7 Days</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card mb-3">
+        <div class="container">
+            <div class="columns">
+                <div class="column">
+
+                    <img class="image" src="https://storage31000.contents.fc2.com/file/355/35406629/1626438887.25.jpg"
+                         onerror="reloadImage(event)" referrerpolicy="same-origin" style="max-height: 540px">
+
+                    <a href="https://storage31000.contents.fc2.com/file/355/35406629/1626438889.58.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage31000.contents.fc2.com/file/355/35406629/1626438889.58.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                    <a href="https://storage31000.contents.fc2.com/file/355/35406629/1626438889.32.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage31000.contents.fc2.com/file/355/35406629/1626438889.32.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                    <a href="https://storage31000.contents.fc2.com/file/355/35406629/1626438889.06.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage31000.contents.fc2.com/file/355/35406629/1626438889.06.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                    <a href="https://storage31000.contents.fc2.com/file/355/35406629/1626438888.78.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage31000.contents.fc2.com/file/355/35406629/1626438888.78.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                    <a href="https://storage31000.contents.fc2.com/file/355/35406629/1626438888.51.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage31000.contents.fc2.com/file/355/35406629/1626438888.51.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                    <a href="https://storage31000.contents.fc2.com/file/355/35406629/1626438888.25.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage31000.contents.fc2.com/file/355/35406629/1626438888.25.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                    <a href="https://storage31000.contents.fc2.com/file/355/35406629/1626438888.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage31000.contents.fc2.com/file/355/35406629/1626438888.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                    <a href="https://storage31000.contents.fc2.com/file/355/35406629/1626438887.75.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage31000.contents.fc2.com/file/355/35406629/1626438887.75.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                    <a href="https://storage31000.contents.fc2.com/file/355/35406629/1626438887.5.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage31000.contents.fc2.com/file/355/35406629/1626438887.5.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                </div>
+                <div class="column is-5">
+                    <div class="card-content is-flex" style="flex-direction: column; height: 100%">
+                        <h5 class="title is-4 is-spaced">
+                            <a href="/torrent/fc2-ppv-1926102_1">
+                                FC2-PPV-1926102
+                            </a>
+                            <span class="is-size-6 has-text-grey">2.5 GB</span>
+
+                        </h5>
+
+                        <p class="subtitle is-6">
+
+                            <a href="/2021/07/19">July 19, 2021</a>
+
+
+                        </p>
+
+
+                        <div class="tags">
+
+
+                            <a class="tag is-light" href="/tag/Amateur">
+                                Amateur
+                            </a>
+
+
+                            <a class="tag is-light" href="/tag/FC2">
+                                FC2
+                            </a>
+
+
+                        </div>
+
+
+                        <p class="level has-text-grey-dark">
+                            ＃67みその　可愛すぎて時が止まった。精子大好きHカップ美人彼女に中出しとごっくん。【個人撮影】【はめ撮り】【高画質】
+                        </p>
+
+
+                        <div class="panel">
+
+
+                        </div>
+                        <br>
+                        <div class="field is-grouped">
+                            <p class="control is-expanded">
+                                <a class="button is-primary is-fullwidth" data-toggle="tooltip"
+                                   title="Download .torrent" target="_blank"
+                                   href="/torrent/fc2-ppv-1926102_1/download/266952/onejav.com_fc2-ppv-1926102_1.torrent"
+                                   rel="nofollow">
+                                    <i class="fa fa-download"></i>
+                                </a>
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card mb-3">
+        <div class="container">
+            <div class="columns">
+                <div class="column">
+
+                    <img class="image" src="https://pics.dmm.co.jp/mono/movie/adult/1stars370/1stars370pl.jpg"
+                         onerror="reloadImage(event)" referrerpolicy="same-origin" style="max-height: 540px">
+
+                </div>
+                <div class="column is-5">
+                    <div class="card-content is-flex" style="flex-direction: column; height: 100%">
+                        <h5 class="title is-4 is-spaced">
+                            <a href="/torrent/stars370_1">
+                                STARS370
+                            </a>
+                            <span class="is-size-6 has-text-grey">10.0 GB</span>
+
+                        </h5>
+
+                        <p class="subtitle is-6">
+
+                            <a href="/2021/07/21">July 21, 2021</a>
+
+
+                        </p>
+
+
+                        <div class="tags">
+
+
+                            <a class="tag is-light" href="/tag/Big%20Tits">
+                                Big Tits
+                            </a>
+
+
+                            <a class="tag is-light" href="/tag/Debut%20Production">
+                                Debut Production
+                            </a>
+
+
+                            <a class="tag is-light" href="/tag/Entertainer">
+                                Entertainer
+                            </a>
+
+
+                            <a class="tag is-light" href="/tag/Massage">
+                                Massage
+                            </a>
+
+
+                            <a class="tag is-light" href="/tag/Solowork">
+                                Solowork
+                            </a>
+
+
+                        </div>
+
+
+                        <p class="level has-text-grey-dark">
+                            Active Neat And Clean No. 1 Gravure Amamiya Hanan AV DEBUT
+                        </p>
+
+
+                        <div class="panel">
+
+                            <a class="panel-block" href="/actress/Kanan%20Amamiya">Kanan Amamiya</a>
+
+
+                        </div>
+                        <br>
+                        <div class="field is-grouped">
+                            <p class="control is-expanded">
+                                <a class="button is-primary is-fullwidth" data-toggle="tooltip"
+                                   title="Download .torrent" target="_blank"
+                                   href="/torrent/stars370_1/download/498555/onejav.com_stars370_1.torrent"
+                                   rel="nofollow">
+                                    <i class="fa fa-download"></i>
+                                </a>
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card mb-3">
+        <div class="container">
+            <div class="columns">
+                <div class="column">
+
+                    <img class="image" src="https://storage29000.contents.fc2.com/file/375/37458620/1626710928.8.jpg"
+                         onerror="reloadImage(event)" referrerpolicy="same-origin" style="max-height: 540px">
+
+                    <a href="https://storage29000.contents.fc2.com/file/375/37458620/1626710929.85.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage29000.contents.fc2.com/file/375/37458620/1626710929.85.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                    <a href="https://storage29000.contents.fc2.com/file/375/37458620/1626710929.57.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage29000.contents.fc2.com/file/375/37458620/1626710929.57.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                    <a href="https://storage29000.contents.fc2.com/file/375/37458620/1626710929.31.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage29000.contents.fc2.com/file/375/37458620/1626710929.31.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                    <a href="https://storage29000.contents.fc2.com/file/375/37458620/1626710929.01.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage29000.contents.fc2.com/file/375/37458620/1626710929.01.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                </div>
+                <div class="column is-5">
+                    <div class="card-content is-flex" style="flex-direction: column; height: 100%">
+                        <h5 class="title is-4 is-spaced">
+                            <a href="/torrent/fc2-ppv-1929481_1">
+                                FC2-PPV-1929481
+                            </a>
+                            <span class="is-size-6 has-text-grey">1.5 GB</span>
+
+                        </h5>
+
+                        <p class="subtitle is-6">
+
+                            <a href="/2021/07/20">July 20, 2021</a>
+
+
+                        </p>
+
+
+                        <div class="tags">
+
+
+                            <a class="tag is-light" href="/tag/Amateur">
+                                Amateur
+                            </a>
+
+
+                            <a class="tag is-light" href="/tag/FC2">
+                                FC2
+                            </a>
+
+
+                        </div>
+
+
+                        <p class="level has-text-grey-dark">
+                            500個まで限定価格！！【無修正】あの超人気YouTuber動画にも出演！！！清楚で巨乳なお嬢様と初めての横浜デート！桜色の綺麗な性器に中出し！！（後編）
+                        </p>
+
+
+                        <div class="panel">
+
+
+                        </div>
+                        <br>
+                        <div class="field is-grouped">
+                            <p class="control is-expanded">
+                                <a class="button is-primary is-fullwidth" data-toggle="tooltip"
+                                   title="Download .torrent" target="_blank"
+                                   href="/torrent/fc2-ppv-1929481_1/download/311409/onejav.com_fc2-ppv-1929481_1.torrent"
+                                   rel="nofollow">
+                                    <i class="fa fa-download"></i>
+                                </a>
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card mb-3">
+        <div class="container">
+            <div class="columns">
+                <div class="column">
+
+                    <img class="image" src="https://pics.dmm.co.jp/mono/movie/adult/cawd245/cawd245pl.jpg"
+                         onerror="reloadImage(event)" referrerpolicy="same-origin" style="max-height: 540px">
+
+                </div>
+                <div class="column is-5">
+                    <div class="card-content is-flex" style="flex-direction: column; height: 100%">
+                        <h5 class="title is-4 is-spaced">
+                            <a href="/torrent/cawd245_1">
+                                CAWD245
+                            </a>
+                            <span class="is-size-6 has-text-grey">4.7 GB</span>
+
+                        </h5>
+
+                        <p class="subtitle is-6">
+
+                            <a href="/2021/07/18">July 18, 2021</a>
+
+
+                        </p>
+
+
+                        <div class="panel">
+
+                            <a class="panel-block" href="/actress/%E5%A4%A9%E9%9F%B3%E3%82%86%E3%81%84">天音ゆい</a>
+
+
+                        </div>
+                        <br>
+                        <div class="field is-grouped">
+                            <p class="control is-expanded">
+                                <a class="button is-primary is-fullwidth" data-toggle="tooltip"
+                                   title="Download .torrent" target="_blank"
+                                   href="/torrent/cawd245_1/download/622707/onejav.com_cawd245_1.torrent"
+                                   rel="nofollow">
+                                    <i class="fa fa-download"></i>
+                                </a>
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card mb-3">
+        <div class="container">
+            <div class="columns">
+                <div class="column">
+
+                    <img class="image" src="https://pics.dmm.co.jp/mono/movie/adult/1stars401/1stars401pl.jpg"
+                         onerror="reloadImage(event)" referrerpolicy="same-origin" style="max-height: 540px">
+
+                </div>
+                <div class="column is-5">
+                    <div class="card-content is-flex" style="flex-direction: column; height: 100%">
+                        <h5 class="title is-4 is-spaced">
+                            <a href="/torrent/stars401_1">
+                                STARS401
+                            </a>
+                            <span class="is-size-6 has-text-grey">5.8 GB</span>
+
+                        </h5>
+
+                        <p class="subtitle is-6">
+
+                            <a href="/2021/07/21">July 21, 2021</a>
+
+
+                        </p>
+
+
+                        <div class="tags">
+
+
+                            <a class="tag is-light" href="/tag/Couple">
+                                Couple
+                            </a>
+
+
+                            <a class="tag is-light" href="/tag/Creampie">
+                                Creampie
+                            </a>
+
+
+                            <a class="tag is-light" href="/tag/Drama">
+                                Drama
+                            </a>
+
+
+                            <a class="tag is-light" href="/tag/Love">
+                                Love
+                            </a>
+
+
+                            <a class="tag is-light" href="/tag/Solowork">
+                                Solowork
+                            </a>
+
+
+                        </div>
+
+
+                        <p class="level has-text-grey-dark">
+                            &quot;The Next Time I Can Meet You Is One Month Later ...&quot; Pure Love Unequaled Sexual
+                            Intercourse That Kept Asking For Vaginal Cum Shot With Her Long-distance Relationship Until
+                            She Ran Out Of Sperm In A Limited Time. Iori Furukawa
+                        </p>
+
+
+                        <div class="panel">
+
+                            <a class="panel-block" href="/actress/Iori%20Kogawa">Iori Kogawa</a>
+
+
+                        </div>
+                        <br>
+                        <div class="field is-grouped">
+                            <p class="control is-expanded">
+                                <a class="button is-primary is-fullwidth" data-toggle="tooltip"
+                                   title="Download .torrent" target="_blank"
+                                   href="/torrent/stars401_1/download/080899/onejav.com_stars401_1.torrent"
+                                   rel="nofollow">
+                                    <i class="fa fa-download"></i>
+                                </a>
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card mb-3">
+        <div class="container">
+            <div class="columns">
+                <div class="column">
+
+                    <img class="image" src="https://storage25000.contents.fc2.com/file/372/37111184/1626583821.17.gif"
+                         onerror="reloadImage(event)" referrerpolicy="same-origin" style="max-height: 540px">
+
+                    <a href="https://storage25000.contents.fc2.com/file/372/37111184/1626583828.85.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage25000.contents.fc2.com/file/372/37111184/1626583828.85.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                    <a href="https://storage25000.contents.fc2.com/file/372/37111184/1626583828.74.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage25000.contents.fc2.com/file/372/37111184/1626583828.74.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                    <a href="https://storage25000.contents.fc2.com/file/372/37111184/1626583826.78.gif"
+                       class="screenshot-link">
+                        <img src="https://storage25000.contents.fc2.com/file/372/37111184/1626583826.78.gif"
+                             style="width: 16.42%">
+                    </a>
+
+                    <a href="https://storage25000.contents.fc2.com/file/372/37111184/1626583823.57.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage25000.contents.fc2.com/file/372/37111184/1626583823.57.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                    <a href="https://storage25000.contents.fc2.com/file/372/37111184/1626583823.3.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage25000.contents.fc2.com/file/372/37111184/1626583823.3.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                    <a href="https://storage25000.contents.fc2.com/file/372/37111184/1626583823.02.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage25000.contents.fc2.com/file/372/37111184/1626583823.02.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                    <a href="https://storage25000.contents.fc2.com/file/372/37111184/1626583822.75.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage25000.contents.fc2.com/file/372/37111184/1626583822.75.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                    <a href="https://storage25000.contents.fc2.com/file/372/37111184/1626583822.64.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage25000.contents.fc2.com/file/372/37111184/1626583822.64.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                    <a href="https://storage25000.contents.fc2.com/file/372/37111184/1626583822.17.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage25000.contents.fc2.com/file/372/37111184/1626583822.17.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                </div>
+                <div class="column is-5">
+                    <div class="card-content is-flex" style="flex-direction: column; height: 100%">
+                        <h5 class="title is-4 is-spaced">
+                            <a href="/torrent/fc2-ppv-1927955_1">
+                                FC2-PPV-1927955
+                            </a>
+                            <span class="is-size-6 has-text-grey">2.8 GB</span>
+
+                        </h5>
+
+                        <p class="subtitle is-6">
+
+                            <a href="/2021/07/20">July 20, 2021</a>
+
+
+                        </p>
+
+
+                        <div class="tags">
+
+
+                            <a class="tag is-light" href="/tag/Amateur">
+                                Amateur
+                            </a>
+
+
+                            <a class="tag is-light" href="/tag/FC2">
+                                FC2
+                            </a>
+
+
+                        </div>
+
+
+                        <p class="level has-text-grey-dark">
+                            【祝♥中出し】[先行発売]高身長スレンダー美女まゆちゃん3作目。挿入中に気持ち良くなってる隙に乗じて中出し交渉。外出しを条件にゴム外し挿入するも気持ち良すぎてそのまま無許可中出ししたら笑顔で喜んだ
+                        </p>
+
+
+                        <div class="panel">
+
+
+                        </div>
+                        <br>
+                        <div class="field is-grouped">
+                            <p class="control is-expanded">
+                                <a class="button is-primary is-fullwidth" data-toggle="tooltip"
+                                   title="Download .torrent" target="_blank"
+                                   href="/torrent/fc2-ppv-1927955_1/download/063040/onejav.com_fc2-ppv-1927955_1.torrent"
+                                   rel="nofollow">
+                                    <i class="fa fa-download"></i>
+                                </a>
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card mb-3">
+        <div class="container">
+            <div class="columns">
+                <div class="column">
+
+                    <img class="image" src="https://storage25000.contents.fc2.com/file/377/37623901/1626737885.29.jpg"
+                         onerror="reloadImage(event)" referrerpolicy="same-origin" style="max-height: 540px">
+
+                    <a href="https://storage25000.contents.fc2.com/file/377/37623901/1626737887.59.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage25000.contents.fc2.com/file/377/37623901/1626737887.59.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                    <a href="https://storage25000.contents.fc2.com/file/377/37623901/1626737887.32.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage25000.contents.fc2.com/file/377/37623901/1626737887.32.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                    <a href="https://storage25000.contents.fc2.com/file/377/37623901/1626737887.06.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage25000.contents.fc2.com/file/377/37623901/1626737887.06.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                    <a href="https://storage25000.contents.fc2.com/file/377/37623901/1626737886.81.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage25000.contents.fc2.com/file/377/37623901/1626737886.81.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                    <a href="https://storage25000.contents.fc2.com/file/377/37623901/1626737886.53.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage25000.contents.fc2.com/file/377/37623901/1626737886.53.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                    <a href="https://storage25000.contents.fc2.com/file/377/37623901/1626737886.25.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage25000.contents.fc2.com/file/377/37623901/1626737886.25.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                    <a href="https://storage25000.contents.fc2.com/file/377/37623901/1626737885.97.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage25000.contents.fc2.com/file/377/37623901/1626737885.97.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                    <a href="https://storage25000.contents.fc2.com/file/377/37623901/1626737885.7.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage25000.contents.fc2.com/file/377/37623901/1626737885.7.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                    <a href="https://storage25000.contents.fc2.com/file/377/37623901/1626737885.43.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage25000.contents.fc2.com/file/377/37623901/1626737885.43.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                </div>
+                <div class="column is-5">
+                    <div class="card-content is-flex" style="flex-direction: column; height: 100%">
+                        <h5 class="title is-4 is-spaced">
+                            <a href="/torrent/fc2-ppv-1931459_1">
+                                FC2-PPV-1931459
+                            </a>
+                            <span class="is-size-6 has-text-grey">1.5 GB</span>
+
+                        </h5>
+
+                        <p class="subtitle is-6">
+
+                            <a href="/2021/07/21">July 21, 2021</a>
+
+
+                        </p>
+
+
+                        <div class="tags">
+
+
+                            <a class="tag is-light" href="/tag/Amateur">
+                                Amateur
+                            </a>
+
+
+                            <a class="tag is-light" href="/tag/FC2">
+                                FC2
+                            </a>
+
+
+                        </div>
+
+
+                        <p class="level has-text-grey-dark">
+                            【無】神スタイル☆Gカップ!!新宿ル〇〇ショップ店員さんに濃厚生中出し(後編)
+                        </p>
+
+
+                        <div class="panel">
+
+
+                        </div>
+                        <br>
+                        <div class="field is-grouped">
+                            <p class="control is-expanded">
+                                <a class="button is-primary is-fullwidth" data-toggle="tooltip"
+                                   title="Download .torrent" target="_blank"
+                                   href="/torrent/fc2-ppv-1931459_1/download/321484/onejav.com_fc2-ppv-1931459_1.torrent"
+                                   rel="nofollow">
+                                    <i class="fa fa-download"></i>
+                                </a>
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card mb-3">
+        <div class="container">
+            <div class="columns">
+                <div class="column">
+
+                    <img class="image" src="https://pics.dmm.co.jp/mono/movie/adult/mide953/mide953pl.jpg"
+                         onerror="reloadImage(event)" referrerpolicy="same-origin" style="max-height: 540px">
+
+                </div>
+                <div class="column is-5">
+                    <div class="card-content is-flex" style="flex-direction: column; height: 100%">
+                        <h5 class="title is-4 is-spaced">
+                            <a href="/torrent/mide953_1">
+                                MIDE953
+                            </a>
+                            <span class="is-size-6 has-text-grey">6.1 GB</span>
+
+                        </h5>
+
+                        <p class="subtitle is-6">
+
+                            <a href="/2021/07/23">July 23, 2021</a>
+
+
+                        </p>
+
+
+                        <div class="tags">
+
+
+                            <a class="tag is-light" href="/tag/Abuse">
+                                Abuse
+                            </a>
+
+
+                            <a class="tag is-light" href="/tag/Big%20Tits">
+                                Big Tits
+                            </a>
+
+
+                            <a class="tag is-light" href="/tag/Digital%20Mosaic">
+                                Digital Mosaic
+                            </a>
+
+
+                            <a class="tag is-light" href="/tag/Humiliation">
+                                Humiliation
+                            </a>
+
+
+                            <a class="tag is-light" href="/tag/Solowork">
+                                Solowork
+                            </a>
+
+
+                        </div>
+
+
+                        <p class="level has-text-grey-dark">
+                            A Middle-aged Father Who Was Dismissed From The Company Confined The President&#x27;s
+                            Daughter A Year Later, A Sweaty Giant Press Shoko Takahashi In A Garbage Room In Midsummer
+                            For A Week
+                        </p>
+
+
+                        <div class="panel">
+
+                            <a class="panel-block" href="/actress/Shoko%20Takahashi">Shoko Takahashi</a>
+
+
+                        </div>
+                        <br>
+                        <div class="field is-grouped">
+                            <p class="control is-expanded">
+                                <a class="button is-primary is-fullwidth" data-toggle="tooltip"
+                                   title="Download .torrent" target="_blank"
+                                   href="/torrent/mide953_1/download/010787/onejav.com_mide953_1.torrent"
+                                   rel="nofollow">
+                                    <i class="fa fa-download"></i>
+                                </a>
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card mb-3">
+        <div class="container">
+            <div class="columns">
+                <div class="column">
+
+                    <img class="image" src="https://pics.dmm.co.jp/mono/movie/adult/waaa088/waaa088pl.jpg"
+                         onerror="reloadImage(event)" referrerpolicy="same-origin" style="max-height: 540px">
+
+                </div>
+                <div class="column is-5">
+                    <div class="card-content is-flex" style="flex-direction: column; height: 100%">
+                        <h5 class="title is-4 is-spaced">
+                            <a href="/torrent/waaa088_1">
+                                WAAA088
+                            </a>
+                            <span class="is-size-6 has-text-grey">6.6 GB</span>
+
+                        </h5>
+
+                        <p class="subtitle is-6">
+
+                            <a href="/2021/07/22">July 22, 2021</a>
+
+
+                        </p>
+
+
+                        <div class="tags">
+
+
+                            <a class="tag is-light" href="/tag/Big%20Tits">
+                                Big Tits
+                            </a>
+
+
+                            <a class="tag is-light" href="/tag/Creampie">
+                                Creampie
+                            </a>
+
+
+                            <a class="tag is-light" href="/tag/Cuckold">
+                                Cuckold
+                            </a>
+
+
+                            <a class="tag is-light" href="/tag/Slut">
+                                Slut
+                            </a>
+
+
+                            <a class="tag is-light" href="/tag/Solowork">
+                                Solowork
+                            </a>
+
+
+                            <a class="tag is-light" href="/tag/Titty%20Fuck">
+                                Titty Fuck
+                            </a>
+
+
+                        </div>
+
+
+                        <p class="level has-text-grey-dark">
+                            Sex Appeal Munmun Female Boss&#x27;s Shared Room Mara Eating Reverse NTR I Was Naughty In
+                            The Press With A Big Tits Big Ass Creampie Until Morning ... Mina Kitano
+                        </p>
+
+
+                        <div class="panel">
+
+                            <a class="panel-block" href="/actress/Mina%20Kitano">Mina Kitano</a>
+
+
+                        </div>
+                        <br>
+                        <div class="field is-grouped">
+                            <p class="control is-expanded">
+                                <a class="button is-primary is-fullwidth" data-toggle="tooltip"
+                                   title="Download .torrent" target="_blank"
+                                   href="/torrent/waaa088_1/download/758014/onejav.com_waaa088_1.torrent"
+                                   rel="nofollow">
+                                    <i class="fa fa-download"></i>
+                                </a>
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card mb-3">
+        <div class="container">
+            <div class="columns">
+                <div class="column">
+
+                    <img class="image" src="https://storage24000.contents.fc2.com/file/286/28519270/1626785071.49.jpg"
+                         onerror="reloadImage(event)" referrerpolicy="same-origin" style="max-height: 540px">
+
+                    <a href="https://storage24000.contents.fc2.com/file/286/28519270/1626785073.66.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage24000.contents.fc2.com/file/286/28519270/1626785073.66.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                    <a href="https://storage24000.contents.fc2.com/file/286/28519270/1626785073.41.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage24000.contents.fc2.com/file/286/28519270/1626785073.41.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                    <a href="https://storage24000.contents.fc2.com/file/286/28519270/1626785073.18.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage24000.contents.fc2.com/file/286/28519270/1626785073.18.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                    <a href="https://storage24000.contents.fc2.com/file/286/28519270/1626785072.89.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage24000.contents.fc2.com/file/286/28519270/1626785072.89.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                    <a href="https://storage24000.contents.fc2.com/file/286/28519270/1626785072.63.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage24000.contents.fc2.com/file/286/28519270/1626785072.63.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                    <a href="https://storage24000.contents.fc2.com/file/286/28519270/1626785072.37.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage24000.contents.fc2.com/file/286/28519270/1626785072.37.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                    <a href="https://storage24000.contents.fc2.com/file/286/28519270/1626785072.12.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage24000.contents.fc2.com/file/286/28519270/1626785072.12.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                    <a href="https://storage24000.contents.fc2.com/file/286/28519270/1626785071.95.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage24000.contents.fc2.com/file/286/28519270/1626785071.95.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                    <a href="https://storage24000.contents.fc2.com/file/286/28519270/1626785071.59.jpg"
+                       class="screenshot-link">
+                        <img src="https://storage24000.contents.fc2.com/file/286/28519270/1626785071.59.jpg"
+                             style="width: 16.42%">
+                    </a>
+
+                </div>
+                <div class="column is-5">
+                    <div class="card-content is-flex" style="flex-direction: column; height: 100%">
+                        <h5 class="title is-4 is-spaced">
+                            <a href="/torrent/fc2-ppv-1932561_1">
+                                FC2-PPV-1932561
+                            </a>
+                            <span class="is-size-6 has-text-grey">3.0 GB</span>
+
+                        </h5>
+
+                        <p class="subtitle is-6">
+
+                            <a href="/2021/07/22">July 22, 2021</a>
+
+
+                        </p>
+
+
+                        <div class="tags">
+
+
+                            <a class="tag is-light" href="/tag/Amateur">
+                                Amateur
+                            </a>
+
+
+                            <a class="tag is-light" href="/tag/FC2">
+                                FC2
+                            </a>
+
+
+                        </div>
+
+
+                        <p class="level has-text-grey-dark">
+                            美形美裸身19歳のきりえちゃん。成人前に大人になった女子大生。
+                        </p>
+
+
+                        <div class="panel">
+
+
+                        </div>
+                        <br>
+                        <div class="field is-grouped">
+                            <p class="control is-expanded">
+                                <a class="button is-primary is-fullwidth" data-toggle="tooltip"
+                                   title="Download .torrent" target="_blank"
+                                   href="/torrent/fc2-ppv-1932561_1/download/168550/onejav.com_fc2-ppv-1932561_1.torrent"
+                                   rel="nofollow">
+                                    <i class="fa fa-download"></i>
+                                </a>
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <nav class="pagination is-centered">
+
+
+        <a class="pagination-next button is-primary" href="?page=2">Next</a>
+
+        <ul class="pagination-list">
+
+
+            <li><a class="pagination-link button is-primary">1</a></li>
+
+
+            <li><a class="pagination-link button is-primary is-inverted" href="?page=2">2</a></li>
+
+
+            <li><a class="pagination-link button is-primary is-inverted" href="?page=3">3</a></li>
+
+
+            <li><a class="pagination-link button is-primary is-inverted" href="?page=4">4</a></li>
+
+
+        </ul>
+    </nav>
+
+
+</div>
+
+
+<footer class="footer">
+    <div class="container">
+        <p class="has-text-centered has-text-grey is-size-6">
+            <i class="fa fa-quote-left" aria-hidden="true"></i>
+            <em>
+                One JAV to rule them all, One JAV to find them,<br>
+                One JAV to bring them all and in the darkness bind them.
+            </em>
+            <i class="fa fa-quote-right" aria-hidden="true"></i>
+        </p>
+        <div class="level">
+            <div class="level-left">
+                <div class="content">
+                    <div>Every performer on this site is over 18 years old.</div>
+                    <div>© 2021 OneJAV.com, All Rights Reserved.</div>
+                    <div>
+                        Bitcoin: <a
+                        href="bitcoin:14r2XcUsfqqnYx1Ck4CuJT4gH8NFga5WbR">14r2XcUsfqqnYx1Ck4CuJT4gH8NFga5WbR</a>
+                    </div>
+                </div>
+            </div>
+            <div class="level-right">
+                <div class="content">
+                    <a class="footer-icon" href="/feeds/" target="_blank" data-toggle="tooltip" title="RSS">
+                        <i class="fa fa-rss-square"></i>
+                    </a>
+                    <a class="footer-icon" href="https://www.facebook.com/sharer/sharer.php?u=https://onejav.com"
+                       target="_blank" rel="nofollow" data-toggle="tooltip" title="Share on Facebook">
+                        <i class="fa fa-facebook-official"></i>
+                    </a>
+                    <a class="footer-icon"
+                       href="https://twitter.com/share?url=https://onejav.com&amp;text=JAV%20Torrents&amp;hashtags=porn&amp;"
+                       target="_blank" rel="nofollow" data-toggle="tooltip" title="Share on Twitter">
+                        <i class="fa fa-twitter-square"></i>
+                    </a>
+                    <nav class="nav nav-inline">
+                        <a class="nav-link" href="/contact">DMCA</a>
+                        <a class="nav-link" href="/contact">Contact</a>
+                        <a class="nav-link" href="/faq">FAQ</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</footer>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"
+        integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dragscroll/0.0.8/dragscroll.min.js"
+        integrity="sha256-Y1FoPjA9P8r32Xxe8bgnq+YS2CNo2kH3YCiAMTvwofo=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/luminous-lightbox/2.3.3/Luminous.min.js"
+        integrity="sha512-OowuWkXmzaarpYBk1sa79Vv/KEffTghmkzqG5g0eC+K0ujtoLpuvGzR3ED8YFST667Z5lQjnRsBObGq24m+mkQ=="
+        crossorigin="anonymous"></script>
+<script src="/static/js/onejav.4def7ddec0cc.js"></script>
+
+<script type='text/javascript' src='//sunnycategoryopening.com/7f/f9/4e/7ff94e9461629d2f54ff14725863196e.js'></script>
+<script type='text/javascript' src='//sunnycategoryopening.com/dc/83/b5/dc83b5f9de390e9ce7aaef9932cac4c7.js'></script>
+
+
+<script>
+    new LuminousGallery(document.querySelectorAll(".screenshot-link"));
+</script>
+
+</body>
+</html>

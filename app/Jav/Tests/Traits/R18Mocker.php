@@ -34,8 +34,18 @@ trait R18Mocker
             ->with('/api/v4f/contents/rki00506', [])
             ->andReturn($this->getSuccessfulMockedResponse(app(JsonResponse::class), 'R18/item.json'));
 
+        $this->failed();
+
         app()->instance(XCrawlerClient::class, $this->mocker);
 
         $this->crawler = app(R18Crawler::class);
+    }
+
+    private function failed()
+    {
+        $this->mocker
+            ->shouldReceive('get')
+            ->with('/api/v4f/contents/0', [])
+            ->andReturn($this->getErrorMockedResponse(app(JsonResponse::class)));
     }
 }

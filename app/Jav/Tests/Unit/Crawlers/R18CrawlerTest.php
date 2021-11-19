@@ -57,4 +57,9 @@ class R18CrawlerTest extends JavTestCase
         $this->assertArrayHasKey('gallery', $item);
         $this->assertArrayHasKey('director', $item);
     }
+
+    public function testGetItemFailed()
+    {
+        $this->assertNull($this->crawler->getItem('0'));
+    }
 }
