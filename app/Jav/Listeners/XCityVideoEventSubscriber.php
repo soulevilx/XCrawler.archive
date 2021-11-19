@@ -15,22 +15,26 @@ class XCityVideoEventSubscriber
     public function onVideoCompleted(XCityVideoCompleted $event)
     {
         $model = $event->model;
-        $movie= Movie::firstOrCreate([
+        $movie = Movie::firstOrCreate([
             'dvd_id' => $model->dvd_id,
         ], $model->toArray());
 
         $genreIds = [];
-        foreach ($model->genres as $genre) {
-            $genreIds[] = Genre::firstOrCreate([
-                'name' => $genre,
-            ])->id;
+        if ($model->genres) {
+            foreach ($model->genres as $genre) {
+                $genreIds[] = Genre::firstOrCreate([
+                    'name' => $genre,
+                ])->id;
+            }
         }
 
         $actorIds = [];
-        foreach ($model->actresses as $actor) {
-            $actorIds[] = Performer::firstOrCreate([
-                'name' => $actor,
-            ])->id;
+        if ($model->actresses) {
+            foreach ($model->actresses as $actor) {
+                $actorIds[] = Performer::firstOrCreate([
+                    'name' => $actor,
+                ])->id;
+            }
         }
 
         $movie->genres()->syncWithoutDetaching($genreIds);
@@ -48,7 +52,7 @@ class XCityVideoEventSubscriber
     {
         $events->listen(
             [XCityVideoCompleted::class],
-            self::class.'@onVideoCompleted'
+            self::class . '@onVideoCompleted'
         );
     }
 }

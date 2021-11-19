@@ -23,15 +23,15 @@ class XCityInitIdolIndexTest extends JavTestCase
         $kana = $this->faker->randomElement($this->kanas);
         InitIdolIndex::dispatch($kana);
 
-        $this->assertEquals(112, ApplicationService::getConfig('xcity', $kana.'_total_pages'));
+        $this->assertEquals(112, ApplicationService::getConfig('xcity_idol', $kana.'_total_pages'));
     }
 
     public function testInitIdolIndexWithTotalPagesExists()
     {
         $kana = $this->faker->randomElement($this->kanas);
-        ApplicationService::setConfig('xcity', $kana.'_total_pages', 10);
+        ApplicationService::setConfig('xcity_idol', $kana.'_total_pages', 10);
         InitIdolIndex::dispatch($kana);
 
-        $this->assertEquals(10, ApplicationService::getConfig('xcity', $kana.'_total_pages'));
+        $this->assertEquals(10, ApplicationService::getConfig('xcity_idol', $kana.'_total_pages'));
     }
 }
