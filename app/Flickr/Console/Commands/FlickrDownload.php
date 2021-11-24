@@ -38,4 +38,26 @@ class FlickrDownload extends AbstractBaseCommand
 
         return true;
     }
+
+    public function flickrAlbums()
+    {
+        $albums = $this->service->downloadAlbums($this->option('url'));
+
+        $data = [];
+        foreach ($albums as $album) {
+            $data[] = [
+                $this->option('url'),
+                $album['id'],
+                $album['owner'],
+                'queued',
+            ];
+        }
+
+        $this->output->table([
+            'url',
+            'album_id',
+            'owner',
+            'status',
+        ], $data);
+    }
 }

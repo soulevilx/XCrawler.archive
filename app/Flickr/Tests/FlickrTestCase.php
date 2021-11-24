@@ -65,7 +65,7 @@ class FlickrTestCase extends TestCase
             ->andReturn(json_encode([
                 'stat' => 'fail',
                 'code' => Contacts::ERROR_CODE_INVALID_SORT_PARAMETER,
-                'message' => 'The possible values are: name and time.'
+                'message' => 'The possible values are: name and time.',
             ]));
 
         $this->flickrMocker->shouldReceive('requestJson')
@@ -292,8 +292,17 @@ class FlickrTestCase extends TestCase
             ->withSomeOfArgs(
                 'flickr.urls.lookupUser',
                 'POST',
+                ['url' => 'https://www.flickr.com/photos/soulevilx/albums/72157692139427840']
+            )
+            ->andReturn($this->getFixture('urls.lookupUser_soulevilx.json'));
+        $this->flickrMocker->shouldReceive('requestJson')
+            ->withSomeOfArgs(
+                'flickr.urls.lookupUser',
+                'POST',
                 //['url' => 'https://www.flickr.com/photos/51838687@N07/albums/72157719703391487']
             )
             ->andReturn($this->getFixture('urls.lookupUser.json'));
+
+
     }
 }
