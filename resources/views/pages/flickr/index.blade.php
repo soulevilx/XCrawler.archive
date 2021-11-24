@@ -7,13 +7,14 @@
                 {{$user['id']}}
             @endisset
         </div>
-        <form action="{{route('flickr.album.download')}}" method="post">
-            <div class="form-group">
-                <label for="exampleInputEmail1">Album URL</label>
-                <input type="text" name="url" class="form-control" id="url" aria-describedby="urlHelp">
-                <small id="emailHelp" class="form-text text-muted">Enter Flickr Album' url.</small>
+        <div class="row">
+            <div class="col-6">
+                @include('includes.download', ['route' => route('flickr.albums.download'), 'title' => 'Download albums', 'description' => 'Enter Profile\' url.'])
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+
+            <div class="col-6">
+                @include('includes.download', ['route' => route('flickr.album.download'), 'title' => 'Download specific Album', 'description' => 'Enter Flickr Album\' url.'])
+            </div>
+        </div>
     </main>
 @endsection

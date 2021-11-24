@@ -17,4 +17,12 @@ class FlickrDownloadTest extends FlickrTestCase
             return $job->albumId === 72157719703391487 && $job->nsid === '51838687@N07';
         });
     }
+
+    public function testDownloadAlbums()
+    {
+        Queue::fake();
+        $this->artisan('flickr:download albums --url=https://www.flickr.com/photos/soulevilx/albums/72157692139427840');
+
+        Queue::assertPushed(FlickrRequestDownloadAlbum::class);
+    }
 }

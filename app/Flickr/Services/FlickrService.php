@@ -12,6 +12,7 @@ use App\Flickr\Services\Flickr\People;
 use App\Flickr\Services\Flickr\Photos;
 use App\Flickr\Services\Flickr\PhotoSets;
 use App\Flickr\Services\Flickr\Urls;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use OAuth\Common\Consumer\Credentials;
@@ -182,5 +183,19 @@ class FlickrService
         )->onQueue('api');
 
         return $album;
+    }
+
+    public function downloadAlbums(string $url): Collection
+    {
+        if (!$user = $this->urls()->lookupUser($url)) {
+            return collect();
+        }
+
+        return $this->photosets()->getListAll($user['id'])->each(function($album){
+            FlickrRequestDownloadAlbum::dispatch(
+                $album['id'],
+                $album['owner'],
+            )->onQueue('api');
+        });
     }
 }
