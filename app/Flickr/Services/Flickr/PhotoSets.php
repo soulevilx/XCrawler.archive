@@ -73,7 +73,7 @@ class PhotoSets extends BaseFlickr
         ?int    $per_page = 500,
         ?int    $privacy_filter = null,
         ?string $media = null
-    )
+    ): array
     {
         $response = $this->call(func_get_args(), __FUNCTION__);
         $response['photoset']['photo'] = collect($response['photoset']['photo']);
