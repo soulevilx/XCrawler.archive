@@ -3,6 +3,7 @@
 namespace App\Flickr\Services\Flickr;
 
 use App\Flickr\Events\Errors\PhotosetNotFound;
+use Illuminate\Support\Collection;
 
 class PhotoSets extends BaseFlickr
 {
@@ -36,7 +37,7 @@ class PhotoSets extends BaseFlickr
         ?string $primary_photo_extras = null,
         ?string $photo_ids = null,
         ?string $sort_groups = null
-    )
+    ): Collection
     {
         $photosets = $this->getList(
             $user_id,

@@ -36,4 +36,11 @@ class FlickrController extends BaseResourceController
 
         return response()->view('pages.flickr.index');
     }
+
+    public function downloadAlbums(DownloadAlbumRequest $request, FlickrService $service)
+    {
+        $albums = $service->downloadAlbums($request->input('url'));
+
+        return response()->view('pages.flickr.index');
+    }
 }

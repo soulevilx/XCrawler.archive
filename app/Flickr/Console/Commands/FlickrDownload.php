@@ -2,8 +2,6 @@
 
 namespace App\Flickr\Console\Commands;
 
-use App\Flickr\Jobs\FlickrRequestDownloadAlbum;
-
 class FlickrDownload extends AbstractBaseCommand
 {
     /**
@@ -43,13 +41,7 @@ class FlickrDownload extends AbstractBaseCommand
 
     public function flickrAlbums()
     {
-        $nsid = $this->service->urls()->lookupUser($this->option('url'));
-        if (!$nsid) {
-            return true;
-        }
-
-        $nsid = $nsid['id'];
-        $albums = $this->service->photosets()->getListAll($nsid);
+        $albums = $this->service->downloadAlbums($this->option('url'));
 
         $data = [];
         foreach ($albums as $album) {
@@ -59,11 +51,6 @@ class FlickrDownload extends AbstractBaseCommand
                 $album['owner'],
                 'queued',
             ];
-
-            FlickrRequestDownloadAlbum::dispatch(
-                $album['id'],
-                $album['owner'],
-            )->onQueue('api');
         }
 
         $this->output->table([

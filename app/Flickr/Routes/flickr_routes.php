@@ -9,4 +9,5 @@ Route::namespace('App\Flickr\Http\Controllers')
 
         Route::get('/', [FlickrController::class, 'index'])->name('flickr.index');
         Route::post('/album/download', [FlickrController::class, 'downloadAlbum'])->name('flickr.album.download');
+        Route::post('/albums/download', [FlickrController::class, 'downloadAlbums'])->name('flickr.albums.download');
     });
