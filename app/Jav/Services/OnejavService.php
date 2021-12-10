@@ -84,7 +84,7 @@ class OnejavService implements ServiceInterface
     public function download(Onejav $onejav): bool
     {
         $onejav = $this->refetch($onejav);
-        $fileName = config('services.jav.download_dir').'/' . basename($onejav->torrent);
+        $fileName = config('services.jav.download_dir') . '/' . basename($onejav->torrent);
         $file = fopen($fileName, 'wb');
         $response = app(Client::class)->request(
             'GET',
@@ -101,7 +101,12 @@ class OnejavService implements ServiceInterface
                 'model_type' => Onejav::class,
             ]);
 
-            session()->flash('message', ['message' => 'Download completed. ' . $fileName, 'type' => 'primary']);
+            session()->flash(
+                'messages',
+                [
+                    ['message' => 'Download completed:  ' . $fileName, 'type' => 'primary'],
+                ]
+            );
             return true;
         }
 
