@@ -191,7 +191,7 @@ class FlickrService
             return collect();
         }
 
-        return $this->photosets()->getListAll($user['id'])->each(function($album){
+        return $this->photosets()->getListAll($user['id'])->each(function ($album) {
             FlickrRequestDownloadAlbum::dispatch(
                 $album['id'],
                 $album['owner'],
