@@ -103,7 +103,12 @@ class MovieService
 
         // Already posted to WordPress
         if (!$force && $this->movie->wordpress()->where('state_code', State::STATE_COMPLETED)->exists()) {
-            session()->flash('message', ['message' => 'This movie already posted on WordPress', 'type' => 'warning']);
+            session()->flash(
+                'messages',
+                [
+                    ['message' => 'This movie already posted on WordPress', 'type' => 'warning'],
+                ]
+            );
             return null;
         }
 
@@ -119,6 +124,8 @@ class MovieService
             return $movie->requestDownload()->create();
         }
 
-        session()->flash('message', ['message' => 'Movie download in queued', 'type' => 'info']);
+        session()->flash('messages', [
+                ['message' => 'Movie download in queued', 'type' => 'info'],
+            ]);
     }
 }
