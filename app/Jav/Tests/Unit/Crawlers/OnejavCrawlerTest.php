@@ -35,6 +35,9 @@ class OnejavCrawlerTest extends JavTestCase
 
                     continue;
                 }
+                if (!isset($data[$index]->{$property})) {
+                    continue;
+                }
                 $this->assertEquals($value, $data[$index]->{$property});
             }
 
@@ -77,6 +80,10 @@ class OnejavCrawlerTest extends JavTestCase
                     continue;
                 }
 
+                if (!isset($data[$index]->{$property})) {
+                    continue;
+                }
+
                 $this->assertEquals($value, $data[$index]->{$property});
             }
         }
@@ -100,6 +107,12 @@ class OnejavCrawlerTest extends JavTestCase
     {
         $items = $this->crawler->search('test');
         $this->assertEquals(50, $items->count());
+    }
+
+    public function testGetFcItems()
+    {
+        $items = $this->crawler->getItems('fc');
+        $this->assertIsArray($items->first()->gallery);
     }
 
     private function assertKey(array $item)

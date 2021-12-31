@@ -5,11 +5,14 @@ namespace App\Jav\Services;
 use App\Core\Models\Download;
 use App\Core\Services\ApplicationService;
 use App\Jav\Crawlers\OnejavCrawler;
+use App\Jav\Events\OnejavDownloadCompleted;
+use App\Jav\Events\OnejavReleaseCompleted;
 use App\Jav\Models\Onejav;
 use App\Jav\Services\Interfaces\ServiceInterface;
 use App\Jav\Services\Traits\HasAttributes;
 use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Event;
 
 class OnejavService implements ServiceInterface
 {
@@ -51,6 +54,7 @@ class OnejavService implements ServiceInterface
     public function release()
     {
         $currentPage = ApplicationService::getConfig('onejav', 'current_page', 1);
+
         $items = $this->crawler->getItems('new', ['page' => $currentPage]);
 
         $items->each(function ($item) {
@@ -59,8 +63,9 @@ class OnejavService implements ServiceInterface
 
         ++$currentPage;
 
-        if ((int) ApplicationService::getConfig('onejav', 'total_pages') < $currentPage) {
+        if ((int) ApplicationService::getConfig('onejav', 'total_pages', config('services.onejav.total_pages')) < $currentPage) {
             $currentPage = 1;
+            Event::dispatch(new OnejavReleaseCompleted());
         }
 
         ApplicationService::setConfig('onejav', 'current_page', $currentPage);
@@ -107,6 +112,9 @@ class OnejavService implements ServiceInterface
                     ['message' => 'Download completed:  ' . $fileName, 'type' => 'primary'],
                 ]
             );
+
+            Event::dispatch(new OnejavDownloadCompleted($onejav));
+
             return true;
         }
 

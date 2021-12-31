@@ -4,6 +4,7 @@ namespace App\Jav\Tests\Unit\Services;
 
 use App\Core\Services\ApplicationService;
 use App\Jav\Events\MovieCreated;
+use App\Jav\Events\OnejavReleaseCompleted;
 use App\Jav\Models\Movie;
 use App\Jav\Models\Onejav;
 use App\Jav\Services\OnejavService;
@@ -109,12 +110,16 @@ class OnejavServiceTest extends JavTestCase
 
     public function testReleaseAtEndOfPages()
     {
+        Event::fake([OnejavReleaseCompleted::class]);
+
         ApplicationService::setConfig('onejav', 'total_pages', 2);
         $this->service->release();
         $this->assertEquals(2, ApplicationService::getConfig('onejav', 'current_page'));
 
         $this->service->release();
         $this->assertEquals(1, ApplicationService::getConfig('onejav', 'current_page'));
+
+        Event::assertDispatched(OnejavReleaseCompleted::class);
     }
 
     public function testItem()

@@ -13,8 +13,6 @@ class OnejavObserver
             return;
         }
 
-        if (app(OnejavService::class)->download($onejav)) {
-            $onejav->movie->requestDownload()->delete();
-        }
+        app(OnejavService::class)->download($onejav);
     }
 }

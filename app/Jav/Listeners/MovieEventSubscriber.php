@@ -4,6 +4,7 @@ namespace App\Jav\Listeners;
 
 use App\Core\Services\ApplicationService;
 use App\Jav\Events\MovieCreated;
+use App\Jav\Events\OnejavDownloadCompleted;
 use App\Jav\Notifications\MovieCreatedNotification;
 use App\Jav\Services\Movie\MovieService;
 use Illuminate\Events\Dispatcher;
@@ -11,6 +12,11 @@ use Illuminate\Support\Facades\Notification;
 
 class MovieEventSubscriber
 {
+    public function onOnejavDownloadCompleted(OnejavDownloadCompleted $event)
+    {
+        $event->onejav->movie->requestDownload()->delete();
+    }
+
     public function onMovieCreated(MovieCreated $event)
     {
         $enableNotification = ApplicationService::getConfig(
@@ -48,6 +54,14 @@ class MovieEventSubscriber
         $events->listen(
             [MovieCreated::class],
             self::class . '@onMovieCreated'
+        );
+
+        $events->listen(
+            [
+                OnejavDownloadCompleted::class
+            ],
+
+            self::class . '@onOnejavDownloadCompleted'
         );
     }
 }
