@@ -25,6 +25,6 @@ class OnejavReleaseFetchTest extends JavTestCase
         $this->assertDatabaseCount('onejav', 10);
         $this->assertDatabaseCount('movies', 10);
 
-        $this->assertEquals(1, ApplicationService::getConfig('onejav', 'current_page'));
+        $this->assertEquals(2, ApplicationService::getConfig('onejav', 'current_page'));
     }
 }
