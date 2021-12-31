@@ -113,6 +113,7 @@ class OnejavCrawler
             return empty($value);
         })->unique()->toArray();
 
+        // Description
         $description = $crawler->filter('.level.has-text-grey-dark');
         $item->description = $description->count() ? trim($description->text(null, false)) : null;
         $item->description = preg_replace("/\r|\n/", '', $item->description);
@@ -126,6 +127,18 @@ class OnejavCrawler
         })->unique()->toArray();
 
         $item->torrent = trim($crawler->filter('.control.is-expanded a')->attr('href'));
+
+        // Gallery. Only for FC
+        $gallery = $crawler->filter('.columns .column a img');
+        if ($gallery->count()) {
+            $item->gallery = collect($gallery->each(
+                function ($image) {
+                    return trim($image->attr('src'));
+                }
+            ))->reject(function ($value) {
+                return empty($value);
+            })->unique()->toArray();
+        }
 
         return $item;
     }
