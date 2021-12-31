@@ -5,6 +5,7 @@ namespace App\Jav\Services;
 use App\Core\Models\Download;
 use App\Core\Services\ApplicationService;
 use App\Jav\Crawlers\OnejavCrawler;
+use App\Jav\Events\OnejavDownloadCompleted;
 use App\Jav\Events\OnejavReleaseCompleted;
 use App\Jav\Models\Onejav;
 use App\Jav\Services\Interfaces\ServiceInterface;
@@ -111,6 +112,9 @@ class OnejavService implements ServiceInterface
                     ['message' => 'Download completed:  ' . $fileName, 'type' => 'primary'],
                 ]
             );
+
+            Event::dispatch(new OnejavDownloadCompleted($onejav));
+
             return true;
         }
 
