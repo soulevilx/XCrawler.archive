@@ -8,7 +8,7 @@ use App\Jav\Models\XCityVideo;
 return [
     'onejav' => [
         'base_url' => Onejav::BASE_URL,
-        'total_pages' => 8500,
+        'total_pages' => env('JAV_TOTAL_PAGES', 8500),
     ],
     'r18' => [
         'base_url' => R18::BASE_URL,
