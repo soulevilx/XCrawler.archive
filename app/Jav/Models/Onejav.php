@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property string $url
+ * @property string $cover
+ * @property array $gallery
  * @property string $torrent
  * @property-read Download $downloads
  */
@@ -31,6 +33,7 @@ class Onejav extends Model implements MovieInterface
     protected $fillable = [
         'url',
         'cover',
+        'gallery',
         'dvd_id',
         'size',
         'date',
@@ -43,6 +46,7 @@ class Onejav extends Model implements MovieInterface
     protected $casts = [
         'url' => 'string',
         'cover' => 'string',
+        'gallery' => 'array',
         'dvd_id' => 'string',
         'size' => 'float',
         'date' => 'datetime:Y-m-d',

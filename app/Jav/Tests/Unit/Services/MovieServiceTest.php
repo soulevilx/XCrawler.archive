@@ -36,7 +36,6 @@ class MovieServiceTest extends JavTestCase
             'model_type' => $movie->getMorphClass(),
         ]);
 
-
         Onejav::factory()->create([
             'dvd_id' => $movie->dvd_id,
         ]);

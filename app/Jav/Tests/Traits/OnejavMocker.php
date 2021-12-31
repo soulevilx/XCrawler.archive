@@ -32,6 +32,12 @@ trait OnejavMocker
                 );
         }
 
+        // FC
+        $this->mocker
+            ->shouldReceive('get')
+            ->withSomeOfArgs('fc')
+            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/fc.html'));
+
         app()->instance(XCrawlerClient::class, $this->mocker);
         $this->crawler = app(OnejavCrawler::class);
     }
