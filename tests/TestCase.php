@@ -70,11 +70,12 @@ abstract class TestCase extends BaseTestCase
     /**
      * Get Successful Mocked External Service Response.
      */
-    protected function getErrorMockedResponse(ResponseInterface $response, ?string $path = null): ResponseInterface
+    protected function getErrorMockedResponse(ResponseInterface $response, ?string $path = null, ?int $responseCode = null): ResponseInterface
     {
         $response->endpoint = $this->faker->slug;
         $response->responseSuccess = false;
         $response->body = $this->getFixture($path) ?? '';
+        $response->responseCode = $responseCode;
         $response->loadData();
 
         return $response;
