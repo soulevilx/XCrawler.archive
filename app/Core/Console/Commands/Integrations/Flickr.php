@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Flickr\Console\Commands\Integrations;
+namespace App\Core\Console\Commands\Integrations;
 
 use App\Flickr\Services\FlickrService;
 use Illuminate\Console\Command;

@@ -5,8 +5,12 @@ namespace App\Flickr\Models;
 use App\Core\Models\BaseModel;
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
+use App\Flickr\Services\FlickrService;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * @property array $sizes
+ */
 class FlickrPhoto extends BaseModel
 {
     use HasFactory;
@@ -58,11 +62,26 @@ class FlickrPhoto extends BaseModel
             return null;
         }
 
-        $sizes = collect($this->sizes);
-        $sizes = $sizes->sortBy(function ($size) {
+        return collect($this->sizes)->sortBy(function ($size) {
             return $size['width'] + $size['height'];
-        });
+        })->last();
+    }
 
-        return $sizes->last();
+    /**
+     * @return string
+     */
+    public function getLargestSizeUrl(): string
+    {
+        if (!$size = $this->largestSize()) {
+            $service = app(FlickrService::class);
+            $sizes = $service->photos()->getSizes($this->id);
+            $this->update([
+                'sizes' => $sizes['size']->toArray(),
+            ]);
+
+            $size = $this->largestSize();
+        }
+
+        return $size['source'];
     }
 }
