@@ -8,8 +8,7 @@ class FlickrPhotoSetsPhotos extends AbstractProcessJob
 {
     public function process(): bool
     {
-        $photos = $this->service->photosets()->getAllPhotos($this->process->model->id, $this->process->model->owner);
-        $photos->each(function ($photo) {
+        $this->service->photosets()->getAllPhotos($this->process->model->id, $this->process->model->owner)->each(function ($photo) {
             unset($photo['isprimary']);
             unset($photo['ispublic']);
             unset($photo['isfriend']);

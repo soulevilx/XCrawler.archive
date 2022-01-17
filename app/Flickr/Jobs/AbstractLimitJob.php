@@ -7,13 +7,6 @@ use Spatie\RateLimitedMiddleware\RateLimited;
 
 abstract class AbstractLimitJob extends AbstractStandardJob
 {
-    /**
-     * The maximum number of unhandled exceptions to allow before failing.
-     *
-     * @var int
-     */
-    protected int $maxExceptions = 3;
-
     protected int $allow = 3000;
     protected int $releaseAfterMinutes = 60;
     protected int $everyMinutes = 60;
