@@ -4,31 +4,12 @@ namespace App\Flickr\Jobs;
 
 use App\Core\Models\State;
 use App\Flickr\Exceptions\FlickrGeneralException;
-use App\Flickr\Jobs\Traits\HasFlickrMiddleware;
 use App\Flickr\Models\FlickrProcess;
 use App\Flickr\Services\FlickrService;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 use OAuth\Common\Http\Exception\TokenResponseException;
 
-abstract class AbstractProcessJob implements ShouldQueue
+abstract class AbstractProcessJob extends AbstractLimitJob
 {
-    use Dispatchable;
-    use InteractsWithQueue;
-    use Queueable;
-    use SerializesModels;
-    use HasFlickrMiddleware;
-
-    /**
-     * The number of seconds after which the job's unique lock will be released.
-     *
-     * @var int
-     */
-    public $uniqueFor = 60;
-
     protected FlickrService $service;
 
     public function __construct(public FlickrProcess $process)
@@ -56,6 +37,10 @@ abstract class AbstractProcessJob implements ShouldQueue
     public function fail($exception = null)
     {
         $this->process->setState(State::STATE_FAILED);
+
+        if ($this->job) {
+            $this->job->fail($exception);
+        }
     }
 
     abstract public function process(): bool;

@@ -9,8 +9,7 @@ class FlickrPhotoSets extends AbstractProcessJob
 {
     public function process(): bool
     {
-        $photosets = $this->service->photosets()->getListAll($this->process->model->nsid);
-        $photosets->each(function ($photoset) {
+        $this->service->photosets()->getListAll($this->process->model->nsid)->each(function ($photoset) {
             if (!FlickrAlbum::withTrashed()->where(['id' => $photoset['id'], 'owner' => $photoset['id']])->exists()) {
                 $this->process->model->albums()->firstOrCreate(
                     [

@@ -3,26 +3,16 @@
 namespace App\Flickr\Jobs;
 
 use App\Core\Models\State;
-use App\Flickr\Jobs\Traits\HasFlickrMiddleware;
 use App\Flickr\Models\FlickrAlbum;
 use App\Flickr\Models\FlickrContact;
 use App\Flickr\Models\FlickrDownload;
 use App\Flickr\Models\FlickrDownloadItem;
 use App\Flickr\Models\FlickrPhoto;
 use App\Flickr\Services\FlickrService;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Str;
 
-class FlickrRequestDownloadAlbum implements ShouldQueue
+class FlickrRequestDownloadAlbum extends AbstractLimitJob
 {
-    use Dispatchable;
-    use InteractsWithQueue;
-    use Queueable;
-    use HasFlickrMiddleware;
-
     public function __construct(public int $albumId, public string $nsid)
     {
     }

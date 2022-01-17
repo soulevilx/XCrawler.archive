@@ -5,21 +5,10 @@ namespace App\Flickr\Jobs;
 use App\Flickr\Jobs\Traits\HasFlickrMiddleware;
 use App\Flickr\Models\FlickrPhoto;
 use App\Flickr\Services\FlickrService;
-use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 
-class FlickrPhotoSizes implements ShouldQueue, ShouldBeUnique
+class FlickrPhotoSizes extends AbstractLimitJob implements ShouldBeUnique
 {
-    use Dispatchable;
-    use InteractsWithQueue;
-    use Queueable;
-    use SerializesModels;
-    use HasFlickrMiddleware;
-
     /**
      * The number of seconds after which the job's unique lock will be released.
      *
