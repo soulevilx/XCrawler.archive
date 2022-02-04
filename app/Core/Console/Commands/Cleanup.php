@@ -3,6 +3,7 @@
 namespace App\Core\Console\Commands;
 
 use App\Core\Services\CleanupService;
+use Illuminate\Console\Command;
 
 class Cleanup extends Command
 {
