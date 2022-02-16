@@ -41,6 +41,9 @@ class XCityVideoCrawlerTest extends JavTestCase
 
     public function testGetItem()
     {
+        $item = $this->crawler->getItem('/avod/detail/', ['id' => 162337]);
+        $this->assertNull($item->sales_date);
+
         foreach ([147028, 147243, 150786] as $avodId) {
             $item = $this->crawler->getItem('/avod/detail/', ['id' => $avodId]);
             $data = json_decode($this->getFixture('XCity/avod_detail_'.$avodId.'.json'), true);

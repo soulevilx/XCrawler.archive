@@ -40,7 +40,7 @@ trait XCityVideoMocker
             ->with(XCityVideo::INDEX_URL, ['num' => XCityVideo::PER_PAGE, 'from_date' => Carbon::now()->format('Ymd'), 'to_date' => Carbon::now()->format('Ymd'), 'page' => 1])
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'XCity/avod_range.html'));
 
-        foreach ([147028, 147243, 150786, 0] as $avodId) {
+        foreach ([147028, 147243, 150786, 162337, 0] as $avodId) {
             $this->mocker
                 ->shouldReceive('get')
                 ->with('/avod/detail/', ['id' => $avodId])

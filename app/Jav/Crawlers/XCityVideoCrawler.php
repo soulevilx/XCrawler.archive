@@ -32,7 +32,7 @@ class XCityVideoCrawler
             'actresses',
             'genres',
         ], ArrayObject::ARRAY_AS_PROPS);
-        $item->url = $url.'?'.http_build_query($payload);
+        $item->url = $url . '?' . http_build_query($payload);
 
         $item->name = $response->getData()->filter('#program_detail_title')->text(null, false);
         $item->cover = $response->getData()->filter('.photo p.tn a')->attr('href');
@@ -108,7 +108,11 @@ class XCityVideoCrawler
 
                     case 'sales_date':
                     case 'release_date':
-                        $value = Carbon::createFromFormat('Y/m/d', $value);
+                        if (!empty($value)) {
+                            $value = Carbon::createFromFormat('Y/m/d', $value);
+                        } else {
+                            $value = null;
+                        }
 
                         break;
 
