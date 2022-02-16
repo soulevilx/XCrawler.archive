@@ -2,7 +2,6 @@
 
 namespace App\Flickr\Console\Commands;
 
-use App\Flickr\Console\Commands\Traits\HasProcesses;
 use App\Flickr\Jobs\FlickrPhotoSets as FlickrPhotoSetsJob;
 use App\Flickr\Jobs\FlickrPhotoSetsPhotos;
 use App\Flickr\Models\FlickrAlbum;
