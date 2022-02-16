@@ -21,7 +21,7 @@ class ReleaseFetch implements ShouldQueue
      *
      * @var int
      */
-    public $tries = 10;
+    public $tries = 1000;
 
     /**
      * The maximum number of exceptions to allow before failing.

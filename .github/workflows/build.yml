@@ -33,15 +33,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup PHP with coverage driver
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.0'
-          coverage: pcov
-          tools: php-cs-fixer, phpunit
-        env:
-          runner: runner1
-
       - name: Verify MySQL connection from host
         run: |
           mysql --host 127.0.0.1 --port 3307 -ularavel -plaravel -e "SHOW DATABASES"

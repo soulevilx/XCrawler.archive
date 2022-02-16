@@ -11,7 +11,7 @@ trait HasCrawlingMiddleware
      *
      * @var int
      */
-    protected $tries = 5;
+    protected $tries = 1000;
 
     /**
      * The maximum number of unhandled exceptions to allow before failing.
@@ -30,7 +30,7 @@ trait HasCrawlingMiddleware
 
     public function middleware()
     {
-        if ('testing' === config('app.env')) {
+        if (app()->environment('testing')) {
             return [];
         }
 

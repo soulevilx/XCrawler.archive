@@ -51,6 +51,9 @@ class Kernel extends ConsoleKernel
 
         // WordPress
         $schedule->command('jav:email-wordpress');
+
+        // Core
+        $schedule->command('core:cleanup')->mondays();
     }
 
     /**

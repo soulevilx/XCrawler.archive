@@ -11,7 +11,7 @@ trait R18CrawlingMiddleware
      *
      * @var int
      */
-    protected $tries = 5;
+    protected $tries = 1000;
 
     /**
      * The maximum number of unhandled exceptions to allow before failing.
