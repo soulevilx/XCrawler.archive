@@ -8,6 +8,7 @@ use App\Core\Models\Traits\HasStates;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
+ * @property string $step
  * @property-read FlickrContact|FlickrAlbum $model
  */
 class FlickrProcess extends BaseModel

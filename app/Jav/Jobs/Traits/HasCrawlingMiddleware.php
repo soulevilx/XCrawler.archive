@@ -30,7 +30,7 @@ trait HasCrawlingMiddleware
 
     public function middleware()
     {
-        if ('testing' === config('app.env')) {
+        if (app()->environment('testing')) {
             return [];
         }
 

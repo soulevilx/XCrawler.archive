@@ -1,4 +1,4 @@
-name: XCrawler - Build & Tests
+name: XCrawler - Staging deploy
 
 on:
   push:
