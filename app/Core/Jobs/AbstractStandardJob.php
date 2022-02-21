@@ -14,4 +14,6 @@ abstract class AbstractStandardJob implements ShouldQueue
     use InteractsWithQueue;
     use Queueable;
     use SerializesModels;
+
+    public bool $deleteWhenMissingModels = true;
 }
