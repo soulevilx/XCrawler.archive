@@ -3,7 +3,9 @@
 namespace App\Flickr\Listeners;
 
 use App\Core\Models\ClientRequest;
+use App\Core\Models\State;
 use App\Flickr\Events\Errors\UserDeleted;
+use App\Flickr\Events\FlickrDownloadCompleted;
 use App\Flickr\Events\FlickrRequestFailed;
 use App\Flickr\Models\FlickrContact;
 use App\Flickr\Services\Flickr\People;
@@ -70,6 +72,11 @@ class FlickrEventSubscriber
         $contact->delete();
     }
 
+    public function handleDownloadCompleted(FlickrDownloadCompleted $event)
+    {
+        $event->download->setState(State::STATE_COMPLETED);
+    }
+
     /**
      * Register the listeners for the subscriber.
      *
@@ -85,6 +92,13 @@ class FlickrEventSubscriber
         $events->listen(
             [UserDeleted::class],
             self::class . '@handleUserDeleted'
+        );
+
+        $events->listen(
+            [FlickrDownloadCompleted::class],
+            [
+                self::class, 'handleDownloadCompleted',
+            ],
         );
     }
 }

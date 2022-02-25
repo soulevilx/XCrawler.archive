@@ -155,4 +155,8 @@ class FlickrServiceTest extends FlickrTestCase
         $this->assertEquals('51838687@N07', $result['id']);
         $this->assertEquals('ANGUS PHOTOGRAPHY', $result['username']);
     }
+
+    public function testDownloadAlbum()
+    {
+    }
 }

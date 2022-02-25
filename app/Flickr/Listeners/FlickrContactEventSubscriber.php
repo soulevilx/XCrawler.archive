@@ -41,7 +41,7 @@ class FlickrContactEventSubscriber
     {
         $events->listen(
             [FlickrContactCreated::class],
-            self::class . '@onFlickrContactCreated'
+            [self::class, 'onFlickrContactCreated']
         );
     }
 }
