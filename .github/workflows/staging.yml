@@ -1,13 +1,17 @@
-name: XCrawler - Staging deploy
+# https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions
+name: XCrawler - Build & Tests
 
+# https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
 on:
+  # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows
   push:
     branches: [ develop ]
 
 jobs:
-  staging:
+  build:
     # Test on Runner 1
-    runs-on: [ develop ]
+    runs-on: [ runner1 ]
+
     services:
       mysql:
         image: mysql:latest
@@ -28,23 +32,19 @@ jobs:
         image: mongo
         ports: # Map 27017 to 3309
           - 3309:27017
+
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
-      - name: Setup PHP with coverage driver
+      - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'
+          php-version: 8.0
+          tools: composer:v2, php-cs-fixer, phpunit
           coverage: pcov
-          tools: php-cs-fixer, phpunit
-        env:
-          runner: runner1
-
-      - name: Verify MySQL connection from host
-        run: |
-          mysql --host 127.0.0.1 --port 3307 -ularavel -plaravel -e "SHOW DATABASES"
+          extensions: mongodb
 
       - name: Setup application
         if: success()
@@ -64,11 +64,6 @@ jobs:
         run: |
           composer test-coverage
 
-      - name: Execute Live Tests (Without Mocks) via PHPUnit
-        if: success()
-        run: |
-          composer test-live
-
       - name: Coverage
         uses: actions/upload-artifact@v2
         if: success()
@@ -82,7 +77,10 @@ jobs:
         with:
           file: ./coverage.xml
 
-      - name: Deploy
-        if: success()
-        run: |
-          ~/deployer.sh -s
+      - name: Notifications
+        uses: act10ns/slack@v1.5.0
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          status: ${{ job.status }}
+          config: .github/config/slack.yml
