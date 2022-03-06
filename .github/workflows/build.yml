@@ -38,19 +38,17 @@ jobs:
           - 3309:27017
 
     steps:
+
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
       - name: Setup PHP
-        uses: actions/checkout@v2
+        uses: shivammathur/setup-php@v2
         with:
           php-version: 8.0
           tools: php-cs-fixer, phpunit
           coverage: pcov
-          fetch-depth: 0
-        env:
-          runner: runner1
-
-      - name: Verify MySQL connection from host
-        run: |
-          mysql --host 127.0.0.1 --port 3307 -ularavel -plaravel -e "SHOW DATABASES"
 
       - name: Setup application
         if: success()
