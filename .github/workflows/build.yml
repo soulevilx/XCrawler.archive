@@ -48,6 +48,7 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           tools: composer:v2, php-cs-fixer, phpunit
           coverage: pcov
+          extensions: mongodb
 
       - name: Setup application
         if: success()
