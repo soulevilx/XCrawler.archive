@@ -77,3 +77,11 @@ jobs:
         if: success()
         with:
           file: ./coverage.xml
+
+      - name: Notifications
+        uses: act10ns/slack@v1.5.0
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          status: ${{ job.status }}
+          config: .github/config/slack.yml
