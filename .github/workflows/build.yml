@@ -38,7 +38,9 @@ jobs:
           - 3309:27017
 
     steps:
-
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -46,6 +48,16 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           tools: composer:v2, php-cs-fixer, phpunit
           coverage: pcov
-        env:
-          runner: self-hosted
 
+      - name: Setup application
+        if: success()
+        run: |
+          php -r "file_exists('.env') || copy('.env.example', '.env');"
+          composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+          php artisan key:generate
+          chmod -R 777 storage bootstrap/cache
+          php artisan config:clear
+          php artisan migrate:fresh
+
+      - name: Lint
+        run: composer lint
