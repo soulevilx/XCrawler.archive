@@ -36,11 +36,14 @@ jobs:
         image: mongo
         ports: # Map 27017 to 3309
           - 3309:27017
+
     steps:
       - name: Setup PHP
         uses: actions/checkout@v2
         with:
           php-version: 8.0
+          tools: php-cs-fixer, phpunit
+          coverage: pcov
           fetch-depth: 0
         env:
           runner: runner1
