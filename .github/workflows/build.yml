@@ -8,6 +8,9 @@ jobs:
   build:
     # Test on Runner 1
     runs-on: [ runner1 ]
+    strategy:
+      matrix:
+        php-versions: [ '5.6', '7.0', '7.1', '7.2', '7.3', '7.4', '8.0' ]
     services:
       mysql:
         image: mysql:latest
@@ -29,9 +32,13 @@ jobs:
         ports: # Map 27017 to 3309
           - 3309:27017
     steps:
-      - uses: actions/checkout@v2
+      - name: Setup PHP
+        uses: actions/checkout@v2
         with:
+          php-version: 8.0
           fetch-depth: 0
+        env:
+          runner: runner1
 
       - name: Verify MySQL connection from host
         run: |
