@@ -12,9 +12,6 @@ jobs:
   build:
     # Test on Runner 1
     runs-on: [ runner1 ]
-    strategy:
-      matrix:
-        php-versions: [ '8.0' ]
 
     services:
       mysql:
@@ -45,7 +42,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-versions }}
+          php-version: 8.0
           tools: composer:v2, php-cs-fixer, phpunit
           coverage: pcov
           extensions: mongodb
