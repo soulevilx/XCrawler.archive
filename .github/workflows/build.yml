@@ -7,17 +7,6 @@ on:
   pull_request:
     branches: [ develop ]
 
-env:
-  # MySQL
-  MYSQL_ROOT_PASSWORD: laravel
-  MYSQL_USER: laravel
-  MYSQL_PASSWORD: laravel
-  MYSQL_DATABASE: laravel
-  MYSQL_PORT_MAPPING: 3307:3306
-  # Redis
-  REDIS_PORT_MAPPING: 3308:6379
-  # Mongo
-  MONGO_PORT_MAPPING: 3309:27017
 jobs:
   build:
     # Test on Runner 1
@@ -25,23 +14,26 @@ jobs:
     strategy:
       matrix:
         php-versions: [ '8.0' ]
-
     services:
       mysql:
         image: mysql:latest
+        env:
+          MYSQL_ROOT_PASSWORD: laravel
+          MYSQL_USER: laravel
+          MYSQL_PASSWORD: laravel
+          MYSQL_DATABASE: laravel
         ports:
-          - $MYSQL_PORT_MAPPING
+          - 3307:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5 -e MYSQL_ROOT_PASSWORD=laravel -e MYSQL_USER=laravel -e MYSQL_PASSWORD=laravel -e MYSQL_DATABASE=laravel --entrypoint sh mysql:8 -c "exec docker-entrypoint.sh mysqld --default-authentication-plugin=mysql_native_password"
       redis:
         image: redis
         ports:
-          - $REDIS_PORT_MAPPING
+          - 3308:6379
         options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
       mongo:
         image: mongo
         ports: # Map 27017 to 3309
-          - $MONGO_PORT
-
+          - 3309:27017
     steps:
       - name: Setup PHP
         uses: actions/checkout@v2
