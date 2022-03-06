@@ -1,13 +1,18 @@
+# https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions
 name: XCrawler - Build & Tests
 
+# https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
 on:
+  # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows
   pull_request:
     branches: [ develop ]
+    types: [opened, synchronize]
 
 jobs:
   build:
     # Test on Runner 1
     runs-on: [ runner1 ]
+
     services:
       mysql:
         image: mysql:latest
@@ -28,14 +33,19 @@ jobs:
         image: mongo
         ports: # Map 27017 to 3309
           - 3309:27017
+
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
-      - name: Verify MySQL connection from host
-        run: |
-          mysql --host 127.0.0.1 --port 3307 -ularavel -plaravel -e "SHOW DATABASES"
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.0
+          tools: composer:v2, php-cs-fixer, phpunit
+          coverage: pcov
+          extensions: mongodb
 
       - name: Setup application
         if: success()
@@ -67,3 +77,11 @@ jobs:
         if: success()
         with:
           file: ./coverage.xml
+
+      - name: Notifications
+        uses: act10ns/slack@v1.5.0
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          status: ${{ job.status }}
+          config: .github/config/slack.yml
