@@ -14,3 +14,24 @@ services:
 
     redis:
         image: redis
+        ports:
+            - 3308:6379
+
+    mongodb:
+        image: mongo
+        ports:
+            - 3309:27017
+    php:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: php:8.0
+        restart: unless-stopped
+        tty: true
+        environment:
+            SERVICE_NAME: app
+            SERVICE_TAGS: dev
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+
