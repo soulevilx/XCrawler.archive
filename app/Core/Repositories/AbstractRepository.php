@@ -13,7 +13,7 @@ abstract class AbstractRepository
      */
     public function getAll()
     {
-        return $this->model->all();
+        return $this->getModel()->all();
     }
 
     /**
@@ -24,7 +24,7 @@ abstract class AbstractRepository
      */
     public function find($id)
     {
-        return $this->model->find($id);
+        return $this->getModel()->find($id);
     }
 
     /**
@@ -35,19 +35,19 @@ abstract class AbstractRepository
      */
     public function create(array $attributes): Model
     {
-        $this->model = $this->model->create($attributes);
+        $this->model = $this->getModel()->create($attributes);
 
         return $this->model;
     }
 
     public function firstOrCreate(array $conditions, array $attributes): Model
     {
-        return $this->model->firstOrCreate($conditions, $attributes);
+        return $this->getModel()->firstOrCreate($conditions, $attributes);
     }
 
     public function updateOrCreate(array $conditions, array $attributes): Model
     {
-        return $this->model->updateOrCreate($conditions, $attributes);
+        return $this->getModel()->updateOrCreate($conditions, $attributes);
     }
 
     /**
@@ -85,10 +85,7 @@ abstract class AbstractRepository
         return true;
     }
 
-    public function getModel(): Model
-    {
-        return $this->model;
-    }
+    abstract public function getModel();
 
     public function setModel(Model $model)
     {

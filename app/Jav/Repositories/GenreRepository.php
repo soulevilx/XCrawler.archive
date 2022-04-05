@@ -35,4 +35,9 @@ class GenreRepository extends AbstractRepository
             $this->movie->genres()->syncWithoutDetaching([$genre->id]);
         }
     }
+
+    public function getModel()
+    {
+        return $this->model;
+    }
 }

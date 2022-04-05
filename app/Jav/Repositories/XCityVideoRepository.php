@@ -10,4 +10,9 @@ class XCityVideoRepository extends AbstractRepository
     public function __construct(protected XCityVideo $model)
     {
     }
+
+    public function getModel()
+    {
+        return $this->model;
+    }
 }

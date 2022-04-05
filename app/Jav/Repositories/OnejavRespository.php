@@ -10,4 +10,9 @@ class OnejavRespository extends AbstractRepository
     public function __construct(protected Onejav $model)
     {
     }
+
+    public function getModel()
+    {
+        return $this->model;
+    }
 }

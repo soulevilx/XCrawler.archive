@@ -10,4 +10,9 @@ class XCityIdolRepository extends AbstractRepository
     public function __construct(protected XCityIdol $model)
     {
     }
+
+    public function getModel()
+    {
+        return $this->model;
+    }
 }

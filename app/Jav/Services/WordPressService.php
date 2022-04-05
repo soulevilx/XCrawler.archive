@@ -18,7 +18,7 @@ class WordPressService
         }
 
         return $movie->wordpress()->create([
-            'title' => $movie->dvd_id ?? $this->movie->content_id,
+            'title' => $movie->dvd_id ?? $movie->content_id,
             'state_code' => State::STATE_INIT,
         ]);
     }

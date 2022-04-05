@@ -50,4 +50,9 @@ class MovieRepository extends AbstractRepository
         $this->performerRepository->setMovie($this->model);
         $this->performerRepository->sync($performers);
     }
+
+    public function getModel()
+    {
+        return $this->model;
+    }
 }

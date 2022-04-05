@@ -35,4 +35,9 @@ class PerformerRepository extends AbstractRepository
             $this->movie->performers()->syncWithoutDetaching([$performer->id]);
         }
     }
+
+    public function getModel()
+    {
+        return $this->model;
+    }
 }
