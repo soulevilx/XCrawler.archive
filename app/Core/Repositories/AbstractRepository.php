@@ -35,9 +35,10 @@ abstract class AbstractRepository
      */
     public function create(array $attributes): Model
     {
-        $this->model = $this->getModel()->create($attributes);
+        $model = $this->getModel()->create($attributes);
+        $this->setModel($model);
 
-        return $this->model;
+        return $this->getModel();
     }
 
     public function firstOrCreate(array $conditions, array $attributes): Model
