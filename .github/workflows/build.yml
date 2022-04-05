@@ -11,7 +11,7 @@ on:
 jobs:
   build:
     # Test on Runner 1
-    runs-on: ubuntu-latest
+    runs-on: [runner1]
 
     services:
       mysql:
