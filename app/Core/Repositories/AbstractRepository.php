@@ -33,7 +33,7 @@ abstract class AbstractRepository
      * @param array $attributes
      * @return mixed
      */
-    public function create(array $attributes): Model
+    public function create(array $attributes)
     {
         $model = $this->getModel()->create($attributes);
         $this->setModel($model);
