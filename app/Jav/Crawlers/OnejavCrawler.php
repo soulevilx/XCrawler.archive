@@ -2,7 +2,8 @@
 
 namespace App\Jav\Crawlers;
 
-use App\Core\Client;
+use App\Core\XCrawlerClient;
+use App\Jav\Services\OnejavService;
 use ArrayObject;
 use Carbon\Carbon;
 use DateTime;
@@ -11,7 +12,7 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class OnejavCrawler
 {
-    public function __construct(protected Client $client)
+    public function __construct(protected XCrawlerClient $client)
     {
     }
 
@@ -28,10 +29,10 @@ class OnejavCrawler
         }));
     }
 
-    public function daily(&$page = 1): Collection
+    public function daily(): Collection
     {
         $items = collect();
-        $page = $this->getItemsRecursive($items, Carbon::now()->format('Y/m/d'));
+        $this->getItemsRecursive($items, Carbon::now()->format(OnejavService::DAILY_FORMAT));
 
         return $items;
     }
@@ -57,22 +58,22 @@ class OnejavCrawler
         $currentPage = $payload['page'] ?? 1;
         $response = $this->client->get($url, $payload);
 
-        if ($response->isSuccessful()) {
-            $pageNode = $response->getData()->filter('a.pagination-link')->last();
-            $lastPage = 0 === $pageNode->count() ? 1 : (int) $pageNode->text();
-
-            $items = $items->merge(collect($response->getData()->filter('.container .columns')->each(function ($el) {
-                return $this->parse($el);
-            })));
-
-            if (empty($payload) || $payload['page'] < $lastPage) {
-                $lastPage = $this->getItemsRecursive($items, $url, ['page' => $currentPage + 1]);
-            }
-
-            return $lastPage;
+        if (!$response->isSuccessful()) {
+            return 1;
         }
 
-        return 1;
+        $pageNode = $response->getData()->filter('a.pagination-link')->last();
+        $lastPage = 0 === $pageNode->count() ? 1 : (int) $pageNode->text();
+
+        $items = $items->merge(collect($response->getData()->filter('.container .columns')->each(function ($el) {
+            return $this->parse($el);
+        })));
+
+        if (empty($payload) || $payload['page'] < $lastPage) {
+            $lastPage = $this->getItemsRecursive($items, $url, ['page' => $currentPage + 1]);
+        }
+
+        return $lastPage;
     }
 
     private function parse(Crawler $crawler): ArrayObject

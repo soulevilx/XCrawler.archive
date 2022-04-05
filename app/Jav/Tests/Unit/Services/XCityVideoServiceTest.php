@@ -25,14 +25,12 @@ class XCityVideoServiceTest extends JavTestCase
         Queue::fake();
 
         $this->loadXCityVideoMocker();
-        $this->service = app(XCityVideoService::class);
     }
 
     public function testRelease()
     {
         $date = Carbon::createFromFormat('Y-m-d', $this->faker->date);
         ApplicationService::setConfig('xcity_video', 'from_date', $date->format('Ymd'));
-        $this->service = app(XCityVideoService::class);
         $this->service->release();
 
         Queue::assertPushed(InitVideoIndex::class, function ($job) use ($date) {
@@ -69,10 +67,9 @@ class XCityVideoServiceTest extends JavTestCase
     public function testCreate()
     {
         $url = $this->faker->url;
-        $this->service->setAttributes([
+        $this->service->create([
             'url' => $url,
         ]);
-        $this->service->create();
 
         $this->assertDatabaseHas('xcity_videos', [
             'url' => $url,

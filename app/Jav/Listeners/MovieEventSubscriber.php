@@ -6,7 +6,7 @@ use App\Core\Services\ApplicationService;
 use App\Jav\Events\MovieCreated;
 use App\Jav\Events\OnejavDownloadCompleted;
 use App\Jav\Notifications\MovieCreatedNotification;
-use App\Jav\Services\Movie\MovieService;
+use App\Jav\Services\WordPressService;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Support\Facades\Notification;
 
@@ -32,8 +32,7 @@ class MovieEventSubscriber
         $movie = $event->movie;
 
         if ($enablePostToWordPress) {
-            $service = app(MovieService::class);
-            $service->createWordPressPost($movie);
+            app(WordPressService::class)->createMoviePost($movie);
         }
 
         if (!$enableNotification) {

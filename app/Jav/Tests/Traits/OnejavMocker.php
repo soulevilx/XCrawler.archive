@@ -3,11 +3,10 @@
 namespace App\Jav\Tests\Traits;
 
 use App\Jav\Crawlers\OnejavCrawler;
-use App\Jav\Models\Onejav;
+use App\Jav\Services\OnejavService;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Jooservices\XcrawlerClient\Response\DomResponse;
-use Jooservices\XcrawlerClient\XCrawlerClient;
 
 trait OnejavMocker
 {
@@ -15,7 +14,7 @@ trait OnejavMocker
 
     protected function loadOnejavMock()
     {
-        $now = Carbon::now()->format(Onejav::DAILY_FORMAT);
+        $now = Carbon::now()->format(OnejavService::DAILY_FORMAT);
 
         $this->invalid();
 
@@ -38,8 +37,8 @@ trait OnejavMocker
             ->withSomeOfArgs('fc')
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/fc.html'));
 
-        app()->instance(XCrawlerClient::class, $this->mocker);
-        $this->crawler = app(OnejavCrawler::class);
+        $this->service = $this->getService();
+        $this->crawler = new OnejavCrawler($this->mocker);
     }
 
     private function invalid()
@@ -68,5 +67,12 @@ trait OnejavMocker
             ->shouldReceive('get')
             ->with($name, ['page' => $page])
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), $fixtureFile));
+    }
+
+    protected function getService(): OnejavService
+    {
+        app()->instance(OnejavCrawler::class, new OnejavCrawler($this->mocker));
+
+        return app(OnejavService::class);
     }
 }

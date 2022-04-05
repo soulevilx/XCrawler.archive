@@ -3,13 +3,13 @@
 namespace Tests;
 
 use App\Core\Models\ClientRequest;
+use App\Core\XCrawlerClient;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Jooservices\XcrawlerClient\Interfaces\ResponseInterface;
-use Jooservices\XcrawlerClient\XCrawlerClient;
 use Mockery\MockInterface;
 
 abstract class TestCase extends BaseTestCase

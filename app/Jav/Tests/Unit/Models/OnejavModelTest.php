@@ -4,6 +4,7 @@ namespace App\Jav\Tests\Unit\Models;
 
 use App\Core\Models\State;
 use App\Core\Services\ApplicationService;
+use App\Jav\Crawlers\OnejavCrawler;
 use App\Jav\Models\Movie;
 use App\Jav\Models\Onejav;
 use App\Jav\Notifications\MovieCreatedNotification;
@@ -12,7 +13,6 @@ use App\Jav\Tests\JavTestCase;
 use Illuminate\Notifications\AnonymousNotifiable;
 use Illuminate\Support\Facades\Notification;
 use Jooservices\XcrawlerClient\Response\DomResponse;
-use Jooservices\XcrawlerClient\XCrawlerClient;
 
 
 class OnejavModelTest extends JavTestCase
@@ -58,7 +58,7 @@ class OnejavModelTest extends JavTestCase
         $this->mocker
             ->shouldReceive('get')
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021_page_1.html'));
-        app()->instance(XCrawlerClient::class, $this->mocker);
+        app()->instance(OnejavCrawler::class, new OnejavCrawler($this->mocker));
         $onejav = Onejav::factory()->create();
         $onejav = app(OnejavService::class)->refetch($onejav);
 

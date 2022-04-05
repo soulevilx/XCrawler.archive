@@ -2,10 +2,10 @@
 
 namespace App\Jav\Models;
 
-use App\Core\Models\BaseModel;
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -25,13 +25,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @method static Builder|XCityIdol byState (string $state)
  */
-class XCityIdol extends BaseModel
+class XCityIdol extends Model
 {
     use HasFactory;
     use SoftDeletes;
     use HasStates;
-
-    public const SERVICE = 'xcity_idol';
 
     public const BASE_URL = 'https://xxx.xcity.jp';
     public const INDEX_URL = 'idol/';

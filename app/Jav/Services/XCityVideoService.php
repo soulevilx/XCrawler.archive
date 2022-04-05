@@ -2,25 +2,25 @@
 
 namespace App\Jav\Services;
 
-use App\Core\Models\State;
 use App\Core\Services\ApplicationService;
 use App\Jav\Crawlers\XCityVideoCrawler;
 use App\Jav\Jobs\XCity\InitVideoIndex;
 use App\Jav\Models\XCityVideo;
+use App\Jav\Repositories\XCityVideoRepository;
 use App\Jav\Services\Interfaces\ServiceInterface;
 use App\Jav\Services\Traits\HasAttributes;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
-class XCityVideoService implements ServiceInterface
+class XCityVideoService
 {
     use HasAttributes;
 
     protected XCityVideo $video;
 
-    public const SERVICE_LABEL = 'XCity videos';
+    public const SERVICE_NAME = 'xcity_videos';
 
-    public function __construct(protected XCityVideoCrawler $crawler, protected ApplicationService $service)
+    public function __construct(protected XCityVideoCrawler $crawler, protected XCityVideoRepository $repository)
     {
     }
 
@@ -28,7 +28,7 @@ class XCityVideoService implements ServiceInterface
     {
         $fromDate = Carbon::createFromFormat(
             'Ymd',
-            $this->service->get('xcity_video', 'from_date', config('services.xcity_video.from_date', 20010101))
+            ApplicationService::getConfig('xcity_video', 'from_date', config('services.xcity_video.from_date', 20010101))
         );
 
         $toDate = $fromDate->clone()->addDay();
@@ -38,18 +38,14 @@ class XCityVideoService implements ServiceInterface
             'to_date' => $toDate->format('Ymd'),
         ])->onQueue('crawling');
 
-        $this->service->save('xcity_video', 'from_date', $toDate->format('Ymd'));
+        ApplicationService::setConfig('xcity_video', 'from_date', $toDate->format('Ymd'));
     }
 
-    public function create(): Model
+    public function create(array $attributes): XCityVideo
     {
-        $this->defaultAttribute('state_code', State::STATE_INIT);
-
-        $this->video = XCityVideo::firstOrCreate([
-            'url' => $this->attributes['url'],
-        ], $this->attributes);
-
-        return $this->video;
+        return $this->repository->updateOrCreate([
+            'url' => $attributes['url'],
+        ], $attributes);
     }
 
     public function item(Model $model): XCityVideo

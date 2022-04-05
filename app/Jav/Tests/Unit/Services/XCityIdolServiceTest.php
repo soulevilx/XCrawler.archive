@@ -18,7 +18,6 @@ class XCityIdolServiceTest extends JavTestCase
         parent::setUp();
 
         $this->loadXCityIdolMocker();
-        $this->service = app(XCityIdolService::class);
     }
 
     public function testRelease()

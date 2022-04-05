@@ -2,24 +2,27 @@
 
 namespace App\Jav\Tests\Feature\Http;
 
+use App\Jav\Crawlers\OnejavCrawler;
 use App\Jav\Models\Onejav;
 use App\Jav\Tests\JavTestCase;
+use App\Jav\Tests\Traits\OnejavMocker;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use Jooservices\XcrawlerClient\Response\DomResponse;
-use Jooservices\XcrawlerClient\XCrawlerClient;
 
 class OnejavControllerTest extends JavTestCase
 {
+    use OnejavMocker;
+
     public function testDownloadSucceed()
     {
-        $onejav = Onejav::factory()->create();
         $this->mocker = $this->getClientMock();
         $this->mocker
             ->shouldReceive('get')
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021_page_1.html'));
-        app()->instance(XCrawlerClient::class, $this->mocker);
+        app()->instance(OnejavCrawler::class, new OnejavCrawler($this->mocker));
 
+        $onejav = Onejav::factory()->create();
         $client = \Mockery::mock(Client::class);
         $client->shouldReceive('request')
             ->andReturn(new Response());
@@ -40,7 +43,7 @@ class OnejavControllerTest extends JavTestCase
         $this->mocker
             ->shouldReceive('get')
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021.html'));
-        app()->instance(XCrawlerClient::class, $this->mocker);
+        app()->instance(OnejavCrawler::class, new OnejavCrawler($this->mocker));
 
         $client = \Mockery::mock(Client::class);
         $client->shouldReceive('request')

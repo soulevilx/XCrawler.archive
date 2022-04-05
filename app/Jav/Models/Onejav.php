@@ -5,10 +5,10 @@ namespace App\Jav\Models;
 use App\Core\Models\Download;
 use App\Core\Models\Traits\HasFactory;
 use App\Jav\Models\Interfaces\MovieInterface;
-use App\Jav\Models\Traits\HasDefaultMovie;
-use App\Jav\Models\Traits\HasMovieObserver;
+use App\Jav\Models\Traits\HasMovie;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 
 /**
  * @property string $url
@@ -21,12 +21,10 @@ class Onejav extends Model implements MovieInterface
 {
     use HasFactory;
     use SoftDeletes;
-    use HasMovieObserver;
-    use HasDefaultMovie;
+    use HasMovie;
+    use Notifiable;
 
-    public const SERVICE = 'onejav';
     public const BASE_URL = 'https://onejav.com';
-    public const DAILY_FORMAT = 'Y/m/d';
 
     protected $table = 'onejav';
 
@@ -34,7 +32,6 @@ class Onejav extends Model implements MovieInterface
         'url',
         'cover',
         'gallery',
-        'dvd_id',
         'size',
         'date',
         'genres',
@@ -47,7 +44,6 @@ class Onejav extends Model implements MovieInterface
         'url' => 'string',
         'cover' => 'string',
         'gallery' => 'array',
-        'dvd_id' => 'string',
         'size' => 'float',
         'date' => 'datetime:Y-m-d',
         'genres' => 'array',
@@ -57,16 +53,6 @@ class Onejav extends Model implements MovieInterface
         'updated_at' => 'datetime:Y-m-d H:m:s',
         'created_at' => 'datetime:Y-m-d H:m:s',
     ];
-
-    /**
-     * Get the route key for the model.
-     *
-     * @return string
-     */
-    public function getRouteKeyName()
-    {
-        return 'dvd_id';
-    }
 
     /**
      * Onejav have no state.

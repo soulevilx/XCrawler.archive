@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Events;
+namespace App\Core\Events\Client;
 
 use Jooservices\XcrawlerClient\Interfaces\ResponseInterface;
 

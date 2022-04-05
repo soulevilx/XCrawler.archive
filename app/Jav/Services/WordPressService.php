@@ -6,10 +6,23 @@ use App\Core\Models\State;
 use App\Core\Models\WordPressPost;
 use App\Core\Models\WordPressPost as WordPressPostModel;
 use App\Jav\Mail\WordPressPost as WordPressPostEmail;
+use App\Jav\Models\Movie;
 use Illuminate\Support\Facades\Mail;
 
-class WordPressPostService
+class WordPressService
 {
+    public function createMoviePost(Movie $movie, bool $force = false): ?WordPressPost
+    {
+        if (!$force && $movie->wordpress()->where('state_code', State::STATE_COMPLETED)->exists()) {
+            return null;
+        }
+
+        return $movie->wordpress()->create([
+            'title' => $movie->dvd_id ?? $this->movie->content_id,
+            'state_code' => State::STATE_INIT,
+        ]);
+    }
+
     public function send(?WordPressPost $post = null)
     {
         if ($post === null) {

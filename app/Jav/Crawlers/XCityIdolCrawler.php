@@ -2,7 +2,7 @@
 
 namespace App\Jav\Crawlers;
 
-use App\Core\Client;
+use App\Core\XCrawlerClient;
 use App\Jav\Models\XCityIdol;
 use ArrayObject;
 use Carbon\Carbon;
@@ -13,7 +13,7 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class XCityIdolCrawler
 {
-    public function __construct(protected Client $client)
+    public function __construct(protected XCrawlerClient $client)
     {
     }
 

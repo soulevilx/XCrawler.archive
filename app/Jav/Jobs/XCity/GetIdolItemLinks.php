@@ -35,9 +35,9 @@ class GetIdolItemLinks implements ShouldQueue
         $links = $crawler->getItemLinks(XCityIdol::INDEX_URL, ['kana' => $this->kana, 'page' => $this->page]);
 
         $links->each(function ($link) use ($service) {
-            $service->setAttributes([
+            $service->create([
                 'url' => $link,
-            ])->create();
+            ]);
         });
 
         if (!$this->updateCurrentPage) {

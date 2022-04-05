@@ -2,14 +2,14 @@
 
 namespace App\Jav\Crawlers;
 
-use App\Core\Client;
+use App\Core\XCrawlerClient;
 use App\Jav\Models\R18;
 use Exception;
 use Illuminate\Support\Collection;
 
 class R18Crawler
 {
-    public function __construct(protected Client $domClient, protected Client $jsonClient)
+    public function __construct(protected XCrawlerClient $domClient, protected XCrawlerClient $jsonClient)
     {
     }
 

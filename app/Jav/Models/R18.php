@@ -6,8 +6,7 @@ use App\Core\Models\BaseModel;
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
 use App\Jav\Models\Interfaces\MovieInterface;
-use App\Jav\Models\Traits\HasDefaultMovie;
-use App\Jav\Models\Traits\HasMovieObserver;
+use App\Jav\Models\Traits\HasMovie;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -32,11 +31,9 @@ class R18 extends BaseModel implements MovieInterface
 {
     use HasFactory;
     use SoftDeletes;
-    use HasMovieObserver;
-    use HasDefaultMovie;
+    use HasMovie;
     use HasStates;
 
-    public const SERVICE = 'r18';
     public const BASE_URL = 'https://www.r18.com';
 
     public const MOVIE_DETAIL_ENDPOINT = '/api/v4f/contents';

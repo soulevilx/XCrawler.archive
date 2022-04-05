@@ -5,48 +5,55 @@ namespace App\Jav\Services;
 use App\Core\Models\Download;
 use App\Core\Services\ApplicationService;
 use App\Jav\Crawlers\OnejavCrawler;
+use App\Jav\Events\Onejav\OnejavDailyCompleted;
+use App\Jav\Events\Onejav\OnejavReleaseCompleted;
 use App\Jav\Events\OnejavDownloadCompleted;
-use App\Jav\Events\OnejavReleaseCompleted;
 use App\Jav\Models\Onejav;
+use App\Jav\Repositories\OnejavRespository;
 use App\Jav\Services\Interfaces\ServiceInterface;
 use App\Jav\Services\Traits\HasAttributes;
+use ArrayObject;
 use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Event;
 
-class OnejavService implements ServiceInterface
+class OnejavService
 {
     use HasAttributes;
 
-    protected Onejav $model;
+    public const SERVICE_NAME = 'onejav';
+    public const DAILY_FORMAT = 'Y/m/d';
 
-    public const SERVICE_LABEL = 'Onejav';
-
-    public function __construct(protected OnejavCrawler $crawler)
+    public function __construct(protected OnejavCrawler $crawler, protected OnejavRespository $repository)
     {
     }
 
-    public function create(array $attribute = []): Onejav
+    public function create(array $attributes): Onejav
     {
-        $this->attributes = array_merge($this->attributes, $attribute);
-        $this->model = Onejav::firstOrCreate(
-            ['dvd_id' => $this->attributes['dvd_id']],
-            $this->attributes
-        );
-
-        return $this->model;
+        return $this->repository->updateOrCreate([
+            'dvd_id' => $attributes['dvd_id'],
+        ], $attributes);
     }
 
     public function daily()
     {
         $items = $this->crawler->daily();
+
         if ($items->isEmpty()) {
             return $items;
         }
 
         $items->each(function ($item) {
-            $this->update($item);
+            /**
+             * @var ArrayObject $item
+             */
+            $this->repository->updateOrCreate(
+                ['url' => $item->url],
+                $item->getArrayCopy()
+            );
         });
+
+        Event::dispatch(new OnejavDailyCompleted($items));
 
         return $items;
     }
@@ -58,14 +65,17 @@ class OnejavService implements ServiceInterface
         $items = $this->crawler->getItems('new', ['page' => $currentPage]);
 
         $items->each(function ($item) {
-            $this->update($item);
+            $this->repository->updateOrCreate(
+                ['url' => $item->url],
+                $item->getArrayCopy()
+            );
         });
 
         ++$currentPage;
 
         if ((int) ApplicationService::getConfig('onejav', 'total_pages', config('services.onejav.total_pages')) < $currentPage) {
             $currentPage = 1;
-            Event::dispatch(new OnejavReleaseCompleted());
+            Event::dispatch(new OnejavReleaseCompleted($items));
         }
 
         ApplicationService::setConfig('onejav', 'current_page', $currentPage);
@@ -78,17 +88,10 @@ class OnejavService implements ServiceInterface
         return $this->refetch($model);
     }
 
-    private function update(\ArrayObject $item)
-    {
-        Onejav::updateOrCreate(
-            ['url' => $item->url],
-            $item->getArrayCopy()
-        );
-    }
-
     public function download(Onejav $onejav): bool
     {
         $onejav = $this->refetch($onejav);
+
         $fileName = config('services.jav.download_dir') . '/' . basename($onejav->torrent);
         $file = fopen($fileName, 'wb');
         $response = app(Client::class)->request(
@@ -105,13 +108,6 @@ class OnejavService implements ServiceInterface
                 'model_id' => $onejav->id,
                 'model_type' => Onejav::class,
             ]);
-
-            session()->flash(
-                'messages',
-                [
-                    ['message' => 'Download completed:  ' . $fileName, 'type' => 'primary'],
-                ]
-            );
 
             Event::dispatch(new OnejavDownloadCompleted($onejav));
 

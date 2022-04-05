@@ -2,7 +2,7 @@
 
 namespace App\Core\Listeners;
 
-use App\Core\Events\ClientRequested;
+use App\Core\Events\Client\ClientRequested;
 use App\Core\Models\ClientRequest;
 use App\Core\Notifications\ClientRequestFailedNotification;
 use App\Core\Services\ApplicationService;

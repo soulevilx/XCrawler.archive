@@ -5,37 +5,34 @@ namespace App\Jav\Services;
 use App\Core\Models\State;
 use App\Core\Services\ApplicationService;
 use App\Jav\Crawlers\R18Crawler;
+use App\Jav\Events\R18\R18DailyCompleted;
+use App\Jav\Events\R18\R18ReleaseCompleted;
 use App\Jav\Models\R18;
+use App\Jav\Repositories\R18Repository;
 use App\Jav\Services\Interfaces\ServiceInterface;
 use App\Jav\Services\Traits\HasAttributes;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Event;
 
-class R18Service implements ServiceInterface
+class R18Service
 {
     use HasAttributes;
 
     protected R18 $model;
 
-    public const SERVICE_LABEL = 'R18';
+    public const SERVICE_NAME = 'r18';
 
-    public function __construct(protected R18Crawler $crawler)
+    public function __construct(protected R18Crawler $crawler, protected R18Repository $repository)
     {
     }
 
-    public function create(): R18
+    public function create(array $attributes): R18
     {
-        $this->defaultAttribute('state_code', State::STATE_INIT);
-
-        $this->model = R18::updateOrCreate(
-            [
-                'url' => $this->attributes['url'],
-                'content_id' => $this->attributes['content_id'],
-            ],
-            $this->attributes
-        );
-
-        return $this->model;
+        return $this->repository->updateOrCreate([
+            'url' => $attributes['url'],
+            'content_id' => $attributes['content_id'],
+        ], $attributes + ['state_code' => State::STATE_INIT]);
     }
 
     public function item(Model $model): R18
@@ -59,12 +56,13 @@ class R18Service implements ServiceInterface
         }
 
         $items->each(function ($item) {
-            $this->setAttributes($item)->create();
+            $this->create($item);
         });
 
         ++$currentPage;
         if ((int) ApplicationService::getConfig('r18', $type . '_total_pages', 2000) < $currentPage) {
             $currentPage = 1;
+            Event::dispatch(new R18ReleaseCompleted);
         }
 
         ApplicationService::setConfig('r18', $key, $currentPage);
@@ -84,8 +82,10 @@ class R18Service implements ServiceInterface
         }
 
         $items->each(function ($item) {
-            $this->setAttributes($item)->create();
+            $this->create($item);
         });
+
+        Event::dispatch(new R18DailyCompleted);
 
         return $items;
     }

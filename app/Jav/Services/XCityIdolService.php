@@ -2,26 +2,26 @@
 
 namespace App\Jav\Services;
 
-use App\Core\Models\State;
 use App\Core\Services\ApplicationService;
 use App\Jav\Crawlers\XCityIdolCrawler;
 use App\Jav\Jobs\XCity\GetIdolItemLinks;
 use App\Jav\Jobs\XCity\InitIdolIndex;
 use App\Jav\Models\XCityIdol;
+use App\Jav\Repositories\XCityIdolRepository;
 use App\Jav\Services\Interfaces\ServiceInterface;
 use App\Jav\Services\Traits\HasAttributes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Bus;
 
-class XCityIdolService implements ServiceInterface
+class XCityIdolService
 {
     use HasAttributes;
 
     protected XCityIdol $idol;
 
-    public const SERVICE_LABEL = 'XCity idols';
+    public const SERVICE_NAME = 'xcity_idols';
 
-    public function __construct(protected XCityIdolCrawler $crawler, protected ApplicationService $service)
+    public function __construct(protected XCityIdolCrawler $crawler, protected XCityIdolRepository $repository)
     {
     }
 
@@ -65,15 +65,11 @@ class XCityIdolService implements ServiceInterface
         }
     }
 
-    public function create(): XCityIdol
+    public function create(array $attributes): XCityIdol
     {
-        $this->defaultAttribute('state_code', State::STATE_INIT);
-
-        $this->idol = XCityIdol::firstOrCreate([
-            'url' => $this->attributes['url'],
-        ], $this->attributes);
-
-        return $this->idol;
+        return $this->repository->updateOrCreate([
+            'url' => $attributes['url'],
+        ], $attributes);
     }
 
     public function item(Model $model): XCityIdol

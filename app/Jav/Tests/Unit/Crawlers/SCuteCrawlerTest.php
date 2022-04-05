@@ -5,7 +5,6 @@ namespace App\Jav\Tests\Unit\Crawlers;
 use App\Jav\Crawlers\SCuteCrawler;
 use App\Jav\Tests\JavTestCase;
 use Jooservices\XcrawlerClient\Response\DomResponse;
-use Jooservices\XcrawlerClient\XCrawlerClient;
 
 class SCuteCrawlerTest extends JavTestCase
 {
@@ -25,7 +24,7 @@ class SCuteCrawlerTest extends JavTestCase
             ->with('item', [])
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'SCute/item.html'));
 
-        app()->instance(XCrawlerClient::class, $this->mocker);
+        app()->instance(SCuteCrawler::class, new SCuteCrawler($this->mocker));
         $this->crawler = app(SCuteCrawler::class);
     }
 
