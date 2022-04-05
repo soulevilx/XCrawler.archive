@@ -12,7 +12,7 @@ class PerformerRepository extends AbstractRepository
 {
     private Movie $movie;
 
-    public function __construct(protected Performer $model)
+    public function __construct(protected $model)
     {
     }
 
@@ -34,10 +34,5 @@ class PerformerRepository extends AbstractRepository
 
             $this->movie->performers()->syncWithoutDetaching([$performer->id]);
         }
-    }
-
-    public function getModel()
-    {
-        return $this->model;
     }
 }

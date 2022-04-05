@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 abstract class AbstractRepository
 {
+    protected $model;
+
     /**
      * Get All
      *
@@ -13,7 +15,7 @@ abstract class AbstractRepository
      */
     public function getAll()
     {
-        return $this->getModel()->all();
+        return $this->model->all();
     }
 
     /**
@@ -24,7 +26,7 @@ abstract class AbstractRepository
      */
     public function find($id)
     {
-        return $this->getModel()->find($id);
+        return $this->model->find($id);
     }
 
     /**
@@ -35,20 +37,19 @@ abstract class AbstractRepository
      */
     public function create(array $attributes): Model
     {
-        $model = $this->getModel()->create($attributes);
-        $this->setModel($model);
+        $this->model = $this->model->create($attributes);
 
-        return $this->getModel();
+        return $this->model;
     }
 
     public function firstOrCreate(array $conditions, array $attributes): Model
     {
-        return $this->getModel()->firstOrCreate($conditions, $attributes);
+        return $this->model->firstOrCreate($conditions, $attributes);
     }
 
     public function updateOrCreate(array $conditions, array $attributes): Model
     {
-        return $this->getModel()->updateOrCreate($conditions, $attributes);
+        return $this->model->updateOrCreate($conditions, $attributes);
     }
 
     /**
@@ -86,7 +87,10 @@ abstract class AbstractRepository
         return true;
     }
 
-    abstract public function getModel();
+    public function getModel(): Model
+    {
+        return $this->model;
+    }
 
     public function setModel(Model $model)
     {

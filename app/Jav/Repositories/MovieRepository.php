@@ -10,7 +10,7 @@ class MovieRepository extends AbstractRepository
     private GenreRepository $genreRepository;
     private PerformerRepository $performerRepository;
 
-    public function __construct(protected Movie $model)
+    public function __construct(protected $model)
     {
         $this->genreRepository = app(GenreRepository::class);
         $this->performerRepository = app(PerformerRepository::class);
@@ -49,10 +49,5 @@ class MovieRepository extends AbstractRepository
     {
         $this->performerRepository->setMovie($this->model);
         $this->performerRepository->sync($performers);
-    }
-
-    public function getModel()
-    {
-        return $this->model;
     }
 }
