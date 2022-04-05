@@ -7,7 +7,19 @@ use App\Jav\Models\XCityVideo;
 
 class XCityVideoRepository extends AbstractRepository
 {
-    public function __construct(protected $model)
+    public function __construct(protected XCityVideo $model)
     {
+    }
+
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    public function setModel($model)
+    {
+        $this->model = $model;
+
+        return $this;
     }
 }
