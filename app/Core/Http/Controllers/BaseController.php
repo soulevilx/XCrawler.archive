@@ -3,6 +3,7 @@
 namespace App\Core\Http\Controllers;
 
 use App\Core\Services\ApplicationService;
+use App\Core\Services\Facades\Application;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
@@ -14,7 +15,7 @@ class BaseController extends Controller
         $orderBy = $request->input('orderBy', 'created_at');
         $perPage = $request->input(
             'perPage',
-            ApplicationService::getConfig('core', 'pagination_perpage', config('core.pagination.per_page'))
+            Application::getSetting('core', 'pagination_perpage', 10)
         );
 
         $baseQuery = $model::orderBy($orderBy, $orderDir);
