@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jav\Events;
+namespace App\Jav\Events\Onejav;
 
 use App\Jav\Models\Onejav;
 

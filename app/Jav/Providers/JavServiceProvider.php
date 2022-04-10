@@ -14,10 +14,6 @@ use App\Jav\Services\OnejavService;
 use App\Jav\Services\R18Service;
 use App\Jav\Services\XCityIdolService;
 use App\Jav\Services\XCityVideoService;
-use Illuminate\Queue\Events\JobFailed;
-use Illuminate\Queue\Events\JobProcessed;
-use Illuminate\Queue\Events\JobProcessing;
-use Illuminate\Support\Facades\Queue;
 use Jooservices\XcrawlerClient\Response\DomResponse;
 use Jooservices\XcrawlerClient\Response\JsonResponse;
 
@@ -72,30 +68,6 @@ class JavServiceProvider extends BaseServiceProvider
                 );
 
             return new SCuteCrawler($client);
-        });
-    }
-
-    /**
-     * Bootstrap any application services.
-     */
-    public function boot()
-    {
-        parent::boot();
-        Queue::before(function (JobProcessing $event) {
-            // $event->connectionName
-            // $event->job
-            // $event->job->payload()
-        });
-
-        Queue::after(function (JobProcessed $event) {
-            // $event->connectionName
-            // $event->job
-            // $event->job->payload()
-        });
-        Queue::failing(function (JobFailed $event) {
-            // $event->connectionName
-            // $event->job
-            // $event->exception
         });
     }
 }

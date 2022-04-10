@@ -34,8 +34,6 @@ class R18 extends BaseModel implements MovieInterface
     use HasMovie;
     use HasStates;
 
-    public const BASE_URL = 'https://www.r18.com';
-
     public const MOVIE_DETAIL_ENDPOINT = '/api/v4f/contents';
 
     protected $table = 'r18';

@@ -3,17 +3,16 @@
 namespace App\Jav\Services;
 
 use App\Core\Models\Download;
-use App\Core\Services\ApplicationService;
+use App\Core\Services\Facades\Application;
+use App\Core\Services\MediaService;
 use App\Jav\Crawlers\OnejavCrawler;
 use App\Jav\Events\Onejav\OnejavDailyCompleted;
+use App\Jav\Events\Onejav\OnejavDownloadCompleted;
 use App\Jav\Events\Onejav\OnejavReleaseCompleted;
-use App\Jav\Events\OnejavDownloadCompleted;
 use App\Jav\Models\Onejav;
 use App\Jav\Repositories\OnejavRespository;
-use App\Jav\Services\Interfaces\ServiceInterface;
 use App\Jav\Services\Traits\HasAttributes;
 use ArrayObject;
-use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Event;
 
@@ -23,6 +22,8 @@ class OnejavService
 
     public const SERVICE_NAME = 'onejav';
     public const DAILY_FORMAT = 'Y/m/d';
+
+    public const BASE_URL = 'https://onejav.com';
 
     public function __construct(protected OnejavCrawler $crawler, protected OnejavRespository $repository)
     {
@@ -60,7 +61,7 @@ class OnejavService
 
     public function release()
     {
-        $currentPage = ApplicationService::getConfig('onejav', 'current_page', 1);
+        $currentPage = Application::getInt(OnejavService::SERVICE_NAME, 'current_page', 1);
 
         $items = $this->crawler->getItems('new', ['page' => $currentPage]);
 
@@ -73,12 +74,13 @@ class OnejavService
 
         ++$currentPage;
 
-        if ((int) ApplicationService::getConfig('onejav', 'total_pages', config('services.onejav.total_pages')) < $currentPage) {
+        if (Application::getInt(OnejavService::SERVICE_NAME, 'total_pages', 8500) < $currentPage) {
             $currentPage = 1;
-            Event::dispatch(new OnejavReleaseCompleted($items));
         }
 
-        ApplicationService::setConfig('onejav', 'current_page', $currentPage);
+        Application::setSetting(OnejavService::SERVICE_NAME, 'current_page', $currentPage);
+
+        Event::dispatch(new OnejavReleaseCompleted($items));
 
         return $items;
     }
@@ -92,29 +94,22 @@ class OnejavService
     {
         $onejav = $this->refetch($onejav);
 
-        $fileName = config('services.jav.download_dir') . '/' . basename($onejav->torrent);
-        $file = fopen($fileName, 'wb');
-        $response = app(Client::class)->request(
-            'GET',
-            $onejav->torrent,
-            [
-                'sink' => $file,
-                'base_uri' => Onejav::BASE_URL,
-            ]
-        );
+        /**
+         * @TODO Verify is downloaded before process
+         */
 
-        if ($response->getStatusCode() === 200) {
-            Download::create([
-                'model_id' => $onejav->id,
-                'model_type' => Onejav::class,
-            ]);
-
-            Event::dispatch(new OnejavDownloadCompleted($onejav));
-
-            return true;
+        if (!app(MediaService::class)->download(OnejavService::SERVICE_NAME, $onejav->torrent)) {
+            return false;
         }
 
-        return false;
+        Download::create([
+            'model_id' => $onejav->id,
+            'model_type' => Onejav::class,
+        ]);
+
+        Event::dispatch(new OnejavDownloadCompleted($onejav));
+
+        return true;
     }
 
     public function refetch(Onejav $onejav): Onejav

@@ -3,10 +3,12 @@
 namespace App\Jav\Console\Commands;
 
 use App\Core\Models\State;
+use App\Core\Services\Facades\Application;
 use App\Jav\Jobs\R18\DailyFetch;
 use App\Jav\Jobs\R18\ItemFetch;
 use App\Jav\Jobs\R18\ReleaseFetch;
 use App\Jav\Models\R18 as R18Model;
+use App\Jav\Services\R18Service;
 use Illuminate\Console\Command;
 
 class R18 extends Command
@@ -29,7 +31,7 @@ class R18 extends Command
     {
         switch ($this->input->getArgument('task')) {
             case 'release':
-                foreach (array_keys(R18Model::MOVIE_URLS) as $key) {
+                foreach (Application::getArray(R18Service::SERVICE_NAME, 'urls') as $key => $url) {
                     ReleaseFetch::dispatch($key)->onQueue('crawling');
                 }
 

@@ -2,10 +2,11 @@
 
 namespace App\Jav\Tests\Unit\Services;
 
-use App\Core\Services\ApplicationService;
+use App\Core\Services\Facades\Application;
 use App\Jav\Events\MovieCreated;
+use App\Jav\Events\Onejav\OnejavDailyCompleted;
+use App\Jav\Events\Onejav\OnejavDownloadCompleted;
 use App\Jav\Events\Onejav\OnejavReleaseCompleted;
-use App\Jav\Events\OnejavDownloadCompleted;
 use App\Jav\Models\Movie;
 use App\Jav\Models\Onejav;
 use App\Jav\Services\OnejavService;
@@ -27,6 +28,12 @@ class OnejavServiceTest extends JavTestCase
         parent::setUp();
 
         $this->loadOnejavMock();
+
+        Event::fake([
+            OnejavDailyCompleted::class,
+            OnejavReleaseCompleted::class,
+            OnejavDownloadCompleted::class,
+        ]);
     }
 
     public function testCreateOnejav()
@@ -69,6 +76,8 @@ class OnejavServiceTest extends JavTestCase
 
     public function testDaily()
     {
+
+
         $items = $this->service->daily();
         $totalItems = $items->count();
         $this->assertEquals(42, $totalItems);
@@ -77,7 +86,8 @@ class OnejavServiceTest extends JavTestCase
         $this->assertDatabaseCount('movies', $totalItems);
         $this->assertDatabaseCount('genres', 65);
         $this->assertDatabaseCount('performers', 40);
-        $this->assertDatabaseCount('wordpress_posts', $totalItems);
+
+        Event::assertDispatched(OnejavDailyCompleted::class);
     }
 
     public function testDailyFailed()
@@ -95,33 +105,33 @@ class OnejavServiceTest extends JavTestCase
         $this->assertDatabaseCount('movies', 0);
         $this->assertDatabaseCount('genres', 0);
         $this->assertDatabaseCount('performers', 0);
-        $this->assertDatabaseCount('wordpress_posts', 0);
     }
 
     public function testRelease()
     {
-        ApplicationService::setConfig('onejav', 'total_pages', 2);
+        Application::setSetting('onejav', 'total_pages', 2);
+
         $items = $this->service->release();
 
         $this->assertEquals(10, $items->count());
 
         $this->assertDatabaseCount('onejav', $items->count());
         $this->assertDatabaseCount('movies', $items->count());
-        $this->assertDatabaseCount('wordpress_posts', $items->count());
 
-        $this->assertEquals(2, ApplicationService::getConfig('onejav', 'current_page'));
+        $this->assertEquals(2, Application::getSetting('onejav', 'current_page'));
+        Event::assertDispatched(OnejavReleaseCompleted::class);
     }
 
     public function testReleaseAtEndOfPages()
     {
-        Event::fake([OnejavReleaseCompleted::class]);
-
-        ApplicationService::setConfig('onejav', 'total_pages', 2);
+        Application::setSetting('onejav', 'total_pages', 2);
         $this->service->release();
-        $this->assertEquals(2, ApplicationService::getConfig('onejav', 'current_page'));
+
+        $this->assertEquals(2, Application::getSetting('onejav', 'current_page'));
 
         $this->service->release();
-        $this->assertEquals(1, ApplicationService::getConfig('onejav', 'current_page'));
+
+        $this->assertEquals(1, Application::getSetting('onejav', 'current_page'));
 
         Event::assertDispatched(OnejavReleaseCompleted::class);
     }
@@ -144,7 +154,6 @@ class OnejavServiceTest extends JavTestCase
 
     public function testDownload()
     {
-        Event::fake([OnejavDownloadCompleted::class]);
         $onejav = Onejav::factory()->create();
         $this->mocker = $this->getClientMock();
         $this->mocker

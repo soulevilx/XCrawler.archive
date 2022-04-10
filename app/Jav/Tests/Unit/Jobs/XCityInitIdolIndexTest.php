@@ -3,7 +3,9 @@
 namespace App\Jav\Tests\Unit\Jobs;
 
 use App\Core\Services\ApplicationService;
+use App\Core\Services\Facades\Application;
 use App\Jav\Jobs\XCity\InitIdolIndex;
+use App\Jav\Services\XCityIdolService;
 use App\Jav\Tests\JavTestCase;
 use App\Jav\Tests\Traits\XCityIdolMocker;
 
@@ -23,15 +25,15 @@ class XCityInitIdolIndexTest extends JavTestCase
         $kana = $this->faker->randomElement($this->kanas);
         InitIdolIndex::dispatch($kana);
 
-        $this->assertEquals(112, ApplicationService::getConfig('xcity_idol', $kana.'_total_pages'));
+        $this->assertEquals(112, Application::getSetting(XCityIdolService::SERVICE_NAME, $kana.'_total_pages'));
     }
 
     public function testInitIdolIndexWithTotalPagesExists()
     {
         $kana = $this->faker->randomElement($this->kanas);
-        ApplicationService::setConfig('xcity_idol', $kana.'_total_pages', 10);
+        Application::setSetting(XCityIdolService::SERVICE_NAME, $kana.'_total_pages', 10);
         InitIdolIndex::dispatch($kana);
 
-        $this->assertEquals(10, ApplicationService::getConfig('xcity_idol', $kana.'_total_pages'));
+        $this->assertEquals(10, Application::getSetting(XCityIdolService::SERVICE_NAME, $kana.'_total_pages'));
     }
 }

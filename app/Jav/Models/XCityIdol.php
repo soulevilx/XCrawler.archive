@@ -31,7 +31,7 @@ class XCityIdol extends Model
     use SoftDeletes;
     use HasStates;
 
-    public const BASE_URL = 'https://xxx.xcity.jp';
+
     public const INDEX_URL = 'idol/';
     public const PER_PAGE = 30;
 

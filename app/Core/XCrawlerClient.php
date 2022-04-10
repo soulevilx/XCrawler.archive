@@ -5,10 +5,9 @@ namespace App\Core;
 use App\Core\Events\Client\ClientPrepared;
 use App\Core\Events\Client\ClientRequested;
 use App\Core\Events\Client\ClientRequestFailed;
+use App\Core\Services\Facades\Application;
 use Carbon\CarbonImmutable;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
 use Jooservices\XcrawlerClient\Factory;
@@ -40,7 +39,7 @@ class XCrawlerClient
             );
 
         $this->requestOptions = new RequestOptions([
-            'base_uri' => config('services' . '.' . $service . '.base_url'),
+            'base_uri' => Application::getSetting($service, 'base_url'),
         ]);
 
         $this->response = $response;
@@ -215,20 +214,40 @@ class XCrawlerClient
         $this->response->request = $payload;
 
         try {
-            Event::dispatch(new ClientPrepared());
+            Event::dispatch(new ClientPrepared(
+                $this->service,
+                $options,
+                $endpoint,
+                $payload,
+                $method
+            ));
             $response = $this->client->request($method, $endpoint, $options);
             $this->response->body = (string) $response->getBody();
             $this->response->headers = $response->getHeaders();
             $this->response->responseCode = $response->getStatusCode();
             $this->response->loadData();
-        } catch (GuzzleException | ClientException $e) {
-            Event::dispatch(new ClientRequestFailed());
+        } catch (\Exception $e) {
+            Event::dispatch(new ClientRequestFailed(
+                $this->service,
+                $options,
+                $endpoint,
+                $payload,
+                $method,
+                $e
+            ));
             $this->response->responseSuccess = false;
             $this->response->responseCode = $e->getCode();
             $this->response->responseMessage = $e->getMessage();
             $this->response->body = $e->getResponse()->getBody()->getContents();
         } finally {
-            Event::dispatch(new ClientRequested($this->service, $endpoint, $payload, $this->response));
+            Event::dispatch(new ClientRequested(
+                $this->service,
+                $options,
+                $endpoint,
+                $payload,
+                $method,
+                $this->response
+            ));
             return $this->response;
         }
     }

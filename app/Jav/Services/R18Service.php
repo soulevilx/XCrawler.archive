@@ -3,13 +3,12 @@
 namespace App\Jav\Services;
 
 use App\Core\Models\State;
-use App\Core\Services\ApplicationService;
+use App\Core\Services\Facades\Application;
 use App\Jav\Crawlers\R18Crawler;
 use App\Jav\Events\R18\R18DailyCompleted;
 use App\Jav\Events\R18\R18ReleaseCompleted;
 use App\Jav\Models\R18;
 use App\Jav\Repositories\R18Repository;
-use App\Jav\Services\Interfaces\ServiceInterface;
 use App\Jav\Services\Traits\HasAttributes;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -22,6 +21,7 @@ class R18Service
     protected R18 $model;
 
     public const SERVICE_NAME = 'r18';
+    public const BASE_URL = 'https://www.r18.com';
 
     public function __construct(protected R18Crawler $crawler, protected R18Repository $repository)
     {
@@ -46,7 +46,8 @@ class R18Service
          * Release only fetch links another job will fetch detail later.
          */
         $key = $type . '_current_page';
-        $currentPage = ApplicationService::getConfig('r18', $key, 1);
+        $currentPage = Application::getInt(R18Service::SERVICE_NAME, $key, 1);
+
         $url = R18::MOVIE_URLS[$type] . '/page=' . $currentPage;
 
         $items = $this->crawler->getItemLinks($url);
@@ -60,12 +61,12 @@ class R18Service
         });
 
         ++$currentPage;
-        if ((int) ApplicationService::getConfig('r18', $type . '_total_pages', 2000) < $currentPage) {
+        if ((int) Application::getSetting(R18Service::SERVICE_NAME, $type . '_total_pages', 2000) < $currentPage) {
             $currentPage = 1;
             Event::dispatch(new R18ReleaseCompleted);
         }
 
-        ApplicationService::setConfig('r18', $key, $currentPage);
+        Application::setSetting(R18Service::SERVICE_NAME, $key, $currentPage);
 
         return $items;
     }

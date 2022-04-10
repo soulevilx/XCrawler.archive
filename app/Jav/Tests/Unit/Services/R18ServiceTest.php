@@ -4,6 +4,7 @@ namespace App\Jav\Tests\Unit\Services;
 
 use App\Core\Models\State;
 use App\Core\Services\ApplicationService;
+use App\Core\Services\Facades\Application;
 use App\Jav\Events\MovieCreated;
 use App\Jav\Models\Movie;
 use App\Jav\Models\R18;
@@ -24,6 +25,8 @@ class R18ServiceTest extends JavTestCase
         parent::setUp();
 
         $this->loadR18Mocker();
+        Application::setSetting(R18Service::SERVICE_NAME, 'release_total_pages', 2);
+        Application::setSetting(R18Service::SERVICE_NAME, 'release_current_page', 1);
     }
 
     public function testCreateR18()
@@ -98,22 +101,24 @@ class R18ServiceTest extends JavTestCase
 
     public function testRelease()
     {
-        ApplicationService::setConfig('r18', 'release_total_pages', 2);
+        Application::setSetting(R18Service::SERVICE_NAME, 'release_current_page', 1);
+
         $items = $this->service->release();
 
         $this->assertEquals(30, $items->count());
         $this->assertDatabaseCount('r18', $items->count());
-        $this->assertEquals(2, ApplicationService::getConfig('r18', 'release_current_page'));
+
+        $this->assertEquals(2, Application::getSetting('r18', 'release_current_page'));
     }
 
     public function testReleaseUpdate()
     {
-        ApplicationService::setConfig('r18', 'release_total_pages', 3);
+        Application::setSetting('r18', 'release_total_pages', 3);
         $items = $this->service->release();
 
         $this->assertEquals(30, $items->count());
         $this->assertDatabaseCount('r18', $items->count());
-        $this->assertEquals(2, ApplicationService::getConfig('r18', 'release_current_page'));
+        $this->assertEquals(2, Application::getSetting('r18', 'release_current_page'));
 
         $r18Item = R18::limit(1)->first();
         $r18Item->update(['state_code' => State::STATE_FAILED]);
@@ -124,17 +129,17 @@ class R18ServiceTest extends JavTestCase
 
     public function testReleaseAtEndOfPages()
     {
-        ApplicationService::setConfig('r18', 'release_total_pages', 2);
-        $this->service->release();
-        $this->assertEquals(2, ApplicationService::getConfig('r18', 'release_current_page'));
 
         $this->service->release();
-        $this->assertEquals(1, ApplicationService::getConfig('r18', 'release_current_page'));
+        $this->assertEquals(2, Application::getSetting('r18', 'release_current_page'));
+
+        $this->service->release();
+        $this->assertEquals(1, Application::getSetting('r18', 'release_current_page'));
     }
 
     public function testReleaseFailed()
     {
-        ApplicationService::setConfig('r18', 'release_current_page', 10);
+        Application::setSetting('r18', 'release_current_page', 10);
         $this->mocker = $this->getClientMock();
         $this->mocker
             ->shouldReceive('get')
@@ -142,7 +147,7 @@ class R18ServiceTest extends JavTestCase
             ->andReturn($this->getErrorMockedResponse(app(DomResponse::class)));
         $this->getService()->release();
         $this->assertDatabaseCount('r18', 0);
-        $this->assertEquals(10, ApplicationService::getConfig('r18', 'release_current_page'));
+        $this->assertEquals(10, Application::getSetting('r18', 'release_current_page'));
     }
 
     public function testDaily()

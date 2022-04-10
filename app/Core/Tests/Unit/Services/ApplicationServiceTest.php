@@ -2,10 +2,9 @@
 
 namespace App\Core\Tests\Unit\Services;
 
-use App\Core\Models\Application;
-use App\Core\Services\ApplicationService;
+use App\Core\Models\Setting;
+use App\Core\Services\Facades\Application;
 use Tests\TestCase;
-
 
 class ApplicationServiceTest extends TestCase
 {
@@ -14,16 +13,13 @@ class ApplicationServiceTest extends TestCase
         $name = $this->faker->word;
         $key = $this->faker->word;
         $value = $this->faker->numerify;
-        Application::create([
-            'name' => $name,
-            'settings' => [
-                $key => $value,
-            ],
+        Setting::create([
+            'group' => $name,
+            'field' => $key,
+            'value' => $value,
         ]);
 
-        $service = app(ApplicationService::class);
-
-        $this->assertEquals($value, $service->get($name, $key));
+        $this->assertEquals($value, Application::getSetting($name, $key));
     }
 
     public function testGetSettingViaStaticMethod()
@@ -31,15 +27,14 @@ class ApplicationServiceTest extends TestCase
         $name = $this->faker->word;
         $key = $this->faker->word;
         $value = $this->faker->numerify;
-        Application::create([
-            'name' => $name,
-            'settings' => [
-                $key => $value,
-            ],
+        Setting::create([
+            'group' => $name,
+            'field' => $key,
+            'value' => $value,
         ]);
 
-        $this->assertEquals($value, ApplicationService::getConfig($name, $key));
+        $this->assertEquals($value, Application::getSetting($name, $key));
         $default = $this->faker->name;
-        $this->assertEquals($default, ApplicationService::getConfig($this->faker->name, $key, $default));
+        $this->assertEquals($default, Application::getSetting($this->faker->name, $key, $default));
     }
 }

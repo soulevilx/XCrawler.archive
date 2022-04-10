@@ -3,6 +3,7 @@
 namespace App\Jav\Tests\Feature\Console;
 
 use App\Core\Services\ApplicationService;
+use App\Core\Services\Facades\Application;
 use App\Jav\Jobs\XCity\InitVideoIndex;
 use App\Jav\Jobs\XCity\VideoItemFetch;
 use App\Jav\Models\XCityVideo;
@@ -30,14 +31,14 @@ class XCityVideoTest extends JavTestCase
     public function testRelease()
     {
         $date = Carbon::createFromFormat('Y-m-d', $this->faker->date);
-        ApplicationService::setConfig('xcity_video', 'from_date', $date->format('Ymd'));
+        Application::setSetting(XCityVideoService::SERVICE_NAME, 'from_date', $date->format('Ymd'));
         $this->artisan('jav:xcity-video release');
 
         Queue::assertPushed(InitVideoIndex::class, function ($job) use ($date) {
             return $job->data['from_date'] === $date->format('Ymd') && $job->data['to_date'] === $date->addDay()->format('Ymd');
         });
 
-        $this->assertEquals($date->format('Ymd'), ApplicationService::getConfig('xcity_video', 'from_date'));
+        $this->assertEquals($date->format('Ymd'), Application::getSetting(XCityVideoService::SERVICE_NAME, 'from_date'));
     }
 
     public function testDaily()

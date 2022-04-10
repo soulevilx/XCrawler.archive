@@ -2,8 +2,10 @@
 
 namespace App\Jav\Crawlers;
 
+use App\Core\Services\Facades\Application;
 use App\Core\XCrawlerClient;
 use App\Jav\Models\R18;
+use App\Jav\Services\R18Service;
 use Exception;
 use Illuminate\Support\Collection;
 
@@ -56,7 +58,8 @@ class R18Crawler
                 }
 
                 return [
-                    'url' => R18::BASE_URL . '/videos/vod/movies/detail/-/id=' . $itemId,
+                    'url' => Application::getString(R18Service::SERVICE_NAME, 'base_url')
+                        . '/videos/vod/movies/detail/-/id=' . $itemId,
                     'content_id' => $itemId,
                 ];
             }

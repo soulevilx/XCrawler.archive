@@ -2,13 +2,11 @@
 
 namespace App\Jav\Listeners;
 
-use App\Core\Services\ApplicationService;
 use App\Jav\Events\MovieCreated;
-use App\Jav\Events\OnejavDownloadCompleted;
+use App\Jav\Events\Onejav\OnejavDownloadCompleted;
+use App\Jav\Models\MovieIndex;
 use App\Jav\Notifications\MovieCreatedNotification;
-use App\Jav\Services\WordPressService;
 use Illuminate\Events\Dispatcher;
-use Illuminate\Support\Facades\Notification;
 
 class MovieEventSubscriber
 {
@@ -19,28 +17,13 @@ class MovieEventSubscriber
 
     public function onMovieCreated(MovieCreated $event)
     {
-        $enableNotification = ApplicationService::getConfig(
-            'jav',
-            'enable_notification',
-            config('services.jav.enable_notification', true)
-        );
-        $enablePostToWordPress = ApplicationService::getConfig(
-            'jav',
-            'enable_post_to_wordpress',
-            config('services.jav.enable_post_to_wordpress', true)
-        );
-        $movie = $event->movie;
+        $movieData = $event->movie->toArray();
+        unset($movieData['id']);
+        $movieData['genres'] = $event->movie->genres()->pluck('name')->toArray();
+        $movieData['performers'] = $event->movie->performers()->pluck('name')->toArray();
+        MovieIndex::create($movieData);
 
-        if ($enablePostToWordPress) {
-            app(WordPressService::class)->createMoviePost($movie);
-        }
-
-        if (!$enableNotification) {
-            return;
-        }
-
-        Notification::route('slack', config('services.jav.slack_notifications'))
-            ->notify(new MovieCreatedNotification($event->movie));
+        $event->movie->notify(new MovieCreatedNotification($event->movie));
     }
 
     /**

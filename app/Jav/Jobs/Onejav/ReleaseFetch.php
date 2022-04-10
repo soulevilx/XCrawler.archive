@@ -2,7 +2,7 @@
 
 namespace App\Jav\Jobs\Onejav;
 
-use App\Core\Services\ApplicationService;
+use App\Core\Services\Facades\Application;
 use App\Jav\Services\OnejavService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -49,6 +49,6 @@ class ReleaseFetch implements ShouldQueue
      */
     public function middleware()
     {
-        return [new WithoutOverlapping(ApplicationService::getConfig('onejav', 'current_page', 1))];
+        return [new WithoutOverlapping(Application::getSetting('onejav', 'current_page', 1))];
     }
 }

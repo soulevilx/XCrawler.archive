@@ -33,7 +33,7 @@
         "laravel/tinker": "^2.6",
         "sentry/sentry-laravel": "^2.9",
         "spatie/laravel-rate-limited-job-middleware": "^1.5",
-        "spatie/laravel-settings": "^2.4",
+
         "studio/laravel-totem": "^8.3"
     },
     "require-dev": {

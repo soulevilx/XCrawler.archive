@@ -24,8 +24,6 @@ class Onejav extends Model implements MovieInterface
     use HasMovie;
     use Notifiable;
 
-    public const BASE_URL = 'https://onejav.com';
-
     protected $table = 'onejav';
 
     protected $fillable = [

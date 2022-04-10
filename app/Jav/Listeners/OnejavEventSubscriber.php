@@ -3,11 +3,13 @@
 namespace App\Jav\Listeners;
 
 use App\Jav\Events\Onejav\OnejavDailyCompleted;
+use App\Jav\Events\Onejav\OnejavReleaseCompleted;
 use Illuminate\Events\Dispatcher;
+use Illuminate\Notifications\Notifiable;
 
 class OnejavEventSubscriber
 {
-    public function onOnejavDailyCompleted(OnejavDailyCompleted $event)
+    public function handleOnejavCompleted(OnejavDailyCompleted|OnejavReleaseCompleted $event)
     {
     }
 
@@ -19,8 +21,11 @@ class OnejavEventSubscriber
     public function subscribe($events)
     {
         $events->listen(
-            [OnejavDailyCompleted::class],
-            self::class . '@onOnejavDailyCompleted'
+            [
+                OnejavDailyCompleted::class,
+                OnejavReleaseCompleted::class,
+            ],
+            self::class . '@handleOnejavCompleted'
         );
     }
 }

@@ -2,12 +2,11 @@
 
 namespace App\Jav\Services;
 
-use App\Core\Services\ApplicationService;
+use App\Core\Services\Facades\Application;
 use App\Jav\Crawlers\XCityVideoCrawler;
 use App\Jav\Jobs\XCity\InitVideoIndex;
 use App\Jav\Models\XCityVideo;
 use App\Jav\Repositories\XCityVideoRepository;
-use App\Jav\Services\Interfaces\ServiceInterface;
 use App\Jav\Services\Traits\HasAttributes;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -19,6 +18,7 @@ class XCityVideoService
     protected XCityVideo $video;
 
     public const SERVICE_NAME = 'xcity_videos';
+    public const BASE_URL = 'https://xxx.xcity.jp';
 
     public function __construct(protected XCityVideoCrawler $crawler, protected XCityVideoRepository $repository)
     {
@@ -28,7 +28,11 @@ class XCityVideoService
     {
         $fromDate = Carbon::createFromFormat(
             'Ymd',
-            ApplicationService::getConfig('xcity_video', 'from_date', config('services.xcity_video.from_date', 20010101))
+            Application::getSetting(
+                XCityVideoService::SERVICE_NAME,
+                'from_date',
+                config('services.xcity_video.from_date', 20010101)
+            )
         );
 
         $toDate = $fromDate->clone()->addDay();
@@ -38,7 +42,7 @@ class XCityVideoService
             'to_date' => $toDate->format('Ymd'),
         ])->onQueue('crawling');
 
-        ApplicationService::setConfig('xcity_video', 'from_date', $toDate->format('Ymd'));
+        Application::setSetting(XCityVideoService::SERVICE_NAME, 'from_date', $toDate->format('Ymd'));
     }
 
     public function create(array $attributes): XCityVideo

@@ -2,13 +2,12 @@
 
 namespace App\Jav\Services;
 
-use App\Core\Services\ApplicationService;
+use App\Core\Services\Facades\Application;
 use App\Jav\Crawlers\XCityIdolCrawler;
 use App\Jav\Jobs\XCity\GetIdolItemLinks;
 use App\Jav\Jobs\XCity\InitIdolIndex;
 use App\Jav\Models\XCityIdol;
 use App\Jav\Repositories\XCityIdolRepository;
-use App\Jav\Services\Interfaces\ServiceInterface;
 use App\Jav\Services\Traits\HasAttributes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Bus;
@@ -20,18 +19,31 @@ class XCityIdolService
     protected XCityIdol $idol;
 
     public const SERVICE_NAME = 'xcity_idols';
+    public const BASE_URL = 'https://xxx.xcity.jp';
+    public const SUBPAGES = [
+        "/idol/?kana=あ",
+        "/idol/?kana=か",
+        "/idol/?kana=さ",
+        "/idol/?kana=た",
+        "/idol/?kana=な",
+        "/idol/?kana=は",
+        "/idol/?kana=ま",
+        "/idol/?kana=や",
+        "/idol/?kana=ら",
+        "/idol/?kana=わ",
+    ];
 
     public function __construct(protected XCityIdolCrawler $crawler, protected XCityIdolRepository $repository)
     {
     }
 
-    public function getSubPages()
+    public function getSubPages(): array
     {
-        $subPages = ApplicationService::getConfig('xcity_idol', 'sub_pages');
+        $subPages = Application::getArray(self::SERVICE_NAME, 'sub_pages');
 
         if (!$subPages) {
-            $subPages = $this->crawler->getSubPages();
-            ApplicationService::setConfig('xcity_idol', 'sub_pages', $subPages);
+            $subPages = $this->crawler->getSubPages()->toArray();
+            Application::setSetting(self::SERVICE_NAME, 'sub_pages', $subPages);
         }
 
         return $subPages;

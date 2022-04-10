@@ -4,6 +4,7 @@ namespace App\Jav\Database\Factories;
 
 use App\Core\Database\Factories\Factory;
 use App\Jav\Models\Onejav;
+use Illuminate\Support\Str;
 
 class OnejavFactory extends Factory
 {
@@ -11,10 +12,11 @@ class OnejavFactory extends Factory
 
     public function definition()
     {
+        $dvdId = $this->faker->unique->uuid;
         return [
-            'url' => $this->faker->unique->url,
+            'url' => '/torrent/' . Str::slug($dvdId),
             'cover' => $this->faker->unique->url,
-            'dvd_id' => $this->faker->unique->uuid,
+            'dvd_id' => strtolower($dvdId),
             'size' => $this->faker->randomFloat(2, 10, 20),
             'date' => $this->faker->date,
             'genres' => [
@@ -28,7 +30,7 @@ class OnejavFactory extends Factory
                 $this->faker->unique->name,
             ],
             'description' => $this->faker->text,
-            'torrent' => $this->faker->unique->url,
+            'torrent' => '/torrent/' . Str::slug($dvdId) . '/download/' . $this->faker->uuid
         ];
     }
 }
