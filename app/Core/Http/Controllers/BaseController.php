@@ -2,7 +2,6 @@
 
 namespace App\Core\Http\Controllers;
 
-use App\Core\Services\ApplicationService;
 use App\Core\Services\Facades\Application;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;

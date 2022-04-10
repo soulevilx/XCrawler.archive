@@ -19,6 +19,7 @@ class ApplicationServiceTest extends TestCase
             'value' => $value,
         ]);
 
+        Application::refresh();
         $this->assertEquals($value, Application::getSetting($name, $key));
     }
 
@@ -33,6 +34,7 @@ class ApplicationServiceTest extends TestCase
             'value' => $value,
         ]);
 
+        Application::refresh();
         $this->assertEquals($value, Application::getSetting($name, $key));
         $default = $this->faker->name;
         $this->assertEquals($default, Application::getSetting($this->faker->name, $key, $default));
