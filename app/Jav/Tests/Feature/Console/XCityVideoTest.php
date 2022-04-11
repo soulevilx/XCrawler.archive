@@ -2,7 +2,6 @@
 
 namespace App\Jav\Tests\Feature\Console;
 
-use App\Core\Services\ApplicationService;
 use App\Core\Services\Facades\Application;
 use App\Jav\Jobs\XCity\InitVideoIndex;
 use App\Jav\Jobs\XCity\VideoItemFetch;

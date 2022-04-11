@@ -12,6 +12,7 @@ use App\Jav\Repositories\R18Repository;
 use App\Jav\Services\Traits\HasAttributes;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 
 class R18Service
@@ -40,7 +41,7 @@ class R18Service
         return $this->refetch($model);
     }
 
-    public function release(string $type = 'release')
+    public function release(string $url, string $type)
     {
         /**
          * Release only fetch links another job will fetch detail later.
@@ -48,9 +49,7 @@ class R18Service
         $key = $type . '_current_page';
         $currentPage = Application::getInt(R18Service::SERVICE_NAME, $key, 1);
 
-        $url = R18::MOVIE_URLS[$type] . '/page=' . $currentPage;
-
-        $items = $this->crawler->getItemLinks($url);
+        $items = $this->crawler->getItemLinks($url . '/page=' . $currentPage);
 
         if ($items->isEmpty()) {
             return $items;
@@ -61,7 +60,7 @@ class R18Service
         });
 
         ++$currentPage;
-        if ((int) Application::getSetting(R18Service::SERVICE_NAME, $type . '_total_pages', 2000) < $currentPage) {
+        if ((int)Application::getSetting(R18Service::SERVICE_NAME, $type . '_total_pages', 2000) < $currentPage) {
             $currentPage = 1;
             Event::dispatch(new R18ReleaseCompleted);
         }
@@ -71,22 +70,17 @@ class R18Service
         return $items;
     }
 
-    public function daily(string $type = 'release')
+    public function daily(string $url): Collection
     {
         /**
          * Make sure we fetch page 1 to get latest release while `release` fetching older.
          */
-        $items = $this->crawler->getItemLinks(R18::MOVIE_URLS[$type] . '/page=1');
-
-        if ($items->isEmpty()) {
-            return $items;
-        }
-
+        $items = $this->crawler->getItemLinks($url . '/page=1');
         $items->each(function ($item) {
             $this->create($item);
         });
 
-        Event::dispatch(new R18DailyCompleted);
+        Event::dispatch(new R18DailyCompleted($items));
 
         return $items;
     }
@@ -132,5 +126,10 @@ class R18Service
         }
 
         return $model;
+    }
+
+    public function getItems(int $limit, int $id = null): Collection
+    {
+        return $this->repository->getItemsByState($limit, $id);
     }
 }

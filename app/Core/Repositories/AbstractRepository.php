@@ -2,7 +2,9 @@
 
 namespace App\Core\Repositories;
 
+use App\Core\Models\State;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 abstract class AbstractRepository
 {
@@ -25,6 +27,18 @@ abstract class AbstractRepository
     public function find($id)
     {
         return $this->getModel()->find($id);
+    }
+
+    public function getItemsByState(int $limit, int $id = null, string $stateCode = State::STATE_INIT): Collection
+    {
+        if ($id) {
+            return $this->getModel()->where(['id' => $id])->get();
+        }
+
+        return $this->getModel()->getModel()
+            ->where([
+                'state_code' => $stateCode,
+            ])->limit($limit)->get();
     }
 
     /**

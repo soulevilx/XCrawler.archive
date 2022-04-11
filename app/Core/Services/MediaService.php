@@ -36,6 +36,10 @@ class MediaService
             ]
         );
 
-        return $response->getStatusCode() === 200;
+        if ($response->getStatusCode() !== 200) {
+            return false;
+        }
+
+        return $this->dir . '/' . $service . '/' . basename($url);
     }
 }

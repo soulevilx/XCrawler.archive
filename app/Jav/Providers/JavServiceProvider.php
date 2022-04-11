@@ -12,6 +12,7 @@ use App\Jav\Crawlers\XCityIdolCrawler;
 use App\Jav\Crawlers\XCityVideoCrawler;
 use App\Jav\Services\OnejavService;
 use App\Jav\Services\R18Service;
+use App\Jav\Services\SCuteService;
 use App\Jav\Services\XCityIdolService;
 use App\Jav\Services\XCityVideoService;
 use Jooservices\XcrawlerClient\Response\DomResponse;
@@ -61,13 +62,7 @@ class JavServiceProvider extends BaseServiceProvider
         });
 
         $this->app->bind(SCuteCrawler::class, function () {
-            $client = app(Client::class)
-                ->init(
-                    'scute',
-                    new DomResponse(),
-                );
-
-            return new SCuteCrawler($client);
+           return new SCuteCrawler(new XCrawlerClient(SCuteService::SERVICE_NAME, new DomResponse()));
         });
     }
 }

@@ -5,7 +5,6 @@ namespace App\Jav\Listeners;
 use App\Jav\Events\Onejav\OnejavDailyCompleted;
 use App\Jav\Events\Onejav\OnejavReleaseCompleted;
 use Illuminate\Events\Dispatcher;
-use Illuminate\Notifications\Notifiable;
 
 class OnejavEventSubscriber
 {

@@ -92,13 +92,14 @@ class OnejavService
 
     public function download(Onejav $onejav): bool
     {
+        if ($onejav->downloads()->exists()) {
+            return false;
+        }
+
         $onejav = $this->refetch($onejav);
 
-        /**
-         * @TODO Verify is downloaded before process
-         */
-
-        if (!app(MediaService::class)->download(OnejavService::SERVICE_NAME, $onejav->torrent)) {
+        $fileName = app(MediaService::class)->download(OnejavService::SERVICE_NAME, $onejav->torrent);
+        if ($fileName === false) {
             return false;
         }
 
@@ -109,7 +110,7 @@ class OnejavService
 
         Event::dispatch(new OnejavDownloadCompleted($onejav));
 
-        return true;
+        return $fileName;
     }
 
     public function refetch(Onejav $onejav): Onejav

@@ -2,9 +2,7 @@
 
 namespace App\Jav\Console\Commands;
 
-use App\Core\Models\State;
 use App\Jav\Jobs\XCity\VideoItemFetch;
-use App\Jav\Models\XCityVideo as XCityVideoModel;
 use App\Jav\Services\XCityVideoService;
 use Illuminate\Console\Command;
 
@@ -38,17 +36,14 @@ class XCityVideo extends Command
                 break;
 
             case 'item':
-                $query = XCityVideoModel::byState(State::STATE_INIT);
-                if ($limit = $this->input->getOption('limit')) {
-                    $query = $query->limit($limit);
-                } elseif ($id = $this->input->getOption('id')) {
-                    $query = $query->where('id', $id);
-                }
+                $models = app(XCityVideoService::class)->getItems(
+                    $this->input->getOption('limit'),
+                    $this->input->getOption('id')
+                );
 
-                foreach ($query->cursor() as $model) {
+                foreach ($models as $model) {
                     VideoItemFetch::dispatch($model)->onQueue('crawling');
                 }
-
                 break;
         }
     }

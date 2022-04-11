@@ -2,7 +2,6 @@
 
 namespace App\Jav\Tests\Unit\Jobs;
 
-use App\Core\Services\ApplicationService;
 use App\Core\Services\Facades\Application;
 use App\Jav\Jobs\Onejav\ReleaseFetch;
 use App\Jav\Services\OnejavService;

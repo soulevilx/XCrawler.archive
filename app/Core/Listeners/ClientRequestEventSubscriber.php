@@ -6,6 +6,7 @@ use App\Core\Events\Client\ClientPrepared;
 use App\Core\Events\Client\ClientRequested;
 use App\Core\Events\Client\ClientRequestFailed;
 use App\Core\Models\ClientRequest;
+use App\Core\Services\Facades\Application;
 use Illuminate\Events\Dispatcher;
 
 class ClientRequestEventSubscriber
@@ -14,7 +15,7 @@ class ClientRequestEventSubscriber
     {
         $data = [
             'service' => $event->service,
-            'base_uri' => config('services' . '.' . $event->service . '.base_url'),
+            'base_uri' => Application::getSetting($event->service, 'base_url'),
             'method' => $event->method,
             'options' => $event->options,
             'endpoint' => $event->endpoint,

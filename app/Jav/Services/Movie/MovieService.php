@@ -61,12 +61,10 @@ class MovieService
 
     public function requestDownload(Movie $movie)
     {
-        if (!$movie->requestDownload()->exists()) {
-            return $movie->requestDownload()->create();
+        if ($movie->requestDownload()->exists()) {
+            return false;
         }
 
-        session()->flash('messages', [
-            ['message' => 'Movie download in queued', 'type' => 'info'],
-        ]);
+        return $movie->requestDownload()->create();
     }
 }

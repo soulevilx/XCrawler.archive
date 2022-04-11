@@ -2,7 +2,6 @@
 
 namespace App\Jav\Tests\Feature\Http;
 
-use App\Core\Services\ApplicationService;
 use App\Core\Services\Facades\Application;
 use App\Jav\Mail\WordPressPost as WordPressPostEmail;
 use App\Jav\Models\Onejav;

@@ -6,6 +6,7 @@ use App\Core\Models\Download;
 use App\Core\Models\Traits\HasFactory;
 use App\Jav\Models\Interfaces\MovieInterface;
 use App\Jav\Models\Traits\HasMovie;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
@@ -14,6 +15,8 @@ use Illuminate\Notifications\Notifiable;
  * @property string $url
  * @property string $cover
  * @property array $gallery
+ * @property float $size
+ * @property Carbon $date
  * @property string $torrent
  * @property-read Download $downloads
  */

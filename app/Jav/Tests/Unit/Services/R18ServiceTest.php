@@ -3,7 +3,6 @@
 namespace App\Jav\Tests\Unit\Services;
 
 use App\Core\Models\State;
-use App\Core\Services\ApplicationService;
 use App\Core\Services\Facades\Application;
 use App\Jav\Events\MovieCreated;
 use App\Jav\Models\Movie;

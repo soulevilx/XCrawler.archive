@@ -3,7 +3,6 @@
 namespace App\Jav\Tests\Unit\Jobs;
 
 use App\Core\Models\State;
-use App\Core\Services\ApplicationService;
 use App\Core\Services\Facades\Application;
 use App\Jav\Jobs\XCity\GetIdolItemLinks;
 use App\Jav\Models\XCityIdol;

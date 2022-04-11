@@ -32,4 +32,9 @@ class ItemFetch implements ShouldQueue
             'state_code' => State::STATE_COMPLETED,
         ]);
     }
+
+    public function failed()
+    {
+        $this->model->setState(State::STATE_INIT);
+    }
 }

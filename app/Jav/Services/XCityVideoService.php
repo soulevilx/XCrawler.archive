@@ -10,12 +10,11 @@ use App\Jav\Repositories\XCityVideoRepository;
 use App\Jav\Services\Traits\HasAttributes;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 class XCityVideoService
 {
     use HasAttributes;
-
-    protected XCityVideo $video;
 
     public const SERVICE_NAME = 'xcity_videos';
     public const BASE_URL = 'https://xxx.xcity.jp';
@@ -74,5 +73,10 @@ class XCityVideoService
             'from_date' => $fromDate->format('Ymd'),
             'to_date' => $fromDate->addDay()->format('Ymd'),
         ])->onQueue('crawling');
+    }
+
+    public function getItems(int $limit, int $id = null): Collection
+    {
+        return $this->repository->getItemsByState($limit, $id);
     }
 }

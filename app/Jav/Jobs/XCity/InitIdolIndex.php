@@ -2,7 +2,6 @@
 
 namespace App\Jav\Jobs\XCity;
 
-use App\Core\Services\ApplicationService;
 use App\Core\Services\Facades\Application;
 use App\Jav\Crawlers\XCityIdolCrawler;
 use App\Jav\Jobs\Traits\HasCrawlingMiddleware;

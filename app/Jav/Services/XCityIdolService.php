@@ -10,13 +10,12 @@ use App\Jav\Models\XCityIdol;
 use App\Jav\Repositories\XCityIdolRepository;
 use App\Jav\Services\Traits\HasAttributes;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Bus;
 
 class XCityIdolService
 {
     use HasAttributes;
-
-    protected XCityIdol $idol;
 
     public const SERVICE_NAME = 'xcity_idols';
     public const BASE_URL = 'https://xxx.xcity.jp';
@@ -97,5 +96,10 @@ class XCityIdolService
         }
 
         return $model;
+    }
+
+    public function getItems(int $limit, int $id = null): Collection
+    {
+        return $this->repository->getItemsByState($limit, $id);
     }
 }

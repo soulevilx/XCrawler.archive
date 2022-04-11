@@ -16,8 +16,12 @@ class DailyFetch implements ShouldQueue
     use Queueable;
     use R18CrawlingMiddleware;
 
+    public function __construct(public string $url)
+    {
+    }
+
     public function handle(R18Service $service)
     {
-        $service->daily();
+        $service->daily($this->url);
     }
 }

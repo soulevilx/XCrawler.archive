@@ -2,12 +2,10 @@
 
 namespace App\Jav\Console\Commands;
 
-use App\Core\Models\State;
 use App\Core\Services\Facades\Application;
 use App\Jav\Jobs\R18\DailyFetch;
 use App\Jav\Jobs\R18\ItemFetch;
 use App\Jav\Jobs\R18\ReleaseFetch;
-use App\Jav\Models\R18 as R18Model;
 use App\Jav\Services\R18Service;
 use Illuminate\Console\Command;
 
@@ -32,30 +30,24 @@ class R18 extends Command
         switch ($this->input->getArgument('task')) {
             case 'release':
                 foreach (Application::getArray(R18Service::SERVICE_NAME, 'urls') as $key => $url) {
-                    ReleaseFetch::dispatch($key)->onQueue('crawling');
+                    ReleaseFetch::dispatch($url, $key)->onQueue('crawling');
                 }
 
                 break;
-
             case 'daily':
-                DailyFetch::dispatch()->onQueue('crawling');
+                foreach (Application::getArray(R18Service::SERVICE_NAME, 'urls') as $key => $url) {
+                    DailyFetch::dispatch($url)->onQueue('crawling');
+                }
 
                 break;
-
             case 'item':
-                $query = R18Model::byState(State::STATE_INIT);
-                if ($limit = $this->input->getOption('limit')) {
-                    $query = $query->limit($limit);
-                }
+                $models = app(R18Service::class)->getItems(
+                    $this->input->getOption('limit'),
+                    $this->input->getOption('id')
+                );
 
-                if ($id = $this->input->getOption('id')) {
-                    $query = $query->where('id', $id);
-                }
-
-                if ($items = $query->get()) {
-                    foreach ($items as $model) {
-                        ItemFetch::dispatch($model)->onQueue('crawling');
-                    }
+                foreach ($models as $model) {
+                    ItemFetch::dispatch($model)->onQueue('crawling');
                 }
 
                 break;
