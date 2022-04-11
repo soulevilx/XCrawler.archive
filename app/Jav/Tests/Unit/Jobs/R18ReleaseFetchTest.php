@@ -24,7 +24,7 @@ class R18ReleaseFetchTest extends JavTestCase
 
     public function testRelease()
     {
-        ReleaseFetch::dispatch();
+        ReleaseFetch::dispatch(R18::MOVIE_LIST_URL, 'release');
 
         $this->assertEquals(30, R18::byState(State::STATE_INIT)->count());
         $this->assertEquals(2, Application::getSetting(R18Service::SERVICE_NAME, 'release_current_page'));
@@ -32,7 +32,7 @@ class R18ReleaseFetchTest extends JavTestCase
 
     public function testDaily()
     {
-        DailyFetch::dispatch();
+        DailyFetch::dispatch(R18::MOVIE_LIST_URL);
 
         $this->assertEquals(30, R18::byState(State::STATE_INIT)->count());
         $this->assertDatabaseCount('r18', 30);

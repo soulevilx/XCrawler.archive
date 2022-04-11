@@ -41,7 +41,7 @@ class R18Service
         return $this->refetch($model);
     }
 
-    public function release(string $url, string $type)
+    public function release(string $url = R18::MOVIE_LIST_URL, string $type = 'release')
     {
         /**
          * Release only fetch links another job will fetch detail later.
@@ -60,7 +60,7 @@ class R18Service
         });
 
         ++$currentPage;
-        if ((int)Application::getSetting(R18Service::SERVICE_NAME, $type . '_total_pages', 2000) < $currentPage) {
+        if ((int) Application::getSetting(R18Service::SERVICE_NAME, $type . '_total_pages', 2000) < $currentPage) {
             $currentPage = 1;
             Event::dispatch(new R18ReleaseCompleted);
         }
@@ -70,7 +70,7 @@ class R18Service
         return $items;
     }
 
-    public function daily(string $url): Collection
+    public function daily(string $url = R18::MOVIE_LIST_URL): Collection
     {
         /**
          * Make sure we fetch page 1 to get latest release while `release` fetching older.
