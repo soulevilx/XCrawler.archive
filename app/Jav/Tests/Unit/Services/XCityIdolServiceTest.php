@@ -2,6 +2,7 @@
 
 namespace App\Jav\Tests\Unit\Services;
 
+use App\Core\Models\Setting;
 use App\Core\Services\Facades\Application;
 use App\Jav\Services\XCityIdolService;
 use App\Jav\Tests\JavTestCase;
@@ -65,9 +66,8 @@ class XCityIdolServiceTest extends JavTestCase
 
     public function testGetSubPages()
     {
-
+        Application::setSetting(XCityIdolService::SERVICE_NAME, 'sub_pages', null);
         $this->assertEquals(XCityIdolService::SUBPAGES, $this->service->getSubPages());
-
         $this->assertEquals(XCityIdolService::SUBPAGES, Application::getArray(XCityIdolService::SERVICE_NAME, 'sub_pages'));
     }
 }

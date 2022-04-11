@@ -76,8 +76,6 @@ class OnejavServiceTest extends JavTestCase
 
     public function testDaily()
     {
-
-
         $items = $this->service->daily();
         $totalItems = $items->count();
         $this->assertEquals(42, $totalItems);
@@ -177,5 +175,24 @@ class OnejavServiceTest extends JavTestCase
         Event::assertDispatched(OnejavDownloadCompleted::class, function ($event) use ($onejav) {
             return $event->onejav->is($onejav);
         });
+
+        $this->assertFalse($this->service->download($onejav));
+    }
+
+    public function testDownloadFailed()
+    {
+        $onejav = Onejav::factory()->create();
+        $client = \Mockery::mock(Client::class);
+        $client->shouldReceive('request')
+            ->andReturn(new Response(303));
+        app()->instance(Client::class, $client);
+
+        $this->mocker = $this->getClientMock();
+        $this->mocker
+            ->shouldReceive('get')
+            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021_page_1.html'));
+        $this->service = $this->getService();
+
+        $this->assertFalse($this->service->download($onejav));
     }
 }

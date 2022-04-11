@@ -40,7 +40,7 @@ class XCityIdolService
     {
         $subPages = Application::getArray(self::SERVICE_NAME, 'sub_pages');
 
-        if (!$subPages) {
+        if (empty($subPages)) {
             $subPages = $this->crawler->getSubPages()->toArray();
             Application::setSetting(self::SERVICE_NAME, 'sub_pages', $subPages);
         }
