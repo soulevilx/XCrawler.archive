@@ -2,10 +2,10 @@
 
 namespace App\Jav\Models;
 
-use App\Core\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class RequestDownload extends BaseModel
+class RequestDownload extends Model
 {
     use HasFactory;
 

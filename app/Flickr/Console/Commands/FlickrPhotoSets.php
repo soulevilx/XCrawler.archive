@@ -10,7 +10,7 @@ use App\Flickr\Models\FlickrProcess;
 /**
  * Step 2 & 3
  */
-class FlickrPhotoSets extends AbstractBaseCommand
+class FlickrPhotoSets extends AbstractFlickrCommand
 {
     /**
      * The name and signature of the console command.

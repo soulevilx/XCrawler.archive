@@ -2,6 +2,7 @@
 
 namespace App\Flickr\Services;
 
+use App\Core\Models\Integration;
 use App\Flickr\Events\FlickrRequestFailed;
 use App\Flickr\Exceptions\FlickrGeneralException;
 use App\Flickr\Jobs\FlickrRequestDownloadAlbum;
@@ -13,7 +14,6 @@ use App\Flickr\Services\Flickr\Photos;
 use App\Flickr\Services\Flickr\PhotoSets;
 use App\Flickr\Services\Flickr\Urls;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use OAuth\Common\Consumer\Credentials;
 use OAuth\Common\Http\Exception\TokenResponseException;
@@ -45,12 +45,7 @@ class FlickrService
 
     protected function getClient(string $callbackUrl = 'oob')
     {
-        $integration = DB::table('integrations')
-            ->where([
-                'service' => FlickrService::SERVICE,
-            ])->first();
-
-        if ($integration) {
+        if ($integration = $this->getIntegration()) {
             $token = new StdOAuth1Token();
             $token->setAccessToken($integration->token);
             $token->setAccessTokenSecret($integration->token_secret);
@@ -60,6 +55,11 @@ class FlickrService
         $credentials = new Credentials($this->apiKey, $this->secret, $callbackUrl);
 
         return app(ServiceFactory::class)->createService('Flickr', $credentials, $this->oauthTokenStorage);
+    }
+
+    public function getIntegration()
+    {
+        return Integration::byService(self::SERVICE)->first();
     }
 
     public function retrieveAccessToken($verifier, $requestToken = null)

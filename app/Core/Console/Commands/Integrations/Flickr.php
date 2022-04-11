@@ -2,6 +2,7 @@
 
 namespace App\Core\Console\Commands\Integrations;
 
+use App\Core\Models\Integration;
 use App\Flickr\Services\FlickrService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -31,8 +32,7 @@ class Flickr extends Command
         $code = $this->output->ask('Enter code');
         $accessToken = $service->retrieveAccessToken($code);
 
-        DB::table('integrations')
-            ->insert([
+        Integration::create([
                 'service' => FlickrService::SERVICE,
                 'token_secret' => $accessToken->getAccessTokenSecret(),
                 'token' => $accessToken->getAccessToken(),
@@ -47,10 +47,10 @@ class Flickr extends Command
             ],
             [
                 [
-                FlickrService::SERVICE,
-                $accessToken->getAccessTokenSecret(),
-                $accessToken->getAccessToken(),
-                    ],
+                    FlickrService::SERVICE,
+                    $accessToken->getAccessTokenSecret(),
+                    $accessToken->getAccessToken(),
+                ],
             ]
         );
         $this->output->success('Flick integrated');

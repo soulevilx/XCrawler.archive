@@ -4,7 +4,7 @@ namespace App\Flickr\Console\Commands;
 
 use App\Flickr\Jobs\FlickrContacts as FlickrContactsJob;
 
-class FlickrContacts extends AbstractBaseCommand
+class FlickrContacts extends AbstractFlickrCommand
 {
     /**
      * The name and signature of the console command.

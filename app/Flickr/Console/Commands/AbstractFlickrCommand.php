@@ -10,13 +10,16 @@ use App\Flickr\Services\FlickrService;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Collection;
 
-abstract class AbstractBaseCommand extends Command
+abstract class AbstractFlickrCommand extends Command
 {
     protected FlickrService $service;
 
     public function handle(FlickrService $service)
     {
         $this->service = $service;
+        if ($this->service->getIntegration() === null) {
+            return false;
+        }
         $this->task();
     }
 

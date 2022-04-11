@@ -5,7 +5,7 @@ namespace App\Flickr\Console\Commands;
 use App\Flickr\Jobs\FlickrPhotoSizes;
 use App\Flickr\Models\FlickrPhoto as FlickrPhotoModel;
 
-class FlickrPhoto extends AbstractBaseCommand
+class FlickrPhoto extends AbstractFlickrCommand
 {
     /**
      * The name and signature of the console command.

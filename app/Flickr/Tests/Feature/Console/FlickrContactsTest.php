@@ -2,14 +2,26 @@
 
 namespace App\Flickr\Tests\Feature\Console;
 
+use App\Core\Models\Integration;
 use App\Flickr\Jobs\FlickrContacts;
 use App\Flickr\Models\FlickrContact;
+use App\Flickr\Services\FlickrService;
 use App\Flickr\Tests\FlickrTestCase;
 use Illuminate\Support\Facades\Queue;
 use OAuth\ServiceFactory;
 
 class FlickrContactsTest extends FlickrTestCase
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        Integration::create([
+            'service' => FlickrService::SERVICE,
+            'access_token' => $this->faker->uuid,
+        ]);
+    }
+
     public function testCommand()
     {
         Queue::fake();

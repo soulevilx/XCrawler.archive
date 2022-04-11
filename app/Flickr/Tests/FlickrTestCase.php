@@ -2,7 +2,6 @@
 
 namespace App\Flickr\Tests;
 
-use App\Flickr\Models\FlickrSizes;
 use App\Flickr\Services\Flickr\Contacts;
 use App\Flickr\Services\Flickr\People;
 use App\Flickr\Services\Flickr\PhotoSets;
@@ -302,7 +301,5 @@ class FlickrTestCase extends TestCase
                 //['url' => 'https://www.flickr.com/photos/51838687@N07/albums/72157719703391487']
             )
             ->andReturn($this->getFixture('urls.lookupUser.json'));
-
-
     }
 }

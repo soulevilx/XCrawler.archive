@@ -4,9 +4,10 @@ namespace App\Core\Models;
 
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class WordPressPost extends BaseModel
+class WordPressPost extends Model
 {
     use HasFactory;
     use SoftDeletes;
