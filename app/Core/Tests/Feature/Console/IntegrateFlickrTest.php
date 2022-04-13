@@ -33,7 +33,7 @@ class IntegrateFlickrTest extends TestCase
             ->assertExitCode(0);
 
         $this->assertDatabaseHas('integrations', [
-            'service' => FlickrService::SERVICE,
+            'service' => FlickrService::SERVICE_NAME,
         ], 'mongodb');
     }
 }

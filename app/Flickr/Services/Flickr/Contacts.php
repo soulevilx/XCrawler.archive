@@ -2,7 +2,11 @@
 
 namespace App\Flickr\Services\Flickr;
 
+use App\Flickr\Events\FlickrContactCreated;
 use App\Flickr\Exceptions\FlickrGeneralException;
+use App\Flickr\Models\FlickrContact;
+use App\Flickr\Repositories\ContactRepository;
+use Illuminate\Support\Facades\Event;
 
 class Contacts extends BaseFlickr
 {
@@ -21,6 +25,7 @@ class Contacts extends BaseFlickr
 
         return $list;
     }
+
     /**
      * @link https://www.flickr.com/services/api/flickr.contacts.getList.html
      * @param string|null $filter
@@ -36,5 +41,19 @@ class Contacts extends BaseFlickr
         $data['contacts']['contact'] = collect($data['contacts']['contact']);
 
         return $data['contacts'];
+    }
+
+    public function create(array $attributes): FlickrContact
+    {
+        $repository = app(ContactRepository::class);
+        $model = $repository->firstOrCreate([
+            'nsid' => $attributes['nsid'],
+        ], $attributes);
+
+        if ($model->wasRecentlyCreated) {
+            Event::dispatch(new FlickrContactCreated($model));
+        }
+
+        return $model;
     }
 }

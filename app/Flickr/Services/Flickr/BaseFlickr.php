@@ -36,18 +36,12 @@ class BaseFlickr
             $parameters[$parameter->name] = $args[$index] ?? $parameter->getDefaultValue();
         }
 
-        $data = call_user_func(
+        return call_user_func(
             [
                 $this->service, 'request',
             ],
             $this->buildPath($method),
             $parameters
         );
-
-        if (isset($data['stat']) && $data['stat'] === 'fail') {
-            throw new FlickrGeneralException($data['message'] ?? '', $data['code'] ?? null);
-        }
-
-        return $data;
     }
 }

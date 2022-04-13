@@ -62,7 +62,9 @@ class FlickrAlbum extends Model
      */
     public function photos()
     {
-        return $this->belongsToMany(FlickrPhoto::class, 'flickr_album_photos', 'album_id', 'photo_id')->withTimestamps();
+        return $this->belongsToMany(FlickrPhoto::class, 'flickr_album_photos', 'album_id', 'photo_id')
+            ->withTrashed()
+            ->withTimestamps();
     }
 
     public function contact()

@@ -2,8 +2,9 @@
 
 namespace App\Flickr\Console\Commands;
 
+use App\Core\Services\Facades\Application;
 use App\Flickr\Jobs\FlickrPhotoSizes;
-use App\Flickr\Models\FlickrPhoto as FlickrPhotoModel;
+use App\Flickr\Repositories\PhotoRepository;
 
 class FlickrPhoto extends AbstractFlickrCommand
 {
@@ -23,11 +24,13 @@ class FlickrPhoto extends AbstractFlickrCommand
 
     protected function flickrSizes()
     {
-        FlickrPhotoModel::whereNull('sizes')
-            ->limit($this->option('limit'))
-            ->get()
+        app(PhotoRepository::class)
+            ->getUnsizedItems(Application::getSetting('flickr', 'limit_process_items', 2))
             ->each(function ($photo) {
                 FlickrPhotoSizes::dispatch($photo)->onQueue('api');
+                $this->output->text($photo->id);
             });
+
+        return true;
     }
 }

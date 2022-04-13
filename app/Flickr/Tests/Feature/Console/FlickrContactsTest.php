@@ -3,6 +3,7 @@
 namespace App\Flickr\Tests\Feature\Console;
 
 use App\Core\Models\Integration;
+use App\Core\Tyche\Flickr;
 use App\Flickr\Jobs\FlickrContacts;
 use App\Flickr\Models\FlickrContact;
 use App\Flickr\Services\FlickrService;
@@ -17,7 +18,7 @@ class FlickrContactsTest extends FlickrTestCase
         parent::setUp();
 
         Integration::create([
-            'service' => FlickrService::SERVICE,
+            'service' => FlickrService::SERVICE_NAME,
             'access_token' => $this->faker->uuid,
         ]);
     }

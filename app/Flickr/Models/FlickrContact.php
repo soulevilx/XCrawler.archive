@@ -100,11 +100,6 @@ class FlickrContact extends Model
         return self::withTrashed()->where('nsid', $nsid)->first();
     }
 
-    public function processStep(string $step)
-    {
-        return $this->morphMany(FlickrProcess::class, 'model')->where('step', $step)->latest()->first();
-    }
-
     public function albums(): HasMany
     {
         return $this->hasMany(FlickrAlbum::class, 'owner', 'nsid');

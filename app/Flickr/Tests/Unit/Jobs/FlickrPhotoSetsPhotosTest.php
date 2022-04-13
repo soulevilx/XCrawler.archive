@@ -3,6 +3,7 @@
 namespace App\Flickr\Tests\Unit\Jobs;
 
 use App\Core\Models\State;
+use App\Flickr\Exceptions\FlickrGeneralException;
 use App\Flickr\Jobs\FlickrPhotoSetsPhotos;
 use App\Flickr\Models\FlickrAlbum;
 use App\Flickr\Models\FlickrContact;
@@ -46,7 +47,11 @@ class FlickrPhotoSetsPhotosTest extends FlickrTestCase
             'step' => FlickrProcess::STEP_PHOTOSETS_PHOTOS,
         ]);
 
-        FlickrPhotoSetsPhotos::dispatch($process);
+        try {
+            FlickrPhotoSetsPhotos::dispatch($process);
+        } catch (\Exception $exception) {
+            $this->assertInstanceOf(FlickrGeneralException::class, $exception);
+        }
 
         $this->assertEquals(State::STATE_FAILED, $process->refresh()->state_code);
     }

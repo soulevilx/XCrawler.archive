@@ -6,6 +6,7 @@ use App\Core\Models\Traits\HasFactory;
 use App\Flickr\Services\FlickrService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 
 /**
  * @property array $sizes
@@ -13,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class FlickrPhoto extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     /**
      * Indicates if the IDs are auto-incrementing.

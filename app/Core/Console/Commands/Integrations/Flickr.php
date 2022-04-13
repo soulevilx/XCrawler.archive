@@ -5,7 +5,6 @@ namespace App\Core\Console\Commands\Integrations;
 use App\Core\Models\Integration;
 use App\Flickr\Services\FlickrService;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
 
 class Flickr extends Command
 {
@@ -33,7 +32,7 @@ class Flickr extends Command
         $accessToken = $service->retrieveAccessToken($code);
 
         Integration::create([
-                'service' => FlickrService::SERVICE,
+                'service' => FlickrService::SERVICE_NAME,
                 'token_secret' => $accessToken->getAccessTokenSecret(),
                 'token' => $accessToken->getAccessToken(),
                 'data' => json_encode($accessToken)
@@ -47,7 +46,7 @@ class Flickr extends Command
             ],
             [
                 [
-                    FlickrService::SERVICE,
+                    FlickrService::SERVICE_NAME,
                     $accessToken->getAccessTokenSecret(),
                     $accessToken->getAccessToken(),
                 ],

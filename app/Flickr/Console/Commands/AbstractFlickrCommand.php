@@ -3,12 +3,14 @@
 namespace App\Flickr\Console\Commands;
 
 use App\Core\Models\State;
-use App\Flickr\Models\FlickrAlbum;
+use App\Core\Services\Facades\Application;
+use App\Flickr\Events\FlickrProcessCompleted;
 use App\Flickr\Models\FlickrContact;
-use App\Flickr\Models\FlickrProcess;
+use App\Flickr\Repositories\ProcessRepository;
 use App\Flickr\Services\FlickrService;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Event;
 
 abstract class AbstractFlickrCommand extends Command
 {
@@ -63,43 +65,21 @@ abstract class AbstractFlickrCommand extends Command
 
     protected function getProcessItem(string $step, string $modelType = FlickrContact::class): Collection
     {
-        $processes = FlickrProcess::byState(State::STATE_INIT)
-            ->where('step', $step)
-            ->where('model_type', $modelType)
-            ->limit($this->option('limit', 2))
-            ->get();
+        $processes = app(ProcessRepository::class)->getItems(
+            $modelType,
+            $step,
+            State::STATE_INIT,
+            Application::getSetting('flickr', 'limit_process_items', 2)
+        );
 
         if ($processes->isEmpty()) {
-            switch ($step) {
-                case FlickrProcess::STEP_PEOPLE_INFO:
-                case FlickrProcess::STEP_PEOPLE_PHOTOS:
-                case FlickrProcess::STEP_PHOTOSETS_LIST:
-                    foreach (FlickrContact::cursor() as $contact) {
-                        $contact->processes()->create([
-                            'step' => $step,
-                            'state_code' => State::STATE_INIT,
-                        ]);
-                    }
-                    break;
-                case FlickrProcess::STEP_PHOTOSETS_PHOTOS:
-                    foreach (FlickrAlbum::cursor() as $album) {
-                        $album->processes()->create([
-                            'step' => $step,
-                            'state_code' => State::STATE_INIT,
-                        ]);
-                    }
-                    break;
-            }
-
-            $processes = FlickrProcess::byState(State::STATE_INIT)
-                ->where('step', $step)
-                ->limit(4)
-                ->get();
+            Event::dispatch(new FlickrProcessCompleted());
         }
 
         $data = [];
         foreach ($processes as $process) {
             $data[] = [
+                $process->id,
                 $process->model_id,
                 $process->model_type,
                 $process->step,
@@ -108,6 +88,7 @@ abstract class AbstractFlickrCommand extends Command
         }
         $this->table(
             [
+                'id',
                 'model_id',
                 'model_type',
                 'step',

@@ -30,7 +30,6 @@ class FlickrEventServiceProvider extends EventServiceProvider
     {
         parent::boot();
 
-        FlickrContact::observe(FlickrContactObserver::class);
         FlickrAlbum::observe(FlickrAlbumObserver::class);
         FlickrDownloadItem::observe(FlickrDownloadItemObserver::class);
     }

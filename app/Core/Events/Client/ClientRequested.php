@@ -12,7 +12,7 @@ class ClientRequested
         public string            $endpoint,
         public array             $payload,
         public string            $method,
-        public ResponseInterface $response
+        public ?ResponseInterface $response
     )
     {
     }

@@ -15,4 +15,9 @@ trait HasProcesses
     {
         return $this->morphMany(FlickrProcess::class, 'model');
     }
+
+    public function processStep(string $step)
+    {
+        return $this->processes()->where('step', $step)->latest()->first();
+    }
 }

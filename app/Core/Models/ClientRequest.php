@@ -12,6 +12,7 @@ class ClientRequest extends BaseMongo
         'service' => 'string',
         'base_uri' => 'string',
         'endpoint' => 'string',
+        'options' => 'array',
         'payload' => 'array',
         'body' => 'string',
         'messages' => 'string',

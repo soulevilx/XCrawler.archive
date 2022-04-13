@@ -2,8 +2,14 @@
 
 namespace App\Flickr\Services\Flickr;
 
+use App\Flickr\Events\AlbumCreated;
 use App\Flickr\Events\Errors\PhotosetNotFound;
+use App\Flickr\Events\PhotoAddedToAlbum;
+use App\Flickr\Models\FlickrAlbum;
+use App\Flickr\Models\FlickrPhoto;
+use App\Flickr\Repositories\AlbumRepository;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Event;
 
 class PhotoSets extends BaseFlickr
 {
@@ -134,5 +140,46 @@ class PhotoSets extends BaseFlickr
     public function getInfo(int $photoset_id, string $user_id): array
     {
         return $this->call(func_get_args(), __FUNCTION__)['photoset'];
+    }
+
+    public function create(array $attributes): FlickrAlbum
+    {
+        $repository = app(AlbumRepository::class);
+        $model = $repository->firstOrCreate([
+            'id' => $attributes['id'],
+            'owner' => $attributes['owner'],
+        ], $attributes);
+
+        if ($model->wasRecentlyCreated) {
+            Event::dispatch(new AlbumCreated($model));
+        }
+
+        return $model;
+    }
+
+    public function addPhoto(FlickrAlbum $album, array $photo)
+    {
+        unset($photo['isprimary']);
+        unset($photo['ispublic']);
+        unset($photo['isfriend']);
+        unset($photo['isfamily']);
+
+        $model = FlickrPhoto::withTrashed()->firstOrCreate([
+            'id' => $photo['id'],
+            'owner' => $album->owner,
+        ], $photo);
+
+        $album->photos()->syncWithoutDetaching([$model->id]);
+
+        if ($model->wasRecentlyCreated) {
+            Event::dispatch(new PhotoAddedToAlbum($album, $model));
+        }
+    }
+
+    public function addPhotos(FlickrAlbum $album)
+    {
+        $this->getAllPhotos($album->id, $album->owner)->each(function ($photo) use ($album) {
+            $this->service->photosets()->addPhoto($album, $photo);
+        });
     }
 }

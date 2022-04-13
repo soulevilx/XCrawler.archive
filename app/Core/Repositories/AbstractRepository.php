@@ -57,7 +57,7 @@ abstract class AbstractRepository
 
     public function firstOrCreate(array $conditions, array $attributes): Model
     {
-        return $this->getModel()->firstOrCreate($conditions, $attributes);
+        return $this->getModel()->withTrashed()->firstOrCreate($conditions, $attributes);
     }
 
     public function updateOrCreate(array $conditions, array $attributes): Model
@@ -100,7 +100,15 @@ abstract class AbstractRepository
         return true;
     }
 
-    abstract public function getModel();
+    public function getModel()
+    {
+        return $this->model;
+    }
 
-    abstract public function setModel($model);
+    public function setModel($model)
+    {
+        $this->model = $model;
+
+        return $this;
+    }
 }

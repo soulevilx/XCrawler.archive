@@ -27,7 +27,7 @@ class ClientRequestEventSubscriber
         }
 
         if ($event instanceof ClientRequestFailed) {
-            $data['is_succeed'] = $event?->response?->isSuccessful();
+            $data['is_succeed'] = false;
             $data['error'] = $event?->exception->getMessage();
         }
 

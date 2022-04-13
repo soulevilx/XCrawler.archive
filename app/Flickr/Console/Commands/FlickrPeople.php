@@ -19,7 +19,7 @@ class FlickrPeople extends AbstractFlickrCommand
      *
      * @var string
      */
-    protected $signature = 'flickr:people {task} {--limit=}';
+    protected $signature = 'flickr:people {task}';
 
     /**
      * The console command description.
