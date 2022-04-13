@@ -11,6 +11,18 @@ class ContactRepository extends AbstractRepository
     {
     }
 
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    public function setModel($model)
+    {
+        $this->model = $model;
+
+        return $this;
+    }
+
     public function findByNsid(string $nsid)
     {
         return $this->getModel()->withTrashed()->where(['nsid' => $nsid])->first();

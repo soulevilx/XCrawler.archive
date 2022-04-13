@@ -100,15 +100,7 @@ abstract class AbstractRepository
         return true;
     }
 
-    public function getModel()
-    {
-        return $this->model;
-    }
+    abstract public function getModel();
 
-    public function setModel($model)
-    {
-        $this->model = $model;
-
-        return $this;
-    }
+    abstract public function setModel($model);
 }

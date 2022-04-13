@@ -21,4 +21,14 @@ class ProcessRepository extends AbstractRepository
             ->limit($limit)
             ->get();
     }
+
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    public function setModel($model)
+    {
+        $this->model = $model;
+    }
 }
