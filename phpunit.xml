@@ -39,12 +39,14 @@
             <directory suffix=".php">./app</directory>
         </include>
         <exclude>
+            <directory suffix=".php">./app/Http</directory>
+            <directory suffix=".php">./app/Models</directory>
+            <directory suffix=".php">./app/Providers</directory>
+
             <directory suffix=".php">./app/*/Database</directory>
-
-            <directory suffix=".php">./app/*/Exceptions</directory>
+            <directory suffix=".php">./app/*/Events</directory>
             <directory suffix=".php">./app/*/Http</directory>
-            <directory suffix=".php">./app/*/Http/Resources</directory>
-
+            <directory suffix=".php">./app/*/Exceptions</directory>
             <directory suffix=".php">./app/*/Providers</directory>
             <directory suffix=".php">./app/*/Routes</directory>
             <directory suffix=".php">./app/*/Tests</directory>
