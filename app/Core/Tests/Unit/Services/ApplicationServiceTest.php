@@ -39,4 +39,31 @@ class ApplicationServiceTest extends TestCase
         $default = $this->faker->name;
         $this->assertEquals($default, Application::getSetting($this->faker->name, $key, $default));
     }
+
+    public function testInc()
+    {
+        $name = $this->faker->word;
+        $key = $this->faker->word;
+        Setting::create([
+            'group' => $name,
+            'field' => $key,
+            'value' => 1,
+        ]);
+        Application::refresh();
+        $this->assertEquals(2, Application::inc($name, $key));
+    }
+
+    public function testGetBool()
+    {
+        $name = $this->faker->word;
+        $key = $this->faker->word;
+        Setting::create([
+            'group' => $name,
+            'field' => $key,
+            'value' => 10,
+        ]);
+
+        Application::refresh();
+        $this->assertTrue(Application::getBool($name, $key));
+    }
 }
