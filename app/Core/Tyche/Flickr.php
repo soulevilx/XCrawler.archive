@@ -5,6 +5,8 @@ namespace App\Core\Tyche;
 use App\Flickr\Models\FlickrContact;
 use App\Flickr\Services\FlickrService;
 use Faker\Generator;
+use Mockery\LegacyMockInterface;
+use Mockery\MockInterface;
 use OAuth\Common\Http\Uri\Uri;
 use OAuth\OAuth1\Token\StdOAuth1Token;
 use OAuth\ServiceFactory;
@@ -16,6 +18,7 @@ class Flickr
     private FlickrService $service;
 
     protected Generator $faker;
+    private LegacyMockInterface|MockInterface|ServiceFactory $flickrMocker;
 
     public function __construct()
     {
