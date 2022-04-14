@@ -4,7 +4,6 @@ namespace App\Flickr\Repositories;
 
 use App\Core\Repositories\Traits\HasDefaultRepository;
 use App\Flickr\Models\FlickrContact;
-use App\Flickr\Models\FlickrProcess;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
@@ -36,9 +35,5 @@ class ContactRepository
                 'owner' => $photo['owner'],
             ], $photo);
         }
-
-        $this->model->processes()->create([
-            'step' => FlickrProcess::STEP_PEOPLE_PHOTOS,
-        ]);
     }
 }
