@@ -2,7 +2,10 @@
 
 namespace App\Flickr\Exceptions;
 
-class FlickrGeneralException extends \Exception
+use Exception;
+use Throwable;
+
+class FlickrGeneralException extends Exception implements Throwable
 {
 
 }

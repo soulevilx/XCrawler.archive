@@ -29,7 +29,8 @@ jobs:
           php artisan migrate:fresh
 
       - name: Lint
-        run: composer lint
+        run: |
+        composer lint
 
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         if: success()

@@ -90,6 +90,9 @@ class FlickrService
         ]);
     }
 
+    /**
+     * @throws FlickrGeneralException
+     */
     public function request(string $path, array $params): ?array
     {
         $params = array_filter($params);
