@@ -30,10 +30,7 @@ class R18Service
 
     public function create(array $attributes): R18
     {
-        return $this->repository->updateOrCreate([
-            'url' => $attributes['url'],
-            'content_id' => $attributes['content_id'],
-        ], $attributes + ['state_code' => State::STATE_INIT]);
+        return $this->repository->create($attributes);
     }
 
     public function item(Model $model): R18

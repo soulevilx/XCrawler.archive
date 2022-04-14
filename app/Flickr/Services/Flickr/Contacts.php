@@ -53,9 +53,7 @@ class Contacts
 
     public function create(array $attributes): FlickrContact
     {
-        $model = $this->repository->firstOrCreate([
-            'nsid' => $attributes['nsid'],
-        ], $attributes);
+        $model = $this->repository->create($attributes);
 
         if ($model->wasRecentlyCreated) {
             Event::dispatch(new FlickrContactCreated($model));

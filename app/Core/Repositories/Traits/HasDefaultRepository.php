@@ -49,13 +49,11 @@ trait HasDefaultRepository
      */
     public function delete($id)
     {
-        if (!$result = $this->find($id)) {
+        if (!$model = $this->find($id)) {
             return false;
         }
 
-        $result->delete();
-
-        return true;
+        return $model->delete();
     }
 
     public function getItemsByState(int $limit, int $id = null, string $stateCode = State::STATE_INIT): Collection
@@ -78,32 +76,20 @@ trait HasDefaultRepository
      * @param array $attributes
      * @return mixed
      */
-    public function create(array $attributes)
+    public function create(array $attributes): Model
     {
         $this->model = $this->model->create($attributes);
 
         return $this->model;
     }
 
-    public function firstOrCreate(array $conditions, array $attributes): Model
-    {
-        $this->model = $this->model->withTrashed()->firstOrCreate($conditions, $attributes);
-
-        return $this->model;
-    }
-
-    public function updateOrCreate(array $conditions, array $attributes): Model
-    {
-        return $this->model->withTrashed()->updateOrCreate($conditions, $attributes);
-    }
-
     /**
      * Update
      *
      * @param array $attributes
-     * @return bool|mixed
+     * @return bool
      */
-    public function update(array $attributes)
+    public function update(array $attributes): bool
     {
         return $this->model->update($attributes);
     }

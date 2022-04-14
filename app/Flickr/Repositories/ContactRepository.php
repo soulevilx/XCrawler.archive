@@ -5,6 +5,7 @@ namespace App\Flickr\Repositories;
 use App\Core\Repositories\Traits\HasDefaultRepository;
 use App\Flickr\Models\FlickrContact;
 use App\Flickr\Models\FlickrProcess;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 class ContactRepository
@@ -18,6 +19,13 @@ class ContactRepository
     public function findByNsid(string $nsid)
     {
         return $this->getModel()->withTrashed()->where(['nsid' => $nsid])->first();
+    }
+
+    public function create(array $attributes): Model
+    {
+        return $this->model->withTrashed()->firstOrCreate([
+            'nsid' => $attributes['nsid'],
+        ], $attributes);
     }
 
     public function addPhotos(Collection $photos)

@@ -25,7 +25,7 @@ class PhotoSets
         self::ERROR_CODE_PHOTOSET_NOT_FOUND => PhotosetNotFound::class,
     ];
 
-    public function __construct(private FlickrService $service)
+    public function __construct(protected FlickrService $service, protected AlbumRepository $repository)
     {
     }
 
@@ -153,11 +153,7 @@ class PhotoSets
 
     public function create(array $attributes): FlickrAlbum
     {
-        $repository = app(AlbumRepository::class);
-        $model = $repository->firstOrCreate([
-            'id' => $attributes['id'],
-            'owner' => $attributes['owner'],
-        ], $attributes);
+        $model = $this->repository->create($attributes);
 
         if ($model->wasRecentlyCreated) {
             Event::dispatch(new AlbumCreated($model));
