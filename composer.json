@@ -16,7 +16,7 @@
     "keywords": ["framework", "laravel", "crawling", "jav", "flick"],
     "license": "MIT",
     "require": {
-        "php": "^8.0",
+        "php": ">=8.0",
         "ext-curl": "*",
         "defstudio/telegraph": "^1.6",
         "fideloper/proxy": "^4.4",
