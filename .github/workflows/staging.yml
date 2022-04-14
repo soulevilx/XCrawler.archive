@@ -4,53 +4,25 @@ name: XCrawler - Build & Tests
 # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
 on:
   # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows
-  push:
+  pull_request:
     branches: [ develop ]
+    types: [closed]
 
 jobs:
   build:
     # Test on Runner 1
-    runs-on: [ runner1 ]
-
-    services:
-      mysql:
-        image: mysql:latest
-        env:
-          MYSQL_ROOT_PASSWORD: laravel
-          MYSQL_USER: laravel
-          MYSQL_PASSWORD: laravel
-          MYSQL_DATABASE: laravel
-        ports:
-          - 3307:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5 -e MYSQL_ROOT_PASSWORD=laravel -e MYSQL_USER=laravel -e MYSQL_PASSWORD=laravel -e MYSQL_DATABASE=laravel --entrypoint sh mysql:8 -c "exec docker-entrypoint.sh mysqld --default-authentication-plugin=mysql_native_password"
-      redis:
-        image: redis
-        ports:
-          - 3308:6379
-        options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
-      mongo:
-        image: mongo
-        ports: # Map 27017 to 3309
-          - 3309:27017
+    runs-on: [runner1]
 
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 8.0
-          tools: composer:v2, php-cs-fixer, phpunit
-          coverage: pcov
-          extensions: mongodb
-
       - name: Setup application
         if: success()
         run: |
           php -r "file_exists('.env') || copy('.env.example', '.env');"
-          composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+          composer install -q --no-ansi --no-scripts --no-progress --prefer-dist
           php artisan key:generate
           chmod -R 777 storage bootstrap/cache
           php artisan config:clear
@@ -79,6 +51,7 @@ jobs:
 
       - name: Notifications
         uses: act10ns/slack@v1.5.0
+        if: success()
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         with:
