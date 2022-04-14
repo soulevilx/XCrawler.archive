@@ -8,17 +8,26 @@ use App\Flickr\Events\PhotoAddedToAlbum;
 use App\Flickr\Models\FlickrAlbum;
 use App\Flickr\Models\FlickrPhoto;
 use App\Flickr\Repositories\AlbumRepository;
+use App\Flickr\Repositories\PhotoRepository;
+use App\Flickr\Services\Flickr\Traits\HasFlickrClient;
+use App\Flickr\Services\FlickrService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 
-class PhotoSets extends BaseFlickr
+class PhotoSets
 {
+    use HasFlickrClient;
+
     public const ERROR_CODE_PHOTOSET_NOT_FOUND = 1;
     public const ERROR_CODE_PHOTOSET_USER_FOUND = 2;
 
     public const EVENT_MAPS = [
         self::ERROR_CODE_PHOTOSET_NOT_FOUND => PhotosetNotFound::class,
     ];
+
+    public function __construct(private FlickrService $service)
+    {
+    }
 
     public function getList(
         string  $user_id,

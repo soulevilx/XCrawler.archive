@@ -1,26 +1,13 @@
 <?php
 
-namespace App\Flickr\Services\Flickr;
+namespace App\Flickr\Services\Flickr\Traits;
 
 use App\Flickr\Exceptions\FlickrGeneralException;
 use App\Flickr\Services\FlickrService;
 use ReflectionMethod;
 
-class BaseFlickr
+trait HasFlickrClient
 {
-    protected string $namespace;
-
-    public function __construct(protected FlickrService $service)
-    {
-        $reflect = new \ReflectionClass($this);
-        $this->namespace = strtolower($reflect->getShortName());
-    }
-
-    protected function buildPath(string $method): string
-    {
-        return 'flickr.' . $this->namespace . '.' . $method;
-    }
-
     /**
      * @param array $args
      * @param string $method
@@ -28,8 +15,11 @@ class BaseFlickr
      * @throws FlickrGeneralException
      * @throws \ReflectionException
      */
-    protected function call(array $args, string $method): array
+    public function call(array $args, string $method): array
     {
+        $reflect = new \ReflectionClass($this);
+        $endPoint = 'flickr.' . strtolower($reflect->getShortName()) . '.' . $method;
+
         $ref = new ReflectionMethod($this, $method);
         $parameters = [];
         foreach ($ref->getParameters() as $index => $parameter) {
@@ -38,9 +28,9 @@ class BaseFlickr
 
         return call_user_func(
             [
-                $this->service, 'request',
+                app(FlickrService::class), 'request',
             ],
-            $this->buildPath($method),
+            $endPoint,
             $parameters
         );
     }

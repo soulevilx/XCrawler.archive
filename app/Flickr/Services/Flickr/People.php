@@ -6,13 +6,16 @@ use App\Flickr\Events\Errors\UserDeleted;
 use App\Flickr\Events\Errors\UserNotFound;
 use App\Flickr\Exceptions\FlickrGeneralException;
 use App\Flickr\Models\FlickrContact;
-use App\Flickr\Models\FlickrPhoto;
 use App\Flickr\Models\FlickrProcess;
 use App\Flickr\Repositories\ContactRepository;
+use App\Flickr\Services\Flickr\Traits\HasFlickrClient;
+use App\Flickr\Services\FlickrService;
 use Illuminate\Support\Collection;
 
-class People extends BaseFlickr
+class People
 {
+    use HasFlickrClient;
+
     public const ERROR_CODE_USER_NOT_FOUND = 1;
     public const ERROR_CODE_USER_DELETED = 5;
 
@@ -27,6 +30,10 @@ class People extends BaseFlickr
     ];
 
     public const PER_PAGE = 500;
+
+    public function __construct(private FlickrService $service, private ContactRepository $repository)
+    {
+    }
 
     public function getInfo(string $user_id): array
     {
@@ -116,7 +123,7 @@ class People extends BaseFlickr
 
     public function update(FlickrContact $model, array $attributes): bool
     {
-        if ($return = $model->update($attributes)) {
+        if ($return = $this->repository->setModel($model)->update($attributes)) {
             /**
              * @TODO Trigger updated event
              * - Pending update for at least 1 week later
@@ -131,15 +138,6 @@ class People extends BaseFlickr
 
     public function addPhotos(FlickrContact $model, Collection $photos)
     {
-        foreach ($photos as $photo) {
-            $model->photos()->firstOrCreate([
-                'id' => $photo['id'],
-                'owner' => $photo['owner'],
-            ], $photo);
-        }
-
-        $model->processes()->create([
-            'step' => FlickrProcess::STEP_PEOPLE_PHOTOS,
-        ]);
+        $this->repository->setModel($model)->addPhotos($photos);
     }
 }

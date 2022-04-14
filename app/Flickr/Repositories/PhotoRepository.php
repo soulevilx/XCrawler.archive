@@ -27,5 +27,7 @@ class PhotoRepository extends AbstractRepository
     public function setModel($model)
     {
         $this->model = $model;
+
+        return $this;
     }
 }

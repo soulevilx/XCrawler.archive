@@ -2,7 +2,6 @@
 
 namespace App\Flickr\Models;
 
-use App\Core\Models\BaseModel;
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
 use App\Flickr\Models\Traits\HasProcesses;

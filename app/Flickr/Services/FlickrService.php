@@ -156,32 +156,32 @@ class FlickrService
 
     public function contacts(): Contacts
     {
-        return new Contacts($this);
+        return app(Contacts::class);
     }
 
     public function people(): People
     {
-        return new People($this);
+        return app(People::class);
     }
 
     public function favorites(): Favorites
     {
-        return new Favorites($this);
+        return app(Favorites::class);
     }
 
     public function photos(): Photos
     {
-        return new Photos($this);
+        return app(Photos::class);
     }
 
     public function photosets(): PhotoSets
     {
-        return new PhotoSets($this);
+        return app(PhotoSets::class);
     }
 
     public function urls(): Urls
     {
-        return new Urls($this);
+        return app(Urls::class);
     }
 
     public function downloadAlbum(string $albumUrl): Album
