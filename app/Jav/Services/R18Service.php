@@ -2,7 +2,6 @@
 
 namespace App\Jav\Services;
 
-use App\Core\Models\State;
 use App\Core\Services\Facades\Application;
 use App\Jav\Crawlers\R18Crawler;
 use App\Jav\Events\R18\R18DailyCompleted;

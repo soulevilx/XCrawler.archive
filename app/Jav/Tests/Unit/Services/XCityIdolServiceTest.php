@@ -2,7 +2,6 @@
 
 namespace App\Jav\Tests\Unit\Services;
 
-use App\Core\Models\Setting;
 use App\Core\Services\Facades\Application;
 use App\Jav\Services\XCityIdolService;
 use App\Jav\Tests\JavTestCase;

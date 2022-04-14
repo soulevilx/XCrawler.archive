@@ -2,9 +2,6 @@
 
 namespace App\Flickr\Jobs;
 
-use App\Core\Models\State;
-use App\Flickr\Models\FlickrContact;
-
 class FlickrFavorites extends AbstractProcessJob
 {
     public function process(): bool

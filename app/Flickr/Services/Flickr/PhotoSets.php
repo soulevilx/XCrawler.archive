@@ -8,7 +8,6 @@ use App\Flickr\Events\PhotoAddedToAlbum;
 use App\Flickr\Models\FlickrAlbum;
 use App\Flickr\Models\FlickrPhoto;
 use App\Flickr\Repositories\AlbumRepository;
-use App\Flickr\Repositories\PhotoRepository;
 use App\Flickr\Services\Flickr\Traits\HasFlickrClient;
 use App\Flickr\Services\FlickrService;
 use Illuminate\Support\Collection;
