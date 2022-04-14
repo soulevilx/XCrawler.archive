@@ -27,6 +27,10 @@ jobs:
           chmod -R 777 storage bootstrap/cache
           php artisan config:clear
           php artisan migrate:fresh
+  test:
+    runs-on: [runner1]
+
+    steps:
 
       - name: Lint
         run: composer lint
