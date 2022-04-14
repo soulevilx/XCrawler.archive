@@ -2,24 +2,14 @@
 
 namespace App\Jav\Repositories;
 
-use App\Core\Repositories\AbstractRepository;
+use App\Core\Repositories\Traits\HasDefaultRepository;
 use App\Jav\Models\Onejav;
 
-class OnejavRespository extends AbstractRepository
+class OnejavRespository
 {
-    public function __construct(protected Onejav $model)
-    {
-    }
+    use HasDefaultRepository;
 
-    public function getModel()
+    public function __construct(public Onejav $model)
     {
-        return $this->model;
-    }
-
-    public function setModel($model)
-    {
-        $this->model = $model;
-
-        return $this;
     }
 }

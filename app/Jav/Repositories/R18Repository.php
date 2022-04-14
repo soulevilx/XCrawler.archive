@@ -2,24 +2,14 @@
 
 namespace App\Jav\Repositories;
 
-use App\Core\Repositories\AbstractRepository;
+use App\Core\Repositories\Traits\HasDefaultRepository;
 use App\Jav\Models\R18;
 
-class R18Repository extends AbstractRepository
+class R18Repository
 {
-    public function __construct(protected R18 $model)
-    {
-    }
+    use HasDefaultRepository;
 
-    public function getModel()
+    public function __construct(public R18 $model)
     {
-        return $this->model;
-    }
-
-    public function setModel($model)
-    {
-        $this->model = $model;
-
-        return $this;
     }
 }

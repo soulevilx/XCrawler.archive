@@ -2,22 +2,14 @@
 
 namespace App\Flickr\Repositories;
 
-use App\Core\Repositories\AbstractRepository;
+use App\Core\Repositories\Traits\HasDefaultRepository;
 use App\Flickr\Models\FlickrAlbum;
 
-class AlbumRepository extends AbstractRepository
+class AlbumRepository
 {
+    use HasDefaultRepository;
+
     public function __construct(public FlickrAlbum $model)
     {
-    }
-
-    public function getModel()
-    {
-        return $this->model;
-    }
-
-    public function setModel($model)
-    {
-        $this->model = $model;
     }
 }

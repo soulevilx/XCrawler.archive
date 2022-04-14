@@ -2,24 +2,14 @@
 
 namespace App\Jav\Repositories;
 
-use App\Core\Repositories\AbstractRepository;
+use App\Core\Repositories\Traits\HasDefaultRepository;
 use App\Jav\Models\XCityIdol;
 
-class XCityIdolRepository extends AbstractRepository
+class XCityIdolRepository
 {
-    public function __construct(protected XCityIdol $model)
-    {
-    }
+    use HasDefaultRepository;
 
-    public function getModel()
+    public function __construct(public XCityIdol $model)
     {
-        return $this->model;
-    }
-
-    public function setModel($model)
-    {
-        $this->model = $model;
-
-        return $this;
     }
 }

@@ -2,12 +2,14 @@
 
 namespace App\Flickr\Repositories;
 
-use App\Core\Repositories\AbstractRepository;
+use App\Core\Repositories\Traits\HasDefaultRepository;
 use App\Flickr\Models\FlickrPhoto;
 use Illuminate\Support\Collection;
 
-class PhotoRepository extends AbstractRepository
+class PhotoRepository
 {
+    use HasDefaultRepository;
+
     public function __construct(protected FlickrPhoto $model)
     {
     }
@@ -17,17 +19,5 @@ class PhotoRepository extends AbstractRepository
         return $this->model->whereNull('sizes')
             ->limit($limit)
             ->get();
-    }
-
-    public function getModel()
-    {
-        return $this->model;
-    }
-
-    public function setModel($model)
-    {
-        $this->model = $model;
-
-        return $this;
     }
 }

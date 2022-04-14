@@ -3,12 +3,14 @@
 namespace App\Flickr\Repositories;
 
 use App\Core\Models\State;
-use App\Core\Repositories\AbstractRepository;
+use App\Core\Repositories\Traits\HasDefaultRepository;
 use App\Flickr\Models\FlickrProcess;
 use Illuminate\Support\Collection;
 
-class ProcessRepository extends AbstractRepository
+class ProcessRepository
 {
+    use HasDefaultRepository;
+
     public function __construct(protected FlickrProcess $model)
     {
     }
@@ -20,15 +22,5 @@ class ProcessRepository extends AbstractRepository
             ->where('model_type', $modelType)
             ->limit($limit)
             ->get();
-    }
-
-    public function getModel()
-    {
-        return $this->model;
-    }
-
-    public function setModel($model)
-    {
-        $this->model = $model;
     }
 }

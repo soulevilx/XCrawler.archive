@@ -2,24 +2,14 @@
 
 namespace App\Jav\Repositories;
 
-use App\Core\Repositories\AbstractRepository;
+use App\Core\Repositories\Traits\HasDefaultRepository;
 use App\Jav\Models\XCityVideo;
 
-class XCityVideoRepository extends AbstractRepository
+class XCityVideoRepository
 {
-    public function __construct(protected XCityVideo $model)
-    {
-    }
+    use HasDefaultRepository;
 
-    public function getModel()
+    public function __construct(public XCityVideo $model)
     {
-        return $this->model;
-    }
-
-    public function setModel($model)
-    {
-        $this->model = $model;
-
-        return $this;
     }
 }

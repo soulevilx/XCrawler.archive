@@ -2,15 +2,17 @@
 
 namespace App\Jav\Repositories;
 
-use App\Core\Repositories\AbstractRepository;
+use App\Core\Repositories\Traits\HasDefaultRepository;
 use App\Jav\Models\Movie;
 
-class MovieRepository extends AbstractRepository
+class MovieRepository
 {
+    use HasDefaultRepository;
+
     private GenreRepository $genreRepository;
     private PerformerRepository $performerRepository;
 
-    public function __construct(protected Movie $model)
+    public function __construct(public Movie $model)
     {
         $this->genreRepository = app(GenreRepository::class);
         $this->performerRepository = app(PerformerRepository::class);
@@ -49,17 +51,5 @@ class MovieRepository extends AbstractRepository
     {
         $this->performerRepository->setMovie($this->model);
         $this->performerRepository->sync($performers);
-    }
-
-    public function getModel()
-    {
-        return $this->model;
-    }
-
-    public function setModel($model)
-    {
-        $this->model = $model;
-
-        return $this;
     }
 }

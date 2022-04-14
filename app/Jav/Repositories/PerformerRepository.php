@@ -2,17 +2,19 @@
 
 namespace App\Jav\Repositories;
 
-use App\Core\Repositories\AbstractRepository;
+use App\Core\Repositories\Traits\HasDefaultRepository;
 use App\Jav\Events\PerformerCreated;
 use App\Jav\Models\Movie;
 use App\Jav\Models\Performer;
 use Illuminate\Support\Facades\Event;
 
-class PerformerRepository extends AbstractRepository
+class PerformerRepository
 {
+    use HasDefaultRepository;
+
     private Movie $movie;
 
-    public function __construct(protected Performer $model)
+    public function __construct(public Performer $model)
     {
     }
 
@@ -34,17 +36,5 @@ class PerformerRepository extends AbstractRepository
 
             $this->movie->performers()->syncWithoutDetaching([$performer->id]);
         }
-    }
-
-    public function getModel()
-    {
-        return $this->model;
-    }
-
-    public function setModel($model)
-    {
-        $this->model = $model;
-
-        return $this;
     }
 }

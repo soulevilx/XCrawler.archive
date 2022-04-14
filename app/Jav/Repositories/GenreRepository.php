@@ -2,17 +2,19 @@
 
 namespace App\Jav\Repositories;
 
-use App\Core\Repositories\AbstractRepository;
+use App\Core\Repositories\Traits\HasDefaultRepository;
 use App\Jav\Events\GenreCreated;
 use App\Jav\Models\Genre;
 use App\Jav\Models\Movie;
 use Illuminate\Support\Facades\Event;
 
-class GenreRepository extends AbstractRepository
+class GenreRepository
 {
+    use HasDefaultRepository;
+
     private Movie $movie;
 
-    public function __construct(protected Genre $model)
+    public function __construct(public Genre $model)
     {
     }
 
@@ -34,17 +36,5 @@ class GenreRepository extends AbstractRepository
 
             $this->movie->genres()->syncWithoutDetaching([$genre->id]);
         }
-    }
-
-    public function getModel()
-    {
-        return $this->model;
-    }
-
-    public function setModel($model)
-    {
-        $this->model = $model;
-
-        return $this;
     }
 }
