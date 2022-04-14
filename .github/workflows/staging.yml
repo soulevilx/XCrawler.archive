@@ -12,7 +12,7 @@ on:
 jobs:
   build:
     # Test on Runner 1
-    runs-on: [runner1]
+    runs-on: [staging]
 
     steps:
       - uses: actions/checkout@v2
