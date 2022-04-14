@@ -2,9 +2,7 @@
 
 namespace App\Jav\Console\Commands;
 
-use App\Core\Models\State;
 use App\Jav\Jobs\XCity\IdolItemFetch;
-use App\Jav\Models\XCityIdol as XCityIdolModel;
 use App\Jav\Services\XCityIdolService;
 use Illuminate\Console\Command;
 
@@ -31,24 +29,19 @@ class XCityIdol extends Command
                 $service->release();
 
                 break;
-
             case 'daily':
                 $service->daily();
 
                 break;
-
             case 'item':
-                $query = XCityIdolModel::byState(State::STATE_INIT);
-                if ($limit = $this->input->getOption('limit')) {
-                    $query = $query->limit($limit);
-                } elseif ($id = $this->input->getOption('id')) {
-                    $query = $query->where('id', $id);
-                }
+                $models = app(XCityIdolService::class)->getItems(
+                    $this->input->getOption('limit'),
+                    $this->input->getOption('id')
+                );
 
-                foreach ($query->cursor() as $model) {
+                foreach ($models as $model) {
                     IdolItemFetch::dispatch($model)->onQueue('crawling');
                 }
-
                 break;
         }
     }

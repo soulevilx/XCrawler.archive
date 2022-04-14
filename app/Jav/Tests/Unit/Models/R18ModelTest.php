@@ -48,5 +48,11 @@ class R18ModelTest extends TestCase
         ]);
 
         $this->assertEquals('https://fake.com', $r18->sample());
+
+        $r18 = R18::factory()->create([
+            'sample' => null,
+        ]);
+
+        $this->assertNull($r18->sample());
     }
 }

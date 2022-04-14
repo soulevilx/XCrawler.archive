@@ -2,7 +2,7 @@
 
 namespace App\Jav\Observers;
 
-use App\Jav\Events\XCityIdolCompleted;
+use App\Jav\Events\XCity\XCityIdolCompleted;
 use App\Jav\Models\XCityIdol;
 use Illuminate\Support\Facades\Event;
 

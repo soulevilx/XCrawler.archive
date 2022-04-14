@@ -2,7 +2,7 @@
 
 namespace App\Jav\Observers;
 
-use App\Jav\Events\XCityVideoCompleted;
+use App\Jav\Events\XCity\XCityVideoCompleted;
 use App\Jav\Models\XCityVideo;
 use Illuminate\Support\Facades\Event;
 

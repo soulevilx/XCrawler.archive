@@ -3,9 +3,10 @@
 namespace App\Jav\Tests\Unit\Jobs;
 
 use App\Core\Models\State;
-use App\Core\Services\ApplicationService;
+use App\Core\Services\Facades\Application;
 use App\Jav\Jobs\XCity\GetIdolItemLinks;
 use App\Jav\Models\XCityIdol;
+use App\Jav\Services\XCityIdolService;
 use App\Jav\Tests\JavTestCase;
 use App\Jav\Tests\Traits\XCityIdolMocker;
 
@@ -25,8 +26,8 @@ class XCityGetIdolItemLinksTest extends JavTestCase
         $kana = $this->faker->randomElement($this->kanas);
         GetIdolItemLinks::dispatch($kana);
 
-        $this->assertNull(ApplicationService::getConfig('xcity_idol', $kana.'_total_pages'));
-        $this->assertEquals(1, ApplicationService::getConfig('xcity_idol', $kana.'_current_page'));
+        $this->assertEquals(1, Application::getSetting(XCityIdolService::SERVICE_NAME, $kana.'_total_pages'));
+        $this->assertEquals(1, Application::getSetting(XCityIdolService::SERVICE_NAME, $kana.'_current_page'));
 
         $this->assertDatabaseCount('xcity_idols', 30);
         $this->assertEquals(30, XCityIdol::byState(State::STATE_INIT)->count());
@@ -35,16 +36,16 @@ class XCityGetIdolItemLinksTest extends JavTestCase
     public function testGetIdolItemLinksNotAtEndOfPges()
     {
         $kana = $this->faker->randomElement($this->kanas);
-        ApplicationService::setConfig('xcity_idol', $kana.'_total_pages', 2);
+        Application::setSetting(XCityIdolService::SERVICE_NAME, $kana.'_total_pages', 2);
         GetIdolItemLinks::dispatch($kana);
 
-        $this->assertEquals(2, ApplicationService::getConfig('xcity_idol', $kana.'_current_page'));
+        $this->assertEquals(2, Application::getSetting(XCityIdolService::SERVICE_NAME, $kana.'_current_page'));
 
         $this->assertDatabaseCount('xcity_idols', 30);
         $this->assertEquals(30, XCityIdol::byState(State::STATE_INIT)->count());
 
         GetIdolItemLinks::dispatch($kana);
-        $this->assertEquals(1, ApplicationService::getConfig('xcity_idol', $kana.'_current_page'));
+        $this->assertEquals(1, Application::getSetting(XCityIdolService::SERVICE_NAME, $kana.'_current_page'));
     }
 
     public function testGetIdolItemLinksWithoutUpdateCurrentPage()
@@ -52,7 +53,7 @@ class XCityGetIdolItemLinksTest extends JavTestCase
         $kana = $this->faker->randomElement($this->kanas);
         GetIdolItemLinks::dispatch($kana, 1, false);
 
-        $this->assertNull(ApplicationService::getConfig('xcity', $kana.'_current_page'));
+        $this->assertNull(Application::getSetting('xcity', $kana.'_current_page'));
 
         $this->assertDatabaseCount('xcity_idols', 30);
         $this->assertEquals(30, XCityIdol::byState(State::STATE_INIT)->count());

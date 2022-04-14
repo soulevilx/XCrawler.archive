@@ -2,10 +2,11 @@
 
 namespace App\Jav\Jobs\XCity;
 
-use App\Core\Services\ApplicationService;
+use App\Core\Services\Facades\Application;
 use App\Jav\Crawlers\XCityIdolCrawler;
 use App\Jav\Jobs\Traits\HasCrawlingMiddleware;
 use App\Jav\Models\XCityIdol;
+use App\Jav\Services\XCityIdolService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -29,11 +30,11 @@ class InitIdolIndex implements ShouldQueue
     {
         $configKey = $this->kana.'_total_pages';
 
-        if (ApplicationService::getConfig('xcity_idol', $configKey)) {
+        if (Application::getSetting(XCityIdolService::SERVICE_NAME, $configKey)) {
             return;
         }
 
         $totalPages = $crawler->getPages(XCityIdol::INDEX_URL, ['kana' => $this->kana]);
-        ApplicationService::setConfig('xcity_idol', $configKey, $totalPages);
+        Application::getSetting(XCityIdolService::SERVICE_NAME, $configKey, $totalPages);
     }
 }

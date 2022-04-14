@@ -2,68 +2,103 @@
 
 namespace App\Core\Services;
 
-use App\Core\Models\Application;
-use Illuminate\Support\Collection;
+use App\Core\Models\Setting;
 
 class ApplicationService
 {
-    private Application|Collection $models;
+    protected array $settings;
 
     public function __construct()
     {
         $this->refresh();
     }
 
-    public function save(string $name, string $key, $value)
+    public function getSettings(): array
     {
-        if (!$this->models->has($name)) {
-            $model = Application::firstOrCreate([
-                'name' => $name,
-            ], [
-                'settings' => [],
-            ]);
+        return $this->settings;
+    }
+
+    public function getSetting(string $group, string $field, $default = null)
+    {
+        if (isset($this->settings[$group]) && isset($this->settings[$group][$field])) {
+            return $this->settings[$group][$field];
         }
 
-        $model = $model ?? $this->models->get($name);
+        $this->setSetting($group, $field, $default);
+        return $default;
+    }
 
-        $settings = $model->settings;
-        $settings[$key] = $value;
-        $model->update(['settings' => $settings]);
-        $this->models->put($name, $model);
+    public function setSetting(string $group, string $field, $value): ApplicationService
+    {
+        $this->settings[$group][$field] = $value;
+        $this->save($group, $field, $value);
 
         return $this;
     }
 
-    public function remove(string $name, string $key)
+    public function setSettings(array $settings): ApplicationService
     {
-        $model = $this->models->get($name);
-        $settings = $model->settings;
-        unset($settings[$key]);
-        $model->update(['settings' => $settings]);
+        $this->settings = $settings;
+
+        foreach ($this->settings as $group => $data) {
+            foreach ($data as $field => $value) {
+                $this->save($group, $field, $value);
+            }
+        }
 
         return $this;
     }
 
-    public function get(string $name, string $key, $default = null)
+    public function getInt(string $group, string $field, $default = null): int
     {
-        $model = $this->models->get($name);
-        $settings = $model->settings ?? [];
-
-        return $settings[$key] ?? $default;
+        return (int) $this->getSetting($group, $field, $default);
     }
 
-    public static function getConfig(string $name, string $key, $default = null)
+    public function getString(string $group, string $field, $default = null): string
     {
-        return app(ApplicationService::class)->get($name, $key, $default);
+        return (string) $this->getSetting($group, $field, $default);
     }
 
-    public static function setConfig(string $name, string $key, $value)
+    public function getBool(string $group, string $field, $default = null): bool
     {
-        return app(ApplicationService::class)->save($name, $key, $value);
+        return (bool) $this->getSetting($group, $field, $default);
     }
 
-    public function refresh()
+    public function getArray(string $group, string $field): array
     {
-        $this->models = Application::all()->keyBy('name');
+        $value = $this->getSetting($group, $field);
+
+        return $value ?? [];
+    }
+
+    public function inc(string $group, string $field): int
+    {
+        $value = $this->getInt($group, $field);
+        $value++;
+
+        $this->setSetting($group, $field, $value);
+
+        return $value;
+    }
+
+    protected function save(string $group, string $field, $value): ApplicationService
+    {
+        Setting::updateOrCreate([
+            'group' => $group,
+            'field' => $field,
+        ], [
+            'value' => $value,
+        ]);
+
+        return $this;
+    }
+
+    public function refresh(): ApplicationService
+    {
+        Setting::all()->each(function ($item) {
+            $this->settings[$item->group][$item->field] = $item->value;
+        });
+
+        return $this;
     }
 }

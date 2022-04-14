@@ -2,7 +2,7 @@
 
 namespace App\Jav\Tests\Unit\Crawlers;
 
-use App\Jav\Models\Onejav;
+use App\Jav\Services\OnejavService;
 use App\Jav\Tests\JavTestCase;
 use App\Jav\Tests\Traits\OnejavMocker;
 use Carbon\Carbon;
@@ -21,7 +21,7 @@ class OnejavCrawlerTest extends JavTestCase
 
     public function testGetItemsOnPage()
     {
-        $items = $this->crawler->getItems(Carbon::now()->format(Onejav::DAILY_FORMAT));
+        $items = $this->crawler->getItems(Carbon::now()->format(OnejavService::DAILY_FORMAT));
 
         $this->assertInstanceOf(Collection::class, $items);
         $this->assertEquals(10, $items->count());

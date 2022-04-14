@@ -2,14 +2,11 @@
 
 namespace App\Jav\Tests\Unit\Services;
 
+use App\Jav\Crawlers\OnejavCrawler;
 use App\Jav\Models\Movie;
-use App\Jav\Models\Onejav;
 use App\Jav\Services\Movie\MovieService;
 use App\Jav\Tests\JavTestCase;
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Response;
 use Jooservices\XcrawlerClient\Response\DomResponse;
-use Jooservices\XcrawlerClient\XCrawlerClient;
 
 class MovieServiceTest extends JavTestCase
 {
@@ -18,12 +15,7 @@ class MovieServiceTest extends JavTestCase
         $this->mocker
             ->shouldReceive('get')
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021_page_1.html'));
-        app()->instance(XCrawlerClient::class, $this->mocker);
-
-        $client = \Mockery::mock(Client::class);
-        $client->shouldReceive('request')
-            ->andReturn(new Response());
-        app()->instance(Client::class, $client);
+        app()->instance(OnejavCrawler::class, new OnejavCrawler($this->mocker));
 
         $movie = Movie::factory()->create([
             'dvd_id' => 'WAAA-088',
@@ -35,11 +27,5 @@ class MovieServiceTest extends JavTestCase
             'model_id' => $movie->id,
             'model_type' => $movie->getMorphClass(),
         ]);
-
-        Onejav::factory()->create([
-            'dvd_id' => $movie->dvd_id,
-        ]);
-
-        $this->assertNull($movie->refresh()->requestDownload);
     }
 }

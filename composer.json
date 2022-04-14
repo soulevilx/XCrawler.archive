@@ -18,6 +18,7 @@
     "require": {
         "php": "^8.0",
         "ext-curl": "*",
+        "defstudio/telegraph": "^1.6",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.3",
@@ -32,12 +33,14 @@
         "laravel/tinker": "^2.6",
         "sentry/sentry-laravel": "^2.9",
         "spatie/laravel-rate-limited-job-middleware": "^1.5",
+
         "studio/laravel-totem": "^8.3"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
         "barryvdh/laravel-ide-helper": "^2.10",
         "beyondcode/laravel-dump-server": "^1.7",
+        "brianium/paratest": "^6.4",
         "facade/ignition": "^2",
         "fakerphp/faker": "^1.9.1",
         "friendsofphp/php-cs-fixer": "^3.0",

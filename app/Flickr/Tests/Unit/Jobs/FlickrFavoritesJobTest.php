@@ -3,10 +3,12 @@
 namespace App\Flickr\Tests\Unit\Jobs;
 
 use App\Core\Models\State;
+use App\Flickr\Events\FlickrContactCreated;
 use App\Flickr\Jobs\FlickrFavorites;
 use App\Flickr\Models\FlickrContact;
 use App\Flickr\Models\FlickrProcess;
 use App\Flickr\Tests\FlickrTestCase;
+use Illuminate\Support\Facades\Event;
 
 class FlickrFavoritesJobTest extends FlickrTestCase
 {
@@ -16,6 +18,8 @@ class FlickrFavoritesJobTest extends FlickrTestCase
             'nsid' => '50419993@N05',
             'state_code' => State::STATE_INIT,
         ]);
+
+        Event::dispatch(new FlickrContactCreated($contact));
 
         $process = $contact->processes()->where('step', FlickrProcess::STEP_PEOPLE_FAVORITE_PHOTOS)->first();
         FlickrFavorites::dispatch($process);
@@ -30,12 +34,16 @@ class FlickrFavoritesJobTest extends FlickrTestCase
             'state_code' => State::STATE_INIT,
         ]);
 
-        $deletedContact->delete();
-
         $contact = FlickrContact::factory()->create([
             'nsid' => '50419993@N05',
             'state_code' => State::STATE_INIT,
         ]);
+
+        Event::dispatch(new FlickrContactCreated($deletedContact));
+
+        $deletedContact->delete();
+
+        Event::dispatch(new FlickrContactCreated($contact));
 
         $process = $contact->processes()->where('step', FlickrProcess::STEP_PEOPLE_FAVORITE_PHOTOS)->first();
         FlickrFavorites::dispatch($process);

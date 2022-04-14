@@ -2,6 +2,8 @@
 
 namespace App\Flickr\Tests\Unit\Services;
 
+use App\Core\Models\BaseMongo;
+use App\Flickr\Events\Errors\UserDeleted;
 use App\Flickr\Events\FlickrRequestFailed;
 use App\Flickr\Exceptions\FlickrGeneralException;
 use App\Flickr\Models\FlickrContact;
@@ -10,39 +12,56 @@ use App\Flickr\Services\Flickr\People;
 use App\Flickr\Services\FlickrService;
 use App\Flickr\Tests\FlickrTestCase;
 use Illuminate\Support\Facades\Event;
+use OAuth\Common\Http\Exception\TokenResponseException;
+use OAuth\Common\Http\Uri\Uri;
 
 class FlickrServiceTest extends FlickrTestCase
 {
-    public function testRequestFailed()
+    /**
+     * @dataProvider dataProviderTestPeopleFailed
+     * @return void
+     */
+    public function testPeopleFailed(string $userId, string $endpoint, int $code)
     {
         Event::fake(FlickrRequestFailed::class);
-        $this->expectException(FlickrGeneralException::class);
 
-        // User deleted
-        $this->service->people()->getInfo('deleted');
+        try {
+            $this->service->people()->getInfo($userId);
+        } catch (\Exception $exception) {
+            $this->assertInstanceOf(FlickrGeneralException::class, $exception);
+        }
         $this->assertDatabaseHas('client_requests', [
-            'service' => FlickrService::SERVICE,
-            'endpoint' => 'flickr.people.getInfo',
-            'code' => People::ERROR_CODE_USER_DELETED
-        ], 'mongodb');
+            'service' => FlickrService::SERVICE_NAME,
+            'endpoint' => $endpoint,
+            'error' => People::ERROR_MESSAGES_MAP[$code]
 
-        // General cases
-        $this->service->people()->getInfo('null');
-        $this->assertDatabaseHas('client_requests', [
-            'service' => FlickrService::SERVICE,
-            'endpoint' => 'flickr.people.getInfo',
-            'code' => 999,
-        ], 'mongodb');
+        ], BaseMongo::CONNECTION_NAME);
 
-        // Exception
+        Event::assertDispatched(FlickrRequestFailed::class, function ($event) use ($userId) {
+            return $event->path === 'flickr.people.getInfo' && $event->params['user_id'] === $userId;
+        });
+    }
+
+    public function testPeopleTokenException()
+    {
+        $this->expectException(TokenResponseException::class);
         $this->service->people()->getInfo('exception');
-        $this->assertDatabaseHas('client_requests', [
-            'service' => FlickrService::SERVICE,
-            'endpoint' => 'flickr.people.getInfo',
-            'code' => 9999,
-            'message' => 'TokenResponseException'
-        ], 'mongodb');
-        Event::assertDispatched(FlickrRequestFailed::class);
+    }
+
+    public function dataProviderTestPeopleFailed()
+    {
+        return [
+            [
+                'deleted',
+                'flickr.people.getInfo',
+                People::ERROR_CODE_USER_DELETED,
+            ],
+            [
+                'null',
+                'flickr.people.getInfo',
+                People::ERROR_CODE_USER_NOT_FOUND,
+            ],
+        ];
     }
 
     public function testContacts()
@@ -50,21 +69,28 @@ class FlickrServiceTest extends FlickrTestCase
         $this->assertEquals($this->totalContacts, $this->service->contacts()->getListAll()->count());
         $this->assertEquals(
             Contacts::PER_PAGE,
-            $this->service->contacts()->getList(null, null, Contacts::PER_PAGE)['contact']->count()
+            $this->service->contacts()->getList(
+                null,
+                null,
+                Contacts::PER_PAGE
+            )['contact']->count()
         );
     }
 
     public function testContactsFailed()
     {
         Event::fake(FlickrRequestFailed::class);
-        $this->expectException(FlickrGeneralException::class);
-        $this->service->contacts()->getList(null, null, 9999);
+        try {
+            $this->service->contacts()->getList(null, null, 9999);
+        } catch (\Exception $exception) {
+            $this->assertInstanceOf(FlickrGeneralException::class, $exception);
+        }
+
         $this->assertDatabaseHas('client_requests', [
-            'service' => FlickrService::SERVICE,
-            'endpoint' => 'flickr.people.getInfo',
-            'code' => Contacts::ERROR_CODE_INVALID_SORT_PARAMETER,
-            'message' => 'The possible values are: name and time.'
-        ], 'mongodb');
+            'service' => FlickrService::SERVICE_NAME,
+            'endpoint' => 'flickr.contacts.getList',
+            'error' => 'The possible values are: name and time.'
+        ], BaseMongo::CONNECTION_NAME);
         Event::assertDispatched(FlickrRequestFailed::class);
     }
 
@@ -98,15 +124,25 @@ class FlickrServiceTest extends FlickrTestCase
 
     public function testPeopleInfoUserDeleted()
     {
-        $this->expectException(FlickrGeneralException::class);
-        $people = FlickrContact::factory()->create(['nsid' => 'deleted']);
-        $this->service->people()->getInfo('deleted');
+        Event::fake([
+            FlickrRequestFailed::class,
+            UserDeleted::class,
+        ]);
+        try {
+            FlickrContact::factory()->create(['nsid' => 'deleted']);
+            $this->service->people()->getInfo('deleted');
+        } catch (\Exception $exception) {
+            $this->assertInstanceOf(FlickrGeneralException::class, $exception);
+        }
+
         $this->assertDatabaseHas('client_requests', [
-            'service' => FlickrService::SERVICE,
+            'service' => FlickrService::SERVICE_NAME,
             'endpoint' => 'flickr.people.getInfo',
-            'code' => 1,
-        ], 'mongodb');
-        $this->assertSoftDeleted($people);
+            'error' => People::ERROR_MESSAGES_MAP[People::ERROR_CODE_USER_DELETED],
+        ], BaseMongo::CONNECTION_NAME);
+
+        Event::dispatched(FlickrRequestFailed::class);
+        Event::dispatched(UserDeleted::class);
     }
 
     public function testPeopleGetPhotosUserDeleted()
@@ -134,13 +170,17 @@ class FlickrServiceTest extends FlickrTestCase
 
     public function testPhotoSetsNotFound()
     {
-        $this->expectException(FlickrGeneralException::class);
-        $this->service->photosets()->getInfo(999, 'deleted');
+        try {
+            $this->service->photosets()->getInfo(999, 'deleted');
+        } catch (\Exception $exception) {
+            $this->assertInstanceOf(FlickrGeneralException::class, $exception);
+        }
+
         $this->assertDatabaseHas('client_requests', [
-            'service' => FlickrService::SERVICE,
+            'service' => FlickrService::SERVICE_NAME,
             'endpoint' => 'flickr.photosets.getInfo',
-            'code' => 9999,
-        ], 'mongodb');
+
+        ], BaseMongo::CONNECTION_NAME);
     }
 
     public function testPhotoSetsPhotos()
@@ -156,7 +196,8 @@ class FlickrServiceTest extends FlickrTestCase
         $this->assertEquals('ANGUS PHOTOGRAPHY', $result['username']);
     }
 
-    public function testDownloadAlbum()
+    public function testGetAuthUrl()
     {
+        $this->assertInstanceOf(Uri::class, $this->service->getAuthUrl());
     }
 }

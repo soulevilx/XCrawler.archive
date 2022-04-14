@@ -14,6 +14,6 @@ class FlickrPeopleInfo extends AbstractProcessJob
         }
 
         $info['description'] = strip_tags($info['description']);
-        return $this->process->model->update($info);
+        return $this->service->people()->update($this->process->model, $info);
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Jav\Http\Controllers;
 
 use App\Core\Http\Controllers\BaseController;
-use App\Core\Services\MessagesService;
 use App\Jav\Http\Requests\PostWordPressRequest;
 use App\Jav\Http\Requests\ShowMoviesRequest;
 use App\Jav\Models\Genre;
@@ -11,7 +10,7 @@ use App\Jav\Models\Movie;
 use App\Jav\Models\Performer;
 use App\Jav\Services\Movie\MovieService;
 use App\Jav\Services\R18Service;
-use App\Jav\Services\WordPressPostService;
+use App\Jav\Services\WordPressService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -68,9 +67,9 @@ class MoviesController extends BaseController
         );
     }
 
-    public function toWordPress(PostWordPressRequest $request, MovieService $service, WordPressPostService $wordPress, Movie $movie)
+    public function toWordPress(PostWordPressRequest $request, WordPressService $wordPress, Movie $movie)
     {
-        if (!$wordPressPost = $service->createWordPressPost($movie, $request->input('confirm', false))) {
+        if (!$wordPressPost = $wordPress->createMoviePost($movie, $request->input('confirm', false))) {
             return response()->view(
                 'pages.jav.movie',
                 [

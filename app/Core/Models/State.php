@@ -3,13 +3,14 @@
 namespace App\Core\Models;
 
 use App\Core\Models\Traits\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property string $reference_code
  * @property string $entity
  * @property string $state
  */
-class State extends BaseModel
+class State extends Model
 {
     use HasFactory;
 

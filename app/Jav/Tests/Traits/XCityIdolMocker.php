@@ -3,18 +3,23 @@
 namespace App\Jav\Tests\Traits;
 
 use App\Jav\Crawlers\XCityIdolCrawler;
+use App\Jav\Services\XCityIdolService;
 use Jooservices\XcrawlerClient\Response\DomResponse;
-use Jooservices\XcrawlerClient\XCrawlerClient;
 
 trait XCityIdolMocker
 {
     protected XCityIdolCrawler $crawler;
 
     protected array $kanas = ['あ', 'か', 'さ', 'た', 'な', 'は', 'ま', 'や', 'ら', 'わ'];
-    protected array $idolIds = [5750, 7794, 12519, 13125, 16821, 14387, 11924];
+    protected array $idolIds = [5750, 7794, 12519, 13125, 16821, 14387, 11924, 8636];
 
     protected function loadXCityIdolMocker()
     {
+        $this->mocker
+            ->shouldReceive('get')
+            ->with('idol/')
+            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'XCity/idol.html'));
+
         $this->mocker
             ->shouldReceive('get')
             ->with('idol/', [])
@@ -39,8 +44,8 @@ trait XCityIdolMocker
         foreach ($this->idolIds as $idolId) {
             $this->mocker
                 ->shouldReceive('get')
-                ->with('idol/detail/'.$idolId, [])
-                ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'XCity/idol_detail_'.$idolId.'.html'));
+                ->with('idol/detail/' . $idolId, [])
+                ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'XCity/idol_detail_' . $idolId . '.html'));
         }
 
         $this->mocker
@@ -48,7 +53,14 @@ trait XCityIdolMocker
             ->with('idol/detail/999', [])
             ->andReturn($this->getErrorMockedResponse(app(DomResponse::class)));
 
-        app()->instance(XCrawlerClient::class, $this->mocker);
-        $this->crawler = app(XCityIdolCrawler::class);
+        $this->service = $this->getService();
+        $this->crawler = new XCityIdolCrawler($this->mocker);
+    }
+
+    protected function getService(): XCityIdolService
+    {
+        app()->instance(XCityIdolCrawler::class, new XCityIdolCrawler($this->mocker));
+
+        return app(XCityIdolService::class);
     }
 }

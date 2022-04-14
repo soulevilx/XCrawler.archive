@@ -4,6 +4,7 @@ namespace App\Jav\Console\Commands;
 
 use App\Core\Models\WordPressPost as WordPressPostModel;
 use App\Jav\Services\WordPressPostService;
+use App\Jav\Services\WordPressService;
 use Illuminate\Console\Command;
 
 class WordPressPost extends Command
@@ -22,7 +23,7 @@ class WordPressPost extends Command
      */
     protected $description = 'Sendmail to WordPress';
 
-    public function handle(WordPressPostService $service)
+    public function handle(WordPressService $service)
     {
         $wordPressPost = null;
         if ($dvdId = $this->input->getOption('dvdid')) {

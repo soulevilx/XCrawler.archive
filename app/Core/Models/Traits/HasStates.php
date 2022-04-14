@@ -11,14 +11,22 @@ use Illuminate\Database\Eloquent\Builder;
  */
 trait HasStates
 {
-    protected function loadHasStatesTrait()
+    public function initializeHasStates()
     {
-        $this->fillable = array_merge($this->fillable, [
+        $this->mergeFillable([
             'state_code'
         ]);
-        $this->casts = array_merge($this->casts, [
+
+        $this->mergeCasts([
             'state_code' => 'string',
         ]);
+    }
+
+    public static function bootHasStates()
+    {
+        static::creating(function ($model) {
+            $model->state_code = $model->state_code ?? State::STATE_INIT;
+        });
     }
 
     public function scopeByState(Builder $builder, string $stateCode)

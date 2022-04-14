@@ -2,7 +2,7 @@
 
 namespace App\Jav\Tests\Feature\Http;
 
-use App\Core\Services\ApplicationService;
+use App\Core\Services\Facades\Application;
 use App\Jav\Mail\WordPressPost as WordPressPostEmail;
 use App\Jav\Models\Onejav;
 use Illuminate\Support\Facades\Mail;
@@ -14,7 +14,7 @@ class MovieControllerTest extends TestCase
     {
         Mail::fake();
 
-        ApplicationService::setConfig('jav', 'enable_post_to_wordpress', false);
+        Application::setSetting('jav', 'enable_post_to_wordpress', false);
         $onejav = Onejav::factory()->create();
 
         // Redirect

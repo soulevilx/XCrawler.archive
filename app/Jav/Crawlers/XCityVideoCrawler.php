@@ -2,7 +2,7 @@
 
 namespace App\Jav\Crawlers;
 
-use App\Core\Client;
+use App\Core\XCrawlerClient;
 use App\Jav\Models\XCityVideo;
 use ArrayObject;
 use Carbon\Carbon;
@@ -12,7 +12,7 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class XCityVideoCrawler
 {
-    public function __construct(protected Client $client)
+    public function __construct(protected XCrawlerClient $client)
     {
     }
 

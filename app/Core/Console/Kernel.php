@@ -23,7 +23,7 @@ class Kernel extends ConsoleKernel
     {
         // Onejav
         $schedule->command('jav:onejav release')->everyMinute();
-        $schedule->command('jav:onejav daily')->dailyAt('12:00');
+        $schedule->command('jav:onejav daily')->dailyAt('14:00');
 
         // R18
         $schedule->command('jav:r18 release')->everyFiveMinutes();

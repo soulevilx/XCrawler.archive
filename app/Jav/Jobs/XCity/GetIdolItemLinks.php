@@ -2,7 +2,7 @@
 
 namespace App\Jav\Jobs\XCity;
 
-use App\Core\Services\ApplicationService;
+use App\Core\Services\Facades\Application;
 use App\Jav\Crawlers\XCityIdolCrawler;
 use App\Jav\Jobs\Traits\HasCrawlingMiddleware;
 use App\Jav\Models\XCityIdol;
@@ -26,18 +26,17 @@ class GetIdolItemLinks implements ShouldQueue
     public function handle(XCityIdolCrawler $crawler, XCityIdolService $service)
     {
         $configKey = $this->kana.'_current_page';
-        $totalPages = (int) ApplicationService::getConfig('xcity_idol', $this->kana.'_total_pages', 1);
 
         $this->page = $this->updateCurrentPage
-            ? ApplicationService::getConfig('xcity_idol', $configKey, $this->page)
+            ? Application::getSetting(XCityIdolService::SERVICE_NAME, $configKey, $this->page)
             : $this->page;
 
         $links = $crawler->getItemLinks(XCityIdol::INDEX_URL, ['kana' => $this->kana, 'page' => $this->page]);
 
         $links->each(function ($link) use ($service) {
-            $service->setAttributes([
+            $service->create([
                 'url' => $link,
-            ])->create();
+            ]);
         });
 
         if (!$this->updateCurrentPage) {
@@ -46,10 +45,11 @@ class GetIdolItemLinks implements ShouldQueue
 
         ++$this->page;
 
+        $totalPages = (int) Application::getSetting(XCityIdolService::SERVICE_NAME, $this->kana.'_total_pages', 1);
         if ($this->page > $totalPages) {
             $this->page = 1;
         }
 
-        ApplicationService::setConfig('xcity_idol', $configKey, $this->page);
+        Application::setSetting(XCityIdolService::SERVICE_NAME, $configKey, $this->page);
     }
 }

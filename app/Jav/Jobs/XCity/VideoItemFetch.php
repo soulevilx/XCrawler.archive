@@ -28,4 +28,9 @@ class VideoItemFetch implements ShouldQueue
         $this->model = $service->item($this->model);
         $this->model->setState(State::STATE_COMPLETED);
     }
+
+    public function failed()
+    {
+        $this->model->setState(State::STATE_INIT);
+    }
 }

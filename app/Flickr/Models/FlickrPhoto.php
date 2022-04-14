@@ -2,19 +2,19 @@
 
 namespace App\Flickr\Models;
 
-use App\Core\Models\BaseModel;
 use App\Core\Models\Traits\HasFactory;
-use App\Core\Models\Traits\HasStates;
 use App\Flickr\Services\FlickrService;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 
 /**
  * @property array $sizes
  */
-class FlickrPhoto extends BaseModel
+class FlickrPhoto extends Model
 {
     use HasFactory;
-    use HasStates;
+    use SoftDeletes;
 
     /**
      * Indicates if the IDs are auto-incrementing.

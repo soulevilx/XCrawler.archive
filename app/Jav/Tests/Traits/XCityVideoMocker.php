@@ -4,9 +4,9 @@ namespace App\Jav\Tests\Traits;
 
 use App\Jav\Crawlers\XCityVideoCrawler;
 use App\Jav\Models\XCityVideo;
+use App\Jav\Services\XCityVideoService;
 use Carbon\Carbon;
 use Jooservices\XcrawlerClient\Response\DomResponse;
-use Jooservices\XcrawlerClient\XCrawlerClient;
 
 trait XCityVideoMocker
 {
@@ -57,7 +57,14 @@ trait XCityVideoMocker
             ->with(XCityVideo::INDEX_URL, ['num' => 999])
             ->andReturn($this->getErrorMockedResponse(app(DomResponse::class)));
 
-        app()->instance(XCrawlerClient::class, $this->mocker);
-        $this->crawler = app(XCityVideoCrawler::class);
+        $this->service = $this->getService();
+        $this->crawler = new XCityVideoCrawler($this->mocker);
+    }
+
+    public function getService(): XCityVideoService
+    {
+        app()->instance(XCityVideoCrawler::class, new XCityVideoCrawler($this->mocker));
+
+        return app(XCityVideoService::class);
     }
 }

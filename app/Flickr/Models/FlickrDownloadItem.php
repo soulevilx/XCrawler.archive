@@ -2,9 +2,9 @@
 
 namespace App\Flickr\Models;
 
-use App\Core\Models\BaseModel;
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property  integer $id
@@ -12,7 +12,7 @@ use App\Core\Models\Traits\HasStates;
  * @property-read  FlickrDownload $download
  * @package App\Models
  */
-class FlickrDownloadItem extends BaseModel
+class FlickrDownloadItem extends Model
 {
     use HasFactory;
     use HasStates;

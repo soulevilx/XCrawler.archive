@@ -2,23 +2,20 @@
 
 namespace App\Jav\Models;
 
-use App\Core\Models\BaseModel;
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property-read Movie $movie
  */
-class XCityVideo extends BaseModel
+class XCityVideo extends Model
 {
     use HasFactory;
     use SoftDeletes;
     use HasStates;
 
-    public const SERVICE = 'xcity_video';
-
-    public const BASE_URL = 'https://xxx.xcity.jp';
     public const INDEX_URL = 'avod/list';
     public const PER_PAGE = 90;
 

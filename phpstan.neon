@@ -3,8 +3,11 @@ parameters:
     paths:
         - app
     inferPrivatePropertyTypeFromConstructor: true
+    checkMissingIterableValueType: true
     excludes_analyse:
         - */Tests/*
         - */Database/*
         - */Routes/*
         - 'rector.php'
+
+    ignoreErrors:

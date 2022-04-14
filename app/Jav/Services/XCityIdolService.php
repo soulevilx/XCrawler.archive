@@ -2,36 +2,47 @@
 
 namespace App\Jav\Services;
 
-use App\Core\Models\State;
-use App\Core\Services\ApplicationService;
+use App\Core\Services\Facades\Application;
 use App\Jav\Crawlers\XCityIdolCrawler;
 use App\Jav\Jobs\XCity\GetIdolItemLinks;
 use App\Jav\Jobs\XCity\InitIdolIndex;
 use App\Jav\Models\XCityIdol;
-use App\Jav\Services\Interfaces\ServiceInterface;
+use App\Jav\Repositories\XCityIdolRepository;
 use App\Jav\Services\Traits\HasAttributes;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Bus;
 
-class XCityIdolService implements ServiceInterface
+class XCityIdolService
 {
     use HasAttributes;
 
-    protected XCityIdol $idol;
+    public const SERVICE_NAME = 'xcity_idols';
+    public const BASE_URL = 'https://xxx.xcity.jp';
+    public const SUBPAGES = [
+        "/idol/?kana=あ",
+        "/idol/?kana=か",
+        "/idol/?kana=さ",
+        "/idol/?kana=た",
+        "/idol/?kana=な",
+        "/idol/?kana=は",
+        "/idol/?kana=ま",
+        "/idol/?kana=や",
+        "/idol/?kana=ら",
+        "/idol/?kana=わ",
+    ];
 
-    public const SERVICE_LABEL = 'XCity idols';
-
-    public function __construct(protected XCityIdolCrawler $crawler, protected ApplicationService $service)
+    public function __construct(protected XCityIdolCrawler $crawler, protected XCityIdolRepository $repository)
     {
     }
 
-    public function getSubPages()
+    public function getSubPages(): array
     {
-        $subPages = ApplicationService::getConfig('xcity_idol', 'sub_pages');
+        $subPages = Application::getArray(self::SERVICE_NAME, 'sub_pages');
 
-        if (!$subPages) {
-            $subPages = $this->crawler->getSubPages();
-            ApplicationService::setConfig('xcity_idol', 'sub_pages', $subPages);
+        if (empty($subPages)) {
+            $subPages = $this->crawler->getSubPages()->toArray();
+            Application::setSetting(self::SERVICE_NAME, 'sub_pages', $subPages);
         }
 
         return $subPages;
@@ -65,15 +76,11 @@ class XCityIdolService implements ServiceInterface
         }
     }
 
-    public function create(): XCityIdol
+    public function create(array $attributes): XCityIdol
     {
-        $this->defaultAttribute('state_code', State::STATE_INIT);
-
-        $this->idol = XCityIdol::firstOrCreate([
-            'url' => $this->attributes['url'],
-        ], $this->attributes);
-
-        return $this->idol;
+        return $this->repository->updateOrCreate([
+            'url' => $attributes['url'],
+        ], $attributes);
     }
 
     public function item(Model $model): XCityIdol
@@ -89,5 +96,10 @@ class XCityIdolService implements ServiceInterface
         }
 
         return $model;
+    }
+
+    public function getItems(int $limit, int $id = null): Collection
+    {
+        return $this->repository->getItemsByState($limit, $id);
     }
 }
