@@ -55,6 +55,8 @@
             <directory suffix=".php">./app/Console/Kernel.php</directory>
             <directory suffix=".php">./app/Jav/Console/Commands/Migrations/PreviousVersion.php</directory>
             <directory suffix=".php">./app/Flickr/Console/Commands/Migration.php</directory>
+
+            <directory suffix=".php">./app/Core/XCrawlerClient.php</directory>
         </exclude>
     </coverage>
 
