@@ -28,7 +28,7 @@
             </li>
 
             <li class="sidebar-item">
-                <a class="sidebar-link" href="{{route('configurations.index')}}">
+                <a class="sidebar-link" href="">
                     <i class="fab fa-flickr"></i><span class="align-middle">Index</span>
                 </a>
             </li>
