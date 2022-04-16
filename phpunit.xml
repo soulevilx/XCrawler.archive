@@ -11,26 +11,17 @@
          stopOnFailure="false"
 >
     <testsuites>
-        <testsuite name="Quick">
-            <directory suffix="Test.php">./app/*/Tests/Quick</directory>
+        <testsuite name="Core">
+            <directory suffix="Test.php">./app/Core/Tests/Feature</directory>
+            <directory suffix="Test.php">./app/Core/Tests/Unit</directory>
         </testsuite>
-        <testsuite name="Unit">
-            <directory suffix="Test.php">./app/*/Tests/Unit</directory>
+        <testsuite name="Flickr">
+            <directory suffix="Test.php">./app/Flickr/Tests/Feature</directory>
+            <directory suffix="Test.php">./app/Flickr/Tests/Unit</directory>
         </testsuite>
-        <testsuite name="Feature">
-            <directory suffix="Test.php">./app/*/Tests/Feature</directory>
-        </testsuite>
-        <testsuite name="FeatureLive">
-            <directory suffix="TestLive.php">./app/*/Tests/Feature</directory>
-        </testsuite>
-        <testsuite name="Integration">
-            <directory suffix="Test.php">./app/*/Tests/Integration</directory>
-        </testsuite>
-        <testsuite name="External">
-            <directory suffix="Test.php">./app/*/Tests/External</directory>
-        </testsuite>
-        <testsuite name="Services">
-            <directory suffix="Test.php">./app/*/Tests/Unit/Services</directory>
+        <testsuite name="Jav">
+            <directory suffix="Test.php">./app/Jav/Tests/Feature</directory>
+            <directory suffix="Test.php">./app/Jav/Tests/Unit</directory>
         </testsuite>
     </testsuites>
 

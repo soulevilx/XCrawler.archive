@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    # Test on Runner 1
+
     runs-on: [ARM64]
 
     services:
@@ -96,3 +96,17 @@ jobs:
         with:
           status: ${{ job.status }}
           config: .github/config/slack.yml
+
+  jav:
+
+    runs-on: [ARM64]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Execute tests (Unit and Feature tests) via PHPUnit
+        if: success()
+        run: |
+          composer test-coverage
