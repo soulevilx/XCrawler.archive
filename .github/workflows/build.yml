@@ -41,6 +41,9 @@ jobs:
         ports:
           - 27017:27017
 
+    strategy:
+      matrix:
+        php: [8.0, 8.1]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -54,7 +57,7 @@ jobs:
         env:
           runner: self-hosted
         with:
-          php-version: '8.0'
+          php-version: ${{ matrix.php }}
           extensions: mongodb-1.13, redis, pcov
 
       - name: Setup application
@@ -98,16 +101,3 @@ jobs:
           config: .github/config/slack.yml
 
   jav:
-    needs: build
-
-    runs-on: [ARM64]
-
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: Execute tests (Unit and Feature tests) via PHPUnit
-        if: success()
-        run: |
-          composer test-coverage
