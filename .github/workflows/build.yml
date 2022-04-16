@@ -32,7 +32,6 @@ jobs:
         ports:
           - 27017:27017
 
-
     steps:
       - uses: actions/checkout@v2
         with:
@@ -44,7 +43,7 @@ jobs:
           runner: self-hosted
         with:
           php-version: '8.0'
-          extensions: mongodb, redis
+          extensions: mongodb-1.13, redis
 
       - name: Setup application
         if: success()
