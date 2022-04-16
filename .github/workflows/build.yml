@@ -98,6 +98,7 @@ jobs:
           config: .github/config/slack.yml
 
   jav:
+    needs: build
 
     runs-on: [ARM64]
 
