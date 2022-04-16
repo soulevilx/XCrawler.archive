@@ -60,12 +60,6 @@ jobs:
           php artisan config:clear
           php artisan migrate:fresh
 
-  test:
-    needs: build
-
-    runs-on: [ ARM64 ]
-
-    steps:
       - name: Lint
         run: composer lint
 
@@ -95,3 +89,4 @@ jobs:
         with:
           status: ${{ job.status }}
           config: .github/config/slack.yml
+
