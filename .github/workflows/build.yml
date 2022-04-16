@@ -21,12 +21,12 @@ jobs:
           MYSQL_DATABASE: xcrawler
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5 -e MYSQL_ROOT_PASSWORD=root -e MYSQL_USER=root -e MYSQL_PASSWORD=root -e MYSQL_DATABASE=xcrawler --entrypoint sh mariadb:latest -c "exec docker-entrypoint.sh mysqld --default-authentication-plugin=mysql_native_password"
+
       redis:
         image: redis
         ports:
           - 6379:6379
-        options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
       mongo:
         image: mongo
         ports:
