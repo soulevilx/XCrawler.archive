@@ -46,9 +46,9 @@
         "friendsofphp/php-cs-fixer": "^3.0",
         "mockery/mockery": "^1.4",
         "nunomaduro/collision": "^5",
-        "phpstan/phpstan": "^0.12.94",
+        "phpstan/phpstan": "^1.5",
         "phpunit/phpunit": "^9.5",
-        "rector/rector": "^0.11.51",
+        "rector/rector": "^0.12",
         "squizlabs/php_codesniffer": "^3.6",
         "vimeo/psalm": "^4.22"
     },
@@ -84,6 +84,7 @@
             "@php vendor/bin/phpstan analyze --level=0 app"
         ],
         "test": [
+            "@php vendor/bin/phpstan",
             "@php vendor/bin/phpunit --testsuite=Core",
             "@php vendor/bin/phpunit --testsuite=Flickr",
             "@php vendor/bin/phpunit --testsuite=Jav"

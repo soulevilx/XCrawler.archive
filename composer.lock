@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2225ed28211cd328158777e5156b7f21",
+    "content-hash": "0e019e347b1d6bd8a3ca53b5c2be43c2",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -10452,20 +10452,20 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.99",
+            "version": "1.5.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "b4d40f1d759942f523be267a1bab6884f46ca3f7"
+                "reference": "799dd8c2d2c9c704bb55d2078078cb970cf0f6d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/b4d40f1d759942f523be267a1bab6884f46ca3f7",
-                "reference": "b4d40f1d759942f523be267a1bab6884f46ca3f7",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/799dd8c2d2c9c704bb55d2078078cb970cf0f6d1",
+                "reference": "799dd8c2d2c9c704bb55d2078078cb970cf0f6d1",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1|^8.0"
+                "php": "^7.2|^8.0"
             },
             "conflict": {
                 "phpstan/phpstan-shim": "*"
@@ -10475,11 +10475,6 @@
                 "phpstan.phar"
             ],
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.12-dev"
-                }
-            },
             "autoload": {
                 "files": [
                     "bootstrap.php"
@@ -10492,7 +10487,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/0.12.99"
+                "source": "https://github.com/phpstan/phpstan/tree/1.5.6"
             },
             "funding": [
                 {
@@ -10512,7 +10507,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-09-12T20:09:55+00:00"
+            "time": "2022-04-15T11:13:37+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -10937,25 +10932,24 @@
         },
         {
             "name": "rector/rector",
-            "version": "0.11.60",
+            "version": "0.12.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "428f593818f8c50fe12c543e8c0a107f9bd899ae"
+                "reference": "cfa8d3e236a6e1a41d69712a84d434dfdf70e560"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/428f593818f8c50fe12c543e8c0a107f9bd899ae",
-                "reference": "428f593818f8c50fe12c543e8c0a107f9bd899ae",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/cfa8d3e236a6e1a41d69712a84d434dfdf70e560",
+                "reference": "cfa8d3e236a6e1a41d69712a84d434dfdf70e560",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1|^8.0",
-                "phpstan/phpstan": "0.12.99"
+                "php": "^7.2|^8.0",
+                "phpstan/phpstan": "^1.5"
             },
             "conflict": {
-                "phpstan/phpdoc-parser": "<=0.5.3",
-                "phpstan/phpstan": "<=0.12.82",
+                "phpstan/phpdoc-parser": "<1.2",
                 "rector/rector-cakephp": "*",
                 "rector/rector-doctrine": "*",
                 "rector/rector-laravel": "*",
@@ -10971,7 +10965,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "0.11-dev"
+                    "dev-main": "0.12-dev"
                 }
             },
             "autoload": {
@@ -10983,10 +10977,10 @@
             "license": [
                 "MIT"
             ],
-            "description": "Prefixed and PHP 7.1 downgraded version of rector/rector",
+            "description": "Instant Upgrade and Automated Refactoring of any PHP code",
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/0.11.60"
+                "source": "https://github.com/rectorphp/rector/tree/0.12.20"
             },
             "funding": [
                 {
@@ -10994,7 +10988,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-10-20T13:08:22+00:00"
+            "time": "2022-04-06T12:55:14+00:00"
         },
         {
             "name": "sebastian/cli-parser",
