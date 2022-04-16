@@ -32,16 +32,19 @@ jobs:
         ports:
           - 27017:27017
 
-      - name: Setup PHP with PECL extension
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.0'
-          extensions: mongodb, redis
 
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
+
+      - name: Setup PHP with PECL extension
+        uses: shivammathur/setup-php@v2
+        env:
+          runner: self-hosted
+        with:
+          php-version: '8.0'
+          extensions: mongodb, redis
 
       - name: Setup application
         if: success()
