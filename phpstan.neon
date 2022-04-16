@@ -4,7 +4,7 @@ parameters:
         - app
     inferPrivatePropertyTypeFromConstructor: true
     checkMissingIterableValueType: true
-    excludes_analyse:
+    excludePaths:
         - */Tests/*
         - */Database/*
         - */Routes/*
