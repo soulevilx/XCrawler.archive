@@ -27,8 +27,8 @@ jobs:
         ports:
           - 6379:6379
 
-#      mongo:
-#        image: mongo
+      mongo:
+        image: healthcheck/mongo
 #        env:
 #          MONGO_INITDB_ROOT_USERNAME: root
 #          MONGO_INITDB_ROOT_PASSWORD: root
@@ -45,9 +45,9 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-
-      - name: Create mongoDB Docker container
-        run: sudo docker run -d -p 27017:27017 mongo:latest
+#
+#      - name: Create mongoDB Docker container
+#        run: sudo docker run -d -p 27017:27017 mongo:latest
 
       - name: Setup PHP with PECL extension
         uses: shivammathur/setup-php@v2
