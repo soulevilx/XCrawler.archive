@@ -28,24 +28,24 @@ jobs:
           - 6379:6379
 
       mongo:
-        image: healthcheck/mongo
+        image: mongo-4.4
 #        env:
 #          MONGO_INITDB_ROOT_USERNAME: root
 #          MONGO_INITDB_ROOT_PASSWORD: root
 #          MONGO_INITDB_DATABASE: xcrawler
-#        options: >-
-#          --health-cmd mongo
-#          --health-interval 10s
-#          --health-timeout 5s
-#          --health-retries 5
-#        ports:
-#          - 27017:27017
+        options: >-
+          --health-cmd mongo
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 27017:27017
 
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-#
+
 #      - name: Create mongoDB Docker container
 #        run: sudo docker run -d -p 27017:27017 mongo:latest
 
