@@ -11,7 +11,28 @@ on:
 jobs:
   build:
     # Test on Runner 1
-    runs-on: [runner1]
+    runs-on: [ARM64]
+
+    services:
+      mysql:
+        image: mariadb:latest
+        env:
+          MYSQL_ROOT_PASSWORD: laravel
+          MYSQL_USER: laravel
+          MYSQL_PASSWORD: laravel
+          MYSQL_DATABASE: laravel
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5 -e MYSQL_ROOT_PASSWORD=laravel -e MYSQL_USER=laravel -e MYSQL_PASSWORD=laravel -e MYSQL_DATABASE=laravel --entrypoint sh mysql:8 -c "exec docker-entrypoint.sh mysqld --default-authentication-plugin=mysql_native_password"
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+        options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      mongo:
+        image: mongo
+        ports:
+          - 27017:27017
 
     steps:
       - uses: actions/checkout@v2
