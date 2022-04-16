@@ -47,7 +47,7 @@ jobs:
         env:
           runner: self-hosted
         with:
-          php-version: ${{ matrix.php }}
+          php-version: 8.0
           extensions: mongodb-1.13, redis, pcov
 
       - name: Setup application
