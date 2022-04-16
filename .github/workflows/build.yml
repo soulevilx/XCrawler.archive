@@ -29,6 +29,11 @@ jobs:
 
       mongo:
         image: mongo
+        options: >-
+          --health-cmd mongo
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
         ports:
           - 27017:27017
 
@@ -43,7 +48,7 @@ jobs:
           runner: self-hosted
         with:
           php-version: '8.0'
-          extensions: mongodb-1.13, redis
+          extensions: mongodb-1.13, redis, pcov
 
       - name: Setup application
         if: success()
