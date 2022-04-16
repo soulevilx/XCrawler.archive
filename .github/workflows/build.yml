@@ -6,12 +6,12 @@ on:
   # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows
   pull_request:
     branches: [ develop ]
-    types: [opened, synchronize]
+    types: [ opened, synchronize ]
 
 jobs:
   build:
 
-    runs-on: [ARM64]
+    runs-on: [ ARM64 ]
 
     services:
       mysql:
@@ -29,28 +29,22 @@ jobs:
 
       mongo:
         image: mongo:bionic
-#        env:
-#          MONGO_INITDB_ROOT_USERNAME: root
-#          MONGO_INITDB_ROOT_PASSWORD: root
-#          MONGO_INITDB_DATABASE: xcrawler
-#        options: >-
-#          --health-cmd mongo
-#          --health-interval 10s
-#          --health-timeout 5s
-#          --health-retries 5
+        options: >-
+          --health-cmd mongo
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
         ports:
           - 27017:27017
 
     strategy:
       matrix:
-        php: [8.0, 8.1]
+        php: [ 8.0, 8.1 ]
+
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-
-#      - name: Create mongoDB Docker container
-#        run: sudo docker run -d -p 27017:27017 mongo:latest
 
       - name: Setup PHP with PECL extension
         uses: shivammathur/setup-php@v2
@@ -99,5 +93,3 @@ jobs:
         with:
           status: ${{ job.status }}
           config: .github/config/slack.yml
-
-  jav:
