@@ -84,7 +84,6 @@
             "@php vendor/bin/phpstan analyze --level=0 app"
         ],
         "test": [
-            "@php vendor/bin/phpstan",
             "@php vendor/bin/phpunit --testsuite=Core",
             "@php vendor/bin/phpunit --testsuite=Flickr",
             "@php vendor/bin/phpunit --testsuite=Jav"
