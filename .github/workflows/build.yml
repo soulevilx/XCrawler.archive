@@ -29,6 +29,10 @@ jobs:
 
       mongo:
         image: mongo
+        env:
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: root
+          MONGO_INITDB_DATABASE: xcrawler
         options: >-
           --health-cmd mongo
           --health-interval 10s
