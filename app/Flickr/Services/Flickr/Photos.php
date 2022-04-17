@@ -28,10 +28,7 @@ class Photos
 
     public function create(array $attributes): FlickrPhoto
     {
-        $model = $this->repository->firstOrCreate([
-            'id' => $attributes['id'],
-            'owner' => $attributes['owner'],
-        ], $attributes);
+        $model = $this->repository->create($attributes);
 
         if ($model->wasRecentlyCreated) {
             Event::dispatch(new FlickrPhotoCreated($model));

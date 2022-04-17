@@ -120,10 +120,11 @@ class R18ServiceTest extends JavTestCase
         $this->assertEquals(2, Application::getSetting('r18', 'release_current_page'));
 
         $r18Item = R18::limit(1)->first();
-        $r18Item->update(['state_code' => State::STATE_FAILED]);
+        $r18Item->setState(State::STATE_FAILED);
         $this->service->release();
 
-        $this->assertEquals(State::STATE_INIT, $r18Item->refresh()->state_code);
+        // This item was failed before
+        $this->assertEquals(State::STATE_FAILED, $r18Item->refresh()->state_code);
     }
 
     public function testReleaseAtEndOfPages()

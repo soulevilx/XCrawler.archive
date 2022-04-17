@@ -2,8 +2,6 @@
 
 namespace Tests;
 
-use App\Core\Models\ClientRequest;
-use App\Core\Models\Setting;
 use App\Core\XCrawlerClient;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
@@ -28,9 +26,6 @@ abstract class TestCase extends BaseTestCase
 
         Notification::fake();
         Mail::fake();
-
-        ClientRequest::truncate();
-        Setting::truncate();
 
         $this->seed();
     }

@@ -12,7 +12,6 @@ use App\Jav\Events\Onejav\OnejavReleaseCompleted;
 use App\Jav\Models\Onejav;
 use App\Jav\Repositories\OnejavRespository;
 use App\Jav\Services\Traits\HasAttributes;
-use ArrayObject;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Event;
 
@@ -31,9 +30,7 @@ class OnejavService
 
     public function create(array $attributes): Onejav
     {
-        return $this->repository->updateOrCreate([
-            'dvd_id' => $attributes['dvd_id'],
-        ], $attributes);
+        return $this->repository->create($attributes);
     }
 
     public function daily()
@@ -44,15 +41,7 @@ class OnejavService
             return $items;
         }
 
-        $items->each(function ($item) {
-            /**
-             * @var ArrayObject $item
-             */
-            $this->repository->updateOrCreate(
-                ['url' => $item->url],
-                $item->getArrayCopy()
-            );
-        });
+        $this->repository->createMultiItems($items);
 
         Event::dispatch(new OnejavDailyCompleted($items));
 
@@ -65,12 +54,7 @@ class OnejavService
 
         $items = $this->crawler->getItems('new', ['page' => $currentPage]);
 
-        $items->each(function ($item) {
-            $this->repository->updateOrCreate(
-                ['url' => $item->url],
-                $item->getArrayCopy()
-            );
-        });
+        $this->repository->createMultiItems($items);
 
         ++$currentPage;
 
@@ -103,6 +87,9 @@ class OnejavService
             return false;
         }
 
+        /**
+         * @TODO Move to Repository
+         */
         Download::create([
             'model_id' => $onejav->id,
             'model_type' => Onejav::class,

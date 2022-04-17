@@ -78,9 +78,7 @@ class XCityIdolService
 
     public function create(array $attributes): XCityIdol
     {
-        return $this->repository->updateOrCreate([
-            'url' => $attributes['url'],
-        ], $attributes);
+        return $this->repository->create($attributes);
     }
 
     public function item(Model $model): XCityIdol

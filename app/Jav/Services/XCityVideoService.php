@@ -46,9 +46,7 @@ class XCityVideoService
 
     public function create(array $attributes): XCityVideo
     {
-        return $this->repository->updateOrCreate([
-            'url' => $attributes['url'],
-        ], $attributes);
+        return $this->repository->create($attributes);
     }
 
     public function item(Model $model): XCityVideo

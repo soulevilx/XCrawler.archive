@@ -6,6 +6,7 @@ use App\Core\Repositories\Traits\HasDefaultRepository;
 use App\Jav\Events\GenreCreated;
 use App\Jav\Models\Genre;
 use App\Jav\Models\Movie;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Event;
 
 class GenreRepository
@@ -18,6 +19,13 @@ class GenreRepository
     {
     }
 
+    public function create(array $attributes): Genre
+    {
+        return $this->model->firstOrCreate([
+            'name' => $attributes['name'],
+        ]);
+    }
+
     public function setMovie(Movie $movie)
     {
         $this->movie = $movie;
@@ -26,9 +34,7 @@ class GenreRepository
     public function sync(array $genres)
     {
         foreach ($genres as $genre) {
-            $genre = $this->model->firstOrCreate([
-                'name' => $genre,
-            ]);
+            $genre = $this->create(['name' => $genre]);
 
             if ($genre->wasRecentlyCreated) {
                 Event::dispatch(new GenreCreated($genre));

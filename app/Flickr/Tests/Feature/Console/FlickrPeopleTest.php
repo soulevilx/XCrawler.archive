@@ -2,7 +2,6 @@
 
 namespace App\Flickr\Tests\Feature\Console;
 
-use App\Core\Models\State;
 use App\Flickr\Events\FlickrContactCreated;
 use App\Flickr\Jobs\FlickrFavorites;
 use App\Flickr\Jobs\FlickrPeopleInfo;

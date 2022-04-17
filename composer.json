@@ -46,10 +46,11 @@
         "friendsofphp/php-cs-fixer": "^3.0",
         "mockery/mockery": "^1.4",
         "nunomaduro/collision": "^5",
-        "phpstan/phpstan": "^0.12.94",
+        "phpstan/phpstan": "^1.5",
         "phpunit/phpunit": "^9.5",
-        "rector/rector": "^0.11.51",
-        "squizlabs/php_codesniffer": "^3.6"
+        "rector/rector": "^0.12",
+        "squizlabs/php_codesniffer": "^3.6",
+        "vimeo/psalm": "^4.22"
     },
     "autoload": {
         "psr-4": {
@@ -83,18 +84,18 @@
             "@php vendor/bin/phpstan analyze --level=0 app"
         ],
         "test": [
-            "@php vendor/bin/phpunit --testsuite=Unit",
-            "@php vendor/bin/phpunit --testsuite=Feature",
-            "@php vendor/bin/phpunit --testsuite=Services"
+            "@php vendor/bin/phpunit --testsuite=Core",
+            "@php vendor/bin/phpunit --testsuite=Flickr",
+            "@php vendor/bin/phpunit --testsuite=Jav"
         ],
         "test-coverage": [
-            "@php vendor/bin/phpunit --testsuite=Unit,Feature,Services --coverage-clover coverage.xml"
+            "@php vendor/bin/phpunit --testsuite=Core,Flickr,Jav --coverage-clover coverage.xml"
         ],
         "test-coverage-html": [
-            "@php vendor/bin/phpunit --testsuite=Unit,Feature,Services --coverage-html coverage"
+            "@php vendor/bin/phpunit --testsuite=Core,Flickr,Jav --coverage-html coverage"
         ],
         "test-coverage-text": [
-            "@php vendor/bin/phpunit --testsuite=Unit,Feature,Services --coverage-text=coverage.txt"
+            "@php vendor/bin/phpunit --testsuite=Core,Flickr,Jav --coverage-text=coverage.txt"
         ],
         "test-live": [
             "@php vendor/bin/phpunit --testsuite=FeatureLive"

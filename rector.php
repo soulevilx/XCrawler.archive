@@ -57,7 +57,7 @@ use Rector\Php80\Rector\Class_\StringableForToStringRector;
 use Rector\Php80\Rector\FuncCall\ClassOnObjectRector;
 use Rector\Php80\Rector\Identical\StrEndsWithRector;
 use Rector\Php80\Rector\Identical\StrStartsWithRector;
-use Rector\Php80\Rector\If_\NullsafeOperatorRector;
+
 use Rector\Php80\Rector\NotIdentical\StrContainsRector;
 use Rector\Php80\Rector\Switch_\ChangeSwitchToMatchRector;
 use Rector\PostRector\Rector\ClassRenamingPostRector;
@@ -95,7 +95,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     //PHP8
-    $services->set(NullsafeOperatorRector::class);
+
     $services->set(RemoveUnusedVariableInCatchRector::class);
     $services->set(StrStartsWithRector::class);
     $services->set(StrEndsWithRector::class);

@@ -6,23 +6,55 @@ on:
   # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows
   pull_request:
     branches: [ develop ]
-    types: [opened, synchronize]
+    types: [ opened, synchronize ]
 
 jobs:
-  build:
-    # Test on Runner 1
-    runs-on: [runner1]
+  build_test:
+
+    runs-on: [ ARM64 ]
+
+    services:
+      mysql:
+        image: mariadb:latest
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: xcrawler
+        ports:
+          - 3306:3306
+
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+
+      mongo:
+        image: mongo:bionic
+        options: >-
+          --health-cmd mongo
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 27017:27017
 
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
+      - name: Setup PHP with PECL extension
+        uses: shivammathur/setup-php@v2
+        env:
+          runner: self-hosted
+        with:
+          php-version: 8.0
+          extensions: mongodb-1.13, redis, pcov
+
       - name: Setup application
         if: success()
         run: |
           php -r "file_exists('.env') || copy('.env.example', '.env');"
-          composer install -q --no-ansi --no-scripts --no-progress --prefer-dist
+          composer install --no-ansi --no-scripts --no-progress --prefer-dist
           php artisan key:generate
           chmod -R 777 storage bootstrap/cache
           php artisan config:clear
