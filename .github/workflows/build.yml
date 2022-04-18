@@ -102,7 +102,7 @@ jobs:
           name: coverage
           path: coverage.xml
 
-      - name: upload coverage to codecov.io
+      - name: Upload coverage to codecov.io
         uses: codecov/codecov-action@v1
         if: success()
         with:
