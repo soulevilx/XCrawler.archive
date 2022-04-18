@@ -64,8 +64,6 @@ use Rector\PostRector\Rector\ClassRenamingPostRector;
 use Rector\PostRector\Rector\NameImportingPostRector;
 use Rector\PostRector\Rector\PropertyAddingPostRector;
 use Rector\PostRector\Rector\UseAddingPostRector;
-use Rector\TypeDeclaration\Rector\ClassMethod\AddParamTypeDeclarationRector;
-use Rector\TypeDeclaration\Rector\ClassMethod\AddReturnTypeDeclarationRector;
 use Rector\TypeDeclaration\Rector\Param\ParamTypeFromStrictTypedPropertyRector;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -76,7 +74,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     // Define what paths we want rector to run on
     $parameters->set(Option::PATHS, [
-       __DIR__ . '/app'
+        __DIR__ . '/app'
     ]);
 
     // Define what paths we want to skip

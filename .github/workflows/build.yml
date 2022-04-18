@@ -64,6 +64,19 @@ jobs:
       - name: Lint
         run: composer lint
 
+      - name: Rector
+        id: rector-git-check
+        run: |
+        vendor/bin/rector process --ansi
+        echo ::set-output name=modified::$(if git diff --exit-code --no-patch; then echo "false"; else echo "true"; fi)
+        git config --global user.name 'rector-bot'
+        git config --global user.email 'jooservices@gmail.com'
+        echo ::set-env name=COMMIT_MESSAGE::$(git log -1 --pretty=format:"%s")
+
+      - name: Commit Rector changes
+        if: steps.rector-git-check.outputs.modified == 'true'
+        run: git commit -am "[rector] ${COMMIT_MESSAGE}"
+
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         if: success()
         run: |
