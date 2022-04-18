@@ -39,25 +39,7 @@ class OnejavServiceTest extends JavTestCase
     public function testCreateOnejav()
     {
         Event::fake([MovieCreated::class]);
-        $onejav = $this->service->create([
-            'url' => 'https://onejav.com/actress/Arina%20Hashimoto',
-            'cover' => $this->faker->unique->url,
-            'dvd_id' => $this->faker->unique->uuid,
-            'size' => $this->faker->randomFloat(2, 10, 20),
-            'date' => $this->faker->date,
-            'genres' => [
-                $this->faker->unique->word,
-                $this->faker->unique->word,
-                $this->faker->unique->word,
-            ],
-            'performers' => [
-                $this->faker->unique->name,
-                $this->faker->unique->name,
-                $this->faker->unique->name,
-            ],
-            'description' => $this->faker->text,
-            'torrent' => $this->faker->unique->url,
-        ]);
+        $onejav = $this->createOnejav([]);
 
         $this->assertDatabaseHas('onejav', [
             'url' => 'https://onejav.com/actress/Arina%20Hashimoto',
@@ -76,46 +58,17 @@ class OnejavServiceTest extends JavTestCase
 
     public function testCreateWithDuplicatedUrl()
     {
-        $onejav = $this->service->create([
+        $onejav = $this->createOnejav([
             'url' => 'fake',
-            'cover' => $this->faker->unique->url,
             'dvd_id' => 'fake-dvd-id',
-            'size' => $this->faker->randomFloat(2, 10, 20),
-            'date' => $this->faker->date,
-            'genres' => [
-                $this->faker->unique->word,
-                $this->faker->unique->word,
-                $this->faker->unique->word,
-            ],
-            'performers' => [
-                $this->faker->unique->name,
-                $this->faker->unique->name,
-                $this->faker->unique->name,
-            ],
-            'description' => $this->faker->text,
-            'torrent' => $this->faker->unique->url,
+
         ]);
 
         $this->assertDatabaseHas('onejav', ['url' => 'fake']);
 
-        $this->service->create([
+        $this->createOnejav([
             'url' => 'fake',
-            'cover' => $this->faker->unique->url,
             'dvd_id' => 'fake-dvd-id-2',
-            'size' => $this->faker->randomFloat(2, 10, 20),
-            'date' => $this->faker->date,
-            'genres' => [
-                $this->faker->unique->word,
-                $this->faker->unique->word,
-                $this->faker->unique->word,
-            ],
-            'performers' => [
-                $this->faker->unique->name,
-                $this->faker->unique->name,
-                $this->faker->unique->name,
-            ],
-            'description' => $this->faker->text,
-            'torrent' => $this->faker->unique->url,
         ]);
 
         $onejav->refresh();
@@ -275,5 +228,30 @@ class OnejavServiceTest extends JavTestCase
         $this->service = $this->getService();
 
         $this->assertFalse($this->service->download($onejav));
+    }
+
+    private function createOnejav(array $attributes): Onejav
+    {
+        $attributes = array_merge([
+            'url' => 'https://onejav.com/actress/Arina%20Hashimoto',
+            'cover' => $this->faker->unique->url,
+            'dvd_id' => $this->faker->unique->uuid,
+            'size' => $this->faker->randomFloat(2, 10, 20),
+            'date' => $this->faker->date,
+            'genres' => [
+                $this->faker->unique->word,
+                $this->faker->unique->word,
+                $this->faker->unique->word,
+            ],
+            'performers' => [
+                $this->faker->unique->name,
+                $this->faker->unique->name,
+                $this->faker->unique->name,
+            ],
+            'description' => $this->faker->text,
+            'torrent' => $this->faker->unique->url,
+        ], $attributes);
+
+        return $this->service->create($attributes);
     }
 }
