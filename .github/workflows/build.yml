@@ -64,7 +64,7 @@ jobs:
       - name: Rector
         id: rector-git-check
         run: |
-          vendor/bin/rector process --ansi
+          vendor/bin/rector process --dry-run --ansi
           echo ::set-output name=modified::$(if git diff --exit-code --no-patch; then echo "false"; else echo "true"; fi)
 
       - name: Lint
