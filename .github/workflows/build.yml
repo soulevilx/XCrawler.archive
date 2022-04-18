@@ -11,11 +11,45 @@ on:
     branches: [ develop ]
 jobs:
 
-  build_test:
-    runs-on: [ ARM64 ]
+  build:
+    runs-on: [ self-hosted, ARM64 ]
     strategy:
       matrix:
         lint: [ phpstan, phpmd ]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup PHP with PECL extension
+        uses: shivammathur/setup-php@v2
+        env:
+          runner: self-hosted
+        with:
+          php-version: 8.0
+          extensions: mongodb-1.13, redis, pcov
+
+      - name: Setup application
+        if: success()
+        run: |
+          php -r "file_exists('.env') || copy('.env.example', '.env');"
+          composer install --no-ansi --no-scripts --no-progress --prefer-dist
+          php artisan key:generate
+          chmod -R 777 storage bootstrap/cache
+          php artisan config:clear
+          php artisan migrate:fresh
+
+      - name: Rector
+        run: |
+          vendor/bin/rector process --dry-run --ansi
+
+      - name: Lint
+        run: composer ${{ matrix.lint }}
+
+  test:
+    runs-on: [ self-hosted, ARM64, raspberrypi ]
+    needs: build
 
     services:
       mysql:
@@ -63,13 +97,6 @@ jobs:
           chmod -R 777 storage bootstrap/cache
           php artisan config:clear
           php artisan migrate:fresh
-
-      - name: Rector
-        run: |
-          vendor/bin/rector process --dry-run --ansi
-
-      - name: Lint
-        run: composer lint
 
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         if: success()
