@@ -47,8 +47,7 @@ class OnejavCrawlerTest extends JavTestCase
 
     public function testGetItemsFailed()
     {
-        $items = $this->crawler->getItems('failed');
-        $this->assertTrue($items->isEmpty());
+        $this->assertTrue($this->crawler->getItems('failed')->isEmpty());
     }
 
     public function testGetItemsOnPageWithInvalidDate()

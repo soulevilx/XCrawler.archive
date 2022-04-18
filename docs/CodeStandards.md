@@ -16,3 +16,6 @@ Here is list of Code standards tool that we are using
 `.php-cs-fixer.php`
 - PHPStorm : PHP / Quality Tools / PHP CS Fixer
   - Binary path: `vendor/bin/php-cs-fixer`
+
+## PHPStan
+`phpstan.neon`

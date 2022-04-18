@@ -74,6 +74,87 @@ class OnejavServiceTest extends JavTestCase
         });
     }
 
+    public function testCreateWithDuplicatedUrl()
+    {
+        $onejav = $this->service->create([
+            'url' => 'fake',
+            'cover' => $this->faker->unique->url,
+            'dvd_id' => 'fake-dvd-id',
+            'size' => $this->faker->randomFloat(2, 10, 20),
+            'date' => $this->faker->date,
+            'genres' => [
+                $this->faker->unique->word,
+                $this->faker->unique->word,
+                $this->faker->unique->word,
+            ],
+            'performers' => [
+                $this->faker->unique->name,
+                $this->faker->unique->name,
+                $this->faker->unique->name,
+            ],
+            'description' => $this->faker->text,
+            'torrent' => $this->faker->unique->url,
+        ]);
+
+        $this->assertDatabaseHas('onejav', ['url' => 'fake']);
+
+        $this->service->create([
+            'url' => 'fake',
+            'cover' => $this->faker->unique->url,
+            'dvd_id' => 'fake-dvd-id-2',
+            'size' => $this->faker->randomFloat(2, 10, 20),
+            'date' => $this->faker->date,
+            'genres' => [
+                $this->faker->unique->word,
+                $this->faker->unique->word,
+                $this->faker->unique->word,
+            ],
+            'performers' => [
+                $this->faker->unique->name,
+                $this->faker->unique->name,
+                $this->faker->unique->name,
+            ],
+            'description' => $this->faker->text,
+            'torrent' => $this->faker->unique->url,
+        ]);
+
+        $onejav->refresh();
+        $this->assertEquals('fake-dvd-id-2', $onejav->getDvdId());
+    }
+
+    public function testCreateOnejavWithExistsMovie()
+    {
+        Event::fake([MovieCreated::class]);
+        Movie::factory()->create([
+            'dvd_id' => 'fake',
+        ]);
+
+        $this->service->create([
+            'url' => 'https://onejav.com/actress/Arina%20Hashimoto',
+            'cover' => $this->faker->unique->url,
+            'dvd_id' => 'fake',
+            'size' => $this->faker->randomFloat(2, 10, 20),
+            'date' => $this->faker->date,
+            'genres' => [
+                $this->faker->unique->word,
+                $this->faker->unique->word,
+                $this->faker->unique->word,
+            ],
+            'performers' => [
+                $this->faker->unique->name,
+                $this->faker->unique->name,
+                $this->faker->unique->name,
+            ],
+            'description' => $this->faker->text,
+            'torrent' => $this->faker->unique->url,
+        ]);
+
+        /**
+         * This movie already exists we won't dispatch event again
+         */
+        Event::assertNotDispatched(MovieCreated::class);
+    }
+
     public function testDaily()
     {
         $items = $this->service->daily();

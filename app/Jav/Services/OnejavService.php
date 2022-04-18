@@ -36,12 +36,7 @@ class OnejavService
     public function daily()
     {
         $items = $this->crawler->daily();
-
-        if ($items->isEmpty()) {
-            return $items;
-        }
-
-        $this->repository->createMultiItems($items);
+        $this->repository->createItems($items);
 
         Event::dispatch(new OnejavDailyCompleted($items));
 
@@ -54,7 +49,7 @@ class OnejavService
 
         $items = $this->crawler->getItems('new', ['page' => $currentPage]);
 
-        $this->repository->createMultiItems($items);
+        $this->repository->createItems($items);
 
         ++$currentPage;
 

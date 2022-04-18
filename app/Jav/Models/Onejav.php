@@ -51,12 +51,12 @@ class Onejav extends Model implements MovieInterface
         'performers' => 'array',
         'description' => 'string',
         'torrent' => 'string',
-        'updated_at' => 'datetime:Y-m-d H:m:s',
-        'created_at' => 'datetime:Y-m-d H:m:s',
     ];
 
     /**
      * Onejav have no state.
+     *
+     * @return bool
      */
     public function isCompletedState(): bool
     {

@@ -82,7 +82,7 @@
             "@php artisan ide-helper:generate",
             "@php artisan ide-helper:meta"
         ],
-        "phpstan": [
+        "lint": [
             "@php vendor/bin/phpstan analyze --level=0 app",
             "@php vendor/bin/phpmd app github phpmd.xml"
         ],
