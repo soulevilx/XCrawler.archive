@@ -15,9 +15,9 @@ jobs:
     strategy:
       matrix:
         lint: [ phpstan, phpmd, rector ]
-        php: [ 8.0, 8.1 ]
+        php: [ php8.0, php8.1 ]
 
-    runs-on: [ self-hosted, ARM64 ]
+    runs-on: [ self-hosted, ARM64, ${{ matrix.php }} ]
 
     steps:
       - uses: actions/checkout@v2

@@ -13,7 +13,13 @@
         }
     ],
     "readme": "README.md",
-    "keywords": ["framework", "laravel", "crawling", "jav", "flick"],
+    "keywords": [
+        "framework",
+        "laravel",
+        "crawling",
+        "jav",
+        "flick"
+    ],
     "license": "MIT",
     "require": {
         "php": ">=8.0",
@@ -33,7 +39,6 @@
         "laravel/tinker": "^2.6",
         "sentry/sentry-laravel": "^2.9",
         "spatie/laravel-rate-limited-job-middleware": "^1.5",
-
         "studio/laravel-totem": "^8.3"
     },
     "require-dev": {
@@ -119,7 +124,8 @@
         "sort-packages": true,
         "allow-plugins": {
             "composer/package-versions-deprecated": true
-        }
+        },
+        "process-timeout": 0
     },
     "minimum-stability": "dev",
     "prefer-stable": true
