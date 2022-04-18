@@ -25,21 +25,15 @@ class BaseResourceController extends Controller
     protected $headers;
 
     /**
-     * @var ResponseFactory
-     */
-    protected $response;
-
-    /**
      * ApiController constructor.
      *
      * @param ResponseFactory $response
      */
-    public function __construct(ResponseFactory $response)
+    public function __construct(protected ResponseFactory $response)
     {
         $this->data = [];
         $this->status = HttpResponse::HTTP_OK;
         $this->headers = [];
-        $this->response = $response;
     }
 
     /**

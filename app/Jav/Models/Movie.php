@@ -77,7 +77,7 @@ class Movie extends Model
     /**
      * Retrieve the model for a bound value.
      *
-     * @param mixed $value
+     * @param mixed       $value
      * @param string|null $field
      * @return Model|null
      */

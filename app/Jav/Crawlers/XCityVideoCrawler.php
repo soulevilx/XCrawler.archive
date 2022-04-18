@@ -108,11 +108,7 @@ class XCityVideoCrawler
 
                     case 'sales_date':
                     case 'release_date':
-                        if (!empty($value)) {
-                            $value = Carbon::createFromFormat('Y/m/d', $value);
-                        } else {
-                            $value = null;
-                        }
+                        $value = !empty($value) ? Carbon::createFromFormat('Y/m/d', $value) : null;
 
                         break;
 

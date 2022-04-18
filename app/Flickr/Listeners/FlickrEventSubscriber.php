@@ -53,7 +53,7 @@ class FlickrEventSubscriber
         }
 
         $contact->processes()->delete();
-//
+        //
         foreach ($contact->albums as $album) {
             $album->processes()->delete();
         }

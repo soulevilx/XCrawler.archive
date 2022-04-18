@@ -25,10 +25,8 @@ class WordPressService
 
     public function send(?WordPressPost $post = null)
     {
-        if ($post === null) {
-            if (!$post = WordPressPostModel::byState(State::STATE_INIT)->first()) {
-                return;
-            }
+        if ($post === null && !$post = WordPressPostModel::byState(State::STATE_INIT)->first()) {
+            return;
         }
 
         $post->setState(State::STATE_PROCESSING);

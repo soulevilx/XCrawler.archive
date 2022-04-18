@@ -9,7 +9,7 @@ use ReflectionMethod;
 trait HasFlickrClient
 {
     /**
-     * @param array $args
+     * @param array  $args
      * @param string $method
      * @return array
      * @throws FlickrGeneralException

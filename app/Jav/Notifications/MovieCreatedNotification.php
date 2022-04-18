@@ -86,7 +86,6 @@ class MovieCreatedNotification extends Notification implements ShouldQueue
      */
     public function toSlack($notifiable)
     {
-        dd($notifiable);
         return (new SlackMessage())
             ->success()
             ->content($this->movie->name ?? $this->movie->dvd_id)

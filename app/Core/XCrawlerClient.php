@@ -25,24 +25,19 @@ class XCrawlerClient
     private Factory $factory;
     private Logger $logger;
     private Client $client;
-    private string $service;
     private array $headers;
     private string $contentType;
-    private ResponseInterface $response;
 
-    public function __construct(string $service, ResponseInterface $response)
+    public function __construct(private string $service, private ResponseInterface $response)
     {
-        $this->service = $service;
         $this->logger = (new Logger($service))
             ->pushHandler(
-                new StreamHandler(storage_path('logs/' . $service . '/' . CarbonImmutable::now()->format('Y-m-d') . '.log'))
+                new StreamHandler(storage_path('logs/'.$service.'/'.CarbonImmutable::now()->format('Y-m-d').'.log'))
             );
 
         $this->requestOptions = new RequestOptions([
             'base_uri' => Application::getSetting($service, 'base_url'),
         ]);
-
-        $this->response = $response;
 
         $this->factory = new Factory($this->logger);
         $this->factory
@@ -73,7 +68,7 @@ class XCrawlerClient
     /**
      * Set the headers
      *
-     * @param array $headers
+     * @param  array  $headers
      * @return $this
      */
     public function setHeaders(array $headers): self
@@ -86,7 +81,7 @@ class XCrawlerClient
     /**
      * Set Client options
      *
-     * @param array $options
+     * @param  array  $options
      * @return $this
      */
     public function setOptions(array $options): self
@@ -99,7 +94,7 @@ class XCrawlerClient
     /**
      * Set the content type
      *
-     * @param string $contentType
+     * @param  string  $contentType
      *
      * @return $this
      */
@@ -113,8 +108,8 @@ class XCrawlerClient
     /**
      * GET Request
      *
-     * @param string $endpoint
-     * @param array $payload
+     * @param  string  $endpoint
+     * @param  array  $payload
      * @return ResponseInterface
      */
     public function get(string $endpoint, array $payload = []): ResponseInterface
@@ -125,8 +120,8 @@ class XCrawlerClient
     /**
      * POST Request
      *
-     * @param string $endpoint
-     * @param array $payload
+     * @param  string  $endpoint
+     * @param  array  $payload
      * @return ResponseInterface
      */
     public function post(string $endpoint, array $payload = []): ResponseInterface
@@ -137,8 +132,8 @@ class XCrawlerClient
     /**
      * PUT Request
      *
-     * @param string $endpoint
-     * @param array $payload
+     * @param  string  $endpoint
+     * @param  array  $payload
      * @return ResponseInterface
      */
     public function put(string $endpoint, array $payload = []): ResponseInterface
@@ -149,8 +144,8 @@ class XCrawlerClient
     /**
      * PATCH Request
      *
-     * @param string $endpoint
-     * @param array $payload
+     * @param  string  $endpoint
+     * @param  array  $payload
      * @return ResponseInterface
      */
     public function patch(string $endpoint, array $payload = []): ResponseInterface
@@ -161,8 +156,8 @@ class XCrawlerClient
     /**
      * DELETE Request
      *
-     * @param string $endpoint
-     * @param array $payload
+     * @param  string  $endpoint
+     * @param  array  $payload
      * @return ResponseInterface
      */
     public function delete(string $endpoint, array $payload = []): ResponseInterface
@@ -173,9 +168,9 @@ class XCrawlerClient
     /**
      * Perform the request
      *
-     * @param string $endpoint
-     * @param array $payload
-     * @param string $method
+     * @param  string  $endpoint
+     * @param  array  $payload
+     * @param  string  $method
      * @return ResponseInterface
      */
     protected function request(string $endpoint, array $payload = [], string $method = 'GET')

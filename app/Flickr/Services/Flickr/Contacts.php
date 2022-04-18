@@ -37,8 +37,8 @@ class Contacts
     /**
      * @link https://www.flickr.com/services/api/flickr.contacts.getList.html
      * @param string|null $filter
-     * @param int|null $page
-     * @param int|null $per_page
+     * @param int|null    $page
+     * @param int|null    $per_page
      * @param string|null $sort
      * @return array
      * @throws \ReflectionException|FlickrGeneralException

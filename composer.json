@@ -48,6 +48,8 @@
         "nunomaduro/collision": "^5",
         "phpstan/phpstan": "^1.5",
         "phpunit/phpunit": "^9.5",
+        "phpspec/phpspec": "^6.2",
+        "phpmd/phpmd": "^2.12",
         "rector/rector": "^0.12",
         "squizlabs/php_codesniffer": "^3.6",
         "vimeo/psalm": "^4.22"
@@ -81,7 +83,8 @@
             "@php artisan ide-helper:meta"
         ],
         "lint": [
-            "@php vendor/bin/phpstan analyze --level=0 app"
+            "@php vendor/bin/phpstan analyze --level=0 app",
+            "@php vendor/bin/rector"
         ],
         "test": [
             "@php vendor/bin/phpunit --testsuite=Core",
@@ -112,7 +115,8 @@
         "sort-packages": true,
         "allow-plugins": {
             "composer/package-versions-deprecated": true
-        }
+        },
+        "bin-dir": "bin"
     },
     "minimum-stability": "dev",
     "prefer-stable": true

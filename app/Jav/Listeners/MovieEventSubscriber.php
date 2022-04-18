@@ -42,7 +42,6 @@ class MovieEventSubscriber
             [
                 OnejavDownloadCompleted::class
             ],
-
             self::class . '@onOnejavDownloadCompleted'
         );
     }

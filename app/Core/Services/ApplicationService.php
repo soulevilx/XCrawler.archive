@@ -86,7 +86,7 @@ class ApplicationService
         Setting::updateOrCreate([
             'group' => $group,
             'field' => $field,
-        ], [
+            ], [
             'value' => $value,
         ]);
 

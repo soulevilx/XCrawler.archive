@@ -45,7 +45,7 @@ class R18CrawlerTest extends JavTestCase
     /**
      * @dataProvider dataProviderGetPages
      * @param string $url
-     * @param int $expectedPages
+     * @param int    $expectedPages
      * @return void
      */
     public function testGetPages(string $url, int $expectedPages)

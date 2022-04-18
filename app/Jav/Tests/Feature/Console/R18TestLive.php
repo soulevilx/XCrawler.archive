@@ -7,7 +7,6 @@ use App\Jav\Models\R18;
 use App\Jav\Tests\JavTestCase;
 use App\Jav\Tests\Traits\R18Mocker;
 
-
 class R18TestLive extends JavTestCase
 {
     use R18Mocker;

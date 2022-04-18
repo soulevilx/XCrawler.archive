@@ -36,7 +36,7 @@ class Flickr extends Command
                 'token_secret' => $accessToken->getAccessTokenSecret(),
                 'token' => $accessToken->getAccessToken(),
                 'data' => json_encode($accessToken)
-            ]);
+        ]);
 
         $this->table(
             [

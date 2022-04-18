@@ -51,13 +51,13 @@ use Rector\EarlyReturn\Rector\Foreach_\ChangeNestedForeachIfsToEarlyContinueRect
 use Rector\EarlyReturn\Rector\If_\ChangeIfElseValueAssignToEarlyReturnRector;
 use Rector\EarlyReturn\Rector\If_\ChangeNestedIfsToEarlyReturnRector;
 use Rector\EarlyReturn\Rector\Return_\PreparedValueToEarlyReturnRector;
+use Rector\Laravel\Set\LaravelSetList;
 use Rector\Php80\Rector\Catch_\RemoveUnusedVariableInCatchRector;
 use Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector;
 use Rector\Php80\Rector\Class_\StringableForToStringRector;
 use Rector\Php80\Rector\FuncCall\ClassOnObjectRector;
 use Rector\Php80\Rector\Identical\StrEndsWithRector;
 use Rector\Php80\Rector\Identical\StrStartsWithRector;
-
 use Rector\Php80\Rector\NotIdentical\StrContainsRector;
 use Rector\Php80\Rector\Switch_\ChangeSwitchToMatchRector;
 use Rector\PostRector\Rector\ClassRenamingPostRector;
@@ -76,7 +76,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     // Define what paths we want rector to run on
     $parameters->set(Option::PATHS, [
-        //__DIR__ . '/app/Core/**',
+       __DIR__ . '/app'
     ]);
 
     // Define what paths we want to skip
@@ -155,8 +155,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(RemoveDuplicatedCaseInSwitchRector::class);
 
     // TypeDecleration
-    $services->set(AddParamTypeDeclarationRector::class);
-    $services->set(AddReturnTypeDeclarationRector::class);
+    //$services->set(AddParamTypeDeclarationRector::class);
+    //$services->set(AddReturnTypeDeclarationRector::class);
     $services->set(ParamTypeFromStrictTypedPropertyRector::class);
 
     // EarlyReturn
@@ -170,4 +170,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(NameImportingPostRector::class);
     $services->set(UseAddingPostRector::class);
     $services->set(PropertyAddingPostRector::class);
+
+    $containerConfigurator->import(LaravelSetList::LARAVEL_80);
 };

@@ -18,7 +18,7 @@ class OnejavController extends BaseController
     public function download(Onejav $onejav, OnejavService $service)
     {
         $fileName = $service->download($onejav);
-        if ($fileName === false) {
+        if (!$fileName) {
             session()->flash(
                 'messages',
                 [
