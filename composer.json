@@ -115,8 +115,7 @@
         "sort-packages": true,
         "allow-plugins": {
             "composer/package-versions-deprecated": true
-        },
-        "bin-dir": "bin"
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true
