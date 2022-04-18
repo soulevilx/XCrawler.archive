@@ -67,8 +67,27 @@ jobs:
           vendor/bin/rector process --ansi
           echo ::set-output name=modified::$(if git diff --exit-code --no-patch; then echo "false"; else echo "true"; fi)
 
+      - name: Commit Rector changes
+        uses: EndBug/add-and-commit@v9
+        if: steps.rector-git-check.outputs.modified == 'true'
+        with:
+          # The name of the user that will be displayed as the author of the commit.
+          # Default: depends on the default_author input
+          author_name: Viet Vu
+
+          # The email of the user that will be displayed as the author of the commit.
+          # Default: depends on the default_author input
+          author_email: jooservices@gmail.com
+
+          # The name of the custom committer you want to use, if different from the author of the commit.
+          # Default: the name of the author (set with either author_name or default_author)
+          committer_name: Rector
+
+          # The message for the commit.
+          # Default: 'Commit from GitHub Actions (name of the workflow)'
+          message: 'Commit from Rector'
+
       - name: Lint
-        if: success()
         run: composer lint
 
       - name: Execute tests (Unit and Feature tests) via PHPUnit
