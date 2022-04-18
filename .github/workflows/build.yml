@@ -12,9 +12,6 @@ on:
 jobs:
   build_test:
     runs-on: [ ARM64 ]
-    strategy:
-      matrix:
-        lint: [phpstan, phpmd]
 
     services:
       mysql:
@@ -68,7 +65,7 @@ jobs:
           vendor/bin/rector process --dry-run --ansi
 
       - name: Lint
-        run: composer ${{ matrix['lint'] }}
+        run: composer lint
 
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         if: success()
