@@ -10,8 +10,35 @@ on:
   push:
     branches: [ develop ]
 jobs:
-  build_test:
+  build:
+    runs-on: [ ARM64 ]
 
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup PHP with PECL extension
+        uses: shivammathur/setup-php@v2
+        env:
+          runner: self-hosted
+        with:
+          php-version: 8.0
+          extensions: mongodb-1.13, redis, pcov
+
+      - name: Setup application
+        if: success()
+        run: |
+          php -r "file_exists('.env') || copy('.env.example', '.env');"
+          composer install --no-ansi --no-scripts --no-progress --prefer-dist
+
+      - name: Rector
+        run: |
+          vendor/bin/rector process --dry-run --ansi
+
+      - name: Lint
+        run: composer lint
+  test:
     runs-on: [ ARM64 ]
 
     services:
@@ -49,7 +76,7 @@ jobs:
           runner: self-hosted
         with:
           php-version: 8.0
-          extensions: mongodb-1.13, redis, pcov, phpmd
+          extensions: mongodb-1.13, redis, pcov
 
       - name: Setup application
         if: success()
@@ -60,15 +87,6 @@ jobs:
           chmod -R 777 storage bootstrap/cache
           php artisan config:clear
           php artisan migrate:fresh
-
-      - name: Rector
-        id: rector-git-check
-        run: |
-          vendor/bin/rector process --dry-run --ansi
-          echo ::set-output name=modified::$(if git diff --exit-code --no-patch; then echo "false"; else echo "true"; fi)
-
-      - name: Lint
-        run: composer lint
 
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         if: success()
