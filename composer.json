@@ -83,7 +83,8 @@
             "@php artisan ide-helper:meta"
         ],
         "lint": [
-            "@php vendor/bin/phpstan analyze --level=0 app"
+            "@php vendor/bin/phpstan analyze --level=0 app",
+            "@php vendor/bin/phpmd app github phpmd.xml"
         ],
         "test": [
             "@php vendor/bin/phpunit --testsuite=Core",

@@ -49,7 +49,7 @@ jobs:
           runner: self-hosted
         with:
           php-version: 8.0
-          extensions: mongodb-1.13, redis, pcov
+          extensions: mongodb-1.13, redis, pcov, phpmd
 
       - name: Setup application
         if: success()

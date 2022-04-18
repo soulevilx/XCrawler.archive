@@ -162,6 +162,7 @@
     <rule ref="Squiz.WhiteSpace.ScopeClosingBrace"/>
     <rule ref="Squiz.WhiteSpace.ScopeKeywordSpacing"/>
     <rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
+
     <rule ref="Zend.Files.ClosingTag"/>
 
     <arg name="colors"/>
@@ -184,6 +185,6 @@
         <exclude name="PEAR.Commenting.FileComment.MissingLinkTag"/>
         <exclude name="PEAR.Commenting.FileComment.MissingVersion"/>
         <exclude name="PEAR.Commenting.InlineComment"/>
-        <exclude name="PEAR.WhiteSpace.ScopeIndent.IncorrectExact: Line indented incorrectly"/>
+        <exclude name="PEAR.WhiteSpace.ScopeIndent.IncorrectExact"/>
     </rule>
 </ruleset>

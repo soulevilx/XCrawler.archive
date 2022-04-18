@@ -32,7 +32,7 @@ class XCityVideoCrawler
             'actresses',
             'genres',
         ], ArrayObject::ARRAY_AS_PROPS);
-        $item->url = $url . '?' . http_build_query($payload);
+        $item->url = $url.'?'.http_build_query($payload);
 
         $item->name = $response->getData()->filter('#program_detail_title')->text(null, false);
         $item->cover = $response->getData()->filter('.photo p.tn a')->attr('href');
@@ -134,7 +134,8 @@ class XCityVideoCrawler
 
                     case 'item_number':
                         $item->item_number = empty($value) ? null : $value;
-                        $value = implode('-', preg_split('/(,?\\s+)|((?<=[a-z])(?=\\d))|((?<=\\d)(?=[a-z]))/i', $value));
+                        $value = implode('-',
+                            preg_split('/(,?\\s+)|((?<=[a-z])(?=\\d))|((?<=\\d)(?=[a-z]))/i', $value));
                         $item->dvd_id = empty($value) ? null : $value;
 
                         return;
