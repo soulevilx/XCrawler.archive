@@ -12,23 +12,25 @@ on:
 jobs:
 
   build:
-    runs-on: [ self-hosted, ARM64 ]
     strategy:
       matrix:
         lint: [ phpstan, phpmd, rector ]
+        php: [ 8.0, 8.1 ]
+
+    runs-on: [ self-hosted, ARM64 ]
 
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-#      PHP will be installed on server by itself
-#      - name: Setup PHP with PECL extension
-#        uses: shivammathur/setup-php@v2
-#        env:
-#          runner: self-hosted
-#        with:
-#          php-version: 8.0
-#          extensions: mongodb-1.13, redis, pcov
+      #      PHP will be installed on server by itself
+      #      - name: Setup PHP with PECL extension
+      #        uses: shivammathur/setup-php@v2
+      #        env:
+      #          runner: self-hosted
+      #        with:
+      #          php-version: 8.0
+      #          extensions: mongodb-1.13, redis, pcov
 
       - name: Setup application
         if: success()

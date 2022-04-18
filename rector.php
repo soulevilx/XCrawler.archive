@@ -12,7 +12,7 @@ use Rector\CodeQuality\Rector\Foreach_\SimplifyForeachToArrayFilterRector;
 use Rector\CodeQuality\Rector\Foreach_\SimplifyForeachToCoalescingRector;
 use Rector\CodeQuality\Rector\FuncCall\ArrayKeysAndInArrayToArrayKeyExistsRector;
 use Rector\CodeQuality\Rector\FuncCall\ChangeArrayPushToArrayAssignRector;
-use Rector\CodeQuality\Rector\FuncCall\InArrayAndArrayKeysToArrayKeyExistsRector;
+
 use Rector\CodeQuality\Rector\FuncCall\IntvalToTypeCastRector;
 use Rector\CodeQuality\Rector\FuncCall\RemoveSoleValueSprintfRector;
 use Rector\CodeQuality\Rector\FuncCall\SimplifyInArrayValuesRector;
@@ -33,9 +33,9 @@ use Rector\CodeQuality\Rector\If_\SimplifyIfReturnBoolRector;
 use Rector\CodeQuality\Rector\LogicalAnd\AndAssignsToSeparateLinesRector;
 use Rector\CodeQuality\Rector\LogicalAnd\LogicalToBooleanRector;
 use Rector\CodeQuality\Rector\NotEqual\CommonNotEqualRector;
-use Rector\CodeQuality\Rector\Return_\SimplifyUselessVariableRector;
+
 use Rector\CodeQuality\Rector\Ternary\ArrayKeyExistsTernaryThenValueToCoalescingRector;
-use Rector\CodeQuality\Rector\Ternary\SimplifyDuplicatedTernaryRector;
+
 use Rector\CodeQuality\Rector\Ternary\SimplifyTautologyTernaryRector;
 use Rector\CodingStyle\Rector\FuncCall\CountArrayToEmptyArrayComparisonRector;
 use Rector\CodingStyle\Rector\Plus\UseIncrementAssignRector;
@@ -115,7 +115,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(ForeachItemsAssignToEmptyArrayToAssignRector::class);
     $services->set(ForeachToInArrayRector::class);
     $services->set(GetClassToInstanceOfRector::class);
-    $services->set(InArrayAndArrayKeysToArrayKeyExistsRector::class);
+
     $services->set(IntvalToTypeCastRector::class);
     $services->set(JoinStringConcatRector::class);
     $services->set(LogicalToBooleanRector::class);
@@ -125,7 +125,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(SimplifyBoolIdenticalTrueRector::class);
     $services->set(SimplifyConditionsRector::class);
     $services->set(SimplifyDeMorganBinaryRector::class);
-    $services->set(SimplifyDuplicatedTernaryRector::class);
+
     $services->set(SimplifyEmptyArrayCheckRector::class);
     $services->set(SimplifyForeachToArrayFilterRector::class);
     $services->set(SimplifyForeachToCoalescingRector::class);
@@ -137,7 +137,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(SimplifyInArrayValuesRector::class);
     $services->set(SimplifyRegexPatternRector::class);
     $services->set(SimplifyTautologyTernaryRector::class);
-    $services->set(SimplifyUselessVariableRector::class);
+
 
     // CodeStyle
     $services->set(TernaryConditionVariableAssignmentRector::class);
