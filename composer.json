@@ -88,6 +88,9 @@
         "phpmd": [
             "@php vendor/bin/phpmd app github phpmd.xml"
         ],
+        "rector": [
+            "@php vendor/bin/rector process --dry-run --ansi"
+        ],
         "test": [
             "@php vendor/bin/phpunit --testsuite=Core",
             "@php vendor/bin/phpunit --testsuite=Flickr",

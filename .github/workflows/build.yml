@@ -15,7 +15,7 @@ jobs:
     runs-on: [ self-hosted, ARM64 ]
     strategy:
       matrix:
-        lint: [ phpstan, phpmd ]
+        lint: [ phpstan, phpmd, rector ]
 
     steps:
       - uses: actions/checkout@v2
@@ -36,15 +36,11 @@ jobs:
           php -r "file_exists('.env') || copy('.env.example', '.env');"
           composer install --no-ansi --no-scripts --no-progress --prefer-dist
 
-      - name: Rector
-        run: |
-          vendor/bin/rector process --dry-run --ansi
-
       - name: Lint
         run: composer ${{ matrix.lint }}
 
   test:
-    runs-on: [ self-hosted, ARM64, raspberrypi ]
+    runs-on: [ self-hosted, ARM64, raspberrypi8 ]
     needs: build
 
     services:
