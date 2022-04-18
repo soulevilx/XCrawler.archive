@@ -13,6 +13,9 @@ jobs:
 
   build_test:
     runs-on: [ ARM64 ]
+    strategy:
+      matrix:
+        lint: [ phpstan, phpmd ]
 
     services:
       mysql:
