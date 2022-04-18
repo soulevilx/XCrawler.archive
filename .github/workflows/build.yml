@@ -17,7 +17,10 @@ jobs:
         lint: [ phpstan, phpmd ]
         php: [ php8.0, php8.1 ]
 
-    runs-on: ${{ matrix.php }}
+    runs-on:
+      - ${{ matrix.php }}
+      - self-hosted
+      - ubuntu-20.04
 
     steps:
       - uses: actions/checkout@v2
