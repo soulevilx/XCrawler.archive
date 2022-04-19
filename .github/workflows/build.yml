@@ -44,12 +44,9 @@ jobs:
         run: composer ${{ matrix.lint }}
 
   test_core:
-    strategy:
-      matrix:
-        os: [ raspberrypi8, ubuntu-20.04 ]
     runs-on:
       - self-hosted
-      - ${{matrix.os}}
+      - ubuntu-20.04
     needs: [build]
 
     services:
@@ -104,12 +101,9 @@ jobs:
           path: coverage-core.xml
 
   test_flickr:
-    strategy:
-      matrix:
-        os: [ raspberrypi8, ubuntu-20.04 ]
     runs-on:
       - self-hosted
-      - ${{matrix.os}}
+      - ubuntu-20.04
     needs: build
 
     services:
@@ -164,12 +158,9 @@ jobs:
           path: coverage-flickr.xml
 
   test_jav:
-    strategy:
-      matrix:
-        os: [ raspberrypi8, ubuntu-20.04 ]
     runs-on:
       - self-hosted
-      - ${{matrix.os}}
+      - ubuntu-20.04
     needs: build
 
     services:
@@ -227,7 +218,7 @@ jobs:
     name: Test Finished
     runs-on:
       - self-hosted
-      - ${{matrix.os}}
+      - ubuntu-20.04
     needs: [test_core,test_flickr,test_jav]
 
     steps:
