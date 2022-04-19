@@ -37,8 +37,9 @@ jobs:
         run: composer ${{ matrix.lint }}
 
   tests:
-    matrix:
-      test: [ Core, Flickr, Jav ]
+    strategy:
+      matrix:
+        test: [ Core, Flickr, Jav ]
     runs-on:
       - self-hosted
       - ubuntu-20.04
