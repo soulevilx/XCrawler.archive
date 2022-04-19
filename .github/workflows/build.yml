@@ -101,7 +101,7 @@ jobs:
     runs-on:
       - self-hosted
       - ubuntu-20.04
-    needs: [test_core,test_flickr,test_jav]
+    needs: [tests]
 
     steps:
       - name: Download build from artifact
