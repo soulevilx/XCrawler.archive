@@ -26,13 +26,6 @@ jobs:
         with:
           fetch-depth: 0
       #      PHP will be installed on server by itself
-      #      - name: Setup PHP with PECL extension
-      #        uses: shivammathur/setup-php@v2
-      #        env:
-      #          runner: self-hosted
-      #        with:
-      #          php-version: 8.0
-      #          extensions: mongodb-1.13, redis, pcov
 
       - name: Setup application
         if: success()
@@ -43,7 +36,9 @@ jobs:
       - name: Lint
         run: composer ${{ matrix.lint }}
 
-  test_core:
+  tests:
+    matrix:
+      test: [ Core, Flickr, Jav ]
     runs-on:
       - self-hosted
       - ubuntu-20.04
@@ -91,128 +86,14 @@ jobs:
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         if: success()
         run: |
-          ./vendor/bin/phpunit --testsuite=Core --coverage-clover coverage-core.xml
+          ./vendor/bin/phpunit --testsuite=${{ matrix.test }} --coverage-clover coverage-${{ matrix.test }}.xml
 
       - name: Coverage
         uses: actions/upload-artifact@v2
         if: success()
         with:
           name: coverage-reports
-          path: coverage-core.xml
-
-  test_flickr:
-    runs-on:
-      - self-hosted
-      - ubuntu-20.04
-    needs: build
-
-    services:
-      mysql:
-        image: mariadb:latest
-        env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: xcrawler
-        ports:
-          - 3306:3306
-
-      redis:
-        image: redis
-        ports:
-          - 6379:6379
-
-      mongo:
-        image: mongo:bionic
-        options: >-
-          --health-cmd mongo
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 27017:27017
-
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: Setup application
-        if: success()
-        run: |
-          php -r "file_exists('.env') || copy('.env.example', '.env');"
-          composer install --no-ansi --no-scripts --no-progress --prefer-dist
-          php artisan key:generate
-          chmod -R 777 storage bootstrap/cache
-          php artisan config:clear
-          php artisan migrate:fresh
-
-      - name: Execute tests (Unit and Feature tests) via PHPUnit
-        if: success()
-        run: |
-          ./vendor/bin/phpunit --testsuite=Flickr --coverage-clover coverage-flickr.xml
-
-      - name: Coverage
-        uses: actions/upload-artifact@v2
-        if: success()
-        with:
-          name: coverage-reports
-          path: coverage-flickr.xml
-
-  test_jav:
-    runs-on:
-      - self-hosted
-      - ubuntu-20.04
-    needs: build
-
-    services:
-      mysql:
-        image: mariadb:latest
-        env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: xcrawler
-        ports:
-          - 3306:3306
-
-      redis:
-        image: redis
-        ports:
-          - 6379:6379
-
-      mongo:
-        image: mongo:bionic
-        options: >-
-          --health-cmd mongo
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 27017:27017
-
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: Setup application
-        if: success()
-        run: |
-          php -r "file_exists('.env') || copy('.env.example', '.env');"
-          composer install --no-ansi --no-scripts --no-progress --prefer-dist
-          php artisan key:generate
-          chmod -R 777 storage bootstrap/cache
-          php artisan config:clear
-          php artisan migrate:fresh
-
-      - name: Execute tests (Unit and Feature tests) via PHPUnit
-        if: success()
-        run: |
-          ./vendor/bin/phpunit --testsuite=Jav --coverage-clover coverage-jav.xml
-
-      - name: Coverage
-        uses: actions/upload-artifact@v2
-        if: success()
-        with:
-          name: coverage-reports
-          path: coverage-jav.xml
+          path: coverage-${{ matrix.test }}.xml
 
   test_finished:
     name: Test Finished
