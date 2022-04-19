@@ -5,6 +5,7 @@ namespace App\Jav\Tests\Unit\Services;
 use App\Core\Models\State;
 use App\Core\Services\Facades\Application;
 use App\Jav\Events\MovieCreated;
+use App\Jav\Events\R18\RefetchFailed;
 use App\Jav\Models\Movie;
 use App\Jav\Models\R18;
 use App\Jav\Services\R18Service;
@@ -174,5 +175,19 @@ class R18ServiceTest extends JavTestCase
 
         $this->service->refetch($r18);
         $this->assertEquals('RKI-506', $r18->refresh()->dvd_id);
+    }
+
+    public function testRefetchFailed()
+    {
+        Event::fake([RefetchFailed::class]);
+        $r18 = R18::factory()->create([
+            'content_id' => '0',
+        ]);
+
+        $this->service->refetch($r18);
+
+        Event::assertDispatched(RefetchFailed::class, function ($event) use ($r18) {
+            return $event->model->is($r18);
+        });
     }
 }

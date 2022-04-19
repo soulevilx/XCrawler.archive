@@ -6,6 +6,7 @@ use App\Core\Services\Facades\Application;
 use App\Jav\Crawlers\R18Crawler;
 use App\Jav\Events\R18\R18DailyCompleted;
 use App\Jav\Events\R18\R18ReleaseCompleted;
+use App\Jav\Events\R18\RefetchFailed;
 use App\Jav\Models\R18;
 use App\Jav\Repositories\R18Repository;
 use App\Jav\Services\Traits\HasAttributes;
@@ -42,10 +43,10 @@ class R18Service
         /**
          * Release only fetch links another job will fetch detail later.
          */
-        $key = $type . '_current_page';
+        $key = $type.'_current_page';
         $currentPage = Application::getInt(R18Service::SERVICE_NAME, $key, 1);
 
-        $items = $this->crawler->getItemLinks($url . '/page=' . $currentPage);
+        $items = $this->crawler->getItemLinks($url.'/page='.$currentPage);
 
         if ($items->isEmpty()) {
             return $items;
@@ -56,7 +57,7 @@ class R18Service
         });
 
         ++$currentPage;
-        if ((int) Application::getSetting(R18Service::SERVICE_NAME, $type . '_total_pages', 2000) < $currentPage) {
+        if ((int) Application::getSetting(R18Service::SERVICE_NAME, $type.'_total_pages', 2000) < $currentPage) {
             $currentPage = 1;
             Event::dispatch(new R18ReleaseCompleted);
         }
@@ -71,7 +72,7 @@ class R18Service
         /**
          * Make sure we fetch page 1 to get latest release while `release` fetching older.
          */
-        $items = $this->crawler->getItemLinks($url . '/page=1');
+        $items = $this->crawler->getItemLinks($url.'/page=1');
         $items->each(function ($item) {
             $this->create($item);
         });
@@ -85,6 +86,7 @@ class R18Service
     {
         // Can't get item
         if (!$item = $this->crawler->getItem($model->content_id)) {
+            Event::dispatch(new RefetchFailed($model));
             return $model;
         }
 
@@ -117,9 +119,7 @@ class R18Service
         //$item['url'] = $item['detail_url'];
         $item['cover'] = $item['cover'] ?? $item['images']['jacket_image']['large'];
 
-        if ($item) {
-            $model->update($item);
-        }
+        $model->update($item);
 
         return $model;
     }
