@@ -19,7 +19,7 @@ jobs:
 
     runs-on:
       - self-hosted
-      - ${{ matrix.php }}      
+      - ${{ matrix.php }}
 
     steps:
       - uses: actions/checkout@v2
@@ -43,8 +43,73 @@ jobs:
       - name: Lint
         run: composer ${{ matrix.lint }}
 
-  test:
-    runs-on: [ self-hosted, ARM64, raspberrypi8 ]
+  test_core:
+    strategy:
+      matrix:
+        os: [ raspberrypi8, ubuntu-20.04 ]
+    runs-on:
+      - self-hosted
+      - ${{matrix.os}}
+    needs: [build]
+
+    services:
+      mysql:
+        image: mariadb:latest
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: xcrawler
+        ports:
+          - 3306:3306
+
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+
+      mongo:
+        image: mongo:bionic
+        options: >-
+          --health-cmd mongo
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 27017:27017
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup application
+        if: success()
+        run: |
+          php -r "file_exists('.env') || copy('.env.example', '.env');"
+          composer install --no-ansi --no-scripts --no-progress --prefer-dist
+          php artisan key:generate
+          chmod -R 777 storage bootstrap/cache
+          php artisan config:clear
+          php artisan migrate:fresh
+
+      - name: Execute tests (Unit and Feature tests) via PHPUnit
+        if: success()
+        run: |
+          ./vendor/bin/phpunit --testsuite=Core --coverage-clover coverage-core.xml
+
+      - name: Coverage
+        uses: actions/upload-artifact@v2
+        if: success()
+        with:
+          name: coverage-reports
+          path: coverage-core.xml
+
+  test_flickr:
+    strategy:
+      matrix:
+        os: [ raspberrypi8, ubuntu-20.04 ]
+    runs-on:
+      - self-hosted
+      - ${{matrix.os}}
     needs: build
 
     services:
@@ -89,20 +154,95 @@ jobs:
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         if: success()
         run: |
-          composer test-coverage
+          ./vendor/bin/phpunit --testsuite=Flickr --coverage-clover coverage-flickr.xml
 
       - name: Coverage
         uses: actions/upload-artifact@v2
         if: success()
         with:
-          name: coverage
-          path: coverage.xml
+          name: coverage-reports
+          path: coverage-flickr.xml
+
+  test_jav:
+    strategy:
+      matrix:
+        os: [ raspberrypi8, ubuntu-20.04 ]
+    runs-on:
+      - self-hosted
+      - ${{matrix.os}}
+    needs: build
+
+    services:
+      mysql:
+        image: mariadb:latest
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: xcrawler
+        ports:
+          - 3306:3306
+
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+
+      mongo:
+        image: mongo:bionic
+        options: >-
+          --health-cmd mongo
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 27017:27017
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup application
+        if: success()
+        run: |
+          php -r "file_exists('.env') || copy('.env.example', '.env');"
+          composer install --no-ansi --no-scripts --no-progress --prefer-dist
+          php artisan key:generate
+          chmod -R 777 storage bootstrap/cache
+          php artisan config:clear
+          php artisan migrate:fresh
+
+      - name: Execute tests (Unit and Feature tests) via PHPUnit
+        if: success()
+        run: |
+          ./vendor/bin/phpunit --testsuite=Jav --coverage-clover coverage-jav.xml
+
+      - name: Coverage
+        uses: actions/upload-artifact@v2
+        if: success()
+        with:
+          name: coverage-reports
+          path: coverage-jav.xml
+
+  test_finished:
+    name: Test Finished
+    runs-on:
+      - self-hosted
+      - ${{matrix.os}}
+    needs: [test_core,test_flickr,test_jav]
+
+    steps:
+      - name: Download build from artifact
+        uses: actions/download-artifact@v2
+        if: success() && github.event.pull_request.draft == false
+        with:
+          name: coverage-reports
+          path: ./reports
 
       - name: Upload coverage to codecov.io
         uses: codecov/codecov-action@v1
         if: success()
         with:
-          file: ./coverage.xml
+          directory: ./reports
 
       - name: Notifications
         uses: act10ns/slack@v1.5.0
