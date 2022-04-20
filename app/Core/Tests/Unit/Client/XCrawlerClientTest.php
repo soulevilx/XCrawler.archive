@@ -6,6 +6,7 @@ use App\Core\Events\Client\ClientPrepared;
 use App\Core\Events\Client\ClientRequested;
 use App\Core\Events\Client\ClientRequestFailed;
 use App\Core\XCrawlerClient;
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Facades\Event;
@@ -60,7 +61,7 @@ class XCrawlerClientTest extends TestCase
         $clientMocker = \Mockery::mock(Client::class);
         $clientMocker
             ->shouldReceive('request')
-            ->andThrow(new \Exception());
+            ->andThrow(new Exception());
 
         $mocker->shouldReceive('make')->andReturn($clientMocker);
         app()->instance(Factory::class, $mocker);
