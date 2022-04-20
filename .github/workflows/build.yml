@@ -32,5 +32,8 @@ jobs:
         run: |
           BRANCH_NAME=$(bin/slugified.sh "${{ github.head_ref }}")
           rm -rf public_html/xcrawler.dynamic/$BRANCH_NAME
-          git clone git@github.com:jooservices/XCrawler.git public_html/xcrawler.dynamic/$BRANCH_NAME
-
+          git clone git@github.com:jooservices/XCrawler.git ~/public_html/xcrawler.dynamic/$BRANCH_NAME
+          cd ~/public_html/xcrawler.dynamic/$BRANCH_NAME
+          cp ~/.env.xcrawler.staging .env
+          composer install
+          php artisan migrate --force
