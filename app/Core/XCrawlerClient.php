@@ -7,17 +7,18 @@ use App\Core\Events\Client\ClientRequested;
 use App\Core\Events\Client\ClientRequestFailed;
 use App\Core\Services\Facades\Application;
 use Carbon\CarbonImmutable;
+use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
 use Jooservices\XcrawlerClient\Factory;
-use Jooservices\XcrawlerClient\Interfaces\ResponseInterface;
 use Jooservices\XcrawlerClient\Settings\RequestOptions;
 use Kevinrob\GuzzleCache\CacheMiddleware;
 use Kevinrob\GuzzleCache\Storage\LaravelCacheStorage;
 use Kevinrob\GuzzleCache\Strategy\PrivateCacheStrategy;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
+use Psr\Http\Message\ResponseInterface;
 
 class XCrawlerClient
 {
@@ -26,7 +27,7 @@ class XCrawlerClient
     private Logger $logger;
     private Client $client;
     private array $headers;
-    private string $contentType;
+    private string $contentType = 'application/x-www-form-urlencoded';
 
     public function __construct(private string $service, private ResponseInterface $response)
     {
@@ -39,11 +40,11 @@ class XCrawlerClient
             'base_uri' => Application::getSetting($service, 'base_url'),
         ]);
 
-        $this->factory = new Factory($this->logger);
+        $this->factory = app(Factory::class);
         $this->factory
             ->enableRetries(3, 1, 500)
             ->addOptions($this->requestOptions->toArray())
-            ->enableLogging()
+            ->enableLogging($this->logger)
             ->enableCache(new CacheMiddleware(
                 new PrivateCacheStrategy(
                     new LaravelCacheStorage(
@@ -204,24 +205,24 @@ class XCrawlerClient
             }
         }
 
-        $this->response->reset();
-        $this->response->endpoint = $endpoint;
-        $this->response->request = $payload;
+        Event::dispatch(new ClientPrepared(
+            $this->service,
+            $options,
+            $endpoint,
+            $payload,
+            $method
+        ));
 
         try {
-            Event::dispatch(new ClientPrepared(
-                $this->service,
-                $options,
-                $endpoint,
-                $payload,
-                $method
-            ));
             $response = $this->client->request($method, $endpoint, $options);
-            $this->response->body = (string) $response->getBody();
-            $this->response->headers = $response->getHeaders();
-            $this->response->responseCode = $response->getStatusCode();
-            $this->response->loadData();
-        } catch (\Exception $e) {
+            $this->response->reset(
+                $response->getStatusCode(),
+                $response->getHeaders(),
+                $response->getBody(),
+                $response->getProtocolVersion(),
+                $response->getReasonPhrase()
+            );
+        } catch (Exception $e) {
             Event::dispatch(new ClientRequestFailed(
                 $this->service,
                 $options,
@@ -230,10 +231,7 @@ class XCrawlerClient
                 $method,
                 $e
             ));
-            $this->response->responseSuccess = false;
-            $this->response->responseCode = $e->getCode();
-            $this->response->responseMessage = $e->getMessage();
-            $this->response->body = $e->getResponse()->getBody()->getContents();
+            $this->response->isSucceed = false;
         } finally {
             Event::dispatch(new ClientRequested(
                 $this->service,

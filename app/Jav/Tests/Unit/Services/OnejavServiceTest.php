@@ -124,8 +124,8 @@ class OnejavServiceTest extends JavTestCase
 
     public function testDailyFailed()
     {
-        $this->mocker = $this->getClientMock();
-        $this->mocker
+        $this->xcrawlerMocker = $this->getClientMock();
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->andReturn($this->getErrorMockedResponse(app(DomResponse::class)));
         $this->service = $this->getService();
@@ -172,8 +172,8 @@ class OnejavServiceTest extends JavTestCase
     {
         $onejav = Onejav::factory()->create();
 
-        $this->mocker = $this->getClientMock();
-        $this->mocker
+        $this->xcrawlerMocker = $this->getClientMock();
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->with($onejav->url, [])
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021_page_1.html'));
@@ -187,8 +187,8 @@ class OnejavServiceTest extends JavTestCase
     public function testDownload()
     {
         $onejav = Onejav::factory()->create();
-        $this->mocker = $this->getClientMock();
-        $this->mocker
+        $this->xcrawlerMocker = $this->getClientMock();
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021_page_1.html'));
 
@@ -221,8 +221,8 @@ class OnejavServiceTest extends JavTestCase
             ->andReturn(new Response(303));
         app()->instance(Client::class, $client);
 
-        $this->mocker = $this->getClientMock();
-        $this->mocker
+        $this->xcrawlerMocker = $this->getClientMock();
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021_page_1.html'));
         $this->service = $this->getService();

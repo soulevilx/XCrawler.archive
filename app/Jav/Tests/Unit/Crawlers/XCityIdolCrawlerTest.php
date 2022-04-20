@@ -28,13 +28,13 @@ class XCityIdolCrawlerTest extends JavTestCase
 
     public function testGetSubPagesFailed()
     {
-        $this->mocker = $this->getClientMock();
-        $this->mocker
+        $this->xcrawlerMocker = $this->getClientMock();
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->with('idol/')
             ->andReturn($this->getErrorMockedResponse(app(DomResponse::class)));
 
-        $crawler = new XCityIdolCrawler($this->mocker);
+        $crawler = new XCityIdolCrawler($this->xcrawlerMocker);
         $this->assertTrue($crawler->getSubPages()->isEmpty());
     }
 
@@ -74,12 +74,12 @@ class XCityIdolCrawlerTest extends JavTestCase
 
     public function testGetItemWithoutBirthOfDate()
     {
-        $this->mocker = $this->getClientMock();
-        $this->mocker
+        $this->xcrawlerMocker = $this->getClientMock();
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->with('idol/detail/18410', [])
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'XCity/idol_detail_18410.html'));
-        $crawler = new XCityIdolCrawler($this->mocker);
+        $crawler = new XCityIdolCrawler($this->xcrawlerMocker);
         $item = $crawler->getItem(18410);
 
         $this->assertNull($item->date_of_birth);

@@ -2,7 +2,7 @@
 
 namespace App\Core\Events\Client;
 
-use Jooservices\XcrawlerClient\Interfaces\ResponseInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class ClientRequested
 {

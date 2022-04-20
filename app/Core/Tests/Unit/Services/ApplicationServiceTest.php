@@ -69,4 +69,20 @@ class ApplicationServiceTest extends TestCase
         Application::refresh();
         $this->assertTrue(Application::getBool($name, $key));
     }
+
+    public function testGettings()
+    {
+        Setting::truncate();
+        $name = $this->faker->word;
+        $key = $this->faker->word;
+        $value = $this->faker->numerify;
+        Setting::create([
+            'group' => $name,
+            'field' => $key,
+            'value' => $value,
+        ]);
+        Application::refresh();
+        $settings = Application::getSettings();
+        $this->assertArrayHasKey($name, $settings);
+    }
 }

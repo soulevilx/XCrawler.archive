@@ -14,17 +14,17 @@ class SCuteCrawlerTest extends JavTestCase
     {
         parent::setUp();
 
-        $this->mocker
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->with('contents', ['page' => 1])
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'SCute/contents.html'));
 
-        $this->mocker
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->with('item', [])
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'SCute/item.html'));
 
-        app()->instance(SCuteCrawler::class, new SCuteCrawler($this->mocker));
+        app()->instance(SCuteCrawler::class, new SCuteCrawler($this->xcrawlerMocker));
         $this->crawler = app(SCuteCrawler::class);
     }
 

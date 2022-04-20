@@ -40,11 +40,11 @@ class OnejavModelTest extends JavTestCase
      */
     public function testModelRefetch()
     {
-        $this->mocker = $this->getClientMock();
-        $this->mocker
+        $this->xcrawlerMocker = $this->getClientMock();
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021_page_1.html'));
-        app()->instance(OnejavCrawler::class, new OnejavCrawler($this->mocker));
+        app()->instance(OnejavCrawler::class, new OnejavCrawler($this->xcrawlerMocker));
         $onejav = Onejav::factory()->create();
         $onejav = app(OnejavService::class)->refetch($onejav);
 

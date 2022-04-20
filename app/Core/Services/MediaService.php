@@ -4,26 +4,26 @@ namespace App\Core\Services;
 
 use App\Core\Services\Facades\Application;
 use GuzzleHttp\Client;
+use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class MediaService
 {
-    private string $dir;
+    private FilesystemAdapter $storage;
 
     public function __construct()
     {
-        $this->dir = Application::getSetting('core', 'download_dir');
+        $this->storage = Storage::drive('downloads');
     }
 
     public function download(string $service, string $url)
     {
-        $toDir = storage_path($this->dir) . '/' . $service;
-
-        if (!File::exists($toDir)) {
-            File::makeDirectory($toDir, 0755, true);
+        if (!$this->storage->exists($service)) {
+            $this->storage->makeDirectory($service);
         }
 
-        $filePath = $toDir . '/' . basename($url);
+        $filePath = $this->storage->path($service) . '/' . basename($url);
 
         $file = fopen($filePath, 'wb');
 
@@ -40,6 +40,6 @@ class MediaService
             return false;
         }
 
-        return $this->dir . '/' . $service . '/' . basename($url);
+        return $service . '/' . basename($url);
     }
 }

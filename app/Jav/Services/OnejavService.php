@@ -11,14 +11,11 @@ use App\Jav\Events\Onejav\OnejavDownloadCompleted;
 use App\Jav\Events\Onejav\OnejavReleaseCompleted;
 use App\Jav\Models\Onejav;
 use App\Jav\Repositories\OnejavRespository;
-use App\Jav\Services\Traits\HasAttributes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Event;
 
 class OnejavService
 {
-    use HasAttributes;
-
     public const SERVICE_NAME = 'onejav';
     public const DAILY_FORMAT = 'Y/m/d';
 

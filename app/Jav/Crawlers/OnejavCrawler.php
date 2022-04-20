@@ -19,7 +19,6 @@ class OnejavCrawler
     public function getItems(string $url, array $payload = []): Collection
     {
         $response = $this->client->get($url, $payload);
-
         if (!$response->isSuccessful()) {
             return collect();
         }

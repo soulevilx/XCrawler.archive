@@ -17,8 +17,6 @@ use Illuminate\Support\Facades\Event;
 
 class R18Service
 {
-    use HasAttributes;
-
     protected R18 $model;
 
     public const SERVICE_NAME = 'r18';

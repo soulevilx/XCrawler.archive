@@ -9,6 +9,7 @@ on:
     types: [ opened, synchronize ]
   push:
     branches: [ develop ]
+
 jobs:
 
   build:

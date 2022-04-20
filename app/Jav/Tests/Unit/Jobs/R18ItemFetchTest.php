@@ -21,7 +21,7 @@ class R18ItemFetchTest extends JavTestCase
     {
         parent::setUp();
 
-        $this->mocker
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->andReturn($this->getSuccessfulMockedResponse(app(JsonResponse::class), 'R18/item_rki00506.json'));
 

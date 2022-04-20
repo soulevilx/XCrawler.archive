@@ -141,8 +141,8 @@ class R18ServiceTest extends JavTestCase
     public function testReleaseFailed()
     {
         Application::setSetting('r18', 'release_current_page', 10);
-        $this->mocker = $this->getClientMock();
-        $this->mocker
+        $this->xcrawlerMocker = $this->getClientMock();
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->with(R18::MOVIE_LIST_URL.'/page=10', [])
             ->andReturn($this->getErrorMockedResponse(app(DomResponse::class)));
@@ -159,8 +159,8 @@ class R18ServiceTest extends JavTestCase
 
     public function testDailyFailed()
     {
-        $this->mocker = $this->getClientMock();
-        $this->mocker
+        $this->xcrawlerMocker = $this->getClientMock();
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->andReturn($this->getErrorMockedResponse(app(DomResponse::class)));
         $this->getService()->daily();
