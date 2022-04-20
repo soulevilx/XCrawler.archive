@@ -154,7 +154,7 @@ jobs:
     name: Deploy to UAT
     runs-on:
       - self-hosted
-
+    needs: [ test_finished ]
     steps:
 
       - uses: actions/checkout@v3
