@@ -149,3 +149,9 @@ jobs:
           cp ~/.env.xcrawler.staging .env
           composer install
           php artisan migrate --force
+
+
+  deploy_uat:
+    name: Deploy to UAT
+    runs-on:
+      - self-hosted
