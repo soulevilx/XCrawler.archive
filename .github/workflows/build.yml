@@ -150,8 +150,13 @@ jobs:
           composer install
           php artisan migrate --force
 
-
   deploy_uat:
     name: Deploy to UAT
     runs-on:
       - self-hosted
+
+    steps:
+
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
