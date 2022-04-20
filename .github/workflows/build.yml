@@ -26,12 +26,8 @@ jobs:
       - name: Build staging
         if: ${{ github.event.pull_request.type}} == 'opened'
         run: |
-          cd ~/public_html/
-          rm -rf xcrawler.staging
-          git clone git@github.com:jooservices/XCrawler.git xcrawler.staging
-          cd xcrawler.staging
-          cp ~/.env.xcrawler.staging .env
-          git fetch origin pull/${{ github.event.pull_request.number }}/head:${{ github.head_ref }}
-          git checkout ${{ github.head_ref }}
-          composer install
-          php artisan migrate --force
+          cd ~/public_html/xcrawler.dynamic
+          BRANCH_NAME=$(bin/slugified.sh "${{ github.head_ref }}")
+          rm -rf BRANCH_NAME
+          git clone git@github.com:jooservices/XCrawler.git BRANCH_NAME
+
