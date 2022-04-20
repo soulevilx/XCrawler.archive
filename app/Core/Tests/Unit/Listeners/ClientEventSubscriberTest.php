@@ -38,7 +38,7 @@ class ClientEventSubscriberTest extends TestCase
         $this->assertDatabaseHas('client_requests', [
             'service' => 'test',
             'base_uri' => null,
-            'endpoint' => 'fake',
+            'endpoint' => $url,
             'method' => 'POST',
             'is_succeed' => true,
         ], BaseMongo::CONNECTION_NAME);
