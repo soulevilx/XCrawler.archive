@@ -4,6 +4,7 @@ namespace App\Core\Tests\Unit\Listeners;
 
 use App\Core\Models\BaseMongo;
 use App\Core\XCrawlerClient;
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use Jooservices\XcrawlerClient\Factory;
@@ -54,7 +55,7 @@ class ClientEventSubscriberTest extends TestCase
         $clientMocker = \Mockery::mock(Client::class);
         $clientMocker
             ->shouldReceive('request')
-            ->andThrow(new \Exception());
+            ->andThrow(new Exception());
 
         $mocker->shouldReceive('make')->andReturn($clientMocker);
         app()->instance(Factory::class, $mocker);
