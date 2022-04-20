@@ -43,7 +43,7 @@ jobs:
         test: [ Core, Flickr, Jav ]
     runs-on:
       - self-hosted
-      - unittest
+      - database
     needs: [build]
 
     services:
@@ -101,7 +101,6 @@ jobs:
     name: Test Finished
     runs-on:
       - self-hosted
-      - ubuntu-20.04
     needs: [tests]
 
     steps:
