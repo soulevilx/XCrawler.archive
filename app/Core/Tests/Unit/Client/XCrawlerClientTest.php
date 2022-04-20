@@ -4,6 +4,7 @@ namespace App\Core\Tests\Unit\Client;
 
 use App\Core\Events\Client\ClientPrepared;
 use App\Core\Events\Client\ClientRequested;
+use App\Core\Events\Client\ClientRequestFailed;
 use App\Core\XCrawlerClient;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
@@ -40,6 +41,35 @@ class XCrawlerClientTest extends TestCase
         $client->post($this->faker->url);
 
         Event::assertDispatched(ClientPrepared::class);
+        Event::assertDispatched(ClientRequested::class);
+    }
+
+    public function testRequestFailed()
+    {
+        Event::fake([
+            ClientPrepared::class,
+            ClientRequestFailed::class,
+            ClientRequested::class,
+        ]);
+        $mocker = \Mockery::mock(Factory::class);
+        $mocker->shouldReceive('enableRetries')->andReturnSelf();
+        $mocker->shouldReceive('addOptions')->andReturnSelf();
+        $mocker->shouldReceive('enableLogging')->andReturnSelf();
+        $mocker->shouldReceive('enableCache')->andReturnSelf();
+
+        $clientMocker = \Mockery::mock(Client::class);
+        $clientMocker
+            ->shouldReceive('request')
+            ->andThrow(new \Exception());
+
+        $mocker->shouldReceive('make')->andReturn($clientMocker);
+        app()->instance(Factory::class, $mocker);
+        $client = new XCrawlerClient('test', new Response());
+
+        $client->post($this->faker->url);
+
+        Event::assertDispatched(ClientPrepared::class);
+        Event::assertDispatched(ClientRequestFailed::class);
         Event::assertDispatched(ClientRequested::class);
     }
 }
