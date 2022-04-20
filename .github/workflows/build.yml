@@ -27,5 +27,5 @@ jobs:
         if: ${{ github.event.pull_request.type}} == 'opened'
         run: |
           cd ~/public_html/xcrawler.staging
-          git fetch origin pull/${{ github.event.pull_request.number }}/head:${{ github.ref }}
-          git checkout ${{ github.ref }}
+          git fetch origin pull/${{ github.event.pull_request.number }}/head:${{ github.head_ref }}
+          git checkout ${{ github.head_ref }}
