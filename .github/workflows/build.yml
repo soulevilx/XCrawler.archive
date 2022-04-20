@@ -31,6 +31,6 @@ jobs:
         if: ${{ github.event.pull_request.type}} == 'opened'
         run: |
           BRANCH_NAME=$(bin/slugified.sh "${{ github.head_ref }}")
-          rm -rf public_html/xcrawler.dynamic/BRANCH_NAME
-          git clone git@github.com:jooservices/XCrawler.git public_html/xcrawler.dynamic/BRANCH_NAME
+          rm -rf public_html/xcrawler.dynamic/$BRANCH_NAME
+          git clone git@github.com:jooservices/XCrawler.git public_html/xcrawler.dynamic/$BRANCH_NAME
 
