@@ -130,30 +130,6 @@ jobs:
           status: ${{ job.status }}
           config: .github/config/slack.yml
 
-  deploy_staging:
-    name: Deploy to Staging
-    runs-on:
-      - self-hosted
-      - staging
-    needs: [ test_finished ]
-
-    steps:
-
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Build staging
-        if: success() && ${{ github.event.pull_request.type}} == 'opened'
-        run: |
-          BRANCH_NAME=$(bin/slugified.sh "${{ github.head_ref }}")
-          rm -rf ~/public_html/xcrawler.dynamic/$BRANCH_NAME
-          git clone git@github.com:jooservices/XCrawler.git ~/public_html/xcrawler.dynamic/$BRANCH_NAME
-          cd ~/public_html/xcrawler.dynamic/$BRANCH_NAME
-          cp ~/.env.xcrawler.staging .env
-          composer install
-          php artisan migrate --force
-
   deploy_uat:
     name: Deploy to UAT
     runs-on:
