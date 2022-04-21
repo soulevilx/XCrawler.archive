@@ -17,6 +17,7 @@ concurrency:
 jobs:
 
   build:
+    name: Code standards check
     strategy:
       matrix:
         lint: [ phpstan, phpmd, rector ]
@@ -42,6 +43,7 @@ jobs:
         run: composer ${{ matrix.lint }}
 
   tests:
+    name: Execute UnitTest
     strategy:
       matrix:
         test: [ Core, Flickr, Jav ]

@@ -27,16 +27,18 @@ class R18 extends Command
 
     public function handle()
     {
-        switch ($this->input->getArgument('task')) {
+        $task = $this->input->getArgument('task');
+        switch ($task) {
             case 'release':
-                foreach (Application::getArray(R18Service::SERVICE_NAME, 'urls') as $key => $url) {
-                    ReleaseFetch::dispatch($url, $key)->onQueue('crawling');
-                }
-
-                break;
             case 'daily':
-                foreach (Application::getArray(R18Service::SERVICE_NAME, 'urls') as $url) {
-                    DailyFetch::dispatch($url)->onQueue('crawling');
+                foreach (Application::getArray(R18Service::SERVICE_NAME, 'urls') as $key => $url) {
+                    if ($task === 'release') {
+                        ReleaseFetch::dispatch($url, $key)->onQueue(R18Service::QUEUE_NAME);
+                    } else {
+                        DailyFetch::dispatch($url)->onQueue(R18Service::QUEUE_NAME);
+                    }
+
+                    $this->output->info(sprintf('Pushed %s %s to queue', $task, $url));
                 }
 
                 break;
@@ -47,7 +49,7 @@ class R18 extends Command
                 );
 
                 foreach ($models as $model) {
-                    ItemFetch::dispatch($model)->onQueue('crawling');
+                    ItemFetch::dispatch($model)->onQueue(R18Service::QUEUE_NAME);
                 }
 
                 break;

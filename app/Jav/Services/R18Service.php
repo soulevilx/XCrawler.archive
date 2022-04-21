@@ -9,7 +9,6 @@ use App\Jav\Events\R18\R18ReleaseCompleted;
 use App\Jav\Events\R18\RefetchFailed;
 use App\Jav\Models\R18;
 use App\Jav\Repositories\R18Repository;
-use App\Jav\Services\Traits\HasAttributes;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -21,6 +20,8 @@ class R18Service
 
     public const SERVICE_NAME = 'r18';
     public const BASE_URL = 'https://www.r18.com';
+
+    public const QUEUE_NAME = 'crawling';
 
     public function __construct(protected R18Crawler $crawler, protected R18Repository $repository)
     {
