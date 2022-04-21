@@ -23,7 +23,7 @@ trait OnejavMocker
             $this->mockResponse('popular', $index);
             $this->mockResponse('search/test', $index);
 
-            $this->mocker
+            $this->xcrawlerMocker
                 ->shouldReceive('get')
                 ->with($now, $index === 1 ? [] : ['page' => $index])
                 ->andReturn(
@@ -32,23 +32,23 @@ trait OnejavMocker
         }
 
         // FC
-        $this->mocker
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->withSomeOfArgs('fc')
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/fc.html'));
 
         $this->service = $this->getService();
-        $this->crawler = new OnejavCrawler($this->mocker);
+        $this->crawler = new OnejavCrawler($this->xcrawlerMocker);
     }
 
     private function invalid()
     {
-        $this->mocker
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->with('invalid_date', [])
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021_date.html'));
 
-        $this->mocker
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->with('failed', [])
             ->andReturn($this->getErrorMockedResponse(app(DomResponse::class)));
@@ -58,12 +58,12 @@ trait OnejavMocker
     {
         $fixtureFile = 'Onejav/' . Str::slug(Str::replace('/', '_', $name), '_') . '_page_' . $page . '.html';
 
-        $this->mocker
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->with($name, $page === 1 ? [] : ['page' => $page])
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), $fixtureFile));
 
-        $this->mocker
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->with($name, ['page' => $page])
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), $fixtureFile));
@@ -71,7 +71,7 @@ trait OnejavMocker
 
     protected function getService(): OnejavService
     {
-        app()->instance(OnejavCrawler::class, new OnejavCrawler($this->mocker));
+        app()->instance(OnejavCrawler::class, new OnejavCrawler($this->xcrawlerMocker));
 
         return app(OnejavService::class);
     }

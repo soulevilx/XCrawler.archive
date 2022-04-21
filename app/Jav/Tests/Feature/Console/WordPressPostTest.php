@@ -8,7 +8,6 @@ use App\Jav\Models\Movie;
 use App\Jav\Tests\JavTestCase;
 use Illuminate\Support\Facades\Mail;
 
-
 class WordPressPostTest extends JavTestCase
 {
     public function testSendmailNothing()

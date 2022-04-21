@@ -15,8 +15,6 @@ use Illuminate\Support\Facades\Bus;
 
 class XCityIdolService
 {
-    use HasAttributes;
-
     public const SERVICE_NAME = 'xcity_idols';
     public const BASE_URL = 'https://xxx.xcity.jp';
     public const SUBPAGES = [
@@ -67,7 +65,7 @@ class XCityIdolService
          * - Get links and update current page.
          */
         $subPages = $this->getSubPages();
-        foreach ($subPages as $index => $subPage) {
+        foreach ($subPages as $subPage) {
             $kana = str_replace('/idol/?kana=', '', $subPage);
             Bus::chain([
                 new InitIdolIndex($kana),

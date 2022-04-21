@@ -21,7 +21,7 @@ class R18ItemFetchTest extends JavTestCase
     {
         parent::setUp();
 
-        $this->mocker
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->andReturn($this->getSuccessfulMockedResponse(app(JsonResponse::class), 'R18/item_rki00506.json'));
 
@@ -90,7 +90,7 @@ class R18ItemFetchTest extends JavTestCase
          * Case 1 : Try to create movie with matched content_id
          */
         $model = R18::factory()->create(['content_id' => $originalMovie->content_id]);
-        $movie =  app(MovieService::class)->create($model);
+        $movie = app(MovieService::class)->create($model);
 
         $this->assertTrue($model->movie->is($originalMovie));
         $this->assertTrue($movie->is($originalMovie));
@@ -114,7 +114,7 @@ class R18ItemFetchTest extends JavTestCase
             'dvd_id' => $originalMovie->dvd_id
         ]);
 
-        $movie =  app(MovieService::class)->create($model);
+        $movie = app(MovieService::class)->create($model);
 
         $this->assertTrue($model->movie->is($originalMovie));
         $this->assertTrue($movie->is($originalMovie));

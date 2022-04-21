@@ -2,7 +2,6 @@
 
 namespace App\Core\Listeners;
 
-use App\Core\Events\Client\ClientPrepared;
 use App\Core\Events\Client\ClientRequested;
 use App\Core\Events\Client\ClientRequestFailed;
 use App\Core\Models\ClientRequest;
@@ -11,7 +10,7 @@ use Illuminate\Events\Dispatcher;
 
 class ClientRequestEventSubscriber
 {
-    public function handleClientRequest(ClientPrepared|ClientRequested|ClientRequestFailed $event)
+    public function handleClientRequest(ClientRequested|ClientRequestFailed $event)
     {
         $data = [
             'service' => $event->service,
@@ -37,13 +36,15 @@ class ClientRequestEventSubscriber
     /**
      * Register the listeners for the subscriber.
      *
-     * @param Dispatcher $events
+     * @param  Dispatcher  $events
+     *
+     * @return void
      */
-    public function subscribe($events)
+    public function subscribe($events): void
     {
         $events->listen([
             ClientRequested::class,
             ClientRequestFailed::class,
-        ], self::class . '@handleClientRequest');
+        ], self::class.'@handleClientRequest');
     }
 }

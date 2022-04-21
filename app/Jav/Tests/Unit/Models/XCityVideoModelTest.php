@@ -36,7 +36,7 @@ class XCityVideoModelTest extends JavTestCase
             'url' => '/avod/detail/?id=147028',
         ]);
 
-       $video = app(XCityVideoService::class)->refetch($video);
+        $video = app(XCityVideoService::class)->refetch($video);
         $this->assertEquals('NACR292', $video->item_number);
         $this->assertEquals([
             'Kaho Imai',

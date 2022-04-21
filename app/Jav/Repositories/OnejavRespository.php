@@ -4,6 +4,7 @@ namespace App\Jav\Repositories;
 
 use App\Core\Repositories\Traits\HasDefaultRepository;
 use App\Jav\Models\Onejav;
+use ArrayObject;
 use Illuminate\Support\Collection;
 
 class OnejavRespository
@@ -21,15 +22,19 @@ class OnejavRespository
         ], $attributes);
     }
 
-    public function createFromArrayObject(\ArrayObject $object): Onejav
+    public function createFromArrayObject(ArrayObject $object): Onejav
     {
         return $this->create(array_merge([
             'url' => $object->url,
         ], $object->getArrayCopy()));
     }
 
-    public function createMultiItems(Collection $items)
+    public function createItems(Collection $items): void
     {
+        if ($items->isEmpty()) {
+            return;
+        }
+
         $items->each(function ($item) {
             $this->createFromArrayObject($item);
         });

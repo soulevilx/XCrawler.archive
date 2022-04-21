@@ -35,7 +35,7 @@ class R18 extends Command
 
                 break;
             case 'daily':
-                foreach (Application::getArray(R18Service::SERVICE_NAME, 'urls') as $key => $url) {
+                foreach (Application::getArray(R18Service::SERVICE_NAME, 'urls') as $url) {
                     DailyFetch::dispatch($url)->onQueue('crawling');
                 }
 

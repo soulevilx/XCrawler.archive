@@ -21,6 +21,7 @@ class MovieEventSubscriber
         unset($movieData['id']);
         $movieData['genres'] = $event->movie->genres()->pluck('name')->toArray();
         $movieData['performers'] = $event->movie->performers()->pluck('name')->toArray();
+
         MovieIndex::create($movieData);
 
         $event->movie->notify(new MovieCreatedNotification($event->movie));
@@ -30,8 +31,10 @@ class MovieEventSubscriber
      * Register the listeners for the subscriber.
      *
      * @param Dispatcher $events
+     *
+     * @return void
      */
-    public function subscribe($events)
+    public function subscribe($events): void
     {
         $events->listen(
             [MovieCreated::class],
@@ -42,7 +45,6 @@ class MovieEventSubscriber
             [
                 OnejavDownloadCompleted::class
             ],
-
             self::class . '@onOnejavDownloadCompleted'
         );
     }

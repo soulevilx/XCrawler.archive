@@ -11,18 +11,18 @@ use App\Jav\Events\Onejav\OnejavDownloadCompleted;
 use App\Jav\Events\Onejav\OnejavReleaseCompleted;
 use App\Jav\Models\Onejav;
 use App\Jav\Repositories\OnejavRespository;
-use App\Jav\Services\Traits\HasAttributes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Event;
 
 class OnejavService
 {
-    use HasAttributes;
-
     public const SERVICE_NAME = 'onejav';
     public const DAILY_FORMAT = 'Y/m/d';
 
     public const BASE_URL = 'https://onejav.com';
+
+    public const DEFAULT_CURRENT_PAGE = 1;
+    public const DEFAULT_TOTAL_PAGES = 8500;
 
     public function __construct(protected OnejavCrawler $crawler, protected OnejavRespository $repository)
     {
@@ -36,12 +36,7 @@ class OnejavService
     public function daily()
     {
         $items = $this->crawler->daily();
-
-        if ($items->isEmpty()) {
-            return $items;
-        }
-
-        $this->repository->createMultiItems($items);
+        $this->repository->createItems($items);
 
         Event::dispatch(new OnejavDailyCompleted($items));
 
@@ -50,15 +45,15 @@ class OnejavService
 
     public function release()
     {
-        $currentPage = Application::getInt(OnejavService::SERVICE_NAME, 'current_page', 1);
+        $currentPage = Application::getInt(OnejavService::SERVICE_NAME, 'current_page', self::DEFAULT_CURRENT_PAGE);
 
         $items = $this->crawler->getItems('new', ['page' => $currentPage]);
 
-        $this->repository->createMultiItems($items);
+        $this->repository->createItems($items);
 
         ++$currentPage;
 
-        if (Application::getInt(OnejavService::SERVICE_NAME, 'total_pages', 8500) < $currentPage) {
+        if (Application::getInt(OnejavService::SERVICE_NAME, 'total_pages', self::DEFAULT_TOTAL_PAGES) < $currentPage) {
             $currentPage = 1;
         }
 

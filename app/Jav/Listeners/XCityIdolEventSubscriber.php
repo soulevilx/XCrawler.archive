@@ -17,7 +17,7 @@ class XCityIdolEventSubscriber
 
         Performer::firstOrCreate([
             'name' => $model->name,
-        ], [
+            ], [
             'cover' => $model->cover,
             'city' => $model->city,
             'height' => $model->height,

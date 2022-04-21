@@ -4,7 +4,7 @@ namespace App\Jav\Crawlers;
 
 use App\Core\XCrawlerClient;
 use Illuminate\Support\Collection;
-use Jooservices\XcrawlerClient\Interfaces\ResponseInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class SCuteCrawler
 {

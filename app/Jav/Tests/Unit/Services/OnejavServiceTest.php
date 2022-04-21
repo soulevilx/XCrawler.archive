@@ -39,10 +39,53 @@ class OnejavServiceTest extends JavTestCase
     public function testCreateOnejav()
     {
         Event::fake([MovieCreated::class]);
-        $onejav = $this->service->create([
+        $onejav = $this->createOnejav([]);
+
+        $this->assertDatabaseHas('onejav', [
+            'url' => 'https://onejav.com/actress/Arina%20Hashimoto',
+        ]);
+
+        $this->assertInstanceOf(Movie::class, $onejav->movie);
+        $this->assertEquals($onejav->dvd_id, $onejav->movie->dvd_id);
+        $this->assertEquals($onejav->genres, $onejav->movie->genres->pluck('name')->toArray());
+        $this->assertEquals($onejav->performers, $onejav->movie->performers->pluck('name')->toArray());
+        $this->assertTrue($onejav->movie->isDownloadable());
+
+        Event::assertDispatched(MovieCreated::class, function ($event) use ($onejav) {
+            return $onejav->movie->is($event->movie);
+        });
+    }
+
+    public function testCreateWithDuplicatedUrl()
+    {
+        $onejav = $this->createOnejav([
+            'url' => 'fake',
+            'dvd_id' => 'fake-dvd-id',
+
+        ]);
+
+        $this->assertDatabaseHas('onejav', ['url' => 'fake']);
+
+        $this->createOnejav([
+            'url' => 'fake',
+            'dvd_id' => 'fake-dvd-id-2',
+        ]);
+
+        $onejav->refresh();
+        $this->assertEquals('fake-dvd-id-2', $onejav->getDvdId());
+    }
+
+    public function testCreateOnejavWithExistsMovie()
+    {
+        Event::fake([MovieCreated::class]);
+        Movie::factory()->create([
+            'dvd_id' => 'fake',
+        ]);
+
+        $this->service->create([
             'url' => 'https://onejav.com/actress/Arina%20Hashimoto',
             'cover' => $this->faker->unique->url,
-            'dvd_id' => $this->faker->unique->uuid,
+            'dvd_id' => 'fake',
             'size' => $this->faker->randomFloat(2, 10, 20),
             'date' => $this->faker->date,
             'genres' => [
@@ -59,19 +102,10 @@ class OnejavServiceTest extends JavTestCase
             'torrent' => $this->faker->unique->url,
         ]);
 
-        $this->assertDatabaseHas('onejav', [
-            'url' => 'https://onejav.com/actress/Arina%20Hashimoto',
-        ]);
-
-        $this->assertInstanceOf(Movie::class, $onejav->movie);
-        $this->assertEquals($onejav->dvd_id, $onejav->movie->dvd_id);
-        $this->assertEquals($onejav->genres, $onejav->movie->genres->pluck('name')->toArray());
-        $this->assertEquals($onejav->performers, $onejav->movie->performers->pluck('name')->toArray());
-        $this->assertTrue($onejav->movie->isDownloadable());
-
-        Event::assertDispatched(MovieCreated::class, function ($event) use ($onejav) {
-            return $onejav->movie->is($event->movie);
-        });
+        /**
+         * This movie already exists we won't dispatch event again
+         */
+        Event::assertNotDispatched(MovieCreated::class);
     }
 
     public function testDaily()
@@ -90,8 +124,8 @@ class OnejavServiceTest extends JavTestCase
 
     public function testDailyFailed()
     {
-        $this->mocker = $this->getClientMock();
-        $this->mocker
+        $this->xcrawlerMocker = $this->getClientMock();
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->andReturn($this->getErrorMockedResponse(app(DomResponse::class)));
         $this->service = $this->getService();
@@ -138,8 +172,8 @@ class OnejavServiceTest extends JavTestCase
     {
         $onejav = Onejav::factory()->create();
 
-        $this->mocker = $this->getClientMock();
-        $this->mocker
+        $this->xcrawlerMocker = $this->getClientMock();
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->with($onejav->url, [])
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021_page_1.html'));
@@ -153,8 +187,8 @@ class OnejavServiceTest extends JavTestCase
     public function testDownload()
     {
         $onejav = Onejav::factory()->create();
-        $this->mocker = $this->getClientMock();
-        $this->mocker
+        $this->xcrawlerMocker = $this->getClientMock();
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021_page_1.html'));
 
@@ -187,12 +221,37 @@ class OnejavServiceTest extends JavTestCase
             ->andReturn(new Response(303));
         app()->instance(Client::class, $client);
 
-        $this->mocker = $this->getClientMock();
-        $this->mocker
+        $this->xcrawlerMocker = $this->getClientMock();
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021_page_1.html'));
         $this->service = $this->getService();
 
         $this->assertFalse($this->service->download($onejav));
+    }
+
+    private function createOnejav(array $attributes): Onejav
+    {
+        $attributes = array_merge([
+            'url' => 'https://onejav.com/actress/Arina%20Hashimoto',
+            'cover' => $this->faker->unique->url,
+            'dvd_id' => $this->faker->unique->uuid,
+            'size' => $this->faker->randomFloat(2, 10, 20),
+            'date' => $this->faker->date,
+            'genres' => [
+                $this->faker->unique->word,
+                $this->faker->unique->word,
+                $this->faker->unique->word,
+            ],
+            'performers' => [
+                $this->faker->unique->name,
+                $this->faker->unique->name,
+                $this->faker->unique->name,
+            ],
+            'description' => $this->faker->text,
+            'torrent' => $this->faker->unique->url,
+        ], $attributes);
+
+        return $this->service->create($attributes);
     }
 }

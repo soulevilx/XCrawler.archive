@@ -4,12 +4,13 @@ namespace App\Flickr\Services\Flickr\Traits;
 
 use App\Flickr\Exceptions\FlickrGeneralException;
 use App\Flickr\Services\FlickrService;
+use ReflectionClass;
 use ReflectionMethod;
 
 trait HasFlickrClient
 {
     /**
-     * @param array $args
+     * @param array  $args
      * @param string $method
      * @return array
      * @throws FlickrGeneralException
@@ -17,7 +18,7 @@ trait HasFlickrClient
      */
     public function call(array $args, string $method): array
     {
-        $reflect = new \ReflectionClass($this);
+        $reflect = new ReflectionClass($this);
         $endPoint = 'flickr.' . strtolower($reflect->getShortName()) . '.' . $method;
 
         $ref = new ReflectionMethod($this, $method);

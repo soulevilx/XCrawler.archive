@@ -13,7 +13,13 @@
         }
     ],
     "readme": "README.md",
-    "keywords": ["framework", "laravel", "crawling", "jav", "flick"],
+    "keywords": [
+        "framework",
+        "laravel",
+        "crawling",
+        "jav",
+        "flick"
+    ],
     "license": "MIT",
     "require": {
         "php": ">=8.0",
@@ -33,7 +39,6 @@
         "laravel/tinker": "^2.6",
         "sentry/sentry-laravel": "^2.9",
         "spatie/laravel-rate-limited-job-middleware": "^1.5",
-
         "studio/laravel-totem": "^8.3"
     },
     "require-dev": {
@@ -48,6 +53,7 @@
         "nunomaduro/collision": "^5",
         "phpstan/phpstan": "^1.5",
         "phpunit/phpunit": "^9.5",
+        "phpmd/phpmd": "^2.12",
         "rector/rector": "^0.12",
         "squizlabs/php_codesniffer": "^3.6",
         "vimeo/psalm": "^4.22"
@@ -80,8 +86,14 @@
             "@php artisan ide-helper:generate",
             "@php artisan ide-helper:meta"
         ],
-        "lint": [
+        "phpstan": [
             "@php vendor/bin/phpstan analyze --level=0 app"
+        ],
+        "phpmd": [
+            "@php vendor/bin/phpmd app github phpmd.xml"
+        ],
+        "rector": [
+            "@php vendor/bin/rector process --dry-run --ansi"
         ],
         "test": [
             "@php vendor/bin/phpunit --testsuite=Core",
@@ -112,7 +124,8 @@
         "sort-packages": true,
         "allow-plugins": {
             "composer/package-versions-deprecated": true
-        }
+        },
+        "process-timeout": 0
     },
     "minimum-stability": "dev",
     "prefer-stable": true

@@ -14,28 +14,28 @@ trait R18Mocker
 
     protected function loadR18Mocker()
     {
-        $this->mocker
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->with(R18::MOVIE_LIST_URL, [])
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'R18/movie_list.html'));
 
-        $this->mocker
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->with(R18::MOVIE_LIST_URL . '/page=1', [])
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'R18/movie_list.html'));
 
-        $this->mocker
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->with(R18::MOVIE_LIST_URL . '/page=2', [])
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'R18/movie_list.html'));
 
-        $this->mocker
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->with('videos/rankings/movies/?type=daily', [])
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'R18/daily_ranking.html'));
 
         foreach (['s1', 'moodyz'] as $id) {
-            $this->mocker
+            $this->xcrawlerMocker
                 ->shouldReceive('get')
                 ->with('videos/channels/' . $id, [])
                 ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'R18/'. $id.'.html'));
@@ -43,7 +43,7 @@ trait R18Mocker
 
 
         foreach (['rki00506', 'pfes00054'] as $id) {
-            $this->mocker
+            $this->xcrawlerMocker
                 ->shouldReceive('get')
                 ->with('/api/v4f/contents/' . $id, [])
                 ->andReturn($this->getSuccessfulMockedResponse(app(JsonResponse::class), 'R18/item_'. $id. '.json'));
@@ -57,7 +57,7 @@ trait R18Mocker
 
     private function failed()
     {
-        $this->mocker
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->with('/api/v4f/contents/0', [])
             ->andReturn($this->getErrorMockedResponse(app(JsonResponse::class)));
@@ -65,7 +65,7 @@ trait R18Mocker
 
     protected function getService(): R18Service
     {
-        app()->instance(R18Crawler::class, new R18Crawler($this->mocker, $this->mocker));
+        app()->instance(R18Crawler::class, new R18Crawler($this->xcrawlerMocker, $this->xcrawlerMocker));
 
         return app(R18Service::class);
     }

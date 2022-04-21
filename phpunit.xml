@@ -37,7 +37,7 @@
             <directory suffix=".php">./app/Core/Repositories</directory>
 
             <directory suffix=".php">./app/*/Database</directory>
-            <directory suffix=".php">./app/*/Events</directory>
+
             <directory suffix=".php">./app/*/Http</directory>
             <directory suffix=".php">./app/*/Exceptions</directory>
             <directory suffix=".php">./app/*/Providers</directory>

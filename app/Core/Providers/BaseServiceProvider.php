@@ -53,7 +53,7 @@ class BaseServiceProvider extends ServiceProvider
     {
         foreach ($this->configs as $dir => $configs) {
             foreach ($configs as $config) {
-                $configFile = $dir . '/' . $config . '.php';
+                $configFile = $dir.'/'.$config.'.php';
                 if (!file_exists($configFile)) {
                     continue;
                 }
@@ -86,12 +86,13 @@ class BaseServiceProvider extends ServiceProvider
         }
 
         $isConnected = false;
-        $connected = @fsockopen("www.example.com", 80);
-
-        //website, port  (try 80 or 443)
-        if ($connected) {
-            $isConnected = true; //action when connected
-            fclose($connected);
+        try {
+            $connected = fsockopen("www.example.com", 80);
+            if ($connected) {
+                $isConnected = true; //action when connected
+                fclose($connected);
+            }
+        } catch (\Exception) {
         }
 
         if (!$isConnected) {
@@ -102,7 +103,7 @@ class BaseServiceProvider extends ServiceProvider
     /**
      * Load Routes
      *
-     * @param string $file
+     * @param  string  $file
      *
      * @return $this
      */

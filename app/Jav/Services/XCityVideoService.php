@@ -14,8 +14,6 @@ use Illuminate\Support\Collection;
 
 class XCityVideoService
 {
-    use HasAttributes;
-
     public const SERVICE_NAME = 'xcity_videos';
     public const BASE_URL = 'https://xxx.xcity.jp';
 

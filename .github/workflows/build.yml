@@ -9,10 +9,46 @@ on:
     types: [ opened, synchronize ]
   push:
     branches: [ develop ]
-jobs:
-  build_test:
 
-    runs-on: [ ARM64 ]
+concurrency:
+  group: staging_build_test_${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+
+  build:
+    strategy:
+      matrix:
+        lint: [ phpstan, phpmd, rector ]
+        php: [ php8.0, php8.1 ]
+
+    runs-on:
+      - self-hosted
+      - ${{ matrix.php }}
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      #      PHP will be installed on server by itself
+
+      - name: Setup application
+        if: success()
+        run: |
+          php -r "file_exists('.env') || copy('.env.example', '.env');"
+          composer install --no-ansi --no-scripts --no-progress --prefer-dist
+
+      - name: Lint
+        run: composer ${{ matrix.lint }}
+
+  tests:
+    strategy:
+      matrix:
+        test: [ Core, Flickr, Jav ]
+    runs-on:
+      - self-hosted
+      - database
+    needs: [build]
 
     services:
       mysql:
@@ -39,17 +75,9 @@ jobs:
           - 27017:27017
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
-      - name: Setup PHP with PECL extension
-        uses: shivammathur/setup-php@v2
-        env:
-          runner: self-hosted
-        with:
-          php-version: 8.0
-          extensions: mongodb-1.13, redis, pcov
 
       - name: Setup application
         if: success()
@@ -61,26 +89,37 @@ jobs:
           php artisan config:clear
           php artisan migrate:fresh
 
-      - name: Lint
-        run: composer lint
-
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         if: success()
         run: |
-          composer test-coverage
+          ./vendor/bin/phpunit --testsuite=${{ matrix.test }} --coverage-clover coverage-${{ matrix.test }}.xml
 
       - name: Coverage
         uses: actions/upload-artifact@v2
         if: success()
         with:
-          name: coverage
-          path: coverage.xml
+          name: coverage-reports
+          path: coverage-${{ matrix.test }}.xml
 
-      - name: upload coverage to codecov.io
+  test_finished:
+    name: Test Finished
+    runs-on:
+      - self-hosted
+    needs: [tests]
+
+    steps:
+      - name: Download build from artifact
+        uses: actions/download-artifact@v2
+        if: success()
+        with:
+          name: coverage-reports
+          path: ./reports
+
+      - name: Upload coverage to codecov.io
         uses: codecov/codecov-action@v1
         if: success()
         with:
-          file: ./coverage.xml
+          directory: ./reports
 
       - name: Notifications
         uses: act10ns/slack@v1.5.0
@@ -90,3 +129,38 @@ jobs:
         with:
           status: ${{ job.status }}
           config: .github/config/slack.yml
+
+  deploy_staging:
+    name: Deploy to Staging
+    runs-on:
+      - self-hosted
+      - staging
+    needs: [ test_finished ]
+
+    steps:
+
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Build staging
+        if: success() && ${{ github.event.pull_request.type}} == 'opened'
+        run: |
+          BRANCH_NAME=$(bin/slugified.sh "${{ github.head_ref }}")
+          rm -rf ~/public_html/xcrawler.dynamic/$BRANCH_NAME
+          git clone git@github.com:jooservices/XCrawler.git ~/public_html/xcrawler.dynamic/$BRANCH_NAME
+          cd ~/public_html/xcrawler.dynamic/$BRANCH_NAME
+          cp ~/.env.xcrawler.staging .env
+          composer install
+          php artisan migrate --force
+
+  deploy_uat:
+    name: Deploy to UAT
+    runs-on:
+      - self-hosted
+    needs: [ test_finished ]
+    steps:
+
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0

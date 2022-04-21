@@ -27,7 +27,7 @@ class FlickrDownload extends AbstractFlickrCommand
             'album_id',
             'owner',
             'status',
-        ], [
+            ], [
             [
                 $this->option('url'),
                 $album->getAlbumId(),

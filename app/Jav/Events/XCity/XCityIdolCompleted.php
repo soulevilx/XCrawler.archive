@@ -8,7 +8,5 @@ class XCityIdolCompleted
 {
     public function __construct(public XCityIdol $model)
     {
-
     }
-
 }

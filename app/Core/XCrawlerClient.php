@@ -7,17 +7,18 @@ use App\Core\Events\Client\ClientRequested;
 use App\Core\Events\Client\ClientRequestFailed;
 use App\Core\Services\Facades\Application;
 use Carbon\CarbonImmutable;
+use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
 use Jooservices\XcrawlerClient\Factory;
-use Jooservices\XcrawlerClient\Interfaces\ResponseInterface;
 use Jooservices\XcrawlerClient\Settings\RequestOptions;
 use Kevinrob\GuzzleCache\CacheMiddleware;
 use Kevinrob\GuzzleCache\Storage\LaravelCacheStorage;
 use Kevinrob\GuzzleCache\Strategy\PrivateCacheStrategy;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
+use Psr\Http\Message\ResponseInterface;
 
 class XCrawlerClient
 {
@@ -25,30 +26,25 @@ class XCrawlerClient
     private Factory $factory;
     private Logger $logger;
     private Client $client;
-    private string $service;
     private array $headers;
-    private string $contentType;
-    private ResponseInterface $response;
+    private string $contentType = 'application/x-www-form-urlencoded';
 
-    public function __construct(string $service, ResponseInterface $response)
+    public function __construct(private string $service, private ResponseInterface $response)
     {
-        $this->service = $service;
         $this->logger = (new Logger($service))
             ->pushHandler(
-                new StreamHandler(storage_path('logs/' . $service . '/' . CarbonImmutable::now()->format('Y-m-d') . '.log'))
+                new StreamHandler(storage_path('logs/'.$service.'/'.CarbonImmutable::now()->format('Y-m-d').'.log'))
             );
 
         $this->requestOptions = new RequestOptions([
             'base_uri' => Application::getSetting($service, 'base_url'),
         ]);
 
-        $this->response = $response;
-
-        $this->factory = new Factory($this->logger);
+        $this->factory = app(Factory::class);
         $this->factory
             ->enableRetries(3, 1, 500)
             ->addOptions($this->requestOptions->toArray())
-            ->enableLogging()
+            ->enableLogging($this->logger)
             ->enableCache(new CacheMiddleware(
                 new PrivateCacheStrategy(
                     new LaravelCacheStorage(
@@ -73,7 +69,7 @@ class XCrawlerClient
     /**
      * Set the headers
      *
-     * @param array $headers
+     * @param  array  $headers
      * @return $this
      */
     public function setHeaders(array $headers): self
@@ -86,7 +82,7 @@ class XCrawlerClient
     /**
      * Set Client options
      *
-     * @param array $options
+     * @param  array  $options
      * @return $this
      */
     public function setOptions(array $options): self
@@ -99,7 +95,7 @@ class XCrawlerClient
     /**
      * Set the content type
      *
-     * @param string $contentType
+     * @param  string  $contentType
      *
      * @return $this
      */
@@ -113,8 +109,8 @@ class XCrawlerClient
     /**
      * GET Request
      *
-     * @param string $endpoint
-     * @param array $payload
+     * @param  string  $endpoint
+     * @param  array  $payload
      * @return ResponseInterface
      */
     public function get(string $endpoint, array $payload = []): ResponseInterface
@@ -125,8 +121,8 @@ class XCrawlerClient
     /**
      * POST Request
      *
-     * @param string $endpoint
-     * @param array $payload
+     * @param  string  $endpoint
+     * @param  array  $payload
      * @return ResponseInterface
      */
     public function post(string $endpoint, array $payload = []): ResponseInterface
@@ -137,8 +133,8 @@ class XCrawlerClient
     /**
      * PUT Request
      *
-     * @param string $endpoint
-     * @param array $payload
+     * @param  string  $endpoint
+     * @param  array  $payload
      * @return ResponseInterface
      */
     public function put(string $endpoint, array $payload = []): ResponseInterface
@@ -149,8 +145,8 @@ class XCrawlerClient
     /**
      * PATCH Request
      *
-     * @param string $endpoint
-     * @param array $payload
+     * @param  string  $endpoint
+     * @param  array  $payload
      * @return ResponseInterface
      */
     public function patch(string $endpoint, array $payload = []): ResponseInterface
@@ -161,8 +157,8 @@ class XCrawlerClient
     /**
      * DELETE Request
      *
-     * @param string $endpoint
-     * @param array $payload
+     * @param  string  $endpoint
+     * @param  array  $payload
      * @return ResponseInterface
      */
     public function delete(string $endpoint, array $payload = []): ResponseInterface
@@ -173,9 +169,9 @@ class XCrawlerClient
     /**
      * Perform the request
      *
-     * @param string $endpoint
-     * @param array $payload
-     * @param string $method
+     * @param  string  $endpoint
+     * @param  array  $payload
+     * @param  string  $method
      * @return ResponseInterface
      */
     protected function request(string $endpoint, array $payload = [], string $method = 'GET')
@@ -209,24 +205,24 @@ class XCrawlerClient
             }
         }
 
-        $this->response->reset();
-        $this->response->endpoint = $endpoint;
-        $this->response->request = $payload;
+        Event::dispatch(new ClientPrepared(
+            $this->service,
+            $options,
+            $endpoint,
+            $payload,
+            $method
+        ));
 
         try {
-            Event::dispatch(new ClientPrepared(
-                $this->service,
-                $options,
-                $endpoint,
-                $payload,
-                $method
-            ));
             $response = $this->client->request($method, $endpoint, $options);
-            $this->response->body = (string) $response->getBody();
-            $this->response->headers = $response->getHeaders();
-            $this->response->responseCode = $response->getStatusCode();
-            $this->response->loadData();
-        } catch (\Exception $e) {
+            $this->response->reset(
+                $response->getStatusCode(),
+                $response->getHeaders(),
+                $response->getBody(),
+                $response->getProtocolVersion(),
+                $response->getReasonPhrase()
+            );
+        } catch (Exception $e) {
             Event::dispatch(new ClientRequestFailed(
                 $this->service,
                 $options,
@@ -235,10 +231,7 @@ class XCrawlerClient
                 $method,
                 $e
             ));
-            $this->response->responseSuccess = false;
-            $this->response->responseCode = $e->getCode();
-            $this->response->responseMessage = $e->getMessage();
-            $this->response->body = $e->getResponse()->getBody()->getContents();
+            $this->response->isSucceed = false;
         } finally {
             Event::dispatch(new ClientRequested(
                 $this->service,

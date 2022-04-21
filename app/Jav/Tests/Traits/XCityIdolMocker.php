@@ -15,51 +15,51 @@ trait XCityIdolMocker
 
     protected function loadXCityIdolMocker()
     {
-        $this->mocker
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->with('idol/')
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'XCity/idol.html'));
 
-        $this->mocker
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->with('idol/', [])
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'XCity/idol.html'));
 
         foreach ($this->kanas as $kana) {
-            $this->mocker
+            $this->xcrawlerMocker
                 ->shouldReceive('get')
                 ->with('idol/', ['kana' => $kana])
                 ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'XCity/idols.html'));
 
-            $this->mocker
+            $this->xcrawlerMocker
                 ->shouldReceive('get')
                 ->with('idol/', ['kana' => $kana, 'page' => 1])
                 ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'XCity/idols.html'));
-            $this->mocker
+            $this->xcrawlerMocker
                 ->shouldReceive('get')
                 ->with('idol/', ['kana' => $kana, 'page' => 2])
                 ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'XCity/idols.html'));
         }
 
         foreach ($this->idolIds as $idolId) {
-            $this->mocker
+            $this->xcrawlerMocker
                 ->shouldReceive('get')
                 ->with('idol/detail/' . $idolId, [])
                 ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'XCity/idol_detail_' . $idolId . '.html'));
         }
 
-        $this->mocker
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->with('idol/detail/999', [])
             ->andReturn($this->getErrorMockedResponse(app(DomResponse::class)));
 
         $this->service = $this->getService();
-        $this->crawler = new XCityIdolCrawler($this->mocker);
+        $this->crawler = new XCityIdolCrawler($this->xcrawlerMocker);
     }
 
     protected function getService(): XCityIdolService
     {
-        app()->instance(XCityIdolCrawler::class, new XCityIdolCrawler($this->mocker));
+        app()->instance(XCityIdolCrawler::class, new XCityIdolCrawler($this->xcrawlerMocker));
 
         return app(XCityIdolService::class);
     }

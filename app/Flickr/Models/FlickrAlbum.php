@@ -2,6 +2,7 @@
 
 namespace App\Flickr\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
 use App\Flickr\Models\Traits\HasProcesses;
@@ -57,7 +58,7 @@ class FlickrAlbum extends Model
      * Actually Album hasMany photos
      * but we are using belongsToMany because we need pivot table
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     public function photos()
     {

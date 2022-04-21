@@ -9,11 +9,6 @@ use Monolog\Logger;
 
 class Handler extends AbstractProcessingHandler
 {
-    public function __construct($level = Logger::DEBUG, bool $bubble = true)
-    {
-        parent::__construct($level, $bubble);
-    }
-
     protected function write(array $record): void
     {
         Log::create([
@@ -25,8 +20,8 @@ class Handler extends AbstractProcessingHandler
             'record_datetime' => $record['datetime']->format('Y-m-d H:i:s'),
             'extra'         => json_encode($record['extra']),
             'formatted'     => $record['formatted'],
-            'remote_addr'   => isset($_SERVER['REMOTE_ADDR']) ? ip2long($_SERVER['REMOTE_ADDR']) : ip2long('127.0.0.1'),
-            'user_agent'    => $_SERVER['HTTP_USER_AGENT'] ?? null,
+            'remote_addr'   => ip2long(request()->ip()),
+            'user_agent'    => request()->server('HTTP_USER_AGENT'),
             'created_at' => Carbon::now()
         ]);
     }

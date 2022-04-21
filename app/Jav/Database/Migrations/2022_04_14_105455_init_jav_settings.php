@@ -19,7 +19,7 @@ return new class extends Migration
         Application::setSettings([
             'onejav' => [
                 'base_url' => OnejavService::BASE_URL,
-                'total_pages' => 8500,
+                'total_pages' => OnejavService::DEFAULT_TOTAL_PAGES,
             ],
             'r18' => [
                 'base_url' => R18Service::BASE_URL,
