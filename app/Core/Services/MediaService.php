@@ -5,7 +5,6 @@ namespace App\Core\Services;
 use App\Core\Services\Facades\Application;
 use GuzzleHttp\Client;
 use Illuminate\Filesystem\FilesystemAdapter;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 class MediaService

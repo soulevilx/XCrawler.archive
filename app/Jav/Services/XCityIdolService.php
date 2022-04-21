@@ -8,7 +8,6 @@ use App\Jav\Jobs\XCity\GetIdolItemLinks;
 use App\Jav\Jobs\XCity\InitIdolIndex;
 use App\Jav\Models\XCityIdol;
 use App\Jav\Repositories\XCityIdolRepository;
-use App\Jav\Services\Traits\HasAttributes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Bus;
@@ -29,6 +28,8 @@ class XCityIdolService
         "/idol/?kana=ら",
         "/idol/?kana=わ",
     ];
+
+    public const QUEUE_NAME = 'crawling';
 
     public function __construct(protected XCityIdolCrawler $crawler, protected XCityIdolRepository $repository)
     {
@@ -70,7 +71,7 @@ class XCityIdolService
             Bus::chain([
                 new InitIdolIndex($kana),
                 new GetIdolItemLinks($kana),
-            ])->onQueue('crawling')->dispatch();
+            ])->onQueue(self::QUEUE_NAME)->dispatch();
         }
     }
 

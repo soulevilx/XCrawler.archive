@@ -3,6 +3,7 @@
 namespace App\Jav\Services\Movie;
 
 use App\Jav\Events\MovieCreated;
+use App\Jav\Events\MovieUpdated;
 use App\Jav\Models\Interfaces\MovieInterface;
 use App\Jav\Models\Movie;
 use App\Jav\Models\R18;
@@ -37,6 +38,9 @@ class MovieService
                 $movie = $this->repository->create($modelAttributes);
             }
         } else {
+            /**
+             * Most case we don't have content_id than use dvd_id instead
+             */
             $movie = $this->repository
                 ->updateOrCreateByDvdId($model->getDvdId(), $modelAttributes)
                 ->getModel();
@@ -45,11 +49,10 @@ class MovieService
         $this->repository->addGenres($model->getGenres());
         $this->repository->addPerformers($model->getPerformers());
 
-        /**
-         * Only dispatch event for created case
-         */
         if ($movie->wasRecentlyCreated) {
             Event::dispatch(new MovieCreated($movie));
+        } else {
+            Event::dispatch(new MovieUpdated($movie));
         }
 
         /**

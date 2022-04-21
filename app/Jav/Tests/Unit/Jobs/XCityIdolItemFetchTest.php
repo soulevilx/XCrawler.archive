@@ -2,7 +2,7 @@
 
 namespace App\Jav\Tests\Unit\Jobs;
 
-use App\Core\Models\State;
+use App\Jav\Models\State;
 use App\Jav\Jobs\XCity\IdolItemFetch;
 use App\Jav\Models\XCityIdol;
 use App\Jav\Tests\JavTestCase;

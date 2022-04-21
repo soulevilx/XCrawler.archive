@@ -2,7 +2,7 @@
 
 namespace App\Jav\Jobs\XCity;
 
-use App\Core\Models\State;
+use App\Jav\Models\State;
 use App\Jav\Models\XCityIdol;
 use App\Jav\Services\XCityIdolService;
 use Illuminate\Bus\Queueable;

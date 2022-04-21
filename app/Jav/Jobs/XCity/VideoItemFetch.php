@@ -2,7 +2,7 @@
 
 namespace App\Jav\Jobs\XCity;
 
-use App\Core\Models\State;
+use App\Jav\Models\State;
 use App\Jav\Models\XCityVideo;
 use App\Jav\Services\XCityVideoService;
 use Illuminate\Bus\Queueable;

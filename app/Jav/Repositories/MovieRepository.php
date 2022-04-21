@@ -32,6 +32,12 @@ class MovieRepository
         return $model;
     }
 
+    /**
+     * @param  string  $dvdId
+     * @param  array  $attributes
+     *
+     * @return $this
+     */
     public function updateOrCreateByDvdId(string $dvdId, array $attributes): self
     {
         $this->model = Movie::updateOrCreate([

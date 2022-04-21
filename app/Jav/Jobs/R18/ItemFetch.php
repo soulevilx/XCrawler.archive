@@ -2,7 +2,7 @@
 
 namespace App\Jav\Jobs\R18;
 
-use App\Core\Models\State;
+use App\Jav\Models\State;
 use App\Jav\Jobs\Traits\R18CrawlingMiddleware;
 use App\Jav\Models\R18;
 use App\Jav\Services\R18Service;

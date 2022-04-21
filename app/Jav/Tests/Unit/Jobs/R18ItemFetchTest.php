@@ -2,7 +2,7 @@
 
 namespace App\Jav\Tests\Unit\Jobs;
 
-use App\Core\Models\State;
+use App\Jav\Models\State;
 use App\Jav\Events\MovieCreated;
 use App\Jav\Jobs\R18\ItemFetch;
 use App\Jav\Models\Movie;

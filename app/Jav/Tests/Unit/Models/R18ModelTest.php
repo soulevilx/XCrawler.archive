@@ -2,7 +2,7 @@
 
 namespace App\Jav\Tests\Unit\Models;
 
-use App\Core\Models\State;
+use App\Jav\Models\State;
 use App\Jav\Models\R18;
 use Tests\TestCase;
 
