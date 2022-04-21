@@ -4,7 +4,6 @@ namespace App\Core\Tests\Unit\Listeners;
 
 use App\Core\Models\BaseMongo;
 use Exception;
-
 use Jooservices\XcrawlerClient\Response\DomResponse;
 use Tests\TestCase;
 

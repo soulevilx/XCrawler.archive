@@ -37,8 +37,10 @@ class ClientRequestEventSubscriber
      * Register the listeners for the subscriber.
      *
      * @param  Dispatcher  $events
+     *
+     * @return void
      */
-    public function subscribe($events)
+    public function subscribe($events): void
     {
         $events->listen([
             ClientRequested::class,
