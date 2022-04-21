@@ -4,7 +4,9 @@ namespace App\Jav\Console\Commands;
 
 use App\Jav\Jobs\Onejav\DailyFetch;
 use App\Jav\Jobs\Onejav\ReleaseFetch;
+use App\Jav\Services\OnejavService;
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
 
 class Onejav extends Command
 {
@@ -24,13 +26,18 @@ class Onejav extends Command
 
     public function handle()
     {
-        switch ($this->input->getArgument('task')) {
+        $task = $this->input->getArgument('task');
+        switch ($task) {
             case 'daily':
-                DailyFetch::dispatch()->onQueue('crawling');
+                DailyFetch::dispatch()
+                    ->onQueue(OnejavService::QUEUE_NAME);
                 break;
             case 'release':
-                ReleaseFetch::dispatch()->onQueue('crawling');
+                ReleaseFetch::dispatch()
+                    ->onQueue(OnejavService::QUEUE_NAME);
                 break;
         }
+
+        $this->output->info('Pushed '.Str::camel($task).' to queue');
     }
 }

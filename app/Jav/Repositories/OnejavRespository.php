@@ -36,7 +36,7 @@ class OnejavRespository
         }
 
         $items->each(function ($item) {
-            $this->createFromArrayObject($item);
+            dd($this->createFromArrayObject($item));
         });
     }
 }

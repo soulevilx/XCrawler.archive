@@ -137,6 +137,8 @@ jobs:
     needs: [ test_finished ]
     steps:
 
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+      - name: Deploy to UAT
+        if: success()
+        run: |
+          ~/deploy_uat.sh -s
+

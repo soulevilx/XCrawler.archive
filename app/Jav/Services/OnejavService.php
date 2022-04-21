@@ -24,6 +24,8 @@ class OnejavService
     public const DEFAULT_CURRENT_PAGE = 1;
     public const DEFAULT_TOTAL_PAGES = 8500;
 
+    public const QUEUE_NAME = 'crawling';
+
     public function __construct(protected OnejavCrawler $crawler, protected OnejavRespository $repository)
     {
     }
