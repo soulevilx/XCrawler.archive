@@ -3,11 +3,15 @@
 namespace Tests;
 
 use App\Core\XCrawlerClient;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
+use Jooservices\XcrawlerClient\Factory;
+use Jooservices\XcrawlerClient\Response\DomResponse;
 use Mockery\MockInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -42,6 +46,31 @@ abstract class TestCase extends BaseTestCase
         $mocker->shouldReceive('setContentType')->andReturnSelf();
 
         return $mocker;
+    }
+
+    protected function getXCrawlerClient($response): XCrawlerClient
+    {
+        $clientMocker = \Mockery::mock(Client::class);
+
+        if ($response instanceof DomResponse) {
+            $clientMocker
+                ->shouldReceive('request')
+                ->andReturn($response);
+        } else {
+            $clientMocker
+                ->shouldReceive('request')
+                ->andThrow($response);
+        }
+
+        $mocker = \Mockery::mock(Factory::class);
+        $mocker->shouldReceive('enableRetries')->andReturnSelf();
+        $mocker->shouldReceive('addOptions')->andReturnSelf();
+        $mocker->shouldReceive('enableLogging')->andReturnSelf();
+        $mocker->shouldReceive('enableCache')->andReturnSelf();
+        $mocker->shouldReceive('make')->andReturn($clientMocker);
+
+        app()->instance(Factory::class, $mocker);
+        return new XCrawlerClient('test', new DomResponse());
     }
 
     protected function getFixture(?string $path): ?string
