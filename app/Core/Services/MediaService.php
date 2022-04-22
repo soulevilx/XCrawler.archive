@@ -18,6 +18,7 @@ class MediaService
 
     public function download(string $service, string $url)
     {
+
         if (!$this->storage->exists($service)) {
             $this->storage->makeDirectory($service);
         }
