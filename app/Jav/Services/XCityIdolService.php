@@ -4,6 +4,7 @@ namespace App\Jav\Services;
 
 use App\Core\Services\Facades\Application;
 use App\Jav\Crawlers\XCityIdolCrawler;
+use App\Jav\Events\XCity\IdolReleaseExecuted;
 use App\Jav\Jobs\XCity\Idol\FetchIdolLinks;
 use App\Jav\Jobs\XCity\Idol\InitIdolIndex;
 use App\Jav\Models\XCityIdol;
@@ -11,6 +12,7 @@ use App\Jav\Repositories\XCityIdolRepository;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Event;
 
 class XCityIdolService
 {
@@ -76,6 +78,8 @@ class XCityIdolService
                 new InitIdolIndex($kana),
                 new FetchIdolLinks($kana),
             ])->onQueue(self::QUEUE_NAME)->dispatch();
+
+            Event::dispatch(new IdolReleaseExecuted($kana));
         }
     }
 
