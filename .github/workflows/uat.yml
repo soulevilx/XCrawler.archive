@@ -130,6 +130,7 @@ jobs:
     name: Deploy to UAT
     runs-on:
       - self-hosted
+      - staging
     needs: [ test_finished ]
     steps:
 
