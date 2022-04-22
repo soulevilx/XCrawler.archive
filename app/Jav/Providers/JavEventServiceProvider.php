@@ -34,7 +34,6 @@ class JavEventServiceProvider extends EventServiceProvider
     {
         parent::boot();
 
-        R18::observe(R18Observer::class);
         XCityIdol::observe(XCityIdolObserver::class);
         XCityVideo::observe(XCityVideoObserver::class);
         Onejav::observe(OnejavObserver::class);
