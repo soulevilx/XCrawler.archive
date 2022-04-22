@@ -2,7 +2,9 @@
 
 namespace App\Jav\Console\Commands;
 
-use App\Jav\Jobs\XCity\IdolItemFetch;
+use App\Jav\Jobs\XCity\Idol\FetchIdol;
+use App\Jav\Jobs\XCity\Idol\UpdatePagesCount;
+use App\Jav\Jobs\XCity\Idol\UpdateSubPages;
 use App\Jav\Services\XCityIdolService;
 use Illuminate\Console\Command;
 
@@ -40,8 +42,22 @@ class XCityIdol extends Command
                 );
 
                 foreach ($models as $model) {
-                    IdolItemFetch::dispatch($model)->onQueue('crawling');
+                    FetchIdol::dispatch($model)->onQueue('crawling');
                 }
+                break;
+
+            // Update sub pages
+            case 'sub-pages':
+                UpdateSubPages::dispatch()->onQueue(XCityIdolService::QUEUE_NAME);
+                break;
+            // Update pages count for each kana
+            case 'pages-count':
+                $subPages = $service->getSubPages();
+                foreach ($subPages as $subPage) {
+                    $kana = str_replace('/idol/?kana=', '', $subPage);
+                    UpdatePagesCount::dispatch($kana)->onQueue(XCityIdolService::QUEUE_NAME);
+                }
+
                 break;
         }
     }

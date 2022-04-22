@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jav\Jobs\XCity;
+namespace App\Jav\Jobs\XCity\Idol;
 
 use App\Jav\Models\State;
 use App\Jav\Models\XCityIdol;
@@ -11,7 +11,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class IdolItemFetch implements ShouldQueue
+class FetchIdol implements ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;

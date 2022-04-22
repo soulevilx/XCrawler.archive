@@ -33,6 +33,10 @@ class Kernel extends ConsoleKernel
         // XCity Idol
         $schedule->command('jav:xcity-idol release')->everyFiveMinutes();
         $schedule->command('jav:xcity-idol daily')->dailyAt('12:00');
+        // Update sub pages
+        $schedule->command('jav:xcity-idol sub-pages')->weekly();
+        // Update pages count
+        $schedule->command('jav:xcity-idol pages-count')->weekly();
         $schedule->command('jav:xcity-idol item --limit=5');
 
         // XCity Video

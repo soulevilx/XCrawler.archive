@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Jav\Tests\Unit\Jobs;
+namespace App\Jav\Tests\Unit\Jobs\XCity;
 
 use App\Core\Services\Facades\Application;
-use App\Jav\Jobs\XCity\InitIdolIndex;
+use App\Jav\Jobs\XCity\Idol\InitIdolIndex;
 use App\Jav\Services\XCityIdolService;
 use App\Jav\Tests\JavTestCase;
 use App\Jav\Tests\Traits\XCityIdolMocker;

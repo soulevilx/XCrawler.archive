@@ -4,8 +4,8 @@ namespace App\Jav\Services;
 
 use App\Core\Services\Facades\Application;
 use App\Jav\Crawlers\XCityIdolCrawler;
-use App\Jav\Jobs\XCity\GetIdolItemLinks;
-use App\Jav\Jobs\XCity\InitIdolIndex;
+use App\Jav\Jobs\XCity\Idol\FetchIdolLinks;
+use App\Jav\Jobs\XCity\Idol\InitIdolIndex;
 use App\Jav\Models\XCityIdol;
 use App\Jav\Repositories\XCityIdolRepository;
 use Illuminate\Database\Eloquent\Model;
@@ -52,7 +52,7 @@ class XCityIdolService
         $subPages = $this->getSubPages();
         foreach ($subPages as $subPage) {
             $kana = str_replace('/idol/?kana=', '', $subPage);
-            GetIdolItemLinks::dispatch($kana, 1, false)->onQueue('crawling');
+            FetchIdolLinks::dispatch($kana, 1, false)->onQueue('crawling');
         }
     }
 
@@ -69,8 +69,12 @@ class XCityIdolService
         foreach ($subPages as $subPage) {
             $kana = str_replace('/idol/?kana=', '', $subPage);
             Bus::chain([
+                /**
+                 * If settings is not inited then we'll crawl it
+                 * We also have another job for updating this setting
+                 */
                 new InitIdolIndex($kana),
-                new GetIdolItemLinks($kana),
+                new FetchIdolLinks($kana),
             ])->onQueue(self::QUEUE_NAME)->dispatch();
         }
     }

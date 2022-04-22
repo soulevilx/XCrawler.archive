@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jav\Jobs\XCity;
+namespace App\Jav\Jobs\XCity\Idol;
 
 use App\Core\Services\Facades\Application;
 use App\Jav\Crawlers\XCityIdolCrawler;
@@ -12,29 +12,20 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 
-/**
- * This job will be used to fetch total pages of an index view.
- */
-class InitIdolIndex implements ShouldQueue
+class UpdatePagesCount implements ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;
     use Queueable;
     use HasCrawlingMiddleware;
 
-    public function __construct(public string $kana, public int $page = 1)
+    public function __construct(public string $kana)
     {
     }
 
     public function handle(XCityIdolCrawler $crawler)
     {
-        $configKey = $this->kana.'_total_pages';
-
-        if (Application::getSetting(XCityIdolService::SERVICE_NAME, $configKey)) {
-            return;
-        }
-
         $totalPages = $crawler->getPages(XCityIdol::INDEX_URL, ['kana' => $this->kana]);
-        Application::getSetting(XCityIdolService::SERVICE_NAME, $configKey, $totalPages);
+        Application::setSetting(XCityIdolService::SERVICE_NAME, $this->kana.'_total_pages', $totalPages);
     }
 }
