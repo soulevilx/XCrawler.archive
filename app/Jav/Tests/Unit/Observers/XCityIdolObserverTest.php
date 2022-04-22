@@ -43,4 +43,21 @@ class XCityIdolObserverTest extends JavTestCase
             'name' => $idol->name,
         ]);
     }
+
+    public function testOnIdolCompletedWithoutName()
+    {
+        $idol = XCityIdol::factory()->create(['name' => null]);
+        $idol->update([
+            'state_code' => State::STATE_COMPLETED,
+        ]);
+
+        $this->assertDatabaseMissing('performers', [
+            'cover' => $idol->cover,
+            'city' => $idol->city,
+            'height' => $idol->height,
+            'breast' => $idol->breast,
+            'waist' => $idol->waist,
+            'hips' => $idol->hips,
+        ]);
+    }
 }
