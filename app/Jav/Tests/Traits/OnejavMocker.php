@@ -37,6 +37,12 @@ trait OnejavMocker
             ->withSomeOfArgs('fc')
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/fc.html'));
 
+        // Item
+        $this->xcrawlerMocker
+            ->shouldReceive('get')
+            ->with('/torrent/waaa088_1',[])
+            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/item.html'));
+
         $this->service = $this->getService();
         $this->crawler = new OnejavCrawler($this->xcrawlerMocker);
     }
