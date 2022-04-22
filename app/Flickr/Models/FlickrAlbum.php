@@ -2,11 +2,11 @@
 
 namespace App\Flickr\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
 use App\Flickr\Models\Traits\HasProcesses;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**

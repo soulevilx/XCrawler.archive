@@ -4,14 +4,15 @@ namespace App\Jav\Services;
 
 use App\Core\Services\Facades\Application;
 use App\Jav\Crawlers\XCityIdolCrawler;
-use App\Jav\Jobs\XCity\GetIdolItemLinks;
-use App\Jav\Jobs\XCity\InitIdolIndex;
+use App\Jav\Events\XCity\IdolReleaseExecuted;
+use App\Jav\Jobs\XCity\Idol\FetchIdolLinks;
+use App\Jav\Jobs\XCity\Idol\InitIdolIndex;
 use App\Jav\Models\XCityIdol;
 use App\Jav\Repositories\XCityIdolRepository;
-use App\Jav\Services\Traits\HasAttributes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Event;
 
 class XCityIdolService
 {
@@ -29,6 +30,8 @@ class XCityIdolService
         "/idol/?kana=ら",
         "/idol/?kana=わ",
     ];
+
+    public const QUEUE_NAME = 'crawling';
 
     public function __construct(protected XCityIdolCrawler $crawler, protected XCityIdolRepository $repository)
     {
@@ -51,7 +54,7 @@ class XCityIdolService
         $subPages = $this->getSubPages();
         foreach ($subPages as $subPage) {
             $kana = str_replace('/idol/?kana=', '', $subPage);
-            GetIdolItemLinks::dispatch($kana, 1, false)->onQueue('crawling');
+            FetchIdolLinks::dispatch($kana, 1, false)->onQueue('crawling');
         }
     }
 
@@ -68,9 +71,15 @@ class XCityIdolService
         foreach ($subPages as $subPage) {
             $kana = str_replace('/idol/?kana=', '', $subPage);
             Bus::chain([
+                /**
+                 * If settings is not inited then we'll crawl it
+                 * We also have another job for updating this setting
+                 */
                 new InitIdolIndex($kana),
-                new GetIdolItemLinks($kana),
-            ])->onQueue('crawling')->dispatch();
+                new FetchIdolLinks($kana),
+            ])->onQueue(self::QUEUE_NAME)->dispatch();
+
+            Event::dispatch(new IdolReleaseExecuted($kana));
         }
     }
 

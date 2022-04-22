@@ -2,7 +2,7 @@
 
 namespace App\Jav\Jobs\XCity;
 
-use App\Core\Models\State;
+use App\Jav\Models\State;
 use App\Jav\Crawlers\XCityVideoCrawler;
 use App\Jav\Jobs\Traits\HasCrawlingMiddleware;
 use App\Jav\Models\XCityVideo;

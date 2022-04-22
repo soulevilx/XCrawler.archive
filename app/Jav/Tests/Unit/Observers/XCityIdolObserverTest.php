@@ -2,7 +2,7 @@
 
 namespace App\Jav\Tests\Unit\Observers;
 
-use App\Core\Models\State;
+use App\Jav\Models\State;
 use App\Jav\Models\Performer;
 use App\Jav\Models\XCityIdol;
 use App\Jav\Tests\JavTestCase;

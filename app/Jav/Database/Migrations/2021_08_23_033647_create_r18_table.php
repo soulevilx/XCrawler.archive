@@ -35,6 +35,7 @@ class CreateR18Table extends Migration
             $table->json('sample')->nullable();
             $table->json('images')->nullable();
             $table->json('gallery')->nullable();
+
             $table->string('state_code')->index();
             $table->foreign('state_code')->references('reference_code')->on('states');
 

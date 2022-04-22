@@ -2,7 +2,7 @@
 
 namespace App\Jav\Tests\Feature\Console;
 
-use App\Core\Models\State;
+use App\Jav\Models\State;
 use App\Jav\Models\R18;
 use App\Jav\Tests\JavTestCase;
 use App\Jav\Tests\Traits\R18Mocker;

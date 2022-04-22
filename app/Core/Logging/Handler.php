@@ -5,7 +5,6 @@ namespace App\Core\Logging;
 use App\Core\Models\Log;
 use Carbon\Carbon;
 use Monolog\Handler\AbstractProcessingHandler;
-use Monolog\Logger;
 
 class Handler extends AbstractProcessingHandler
 {

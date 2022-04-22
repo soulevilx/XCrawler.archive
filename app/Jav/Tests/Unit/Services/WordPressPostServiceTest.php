@@ -2,7 +2,7 @@
 
 namespace App\Jav\Tests\Unit\Services;
 
-use App\Core\Models\State;
+use App\Jav\Models\State;
 use App\Jav\Mail\WordPressPost as WordPressPostEmail;
 use App\Jav\Models\Movie;
 use App\Jav\Services\WordPressService;

@@ -6,7 +6,6 @@ use App\Core\Repositories\Traits\HasDefaultRepository;
 use App\Jav\Events\GenreCreated;
 use App\Jav\Models\Genre;
 use App\Jav\Models\Movie;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Event;
 
 class GenreRepository

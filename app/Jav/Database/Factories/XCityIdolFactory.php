@@ -3,7 +3,7 @@
 namespace App\Jav\Database\Factories;
 
 use App\Core\Database\Factories\Factory;
-use App\Core\Models\State;
+use App\Jav\Models\State;
 use App\Jav\Models\XCityIdol;
 
 class XCityIdolFactory extends Factory

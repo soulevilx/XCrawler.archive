@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jav\Jobs\XCity;
+namespace App\Jav\Jobs\XCity\Idol;
 
 use App\Core\Services\Facades\Application;
 use App\Jav\Crawlers\XCityIdolCrawler;
@@ -12,7 +12,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 
-class GetIdolItemLinks implements ShouldQueue
+class FetchIdolLinks implements ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;

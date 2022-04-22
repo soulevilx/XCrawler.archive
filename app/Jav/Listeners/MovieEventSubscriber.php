@@ -3,6 +3,7 @@
 namespace App\Jav\Listeners;
 
 use App\Jav\Events\MovieCreated;
+use App\Jav\Events\MovieUpdated;
 use App\Jav\Events\Onejav\OnejavDownloadCompleted;
 use App\Jav\Models\MovieIndex;
 use App\Jav\Notifications\MovieCreatedNotification;
@@ -15,7 +16,7 @@ class MovieEventSubscriber
         $event->onejav->movie->requestDownload()->delete();
     }
 
-    public function onMovieCreated(MovieCreated $event)
+    public function indexMovie(MovieCreated $event)
     {
         $movieData = $event->movie->toArray();
         unset($movieData['id']);
@@ -36,9 +37,14 @@ class MovieEventSubscriber
      */
     public function subscribe($events): void
     {
+        /**
+         * @TODO Handle MovieUpdated than update movie index
+         */
         $events->listen(
-            [MovieCreated::class],
-            self::class . '@onMovieCreated'
+            [
+                MovieCreated::class,
+            ],
+            self::class . '@indexMovie'
         );
 
         $events->listen(
