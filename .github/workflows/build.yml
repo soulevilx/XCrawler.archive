@@ -33,9 +33,6 @@ jobs:
           fetch-depth: 0
       #      PHP will be installed on server by itself
 
-      - name: Dependency Review
-        uses: actions/dependency-review-action@v1
-
       - name: Setup application
         if: success()
         run: |
