@@ -85,17 +85,14 @@ class BaseServiceProvider extends ServiceProvider
             return;
         }
 
-        $isConnected = false;
         try {
-            $connected = fsockopen("www.example.com", 80);
-            if ($connected) {
-                $isConnected = true; //action when connected
+            if ($connected = fsockopen("www.example.com", 80)) {
                 fclose($connected);
             }
         } catch (\Exception) {
         }
 
-        if (!$isConnected) {
+        if (!$connected) {
             throw new NetworkError();
         }
     }

@@ -20,7 +20,7 @@ jobs:
     name: Code standards check
     strategy:
       matrix:
-        lint: [ phpstan, phpmd, rector ]
+        lint: [ phpstan, phpmd ]
         php: [ php8.0, php8.1 ]
 
     runs-on:
@@ -42,6 +42,19 @@ jobs:
       - name: Lint
         run: composer ${{ matrix.lint }}
 
+  rector:
+    name: Rector
+    runs-on: self-hosted
+    needs: [ build ]
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Lint
+        run: composer rector
+
   tests:
     name: Execute UnitTest
     strategy:
@@ -50,7 +63,7 @@ jobs:
     runs-on:
       - self-hosted
       - database
-    needs: [ build ]
+    needs: [ rector ]
 
     services:
       mysql:
