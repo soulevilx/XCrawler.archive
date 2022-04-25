@@ -52,8 +52,27 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup application
+        if: success()
+        run: |
+          php -r "file_exists('.env') || copy('.env.example', '.env');"
+          composer install --no-ansi --no-scripts --no-progress --prefer-dist
+
       - name: Lint
         run: composer rector
+
+      - name: Check for Rector modified files
+        id: rector-git-check
+        run: echo ::set-output name=modified::$(if git diff --exit-code --no-patch; then echo "false"; else echo "true"; fi)
+
+      - name: Git config
+        if: steps.rector-git-check.outputs.modified == 'true'
+        run: |
+          echo ::set-env name=COMMIT_MESSAGE::$(git log -1 --pretty=format:"%s")
+
+      - name: Commit Rector changes
+        if: steps.rector-git-check.outputs.modified == 'true'
+        run: git commit -am "[rector] ${COMMIT_MESSAGE}"
 
   tests:
     name: Execute UnitTest
