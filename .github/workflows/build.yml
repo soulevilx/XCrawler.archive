@@ -45,7 +45,7 @@ jobs:
   rector:
     name: Rector
     runs-on: self-hosted
-    needs: [ build ]
+    needs: [ code_standards ]
 
     steps:
       - uses: actions/checkout@v3
