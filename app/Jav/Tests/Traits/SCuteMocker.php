@@ -22,6 +22,10 @@ trait SCuteMocker
             ->with('item', [])
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'SCute/item.html'));
 
+        $this->xcrawlerMocker
+            ->shouldReceive('get')
+            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'SCute/item.html'));
+
         $this->service = $this->getService();
         $this->crawler = app(SCuteCrawler::class);
     }

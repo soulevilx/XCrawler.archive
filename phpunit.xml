@@ -33,21 +33,17 @@
             <directory suffix=".php">./app/Http</directory>
             <directory suffix=".php">./app/Models</directory>
             <directory suffix=".php">./app/Providers</directory>
-
             <directory suffix=".php">./app/Core/Repositories</directory>
 
             <directory suffix=".php">./app/*/Database</directory>
             <directory suffix=".php">./app/*/Notifications</directory>
-
             <directory suffix=".php">./app/*/Http</directory>
             <directory suffix=".php">./app/*/Exceptions</directory>
             <directory suffix=".php">./app/*/Providers</directory>
             <directory suffix=".php">./app/*/Routes</directory>
             <directory suffix=".php">./app/*/Tests</directory>
-            <directory suffix=".php">./app/Console/Kernel.php</directory>
-            <directory suffix=".php">./app/Jav/Console/Commands/Migrations/PreviousVersion.php</directory>
-            <directory suffix=".php">./app/Flickr/Console/Commands/Migration.php</directory>
 
+            <directory suffix=".php">./app/Console/Kernel.php</directory>
             <directory suffix=".php">./app/Core/XCrawlerClient.php</directory>
         </exclude>
     </coverage>
