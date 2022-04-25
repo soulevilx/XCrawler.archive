@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
 
-  build:
+  code_standards:
     name: Code standards check
     strategy:
       matrix:
@@ -58,21 +58,16 @@ jobs:
           php -r "file_exists('.env') || copy('.env.example', '.env');"
           composer install --no-ansi --no-scripts --no-progress --prefer-dist
 
-      - name: Lint
+      - name: Rector check
         run: composer rector
 
       - name: Check for Rector modified files
         id: rector-git-check
         run: echo ::set-output name=modified::$(if git diff --exit-code --no-patch; then echo "false"; else echo "true"; fi)
 
-      - name: Git config
-        if: steps.rector-git-check.outputs.modified == 'true'
-        run: |
-          echo ::set-env name=COMMIT_MESSAGE::$(git log -1 --pretty=format:"%s")
-
       - name: Commit Rector changes
         if: steps.rector-git-check.outputs.modified == 'true'
-        run: git commit -am "[rector] ${COMMIT_MESSAGE}"
+        run: git commit -am "[rector] Rector update"
 
   tests:
     name: Execute UnitTest
