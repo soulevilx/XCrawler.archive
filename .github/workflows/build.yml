@@ -107,7 +107,7 @@ jobs:
     name: Test Finished
     runs-on:
       - self-hosted
-    needs: [ staging ]
+      - staging
 
     steps:
       - uses: actions/checkout@v3
