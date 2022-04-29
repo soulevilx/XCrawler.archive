@@ -3,19 +3,37 @@
 namespace App\Flickr\Services\Flickr;
 
 use App\Flickr\Events\Errors\UserDeleted;
+use App\Flickr\Events\Errors\UserNotFound;
 use App\Flickr\Exceptions\FlickrGeneralException;
+use App\Flickr\Models\FlickrContact;
+use App\Flickr\Models\FlickrProcess;
+use App\Flickr\Repositories\ContactRepository;
+use App\Flickr\Services\Flickr\Traits\HasFlickrClient;
+use App\Flickr\Services\FlickrService;
 use Illuminate\Support\Collection;
 
-class People extends BaseFlickr
+class People
 {
+    use HasFlickrClient;
+
     public const ERROR_CODE_USER_NOT_FOUND = 1;
     public const ERROR_CODE_USER_DELETED = 5;
 
     public const EVENT_MAPS = [
+        self::ERROR_CODE_USER_NOT_FOUND => UserNotFound::class,
         self::ERROR_CODE_USER_DELETED => UserDeleted::class,
     ];
 
+    public const ERROR_MESSAGES_MAP = [
+        self::ERROR_CODE_USER_NOT_FOUND => 'The user id passed did not match a Flickr user.',
+        self::ERROR_CODE_USER_DELETED => 'The user id passed matched a deleted Flickr user.'
+    ];
+
     public const PER_PAGE = 500;
+
+    public function __construct(private FlickrService $service, private ContactRepository $repository)
+    {
+    }
 
     public function getInfo(string $user_id): array
     {
@@ -101,5 +119,25 @@ class People extends BaseFlickr
         }
 
         return $list;
+    }
+
+    public function update(FlickrContact $model, array $attributes): bool
+    {
+        if ($return = $this->repository->setModel($model)->update($attributes)) {
+            /**
+             * @TODO Trigger updated event
+             * - Pending update for at least 1 week later
+             */
+            $model->processes()->create([
+                'step' => FlickrProcess::STEP_PEOPLE_INFO,
+            ]);
+        }
+
+        return $return;
+    }
+
+    public function addPhotos(FlickrContact $model, Collection $photos)
+    {
+        $this->repository->setModel($model)->addPhotos($photos);
     }
 }

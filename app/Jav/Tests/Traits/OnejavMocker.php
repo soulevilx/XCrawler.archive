@@ -3,11 +3,10 @@
 namespace App\Jav\Tests\Traits;
 
 use App\Jav\Crawlers\OnejavCrawler;
-use App\Jav\Models\Onejav;
+use App\Jav\Services\OnejavService;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Jooservices\XcrawlerClient\Response\DomResponse;
-use Jooservices\XcrawlerClient\XCrawlerClient;
 
 trait OnejavMocker
 {
@@ -15,7 +14,7 @@ trait OnejavMocker
 
     protected function loadOnejavMock()
     {
-        $now = Carbon::now()->format(Onejav::DAILY_FORMAT);
+        $now = Carbon::now()->format(OnejavService::DAILY_FORMAT);
 
         $this->invalid();
 
@@ -24,7 +23,7 @@ trait OnejavMocker
             $this->mockResponse('popular', $index);
             $this->mockResponse('search/test', $index);
 
-            $this->mocker
+            $this->xcrawlerMocker
                 ->shouldReceive('get')
                 ->with($now, $index === 1 ? [] : ['page' => $index])
                 ->andReturn(
@@ -33,23 +32,29 @@ trait OnejavMocker
         }
 
         // FC
-        $this->mocker
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->withSomeOfArgs('fc')
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/fc.html'));
 
-        app()->instance(XCrawlerClient::class, $this->mocker);
-        $this->crawler = app(OnejavCrawler::class);
+        // Item
+        $this->xcrawlerMocker
+            ->shouldReceive('get')
+            ->with('/torrent/waaa088_1',[])
+            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/item.html'));
+
+        $this->service = $this->getService();
+        $this->crawler = new OnejavCrawler($this->xcrawlerMocker);
     }
 
     private function invalid()
     {
-        $this->mocker
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->with('invalid_date', [])
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021_date.html'));
 
-        $this->mocker
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->with('failed', [])
             ->andReturn($this->getErrorMockedResponse(app(DomResponse::class)));
@@ -59,14 +64,21 @@ trait OnejavMocker
     {
         $fixtureFile = 'Onejav/' . Str::slug(Str::replace('/', '_', $name), '_') . '_page_' . $page . '.html';
 
-        $this->mocker
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->with($name, $page === 1 ? [] : ['page' => $page])
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), $fixtureFile));
 
-        $this->mocker
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->with($name, ['page' => $page])
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), $fixtureFile));
+    }
+
+    protected function getService(): OnejavService
+    {
+        app()->instance(OnejavCrawler::class, new OnejavCrawler($this->xcrawlerMocker));
+
+        return app(OnejavService::class);
     }
 }

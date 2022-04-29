@@ -2,7 +2,7 @@
 
 namespace App\Jav\Tests\Unit\Models;
 
-use App\Jav\Events\XCityVideoCompleted;
+use App\Jav\Events\XCity\XCityVideoCompleted;
 use App\Jav\Models\XCityVideo;
 use App\Jav\Services\XCityVideoService;
 use App\Jav\Tests\JavTestCase;
@@ -36,7 +36,7 @@ class XCityVideoModelTest extends JavTestCase
             'url' => '/avod/detail/?id=147028',
         ]);
 
-       $video = app(XCityVideoService::class)->refetch($video);
+        $video = app(XCityVideoService::class)->refetch($video);
         $this->assertEquals('NACR292', $video->item_number);
         $this->assertEquals([
             'Kaho Imai',

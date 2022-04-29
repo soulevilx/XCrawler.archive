@@ -29,6 +29,7 @@ class CreateXcityIdolsTable extends Migration
             $table->unsignedInteger('hips')->nullable();
             $table->string('skill')->nullable();
             $table->string('other')->nullable();
+
             $table->string('state_code')->index();
             $table->foreign('state_code')->references('reference_code')->on('states');
 

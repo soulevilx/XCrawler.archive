@@ -4,29 +4,19 @@ namespace App\Jav\Tests\Unit\Crawlers;
 
 use App\Jav\Crawlers\SCuteCrawler;
 use App\Jav\Tests\JavTestCase;
-use Jooservices\XcrawlerClient\Response\DomResponse;
-use Jooservices\XcrawlerClient\XCrawlerClient;
+use App\Jav\Tests\Traits\SCuteMocker;
 
 class SCuteCrawlerTest extends JavTestCase
 {
+    use SCuteMocker;
+
     protected SCuteCrawler $crawler;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->mocker
-            ->shouldReceive('get')
-            ->with('contents', ['page' => 1])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'SCute/contents.html'));
-
-        $this->mocker
-            ->shouldReceive('get')
-            ->with('item', [])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'SCute/item.html'));
-
-        app()->instance(XCrawlerClient::class, $this->mocker);
-        $this->crawler = app(SCuteCrawler::class);
+        $this->loadSCuteMocker();
     }
 
     public function testGetItemLinks()

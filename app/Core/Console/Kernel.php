@@ -23,7 +23,7 @@ class Kernel extends ConsoleKernel
     {
         // Onejav
         $schedule->command('jav:onejav release')->everyMinute();
-        $schedule->command('jav:onejav daily')->dailyAt('12:00');
+        $schedule->command('jav:onejav daily')->dailyAt('14:00');
 
         // R18
         $schedule->command('jav:r18 release')->everyFiveMinutes();
@@ -33,6 +33,10 @@ class Kernel extends ConsoleKernel
         // XCity Idol
         $schedule->command('jav:xcity-idol release')->everyFiveMinutes();
         $schedule->command('jav:xcity-idol daily')->dailyAt('12:00');
+        // Update sub pages
+        $schedule->command('jav:xcity-idol sub-pages')->weekly();
+        // Update pages count
+        $schedule->command('jav:xcity-idol pages-count')->weekly();
         $schedule->command('jav:xcity-idol item --limit=5');
 
         // XCity Video
@@ -40,20 +44,20 @@ class Kernel extends ConsoleKernel
         $schedule->command('jav:xcity-video daily')->dailyAt('12:00');
         $schedule->command('jav:xcity-video item --limit=5');
 
-        // Flickr
-        $schedule->command('flickr:contacts')->weekly();
-        $schedule->command('flickr:people info');
-        $schedule->command('flickr:people photos');
-        $schedule->command('flickr:people favorites');
-        $schedule->command('flickr:photosets list');
-        $schedule->command('flickr:photosets photos');
-        $schedule->command('flickr:photo sizes');
+//        // Flickr
+//        $schedule->command('flickr:contacts')->weekly();
+//        $schedule->command('flickr:people info');
+//        $schedule->command('flickr:people photos');
+//        $schedule->command('flickr:people favorites');
+//        $schedule->command('flickr:photosets list');
+//        $schedule->command('flickr:photosets photos');
+//        $schedule->command('flickr:photo sizes');
+//
+//        // WordPress
+//        $schedule->command('jav:email-wordpress');
 
-        // WordPress
-        $schedule->command('jav:email-wordpress');
-
-        // Core
-        $schedule->command('core:cleanup')->mondays();
+//        // Core
+//        $schedule->command('core:cleanup')->mondays();
     }
 
     /**

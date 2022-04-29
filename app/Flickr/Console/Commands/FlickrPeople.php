@@ -12,14 +12,14 @@ use App\Flickr\Models\FlickrProcess;
  * - Getting people information
  * - Getting people' photos
  */
-class FlickrPeople extends AbstractBaseCommand
+class FlickrPeople extends AbstractFlickrCommand
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'flickr:people {task} {--limit=}';
+    protected $signature = 'flickr:people {task}';
 
     /**
      * The console command description.

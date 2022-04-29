@@ -11,26 +11,17 @@
          stopOnFailure="false"
 >
     <testsuites>
-        <testsuite name="Quick">
-            <directory suffix="Test.php">./app/*/Tests/Quick</directory>
+        <testsuite name="Core">
+            <directory suffix="Test.php">./app/Core/Tests/Feature</directory>
+            <directory suffix="Test.php">./app/Core/Tests/Unit</directory>
         </testsuite>
-        <testsuite name="Unit">
-            <directory suffix="Test.php">./app/*/Tests/Unit</directory>
+        <testsuite name="Flickr">
+            <directory suffix="Test.php">./app/Flickr/Tests/Feature</directory>
+            <directory suffix="Test.php">./app/Flickr/Tests/Unit</directory>
         </testsuite>
-        <testsuite name="Feature">
-            <directory suffix="Test.php">./app/*/Tests/Feature</directory>
-        </testsuite>
-        <testsuite name="FeatureLive">
-            <directory suffix="TestLive.php">./app/*/Tests/Feature</directory>
-        </testsuite>
-        <testsuite name="Integration">
-            <directory suffix="Test.php">./app/*/Tests/Integration</directory>
-        </testsuite>
-        <testsuite name="External">
-            <directory suffix="Test.php">./app/*/Tests/External</directory>
-        </testsuite>
-        <testsuite name="Services">
-            <directory suffix="Test.php">./app/*/Tests/Unit/Services</directory>
+        <testsuite name="Jav">
+            <directory suffix="Test.php">./app/Jav/Tests/Feature</directory>
+            <directory suffix="Test.php">./app/Jav/Tests/Unit</directory>
         </testsuite>
     </testsuites>
 
@@ -39,18 +30,21 @@
             <directory suffix=".php">./app</directory>
         </include>
         <exclude>
+            <directory suffix=".php">./app/Http</directory>
+            <directory suffix=".php">./app/Models</directory>
+            <directory suffix=".php">./app/Providers</directory>
+            <directory suffix=".php">./app/Core/Repositories</directory>
+
             <directory suffix=".php">./app/*/Database</directory>
-
-            <directory suffix=".php">./app/*/Exceptions</directory>
+            <directory suffix=".php">./app/*/Notifications</directory>
             <directory suffix=".php">./app/*/Http</directory>
-            <directory suffix=".php">./app/*/Http/Resources</directory>
-
+            <directory suffix=".php">./app/*/Exceptions</directory>
             <directory suffix=".php">./app/*/Providers</directory>
             <directory suffix=".php">./app/*/Routes</directory>
             <directory suffix=".php">./app/*/Tests</directory>
+
             <directory suffix=".php">./app/Console/Kernel.php</directory>
-            <directory suffix=".php">./app/Jav/Console/Commands/Migrations/PreviousVersion.php</directory>
-            <directory suffix=".php">./app/Flickr/Console/Commands/Migration.php</directory>
+            <directory suffix=".php">./app/Core/XCrawlerClient.php</directory>
         </exclude>
     </coverage>
 

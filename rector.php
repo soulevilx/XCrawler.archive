@@ -12,7 +12,7 @@ use Rector\CodeQuality\Rector\Foreach_\SimplifyForeachToArrayFilterRector;
 use Rector\CodeQuality\Rector\Foreach_\SimplifyForeachToCoalescingRector;
 use Rector\CodeQuality\Rector\FuncCall\ArrayKeysAndInArrayToArrayKeyExistsRector;
 use Rector\CodeQuality\Rector\FuncCall\ChangeArrayPushToArrayAssignRector;
-use Rector\CodeQuality\Rector\FuncCall\InArrayAndArrayKeysToArrayKeyExistsRector;
+
 use Rector\CodeQuality\Rector\FuncCall\IntvalToTypeCastRector;
 use Rector\CodeQuality\Rector\FuncCall\RemoveSoleValueSprintfRector;
 use Rector\CodeQuality\Rector\FuncCall\SimplifyInArrayValuesRector;
@@ -33,9 +33,9 @@ use Rector\CodeQuality\Rector\If_\SimplifyIfReturnBoolRector;
 use Rector\CodeQuality\Rector\LogicalAnd\AndAssignsToSeparateLinesRector;
 use Rector\CodeQuality\Rector\LogicalAnd\LogicalToBooleanRector;
 use Rector\CodeQuality\Rector\NotEqual\CommonNotEqualRector;
-use Rector\CodeQuality\Rector\Return_\SimplifyUselessVariableRector;
+
 use Rector\CodeQuality\Rector\Ternary\ArrayKeyExistsTernaryThenValueToCoalescingRector;
-use Rector\CodeQuality\Rector\Ternary\SimplifyDuplicatedTernaryRector;
+
 use Rector\CodeQuality\Rector\Ternary\SimplifyTautologyTernaryRector;
 use Rector\CodingStyle\Rector\FuncCall\CountArrayToEmptyArrayComparisonRector;
 use Rector\CodingStyle\Rector\Plus\UseIncrementAssignRector;
@@ -51,21 +51,19 @@ use Rector\EarlyReturn\Rector\Foreach_\ChangeNestedForeachIfsToEarlyContinueRect
 use Rector\EarlyReturn\Rector\If_\ChangeIfElseValueAssignToEarlyReturnRector;
 use Rector\EarlyReturn\Rector\If_\ChangeNestedIfsToEarlyReturnRector;
 use Rector\EarlyReturn\Rector\Return_\PreparedValueToEarlyReturnRector;
+use Rector\Laravel\Set\LaravelSetList;
 use Rector\Php80\Rector\Catch_\RemoveUnusedVariableInCatchRector;
 use Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector;
 use Rector\Php80\Rector\Class_\StringableForToStringRector;
 use Rector\Php80\Rector\FuncCall\ClassOnObjectRector;
 use Rector\Php80\Rector\Identical\StrEndsWithRector;
 use Rector\Php80\Rector\Identical\StrStartsWithRector;
-use Rector\Php80\Rector\If_\NullsafeOperatorRector;
 use Rector\Php80\Rector\NotIdentical\StrContainsRector;
 use Rector\Php80\Rector\Switch_\ChangeSwitchToMatchRector;
 use Rector\PostRector\Rector\ClassRenamingPostRector;
 use Rector\PostRector\Rector\NameImportingPostRector;
 use Rector\PostRector\Rector\PropertyAddingPostRector;
 use Rector\PostRector\Rector\UseAddingPostRector;
-use Rector\TypeDeclaration\Rector\ClassMethod\AddParamTypeDeclarationRector;
-use Rector\TypeDeclaration\Rector\ClassMethod\AddReturnTypeDeclarationRector;
 use Rector\TypeDeclaration\Rector\Param\ParamTypeFromStrictTypedPropertyRector;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -76,7 +74,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     // Define what paths we want rector to run on
     $parameters->set(Option::PATHS, [
-        //__DIR__ . '/app/Core/**',
+        __DIR__ . '/app'
     ]);
 
     // Define what paths we want to skip
@@ -95,7 +93,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     //PHP8
-    $services->set(NullsafeOperatorRector::class);
+
     $services->set(RemoveUnusedVariableInCatchRector::class);
     $services->set(StrStartsWithRector::class);
     $services->set(StrEndsWithRector::class);
@@ -117,7 +115,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(ForeachItemsAssignToEmptyArrayToAssignRector::class);
     $services->set(ForeachToInArrayRector::class);
     $services->set(GetClassToInstanceOfRector::class);
-    $services->set(InArrayAndArrayKeysToArrayKeyExistsRector::class);
+
     $services->set(IntvalToTypeCastRector::class);
     $services->set(JoinStringConcatRector::class);
     $services->set(LogicalToBooleanRector::class);
@@ -127,7 +125,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(SimplifyBoolIdenticalTrueRector::class);
     $services->set(SimplifyConditionsRector::class);
     $services->set(SimplifyDeMorganBinaryRector::class);
-    $services->set(SimplifyDuplicatedTernaryRector::class);
+
     $services->set(SimplifyEmptyArrayCheckRector::class);
     $services->set(SimplifyForeachToArrayFilterRector::class);
     $services->set(SimplifyForeachToCoalescingRector::class);
@@ -139,7 +137,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(SimplifyInArrayValuesRector::class);
     $services->set(SimplifyRegexPatternRector::class);
     $services->set(SimplifyTautologyTernaryRector::class);
-    $services->set(SimplifyUselessVariableRector::class);
+
 
     // CodeStyle
     $services->set(TernaryConditionVariableAssignmentRector::class);
@@ -155,8 +153,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(RemoveDuplicatedCaseInSwitchRector::class);
 
     // TypeDecleration
-    $services->set(AddParamTypeDeclarationRector::class);
-    $services->set(AddReturnTypeDeclarationRector::class);
+    //$services->set(AddParamTypeDeclarationRector::class);
+    //$services->set(AddReturnTypeDeclarationRector::class);
     $services->set(ParamTypeFromStrictTypedPropertyRector::class);
 
     // EarlyReturn
@@ -170,4 +168,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(NameImportingPostRector::class);
     $services->set(UseAddingPostRector::class);
     $services->set(PropertyAddingPostRector::class);
+
+    $containerConfigurator->import(LaravelSetList::LARAVEL_80);
 };

@@ -2,7 +2,7 @@
 
 namespace App\Jav\Tests\Unit\Jobs;
 
-use App\Core\Models\State;
+use App\Jav\Models\State;
 use App\Jav\Jobs\XCity\InitVideoIndex;
 use App\Jav\Tests\JavTestCase;
 use App\Jav\Tests\Traits\XCityVideoMocker;

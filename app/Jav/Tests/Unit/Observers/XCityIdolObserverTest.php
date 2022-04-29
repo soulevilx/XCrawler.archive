@@ -2,11 +2,10 @@
 
 namespace App\Jav\Tests\Unit\Observers;
 
-use App\Core\Models\State;
+use App\Jav\Models\State;
 use App\Jav\Models\Performer;
 use App\Jav\Models\XCityIdol;
 use App\Jav\Tests\JavTestCase;
-
 
 class XCityIdolObserverTest extends JavTestCase
 {
@@ -42,6 +41,23 @@ class XCityIdolObserverTest extends JavTestCase
         $this->assertDatabaseCount('performers', 1);
         $this->assertDatabaseHas('performers', [
             'name' => $idol->name,
+        ]);
+    }
+
+    public function testOnIdolCompletedWithoutName()
+    {
+        $idol = XCityIdol::factory()->create(['name' => null]);
+        $idol->update([
+            'state_code' => State::STATE_COMPLETED,
+        ]);
+
+        $this->assertDatabaseMissing('performers', [
+            'cover' => $idol->cover,
+            'city' => $idol->city,
+            'height' => $idol->height,
+            'breast' => $idol->breast,
+            'waist' => $idol->waist,
+            'hips' => $idol->hips,
         ]);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Jav\Jobs\R18;
 
-use App\Core\Models\State;
+use App\Jav\Models\State;
 use App\Jav\Jobs\Traits\R18CrawlingMiddleware;
 use App\Jav\Models\R18;
 use App\Jav\Services\R18Service;
@@ -31,5 +31,10 @@ class ItemFetch implements ShouldQueue
         $this->model->update([
             'state_code' => State::STATE_COMPLETED,
         ]);
+    }
+
+    public function failed()
+    {
+        $this->model->setState(State::STATE_INIT);
     }
 }

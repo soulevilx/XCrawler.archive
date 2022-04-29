@@ -2,7 +2,7 @@
 
 namespace App\Flickr\Console\Commands;
 
-class FlickrDownload extends AbstractBaseCommand
+class FlickrDownload extends AbstractFlickrCommand
 {
     /**
      * The name and signature of the console command.
@@ -27,7 +27,7 @@ class FlickrDownload extends AbstractBaseCommand
             'album_id',
             'owner',
             'status',
-        ], [
+            ], [
             [
                 $this->option('url'),
                 $album->getAlbumId(),

@@ -2,25 +2,22 @@
 
 namespace App\Jav\Services;
 
-use App\Core\Models\State;
-use App\Core\Services\ApplicationService;
+use App\Core\Services\Facades\Application;
 use App\Jav\Crawlers\XCityVideoCrawler;
 use App\Jav\Jobs\XCity\InitVideoIndex;
 use App\Jav\Models\XCityVideo;
-use App\Jav\Services\Interfaces\ServiceInterface;
+use App\Jav\Repositories\XCityVideoRepository;
 use App\Jav\Services\Traits\HasAttributes;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
-class XCityVideoService implements ServiceInterface
+class XCityVideoService
 {
-    use HasAttributes;
+    public const SERVICE_NAME = 'xcity_videos';
+    public const BASE_URL = 'https://xxx.xcity.jp';
 
-    protected XCityVideo $video;
-
-    public const SERVICE_LABEL = 'XCity videos';
-
-    public function __construct(protected XCityVideoCrawler $crawler, protected ApplicationService $service)
+    public function __construct(protected XCityVideoCrawler $crawler, protected XCityVideoRepository $repository)
     {
     }
 
@@ -28,7 +25,11 @@ class XCityVideoService implements ServiceInterface
     {
         $fromDate = Carbon::createFromFormat(
             'Ymd',
-            $this->service->get('xcity_video', 'from_date', config('services.xcity_video.from_date', 20010101))
+            Application::getSetting(
+                XCityVideoService::SERVICE_NAME,
+                'from_date',
+                config('services.xcity_video.from_date', 20010101)
+            )
         );
 
         $toDate = $fromDate->clone()->addDay();
@@ -38,18 +39,12 @@ class XCityVideoService implements ServiceInterface
             'to_date' => $toDate->format('Ymd'),
         ])->onQueue('crawling');
 
-        $this->service->save('xcity_video', 'from_date', $toDate->format('Ymd'));
+        Application::setSetting(XCityVideoService::SERVICE_NAME, 'from_date', $toDate->format('Ymd'));
     }
 
-    public function create(): Model
+    public function create(array $attributes): XCityVideo
     {
-        $this->defaultAttribute('state_code', State::STATE_INIT);
-
-        $this->video = XCityVideo::firstOrCreate([
-            'url' => $this->attributes['url'],
-        ], $this->attributes);
-
-        return $this->video;
+        return $this->repository->create($attributes);
     }
 
     public function item(Model $model): XCityVideo
@@ -74,5 +69,10 @@ class XCityVideoService implements ServiceInterface
             'from_date' => $fromDate->format('Ymd'),
             'to_date' => $fromDate->addDay()->format('Ymd'),
         ])->onQueue('crawling');
+    }
+
+    public function getItems(int $limit, int $id = null): Collection
+    {
+        return $this->repository->getItemsByState($limit, $id);
     }
 }

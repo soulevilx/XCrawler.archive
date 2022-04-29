@@ -12,12 +12,7 @@ class FlickrPeoplePhotos extends AbstractProcessJob
             return true;
         }
 
-        $photos->each(function ($photo) {
-            $this->process->model->photos()->firstOrCreate([
-                'id' => $photo['id'],
-                'owner' => $photo['owner'],
-            ], $photo);
-        });
+        $this->service->people()->addPhotos($this->process->model, $photos);
 
         return true;
     }

@@ -3,7 +3,7 @@
 namespace App\Jav\Listeners;
 
 use App\Jav\Events\MovieCreated;
-use App\Jav\Events\XCityVideoCompleted;
+use App\Jav\Events\XCity\XCityVideoCompleted;
 use App\Jav\Models\Genre;
 use App\Jav\Models\Movie;
 use App\Jav\Models\Performer;

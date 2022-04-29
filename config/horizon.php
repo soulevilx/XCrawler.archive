@@ -211,6 +211,8 @@ return [
         ],
         'staging' => [
         ],
+        'uat' => [
+        ],
         'develop' => [
         ],
         'local' => [

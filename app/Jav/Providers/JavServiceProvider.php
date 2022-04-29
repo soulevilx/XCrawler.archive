@@ -2,129 +2,66 @@
 
 namespace App\Jav\Providers;
 
-use App\Core\Client;
 use App\Core\Providers\BaseServiceProvider;
+use App\Core\XCrawlerClient;
 use App\Jav\Crawlers\OnejavCrawler;
 use App\Jav\Crawlers\R18Crawler;
 use App\Jav\Crawlers\SCuteCrawler;
 use App\Jav\Crawlers\XCityIdolCrawler;
 use App\Jav\Crawlers\XCityVideoCrawler;
-use App\Jav\Models\Onejav;
-use App\Jav\Models\R18;
-use App\Jav\Models\XCityIdol;
-use App\Jav\Models\XCityVideo;
-use Illuminate\Queue\Events\JobFailed;
-use Illuminate\Queue\Events\JobProcessed;
-use Illuminate\Queue\Events\JobProcessing;
-use Illuminate\Support\Facades\Queue;
+use App\Jav\Services\OnejavService;
+use App\Jav\Services\R18Service;
+use App\Jav\Services\SCuteService;
+use App\Jav\Services\XCityIdolService;
+use App\Jav\Services\XCityVideoService;
 use Jooservices\XcrawlerClient\Response\DomResponse;
 use Jooservices\XcrawlerClient\Response\JsonResponse;
 
 class JavServiceProvider extends BaseServiceProvider
 {
     protected array $migrations = [
-        __DIR__.'/../Database/Migrations',
-        __DIR__.'/../Database/Seeders',
+        __DIR__ . '/../Database/Migrations',
+        __DIR__ . '/../Database/Seeders',
     ];
 
     protected array $configs = [
-        __DIR__.'/../Config' => [
+        __DIR__ . '/../Config' => [
             'services',
         ],
     ];
 
     protected array $routes = [
-        __DIR__ .'/../Routes/jav_routes.php'
+        __DIR__ . '/../Routes/jav_routes.php'
     ];
 
     public function register()
     {
         parent::register();
 
+        // Onejav
         $this->app->bind(OnejavCrawler::class, function () {
-            $client = app(Client::class)
-                ->init(
-                    Onejav::SERVICE,
-                    new DomResponse(),
-                )
-            ;
+            $client = new XCrawlerClient(OnejavService::SERVICE_NAME, new DomResponse());
 
             return new OnejavCrawler($client);
         });
 
         $this->app->bind(R18Crawler::class, function () {
-            $domClient = app(Client::class)
-                ->init(
-                    R18::SERVICE,
-                    new DomResponse(),
-                )
-            ;
-
-            $jsonClient = app(Client::class)
-                ->init(
-                    R18::SERVICE,
-                    new JsonResponse(),
-                )
-            ;
-
-            return new R18Crawler($domClient, $jsonClient);
+            return new R18Crawler(
+                new XCrawlerClient(R18Service::SERVICE_NAME, new DomResponse()),
+                new XCrawlerClient(R18Service::SERVICE_NAME, new JsonResponse())
+            );
         });
 
         $this->app->bind(XCityIdolCrawler::class, function () {
-            $client = app(Client::class)
-                ->init(
-                    XCityIdol::SERVICE,
-                    new DomResponse(),
-                )
-            ;
-
-            return new XCityIdolCrawler($client);
+            return new XCityIdolCrawler(new XCrawlerClient(XCityIdolService::SERVICE_NAME, new DomResponse()));
         });
 
         $this->app->bind(XCityVideoCrawler::class, function () {
-            $client = app(Client::class)
-                ->init(
-                    XCityVideo::SERVICE,
-                    new DomResponse(),
-                )
-            ;
-
-            return new XCityVideoCrawler($client);
+            return new XCityVideoCrawler(new XCrawlerClient(XCityVideoService::SERVICE_NAME, new DomResponse()));
         });
 
         $this->app->bind(SCuteCrawler::class, function () {
-            $client = app(Client::class)
-                ->init(
-                    'scute',
-                    new DomResponse(),
-                )
-            ;
-
-            return new SCuteCrawler($client);
-        });
-    }
-
-    /**
-     * Bootstrap any application services.
-     */
-    public function boot()
-    {
-        parent::boot();
-        Queue::before(function (JobProcessing $event) {
-            // $event->connectionName
-            // $event->job
-            // $event->job->payload()
-        });
-
-        Queue::after(function (JobProcessed $event) {
-            // $event->connectionName
-            // $event->job
-            // $event->job->payload()
-        });
-        Queue::failing(function (JobFailed $event) {
-            // $event->connectionName
-            // $event->job
-            // $event->exception
+           return new SCuteCrawler(new XCrawlerClient(SCuteService::SERVICE_NAME, new DomResponse()));
         });
     }
 }

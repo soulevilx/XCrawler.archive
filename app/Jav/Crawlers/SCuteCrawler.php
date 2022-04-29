@@ -2,13 +2,13 @@
 
 namespace App\Jav\Crawlers;
 
-use App\Core\Client;
+use App\Core\XCrawlerClient;
 use Illuminate\Support\Collection;
-use Jooservices\XcrawlerClient\Interfaces\ResponseInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class SCuteCrawler
 {
-    public function __construct(protected Client $client)
+    public function __construct(protected XCrawlerClient $client)
     {
     }
 

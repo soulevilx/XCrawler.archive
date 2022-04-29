@@ -23,7 +23,7 @@ class FlickrRequestDownloadAlbum extends AbstractLimitJob
 
         FlickrContact::firstOrCreate([
             'nsid' => $albumInfo['owner'],
-        ], [
+            ], [
             'state_code' => State::STATE_INIT,
         ]);
 
@@ -50,7 +50,7 @@ class FlickrRequestDownloadAlbum extends AbstractLimitJob
             $photo = FlickrPhoto::updateOrCreate([
                 'id' => $photo['id'],
                 'owner' => $album->owner,
-            ], [
+                ], [
                 'secret' => $photo['secret'],
                 'server' => $photo['server'],
                 'farm' => $photo['farm'],

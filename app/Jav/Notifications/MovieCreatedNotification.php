@@ -45,19 +45,36 @@ class MovieCreatedNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['slack'];
+        return ['database'];
     }
 
     /**
      * Get the array representation of the notification.
      *
-     * @param mixed $notifiable
+     * @param Movie $notifiable
      *
      * @return array
      */
-    public function toArray($notifiable)
+    public function toArray(Movie $notifiable)
     {
-        return $notifiable->toArray();
+        return [
+            'name' => $notifiable->name,
+            'cover' => $notifiable->cover,
+            'sales_date' => $notifiable->sales_date,
+            'release_date' => $notifiable->release_date,
+            'content_id' => $notifiable->content_id,
+            'dvd_id' => $notifiable->dvd_id,
+            'description' => $notifiable->description,
+            'time' => $notifiable->time,
+            'director' => $notifiable->director,
+            'studio' => $notifiable->studio,
+            'label' => $notifiable->label,
+            'channels' => $notifiable->channels,
+            'series' => $notifiable->series,
+            'gallery' => $notifiable->gallery,
+            'images' => $notifiable->images,
+            'sample' => $notifiable->sample,
+        ];
     }
 
     /**

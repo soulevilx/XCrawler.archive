@@ -2,10 +2,10 @@
 
 namespace App\Flickr\Models;
 
-use App\Core\Models\BaseModel;
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
 use App\Flickr\Models\Traits\HasProcesses;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
@@ -22,7 +22,7 @@ use Illuminate\Support\Collection;
  * @property-read  FlickrAlbum[]|Collection $albums
  * @package App\Models
  */
-class FlickrContact extends BaseModel
+class FlickrContact extends Model
 {
     use HasFactory;
     use HasStates;
@@ -98,11 +98,6 @@ class FlickrContact extends BaseModel
     public static function findByNsid(string $nsid)
     {
         return self::withTrashed()->where('nsid', $nsid)->first();
-    }
-
-    public function processStep(string $step)
-    {
-        return $this->morphMany(FlickrProcess::class, 'model')->where('step', $step)->latest()->first();
     }
 
     public function albums(): HasMany

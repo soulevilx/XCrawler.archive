@@ -1,0 +1,37 @@
+version: "3.9"  # optional since v1.27.0
+services:
+
+    database:
+        image: mariadb
+        ports:
+            - 3307:3306
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_ALLOW_EMPTY_ROOT_PASSWORD: no
+            MYSQL_USER: root
+            MYSQL_PASSWORD: root
+            MYSQL_DATABASE: xcrawler
+
+    redis:
+        image: redis
+        ports:
+            - 3308:6379
+
+    mongodb:
+        image: mongo
+        ports:
+            - 3309:27017
+    php:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: php:8.0
+        restart: unless-stopped
+        tty: true
+        environment:
+            SERVICE_NAME: app
+            SERVICE_TAGS: dev
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+

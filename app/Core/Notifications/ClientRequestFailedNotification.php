@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
-use Jooservices\XcrawlerClient\Interfaces\ResponseInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class ClientRequestFailedNotification extends Notification
 {

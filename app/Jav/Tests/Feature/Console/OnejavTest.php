@@ -8,7 +8,6 @@ use App\Jav\Tests\JavTestCase;
 use App\Jav\Tests\Traits\OnejavMocker;
 use Illuminate\Support\Facades\Queue;
 
-
 class OnejavTest extends JavTestCase
 {
     use OnejavMocker;

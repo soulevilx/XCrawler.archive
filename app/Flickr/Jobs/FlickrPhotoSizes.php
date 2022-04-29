@@ -2,7 +2,6 @@
 
 namespace App\Flickr\Jobs;
 
-use App\Flickr\Jobs\Traits\HasFlickrMiddleware;
 use App\Flickr\Models\FlickrPhoto;
 use App\Flickr\Services\FlickrService;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -32,9 +31,6 @@ class FlickrPhotoSizes extends AbstractLimitJob implements ShouldBeUnique
 
     public function handle(FlickrService $service)
     {
-        $sizes = $service->photos()->getSizes($this->photo->id);
-        $this->photo->update([
-            'sizes' => $sizes['size']->toArray(),
-        ]);
+        $service->photos()->updateSizes($this->photo);
     }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Jav\Console\Commands;
 
-use App\Core\Models\State;
-use App\Jav\Jobs\XCity\IdolItemFetch;
-use App\Jav\Models\XCityIdol as XCityIdolModel;
+use App\Jav\Jobs\XCity\Idol\FetchIdol;
+use App\Jav\Jobs\XCity\Idol\UpdatePagesCount;
+use App\Jav\Jobs\XCity\Idol\UpdateSubPages;
 use App\Jav\Services\XCityIdolService;
 use Illuminate\Console\Command;
 
@@ -31,22 +31,31 @@ class XCityIdol extends Command
                 $service->release();
 
                 break;
-
             case 'daily':
                 $service->daily();
 
                 break;
-
             case 'item':
-                $query = XCityIdolModel::byState(State::STATE_INIT);
-                if ($limit = $this->input->getOption('limit')) {
-                    $query = $query->limit($limit);
-                } elseif ($id = $this->input->getOption('id')) {
-                    $query = $query->where('id', $id);
-                }
+                $models = app(XCityIdolService::class)->getItems(
+                    $this->input->getOption('limit'),
+                    $this->input->getOption('id')
+                );
 
-                foreach ($query->cursor() as $model) {
-                    IdolItemFetch::dispatch($model)->onQueue('crawling');
+                foreach ($models as $model) {
+                    FetchIdol::dispatch($model)->onQueue('crawling');
+                }
+                break;
+
+            // Update sub pages
+            case 'sub-pages':
+                UpdateSubPages::dispatch()->onQueue(XCityIdolService::QUEUE_NAME);
+                break;
+            // Update pages count for each kana
+            case 'pages-count':
+                $subPages = $service->getSubPages();
+                foreach ($subPages as $subPage) {
+                    $kana = str_replace('/idol/?kana=', '', $subPage);
+                    UpdatePagesCount::dispatch($kana)->onQueue(XCityIdolService::QUEUE_NAME);
                 }
 
                 break;

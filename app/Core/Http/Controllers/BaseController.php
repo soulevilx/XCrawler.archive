@@ -2,19 +2,20 @@
 
 namespace App\Core\Http\Controllers;
 
-use App\Core\Services\ApplicationService;
+use App\Core\Services\Facades\Application;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Routing\Controller;
 
 class BaseController extends Controller
 {
-    protected function _index(string $model, Request $request, array $options = null): \Illuminate\Pagination\LengthAwarePaginator
+    protected function _index(string $model, Request $request, array $options = null): LengthAwarePaginator
     {
         $orderDir = $request->input('orderDir', 'DESC');
         $orderBy = $request->input('orderBy', 'created_at');
         $perPage = $request->input(
             'perPage',
-            ApplicationService::getConfig('core', 'pagination_perpage', config('core.pagination.per_page'))
+            Application::getSetting('core', 'pagination_perpage', 10)
         );
 
         $baseQuery = $model::orderBy($orderBy, $orderDir);
@@ -32,7 +33,7 @@ class BaseController extends Controller
 
         if ($request->input('keyword') && isset($options['searchIn'])) {
             $baseQuery->where(function ($query) use ($request, $options) {
-                foreach ($options['searchIn'] as $key => $column) {
+                foreach ($options['searchIn'] as $column) {
                     $query->orWhere($column, 'like', '%' . $request->input('keyword') . '%');
                 }
             });

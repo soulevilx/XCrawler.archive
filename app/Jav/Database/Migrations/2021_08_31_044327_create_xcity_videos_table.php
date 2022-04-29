@@ -46,6 +46,7 @@ class CreateXcityVideosTable extends Migration
 
             $table->string('sample')->nullable();
             $table->integer('favorite')->nullable();
+
             $table->string('state_code')->index();
             $table->foreign('state_code')->references('reference_code')->on('states');
 

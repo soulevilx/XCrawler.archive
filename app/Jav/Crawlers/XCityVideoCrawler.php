@@ -2,7 +2,7 @@
 
 namespace App\Jav\Crawlers;
 
-use App\Core\Client;
+use App\Core\XCrawlerClient;
 use App\Jav\Models\XCityVideo;
 use ArrayObject;
 use Carbon\Carbon;
@@ -12,7 +12,7 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class XCityVideoCrawler
 {
-    public function __construct(protected Client $client)
+    public function __construct(protected XCrawlerClient $client)
     {
     }
 
@@ -32,7 +32,7 @@ class XCityVideoCrawler
             'actresses',
             'genres',
         ], ArrayObject::ARRAY_AS_PROPS);
-        $item->url = $url . '?' . http_build_query($payload);
+        $item->url = $url.'?'.http_build_query($payload);
 
         $item->name = $response->getData()->filter('#program_detail_title')->text(null, false);
         $item->cover = $response->getData()->filter('.photo p.tn a')->attr('href');
@@ -108,11 +108,7 @@ class XCityVideoCrawler
 
                     case 'sales_date':
                     case 'release_date':
-                        if (!empty($value)) {
-                            $value = Carbon::createFromFormat('Y/m/d', $value);
-                        } else {
-                            $value = null;
-                        }
+                        $value = !empty($value) ? Carbon::createFromFormat('Y/m/d', $value) : null;
 
                         break;
 
@@ -138,7 +134,8 @@ class XCityVideoCrawler
 
                     case 'item_number':
                         $item->item_number = empty($value) ? null : $value;
-                        $value = implode('-', preg_split('/(,?\\s+)|((?<=[a-z])(?=\\d))|((?<=\\d)(?=[a-z]))/i', $value));
+                        $value = implode('-',
+                            preg_split('/(,?\\s+)|((?<=[a-z])(?=\\d))|((?<=\\d)(?=[a-z]))/i', $value));
                         $item->dvd_id = empty($value) ? null : $value;
 
                         return;

@@ -9,12 +9,22 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 
 /**
+ * @property string $name
+ * @property string $cover
  * @property $series
  * @property string $dvd_id
  * @property string $content_id
+ * @property string $label
+ * @property string $studio
+ * @property string $description
+ * @property array $channels
+ * @property array $gallery
+ * @property array $images
+ * @property array $sample
  * @property Collection|Performer[] $performers
  * @property Collection|Genre[] $genres
  * @property-read Onejav $onejav
@@ -25,6 +35,7 @@ class Movie extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use Notifiable;
 
     protected $table = 'movies';
 
@@ -66,7 +77,7 @@ class Movie extends Model
     /**
      * Retrieve the model for a bound value.
      *
-     * @param mixed $value
+     * @param mixed       $value
      * @param string|null $field
      * @return Model|null
      */

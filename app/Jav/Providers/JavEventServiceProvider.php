@@ -3,6 +3,7 @@
 namespace App\Jav\Providers;
 
 use App\Jav\Listeners\MovieEventSubscriber;
+use App\Jav\Listeners\OnejavEventSubscriber;
 use App\Jav\Listeners\XCityIdolEventSubscriber;
 use App\Jav\Listeners\XCityVideoEventSubscriber;
 use App\Jav\Models\Onejav;
@@ -23,6 +24,7 @@ class JavEventServiceProvider extends EventServiceProvider
      * @var array
      */
     protected $subscribe = [
+        OnejavEventSubscriber::class,
         MovieEventSubscriber::class,
         XCityIdolEventSubscriber::class,
         XCityVideoEventSubscriber::class
@@ -32,7 +34,6 @@ class JavEventServiceProvider extends EventServiceProvider
     {
         parent::boot();
 
-        R18::observe(R18Observer::class);
         XCityIdol::observe(XCityIdolObserver::class);
         XCityVideo::observe(XCityVideoObserver::class);
         Onejav::observe(OnejavObserver::class);

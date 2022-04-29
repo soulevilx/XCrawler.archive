@@ -2,12 +2,11 @@
 
 namespace App\Jav\Tests\Feature\Console;
 
-use App\Core\Models\State;
+use App\Jav\Models\State;
 use App\Jav\Mail\WordPressPost;
 use App\Jav\Models\Movie;
 use App\Jav\Tests\JavTestCase;
 use Illuminate\Support\Facades\Mail;
-
 
 class WordPressPostTest extends JavTestCase
 {

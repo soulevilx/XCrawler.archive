@@ -13,6 +13,8 @@ class MovieObserver
 
     /**
      * Handle created event.
+     *
+     * @return void
      */
     public function created(MovieInterface $model)
     {

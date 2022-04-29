@@ -2,36 +2,48 @@
 
 namespace App\Jav\Services;
 
-use App\Core\Models\State;
-use App\Core\Services\ApplicationService;
+use App\Core\Services\Facades\Application;
 use App\Jav\Crawlers\XCityIdolCrawler;
-use App\Jav\Jobs\XCity\GetIdolItemLinks;
-use App\Jav\Jobs\XCity\InitIdolIndex;
+use App\Jav\Events\XCity\IdolReleaseExecuted;
+use App\Jav\Jobs\XCity\Idol\FetchIdolLinks;
+use App\Jav\Jobs\XCity\Idol\InitIdolIndex;
 use App\Jav\Models\XCityIdol;
-use App\Jav\Services\Interfaces\ServiceInterface;
-use App\Jav\Services\Traits\HasAttributes;
+use App\Jav\Repositories\XCityIdolRepository;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Event;
 
-class XCityIdolService implements ServiceInterface
+class XCityIdolService
 {
-    use HasAttributes;
+    public const SERVICE_NAME = 'xcity_idols';
+    public const BASE_URL = 'https://xxx.xcity.jp';
+    public const SUBPAGES = [
+        "/idol/?kana=あ",
+        "/idol/?kana=か",
+        "/idol/?kana=さ",
+        "/idol/?kana=た",
+        "/idol/?kana=な",
+        "/idol/?kana=は",
+        "/idol/?kana=ま",
+        "/idol/?kana=や",
+        "/idol/?kana=ら",
+        "/idol/?kana=わ",
+    ];
 
-    protected XCityIdol $idol;
+    public const QUEUE_NAME = 'crawling';
 
-    public const SERVICE_LABEL = 'XCity idols';
-
-    public function __construct(protected XCityIdolCrawler $crawler, protected ApplicationService $service)
+    public function __construct(protected XCityIdolCrawler $crawler, protected XCityIdolRepository $repository)
     {
     }
 
-    public function getSubPages()
+    public function getSubPages(): array
     {
-        $subPages = ApplicationService::getConfig('xcity_idol', 'sub_pages');
+        $subPages = Application::getArray(self::SERVICE_NAME, 'sub_pages');
 
-        if (!$subPages) {
-            $subPages = $this->crawler->getSubPages();
-            ApplicationService::setConfig('xcity_idol', 'sub_pages', $subPages);
+        if (empty($subPages)) {
+            $subPages = $this->crawler->getSubPages()->toArray();
+            Application::setSetting(self::SERVICE_NAME, 'sub_pages', $subPages);
         }
 
         return $subPages;
@@ -42,7 +54,7 @@ class XCityIdolService implements ServiceInterface
         $subPages = $this->getSubPages();
         foreach ($subPages as $subPage) {
             $kana = str_replace('/idol/?kana=', '', $subPage);
-            GetIdolItemLinks::dispatch($kana, 1, false)->onQueue('crawling');
+            FetchIdolLinks::dispatch($kana, 1, false)->onQueue('crawling');
         }
     }
 
@@ -56,24 +68,24 @@ class XCityIdolService implements ServiceInterface
          * - Get links and update current page.
          */
         $subPages = $this->getSubPages();
-        foreach ($subPages as $index => $subPage) {
+        foreach ($subPages as $subPage) {
             $kana = str_replace('/idol/?kana=', '', $subPage);
             Bus::chain([
+                /**
+                 * If settings is not inited then we'll crawl it
+                 * We also have another job for updating this setting
+                 */
                 new InitIdolIndex($kana),
-                new GetIdolItemLinks($kana),
-            ])->onQueue('crawling')->dispatch();
+                new FetchIdolLinks($kana),
+            ])->onQueue(self::QUEUE_NAME)->dispatch();
+
+            Event::dispatch(new IdolReleaseExecuted($kana));
         }
     }
 
-    public function create(): XCityIdol
+    public function create(array $attributes): XCityIdol
     {
-        $this->defaultAttribute('state_code', State::STATE_INIT);
-
-        $this->idol = XCityIdol::firstOrCreate([
-            'url' => $this->attributes['url'],
-        ], $this->attributes);
-
-        return $this->idol;
+        return $this->repository->create($attributes);
     }
 
     public function item(Model $model): XCityIdol
@@ -89,5 +101,10 @@ class XCityIdolService implements ServiceInterface
         }
 
         return $model;
+    }
+
+    public function getItems(int $limit, int $id = null): Collection
+    {
+        return $this->repository->getItemsByState($limit, $id);
     }
 }

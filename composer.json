@@ -13,11 +13,18 @@
         }
     ],
     "readme": "README.md",
-    "keywords": ["framework", "laravel", "crawling", "jav", "flick"],
+    "keywords": [
+        "framework",
+        "laravel",
+        "crawling",
+        "jav",
+        "flick"
+    ],
     "license": "MIT",
     "require": {
-        "php": "^8.0",
+        "php": ">=8.0",
         "ext-curl": "*",
+        "defstudio/telegraph": "^1.6",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.3",
@@ -38,15 +45,18 @@
         "barryvdh/laravel-debugbar": "^3.6",
         "barryvdh/laravel-ide-helper": "^2.10",
         "beyondcode/laravel-dump-server": "^1.7",
+        "brianium/paratest": "^6.4",
         "facade/ignition": "^2",
         "fakerphp/faker": "^1.9.1",
         "friendsofphp/php-cs-fixer": "^3.0",
         "mockery/mockery": "^1.4",
         "nunomaduro/collision": "^5",
-        "phpstan/phpstan": "^0.12.94",
+        "phpstan/phpstan": "^1.5",
         "phpunit/phpunit": "^9.5",
-        "rector/rector": "^0.11.51",
-        "squizlabs/php_codesniffer": "^3.6"
+        "phpmd/phpmd": "^2.12",
+        "rector/rector": "^0.12",
+        "squizlabs/php_codesniffer": "^3.6",
+        "vimeo/psalm": "^4.22"
     },
     "autoload": {
         "psr-4": {
@@ -76,22 +86,28 @@
             "@php artisan ide-helper:generate",
             "@php artisan ide-helper:meta"
         ],
-        "lint": [
+        "phpstan": [
             "@php vendor/bin/phpstan analyze --level=0 app"
         ],
+        "phpmd": [
+            "@php vendor/bin/phpmd app github phpmd.xml"
+        ],
+        "rector": [
+            "@php vendor/bin/rector process --ansi"
+        ],
         "test": [
-            "@php vendor/bin/phpunit --testsuite=Unit",
-            "@php vendor/bin/phpunit --testsuite=Feature",
-            "@php vendor/bin/phpunit --testsuite=Services"
+            "@php vendor/bin/phpunit --testsuite=Core",
+            "@php vendor/bin/phpunit --testsuite=Flickr",
+            "@php vendor/bin/phpunit --testsuite=Jav"
         ],
         "test-coverage": [
-            "@php vendor/bin/phpunit --testsuite=Unit,Feature,Services --coverage-clover coverage.xml"
+            "@php vendor/bin/phpunit --testsuite=Core,Flickr,Jav --coverage-clover coverage.xml"
         ],
         "test-coverage-html": [
-            "@php vendor/bin/phpunit --testsuite=Unit,Feature,Services --coverage-html coverage"
+            "@php vendor/bin/phpunit --testsuite=Core,Flickr,Jav --coverage-html coverage"
         ],
         "test-coverage-text": [
-            "@php vendor/bin/phpunit --testsuite=Unit,Feature,Services --coverage-text=coverage.txt"
+            "@php vendor/bin/phpunit --testsuite=Core,Flickr,Jav --coverage-text=coverage.txt"
         ],
         "test-live": [
             "@php vendor/bin/phpunit --testsuite=FeatureLive"
@@ -108,7 +124,8 @@
         "sort-packages": true,
         "allow-plugins": {
             "composer/package-versions-deprecated": true
-        }
+        },
+        "process-timeout": 0
     },
     "minimum-stability": "dev",
     "prefer-stable": true

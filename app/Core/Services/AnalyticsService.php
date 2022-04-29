@@ -26,10 +26,10 @@ class AnalyticsService
     protected array $report = [];
 
     public const SERVICE_LABELS = [
-        'onejav' => OnejavService::SERVICE_LABEL,
-        'r18' => R18Service::SERVICE_LABEL,
-        'xcityidol' => XCityIdolService::SERVICE_LABEL,
-        'xcityvideo' => XCityVideoService::SERVICE_LABEL,
+        'onejav' => OnejavService::SERVICE_NAME,
+        'r18' => R18Service::SERVICE_NAME,
+        'xcityidol' => XCityIdolService::SERVICE_NAME,
+        'xcityvideo' => XCityVideoService::SERVICE_NAME,
     ];
 
     public function total()

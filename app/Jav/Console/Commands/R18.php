@@ -2,11 +2,11 @@
 
 namespace App\Jav\Console\Commands;
 
-use App\Core\Models\State;
+use App\Core\Services\Facades\Application;
 use App\Jav\Jobs\R18\DailyFetch;
 use App\Jav\Jobs\R18\ItemFetch;
 use App\Jav\Jobs\R18\ReleaseFetch;
-use App\Jav\Models\R18 as R18Model;
+use App\Jav\Services\R18Service;
 use Illuminate\Console\Command;
 
 class R18 extends Command
@@ -27,33 +27,29 @@ class R18 extends Command
 
     public function handle()
     {
-        switch ($this->input->getArgument('task')) {
+        $task = $this->input->getArgument('task');
+        switch ($task) {
             case 'release':
-                foreach (array_keys(R18Model::MOVIE_URLS) as $key) {
-                    ReleaseFetch::dispatch($key)->onQueue('crawling');
-                }
-
-                break;
-
             case 'daily':
-                DailyFetch::dispatch()->onQueue('crawling');
+                foreach (Application::getArray(R18Service::SERVICE_NAME, 'urls') as $key => $url) {
+                    if ($task === 'release') {
+                        ReleaseFetch::dispatch($url, $key)->onQueue(R18Service::QUEUE_NAME);
+                    } else {
+                        DailyFetch::dispatch($url)->onQueue(R18Service::QUEUE_NAME);
+                    }
+
+                    $this->output->info(sprintf('Pushed %s %s to queue', $task, $url));
+                }
 
                 break;
-
             case 'item':
-                $query = R18Model::byState(State::STATE_INIT);
-                if ($limit = $this->input->getOption('limit')) {
-                    $query = $query->limit($limit);
-                }
+                $models = app(R18Service::class)->getItems(
+                    $this->input->getOption('limit'),
+                    $this->input->getOption('id')
+                );
 
-                if ($id = $this->input->getOption('id')) {
-                    $query = $query->where('id', $id);
-                }
-
-                if ($items = $query->get()) {
-                    foreach ($items as $model) {
-                        ItemFetch::dispatch($model)->onQueue('crawling');
-                    }
+                foreach ($models as $model) {
+                    ItemFetch::dispatch($model)->onQueue(R18Service::QUEUE_NAME);
                 }
 
                 break;

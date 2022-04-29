@@ -2,7 +2,6 @@
 
 namespace App\Flickr\Tests;
 
-use App\Flickr\Models\FlickrSizes;
 use App\Flickr\Services\Flickr\Contacts;
 use App\Flickr\Services\Flickr\People;
 use App\Flickr\Services\Flickr\PhotoSets;
@@ -10,6 +9,8 @@ use App\Flickr\Services\FlickrService;
 use Mockery\LegacyMockInterface;
 use Mockery\MockInterface;
 use OAuth\Common\Http\Exception\TokenResponseException;
+use OAuth\Common\Http\Uri\Uri;
+use OAuth\OAuth1\Token\StdOAuth1Token;
 use OAuth\ServiceFactory;
 use Tests\TestCase;
 
@@ -29,6 +30,10 @@ class FlickrTestCase extends TestCase
 
         $serviceMocker = \Mockery::mock(ServiceFactory::class);
         $this->flickrMocker = \Mockery::mock(ServiceFactory::class);
+        $this->flickrMocker->shouldReceive('requestRequestToken')
+            ->andReturn(new StdOAuth1Token());
+        $this->flickrMocker->shouldReceive('getAuthorizationUri')
+            ->andReturn(new Uri());
 
         $this->contacts();
         $this->people();
@@ -96,7 +101,11 @@ class FlickrTestCase extends TestCase
                 'POST',
                 ['user_id' => 'deleted']
             )
-            ->andReturn(json_encode(['stat' => 'fail', 'code' => People::ERROR_CODE_USER_DELETED]));
+            ->andReturn(json_encode([
+                'stat' => 'fail',
+                'code' => People::ERROR_CODE_USER_DELETED,
+                'message' => People::ERROR_MESSAGES_MAP[People::ERROR_CODE_USER_DELETED],
+            ]));
 
         $this->flickrMocker->shouldReceive('requestJson')
             ->with(
@@ -104,7 +113,11 @@ class FlickrTestCase extends TestCase
                 'POST',
                 ['user_id' => 'null']
             )
-            ->andReturn(null);
+            ->andReturn(json_encode([
+                'stat' => 'fail',
+                'code' => People::ERROR_CODE_USER_NOT_FOUND,
+                'message' => People::ERROR_MESSAGES_MAP[People::ERROR_CODE_USER_NOT_FOUND],
+            ]));
 
         $this->flickrMocker->shouldReceive('requestJson')
             ->with(
@@ -302,7 +315,5 @@ class FlickrTestCase extends TestCase
                 //['url' => 'https://www.flickr.com/photos/51838687@N07/albums/72157719703391487']
             )
             ->andReturn($this->getFixture('urls.lookupUser.json'));
-
-
     }
 }

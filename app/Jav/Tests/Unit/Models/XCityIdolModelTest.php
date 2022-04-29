@@ -2,8 +2,8 @@
 
 namespace App\Jav\Tests\Unit\Models;
 
-use App\Core\Models\State;
-use App\Jav\Events\XCityIdolCompleted;
+use App\Jav\Models\State;
+use App\Jav\Events\XCity\XCityIdolCompleted;
 use App\Jav\Models\Performer;
 use App\Jav\Models\XCityIdol;
 use App\Jav\Services\XCityIdolService;

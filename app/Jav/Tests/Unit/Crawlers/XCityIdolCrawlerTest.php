@@ -6,7 +6,6 @@ use App\Jav\Crawlers\XCityIdolCrawler;
 use App\Jav\Tests\JavTestCase;
 use App\Jav\Tests\Traits\XCityIdolMocker;
 use Jooservices\XcrawlerClient\Response\DomResponse;
-use Jooservices\XcrawlerClient\XCrawlerClient;
 
 class XCityIdolCrawlerTest extends JavTestCase
 {
@@ -29,14 +28,13 @@ class XCityIdolCrawlerTest extends JavTestCase
 
     public function testGetSubPagesFailed()
     {
-        $mocker = $this->getClientMock();
-        $mocker
+        $this->xcrawlerMocker = $this->getClientMock();
+        $this->xcrawlerMocker
             ->shouldReceive('get')
-            ->with('idol/', [])
+            ->with('idol/')
             ->andReturn($this->getErrorMockedResponse(app(DomResponse::class)));
 
-        app()->instance(XCrawlerClient::class, $mocker);
-        $crawler = app(XCityIdolCrawler::class);
+        $crawler = new XCityIdolCrawler($this->xcrawlerMocker);
         $this->assertTrue($crawler->getSubPages()->isEmpty());
     }
 
@@ -55,6 +53,11 @@ class XCityIdolCrawlerTest extends JavTestCase
                 $this->assertEquals($item->{$key}, $value);
             }
         }
+
+        $item = $this->crawler->getItem(8636);
+        $this->assertEquals('Makoto Toda', $item->name);
+        $this->assertEquals('Making video, Walking', $item->special_skill);
+        $this->assertEquals('2018年第30回ピンク映画大賞で新人女優賞受賞 キャッチコピーは「どスケベ小動物」コラムニストとしても活躍中で特に映画評に定評がある', $item->other);
     }
 
     public function testGetItemWithNoHeight()
@@ -71,13 +74,12 @@ class XCityIdolCrawlerTest extends JavTestCase
 
     public function testGetItemWithoutBirthOfDate()
     {
-        $mocker = $this->getClientMock();
-        $mocker
+        $this->xcrawlerMocker = $this->getClientMock();
+        $this->xcrawlerMocker
             ->shouldReceive('get')
             ->with('idol/detail/18410', [])
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'XCity/idol_detail_18410.html'));
-        app()->instance(XCrawlerClient::class, $mocker);
-        $crawler = app(XCityIdolCrawler::class);
+        $crawler = new XCityIdolCrawler($this->xcrawlerMocker);
         $item = $crawler->getItem(18410);
 
         $this->assertNull($item->date_of_birth);

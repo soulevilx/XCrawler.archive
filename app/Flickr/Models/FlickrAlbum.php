@@ -2,10 +2,11 @@
 
 namespace App\Flickr\Models;
 
-use App\Core\Models\BaseModel;
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
 use App\Flickr\Models\Traits\HasProcesses;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -20,7 +21,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $description
  * @property string $google_album_id
  */
-class FlickrAlbum extends BaseModel
+class FlickrAlbum extends Model
 {
     use HasFactory;
     use HasStates;
@@ -57,11 +58,13 @@ class FlickrAlbum extends BaseModel
      * Actually Album hasMany photos
      * but we are using belongsToMany because we need pivot table
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     public function photos()
     {
-        return $this->belongsToMany(FlickrPhoto::class, 'flickr_album_photos', 'album_id', 'photo_id')->withTimestamps();
+        return $this->belongsToMany(FlickrPhoto::class, 'flickr_album_photos', 'album_id', 'photo_id')
+            ->withTrashed()
+            ->withTimestamps();
     }
 
     public function contact()

@@ -2,14 +2,12 @@
 
 namespace App\Jav\Models;
 
-use App\Core\Models\BaseModel;
-use App\Core\Models\Traits\HasStates;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class RequestDownload extends BaseModel
+class RequestDownload extends Model
 {
     use HasFactory;
-    use HasStates;
 
     protected $fillable = [
         'model_id',

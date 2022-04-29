@@ -2,13 +2,12 @@
 
 namespace App\Jav\Listeners;
 
-use App\Core\Services\ApplicationService;
 use App\Jav\Events\MovieCreated;
-use App\Jav\Events\OnejavDownloadCompleted;
+use App\Jav\Events\MovieUpdated;
+use App\Jav\Events\Onejav\OnejavDownloadCompleted;
+use App\Jav\Models\MovieIndex;
 use App\Jav\Notifications\MovieCreatedNotification;
-use App\Jav\Services\Movie\MovieService;
 use Illuminate\Events\Dispatcher;
-use Illuminate\Support\Facades\Notification;
 
 class MovieEventSubscriber
 {
@@ -17,50 +16,41 @@ class MovieEventSubscriber
         $event->onejav->movie->requestDownload()->delete();
     }
 
-    public function onMovieCreated(MovieCreated $event)
+    public function indexMovie(MovieCreated $event)
     {
-        $enableNotification = ApplicationService::getConfig(
-            'jav',
-            'enable_notification',
-            config('services.jav.enable_notification', true)
-        );
-        $enablePostToWordPress = ApplicationService::getConfig(
-            'jav',
-            'enable_post_to_wordpress',
-            config('services.jav.enable_post_to_wordpress', true)
-        );
-        $movie = $event->movie;
+        $movieData = $event->movie->toArray();
+        unset($movieData['id']);
+        $movieData['genres'] = $event->movie->genres()->pluck('name')->toArray();
+        $movieData['performers'] = $event->movie->performers()->pluck('name')->toArray();
 
-        if ($enablePostToWordPress) {
-            $service = app(MovieService::class);
-            $service->createWordPressPost($movie);
-        }
+        MovieIndex::create($movieData);
 
-        if (!$enableNotification) {
-            return;
-        }
-
-        Notification::route('slack', config('services.jav.slack_notifications'))
-            ->notify(new MovieCreatedNotification($event->movie));
+        $event->movie->notify(new MovieCreatedNotification($event->movie));
     }
 
     /**
      * Register the listeners for the subscriber.
      *
      * @param Dispatcher $events
+     *
+     * @return void
      */
-    public function subscribe($events)
+    public function subscribe($events): void
     {
+        /**
+         * @TODO Handle MovieUpdated than update movie index
+         */
         $events->listen(
-            [MovieCreated::class],
-            self::class . '@onMovieCreated'
+            [
+                MovieCreated::class,
+            ],
+            self::class . '@indexMovie'
         );
 
         $events->listen(
             [
                 OnejavDownloadCompleted::class
             ],
-
             self::class . '@onOnejavDownloadCompleted'
         );
     }

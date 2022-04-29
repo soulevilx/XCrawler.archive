@@ -2,7 +2,7 @@
 
 namespace App\Jav\Listeners;
 
-use App\Jav\Events\XCityIdolCompleted;
+use App\Jav\Events\XCity\XCityIdolCompleted;
 use App\Jav\Models\Performer;
 use Illuminate\Events\Dispatcher;
 
@@ -17,7 +17,7 @@ class XCityIdolEventSubscriber
 
         Performer::firstOrCreate([
             'name' => $model->name,
-        ], [
+            ], [
             'cover' => $model->cover,
             'city' => $model->city,
             'height' => $model->height,

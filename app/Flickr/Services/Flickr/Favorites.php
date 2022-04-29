@@ -3,9 +3,12 @@
 namespace App\Flickr\Services\Flickr;
 
 use App\Flickr\Exceptions\FlickrGeneralException;
+use App\Flickr\Services\Flickr\Traits\HasFlickrClient;
 
-class Favorites extends BaseFlickr
+class Favorites
 {
+    use HasFlickrClient;
+
     public const PER_PAGE = 500;
 
     /**
