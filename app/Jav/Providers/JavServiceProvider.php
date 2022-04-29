@@ -2,7 +2,6 @@
 
 namespace App\Jav\Providers;
 
-use App\Core\Client;
 use App\Core\Providers\BaseServiceProvider;
 use App\Core\XCrawlerClient;
 use App\Jav\Crawlers\OnejavCrawler;

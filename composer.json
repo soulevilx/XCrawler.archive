@@ -93,7 +93,7 @@
             "@php vendor/bin/phpmd app github phpmd.xml"
         ],
         "rector": [
-            "@php vendor/bin/rector process --dry-run --ansi"
+            "@php vendor/bin/rector process --ansi"
         ],
         "test": [
             "@php vendor/bin/phpunit --testsuite=Core",

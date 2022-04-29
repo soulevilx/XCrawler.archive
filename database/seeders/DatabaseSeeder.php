@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Core\Services\Facades\Application;
 use App\Jav\Services\OnejavService;
 use App\Jav\Services\R18Service;
+use App\Jav\Services\SCuteService;
 use App\Jav\Services\XCityIdolService;
 use App\Jav\Services\XCityVideoService;
 use Illuminate\Database\Seeder;
@@ -43,6 +44,10 @@ class DatabaseSeeder extends Seeder
             'xcity_videos' => [
                 'base_url' => XCityVideoService::BASE_URL,
                 'from_date' => '20010101'
+            ],
+            'scute' => [
+                'base_url' => SCuteService::BASE_URL,
+                'total_pages' => SCuteService::DEFAULT_TOTAL_PAGES,
             ],
             'core' => [
                 'download_dir' => 'downloads'

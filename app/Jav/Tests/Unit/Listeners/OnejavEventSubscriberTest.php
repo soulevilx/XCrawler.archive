@@ -19,10 +19,10 @@ class OnejavEventSubscriberTest extends TestCase
         Notification::assertSentTo(new AnonymousNotifiable, OnejavCompletedNotification::class);
     }
 
-    public function testNotificationsOnOnejavReleaseCompleted()
-    {
-        Event::dispatch(new OnejavReleaseCompleted(collect()));
-
-        Notification::assertSentTo(new AnonymousNotifiable, OnejavCompletedNotification::class);
-    }
+//    public function testNotificationsOnOnejavReleaseCompleted()
+//    {
+//        Event::dispatch(new OnejavReleaseCompleted(collect()));
+//
+//        Notification::assertSentTo(new AnonymousNotifiable, OnejavCompletedNotification::class);
+//    }
 }
