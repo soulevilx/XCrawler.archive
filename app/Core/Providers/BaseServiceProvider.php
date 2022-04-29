@@ -20,6 +20,8 @@ class BaseServiceProvider extends ServiceProvider
     {
         $this->testCacheConnection();
         $this->testNetwork();
+        $this->testDatabase();
+        $this->testDatabase('mongodb');
         $this->loadMigrations();
         $this->loadConfigs();
 
@@ -89,6 +91,22 @@ class BaseServiceProvider extends ServiceProvider
             if ($connected = fsockopen("www.example.com", 80)) {
                 fclose($connected);
             }
+        } catch (\Exception) {
+        }
+
+        if (!$connected) {
+            throw new NetworkError();
+        }
+    }
+
+    private function testDatabase(string $connection = 'mysql')
+    {
+        if (app()->environment('testing')) {
+            return;
+        }
+
+        try {
+            $connected = \DB::connection($connection)->getDatabaseName();
         } catch (\Exception) {
         }
 

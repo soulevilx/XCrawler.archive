@@ -20,11 +20,13 @@ A small project ( but took so long time ) based on Laravel for web Crawling ( wi
 - MySQL
     - Primary data
     - Telescope
-- Supervisor
-    - Redis
+- MongoDb
+    - Logging
+
+## Supervisor
+- Redis
 
 ## Cache
-
 - APCu
 
 ## Worker / Supervisor
@@ -42,3 +44,8 @@ A small project ( but took so long time ) based on Laravel for web Crawling ( wi
 - `composer test` for full test All crawler must be provided with 2 tests
 - Mock
 - Without mock ( request directly to target server )
+
+## Contribute
+- Create PR from `develop`
+- Make sure you have UnitTest fully
+- PR must be passed all required conditions
