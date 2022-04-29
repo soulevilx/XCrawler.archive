@@ -26,7 +26,7 @@ class OnejavEventSubscriber
         $events->listen(
             [
                 OnejavDailyCompleted::class,
-                OnejavReleaseCompleted::class,
+                //OnejavReleaseCompleted::class,
             ],
             self::class . '@handleOnejavCompleted'
         );
