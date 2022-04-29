@@ -3,7 +3,6 @@
 namespace App\Jav\Listeners;
 
 use App\Jav\Events\MovieCreated;
-use App\Jav\Events\MovieUpdated;
 use App\Jav\Events\Onejav\OnejavDownloadCompleted;
 use App\Jav\Models\MovieIndex;
 use App\Jav\Notifications\MovieCreatedNotification;
