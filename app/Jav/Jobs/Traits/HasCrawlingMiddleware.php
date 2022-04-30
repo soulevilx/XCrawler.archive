@@ -33,9 +33,9 @@ trait HasCrawlingMiddleware
         }
 
         $rateLimitedMiddleware = (new RateLimited)
-            ->allow(Application::getInt('xcity', 'jobs_in_second', 2))
+            ->allow(config('services.jav.jobs_per_second') ?? Application::getInt('jav', 'jobs_in_second', 2))
             ->everySecond() // In second
-            ->releaseAfterMinutes(Application::getInt('xcity', 'release_jobs_after_minutes', 1));
+            ->releaseAfterMinutes(config('services.jav.release_jobs_after_minutes') ?? Application::getInt('jav', 'release_jobs_after_minutes', 1));
 
         return [$rateLimitedMiddleware];
     }
