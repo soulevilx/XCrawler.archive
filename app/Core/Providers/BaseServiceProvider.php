@@ -4,6 +4,7 @@ namespace App\Core\Providers;
 
 use App\Core\Exceptions\NetworkError;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use RuntimeException;
 use Throwable;
@@ -106,7 +107,7 @@ class BaseServiceProvider extends ServiceProvider
         }
 
         try {
-            $connected = \DB::connection($connection)->getDatabaseName();
+            $connected = DB::connection($connection)->getDatabaseName();
         } catch (\Exception) {
         }
 
