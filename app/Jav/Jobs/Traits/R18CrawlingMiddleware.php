@@ -34,9 +34,9 @@ trait R18CrawlingMiddleware
         }
 
         $rateLimitedMiddleware = (new RateLimited)
-            ->allow(Application::getInt(R18Service::SERVICE_NAME, 'jobs_in_second', 2))
+            ->allow(config('services.r18.jobs_per_second') ?? Application::getInt(R18Service::SERVICE_NAME, 'jobs_in_second', 2))
             ->everySecond() // In second
-            ->releaseAfterMinutes(Application::getInt(R18Service::SERVICE_NAME, 'release_jobs_after_minutes', 1));
+            ->releaseAfterMinutes(config('services.r18.release_jobs_after_minutes') ?? Application::getInt(R18Service::SERVICE_NAME, 'release_jobs_after_minutes', 1));
 
         return [$rateLimitedMiddleware];
     }
