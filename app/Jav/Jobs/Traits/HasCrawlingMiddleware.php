@@ -2,6 +2,7 @@
 
 namespace App\Jav\Jobs\Traits;
 
+use App\Core\Services\Facades\Application;
 use Spatie\RateLimitedMiddleware\RateLimited;
 
 trait HasCrawlingMiddleware
@@ -20,9 +21,6 @@ trait HasCrawlingMiddleware
      */
     protected $maxExceptions = 3;
 
-    protected int $allow = 1;
-    protected int $releaseAfterSeconds = 2;
-
     public function retryUntil(): \DateTime
     {
         return now()->addDay();
@@ -30,14 +28,14 @@ trait HasCrawlingMiddleware
 
     public function middleware()
     {
-        if (app()->environment('testing')) {
+        if ('testing' === config('app.env')) {
             return [];
         }
 
-        $rateLimitedMiddleware = (new RateLimited())
-            ->allow($this->allow) // Allow 1 job
+        $rateLimitedMiddleware = (new RateLimited)
+            ->allow(Application::getInt('xcity', 'jobs_in_second', 2))
             ->everySecond() // In second
-            ->releaseAfterMinutes(1); // Release back to pool
+            ->releaseAfterMinutes(Application::getInt('xcity', 'release_jobs_after_minutes', 1));
 
         return [$rateLimitedMiddleware];
     }
