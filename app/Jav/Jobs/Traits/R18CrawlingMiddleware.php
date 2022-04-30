@@ -2,6 +2,8 @@
 
 namespace App\Jav\Jobs\Traits;
 
+use App\Core\Services\Facades\Application;
+use App\Jav\Services\R18Service;
 use Spatie\RateLimitedMiddleware\RateLimited;
 
 trait R18CrawlingMiddleware
@@ -20,9 +22,6 @@ trait R18CrawlingMiddleware
      */
     protected $maxExceptions = 3;
 
-    protected int $allow = 2;
-    protected int $releaseAfterSeconds = 2;
-
     public function retryUntil(): \DateTime
     {
         return now()->addDay();
@@ -34,10 +33,10 @@ trait R18CrawlingMiddleware
             return [];
         }
 
-        $rateLimitedMiddleware = (new RateLimited())
-            ->allow($this->allow) // Allow 2 job
+        $rateLimitedMiddleware = (new RateLimited)
+            ->allow(config('services.r18.jobs_per_second') ?? Application::getInt(R18Service::SERVICE_NAME, 'jobs_in_second', 2))
             ->everySecond() // In second
-            ->releaseAfterMinutes(1); // Release back to pool
+            ->releaseAfterMinutes(config('services.r18.release_jobs_after_minutes') ?? Application::getInt(R18Service::SERVICE_NAME, 'release_jobs_after_minutes', 1));
 
         return [$rateLimitedMiddleware];
     }
