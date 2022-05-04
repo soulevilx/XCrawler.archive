@@ -6,7 +6,9 @@ use App\Jav\Events\MovieCreated;
 use App\Jav\Events\MovieUpdated;
 use App\Jav\Models\Interfaces\MovieInterface;
 use App\Jav\Models\Movie;
+use App\Jav\Models\MovieIndex;
 use App\Jav\Models\R18;
+use App\Jav\Notifications\MovieCreatedNotification;
 use App\Jav\Repositories\MovieRepository;
 use Illuminate\Support\Facades\Event;
 
@@ -69,5 +71,37 @@ class MovieService
         }
 
         return $movie->requestDownload()->create();
+    }
+
+    public function createIndex(Movie $movie)
+    {
+        $movieData = $movie->toArray();
+        $movieData['genres'] = $movie->genres()->pluck('name')->toArray();
+        $movieData['performers'] = $movie->performers()->pluck('name')->toArray();
+
+        foreach ($movieData as $key => $value) {
+            if (empty($value)) {
+                unset($movieData[$key]);
+            }
+        }
+
+        if (isset($movieData['dvd_id']) && isset($movieData['content_id'])) {
+            MovieIndex::firstOrCreate([
+                'dvd_id' => $movieData['dvd_id'],
+                'content_id' => $movieData['content_id'],
+            ], $movieData);
+        } elseif (isset($movieData['content_id'])) {
+            MovieIndex::firstOrCreate([
+                'content_id' => $movieData['content_id'],
+            ], $movieData);
+        } elseif (isset($movieData['dvd_id'])) {
+            MovieIndex::firstOrCreate([
+                'dvd_id' => $movieData['dvd_id'],
+            ], $movieData);
+        } else {
+            MovieIndex::create($movieData);
+        }
+
+        $movie->notify(new MovieCreatedNotification($movie));
     }
 }
