@@ -37,12 +37,12 @@ class Kernel extends ConsoleKernel
         $schedule->command('jav:xcity-idol sub-pages')->weekly();
         // Update pages count
         $schedule->command('jav:xcity-idol pages-count')->weekly();
-        $schedule->command('jav:xcity-idol item --limit=5');
+        $schedule->command('jav:xcity-idol item --limit=5')->everyMinute();
 
         // XCity Video
         $schedule->command('jav:xcity-video release')->everyFiveMinutes();
         $schedule->command('jav:xcity-video daily')->dailyAt('12:00');
-        $schedule->command('jav:xcity-video item --limit=5');
+        $schedule->command('jav:xcity-video item --limit=5')->everyMinute();;
 
 //        // Flickr
         $schedule->command('flickr:contacts')->weekly();
