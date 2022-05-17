@@ -111,22 +111,6 @@ class BaseServiceProvider extends ServiceProvider
         }
     }
 
-    private function testDatabase(string $connection = 'mysql')
-    {
-        if (app()->environment('testing')) {
-            return;
-        }
-
-        try {
-            $connected = DB::connection($connection)->getDatabaseName();
-        } catch (\Exception) {
-        }
-
-        if (!$connected) {
-            throw new NetworkError();
-        }
-    }
-
     /**
      * Load Routes
      *
