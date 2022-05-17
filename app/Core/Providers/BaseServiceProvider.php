@@ -3,7 +3,9 @@
 namespace App\Core\Providers;
 
 use App\Core\Exceptions\NetworkError;
+use Exception;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use RuntimeException;
 use Throwable;
@@ -20,6 +22,8 @@ class BaseServiceProvider extends ServiceProvider
     {
         $this->testCacheConnection();
         $this->testNetwork();
+        $this->testDatabase();
+        $this->testDatabase('mongodb');
         $this->loadMigrations();
         $this->loadConfigs();
 
@@ -89,10 +93,20 @@ class BaseServiceProvider extends ServiceProvider
             if ($connected = fsockopen("www.example.com", 80)) {
                 fclose($connected);
             }
-        } catch (\Exception) {
+        } catch (Exception) {
+            throw new NetworkError();
+        }
+    }
+
+    private function testDatabase(string $connection = 'mysql')
+    {
+        if (app()->environment('testing')) {
+            return;
         }
 
-        if (!$connected) {
+        try {
+            DB::connection($connection)->getPdo();
+        } catch (Exception) {
             throw new NetworkError();
         }
     }
