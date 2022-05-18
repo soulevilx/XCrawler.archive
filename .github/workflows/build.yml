@@ -47,6 +47,7 @@ jobs:
     runs-on:
       - self-hosted
       - ARM64
+      - php8.1
     needs: [ code_standards ]
 
     steps:

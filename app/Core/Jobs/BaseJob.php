@@ -30,7 +30,7 @@ class BaseJob implements ShouldQueue
             return [];
         }
 
-        return [new XCrawlerMiddleware(get_class($this), $this->service)];
+        return [new XCrawlerMiddleware($this::class, $this->service)];
     }
 
     public function retryUntil()
