@@ -22,6 +22,7 @@ class ClientRequestEventSubscriber
         ];
 
         if ($event instanceof ClientRequested) {
+
             $data['is_succeed'] = $event?->response?->isSuccessful();
         }
 

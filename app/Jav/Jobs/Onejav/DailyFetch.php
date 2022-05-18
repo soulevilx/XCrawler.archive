@@ -2,17 +2,12 @@
 
 namespace App\Jav\Jobs\Onejav;
 
+use App\Core\Jobs\BaseJob;
 use App\Jav\Services\OnejavService;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
 
-class DailyFetch implements ShouldQueue
+class DailyFetch extends BaseJob
 {
-    use Dispatchable;
-    use InteractsWithQueue;
-    use Queueable;
+    protected string $service = OnejavService::SERVICE_NAME;
 
     public function handle(OnejavService $service)
     {

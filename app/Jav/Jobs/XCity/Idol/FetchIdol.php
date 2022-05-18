@@ -2,21 +2,14 @@
 
 namespace App\Jav\Jobs\XCity\Idol;
 
+use App\Core\Jobs\BaseJob;
 use App\Jav\Models\State;
 use App\Jav\Models\XCityIdol;
 use App\Jav\Services\XCityIdolService;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 
-class FetchIdol implements ShouldQueue
+class FetchIdol extends BaseJob
 {
-    use Dispatchable;
-    use InteractsWithQueue;
-    use Queueable;
-    use SerializesModels;
+    protected string $service = 'xcity';
 
     public function __construct(public XCityIdol $model)
     {

@@ -2,21 +2,14 @@
 
 namespace App\Jav\Jobs\XCity;
 
-use App\Jav\Models\State;
+use App\Core\Jobs\BaseJob;
 use App\Jav\Crawlers\XCityVideoCrawler;
-use App\Jav\Jobs\Traits\HasCrawlingMiddleware;
+use App\Jav\Models\State;
 use App\Jav\Models\XCityVideo;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
 
-class GetVideoLinks implements ShouldQueue
+class GetVideoLinks extends BaseJob
 {
-    use Dispatchable;
-    use InteractsWithQueue;
-    use Queueable;
-    use HasCrawlingMiddleware;
+    protected string $service = 'xcity';
 
     public function __construct(public array $data)
     {

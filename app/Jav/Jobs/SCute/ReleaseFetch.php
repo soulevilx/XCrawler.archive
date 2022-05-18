@@ -2,16 +2,12 @@
 
 namespace App\Jav\Jobs\SCute;
 
+use App\Core\Jobs\BaseJob;
 use App\Jav\Services\SCuteService;
-use Illuminate\Bus\Queueable;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
 
-class ReleaseFetch
+class ReleaseFetch extends BaseJob
 {
-    use Dispatchable;
-    use InteractsWithQueue;
-    use Queueable;
+    protected string $service = SCuteService::SERVICE_NAME;
 
     public function handle(SCuteService $service)
     {
