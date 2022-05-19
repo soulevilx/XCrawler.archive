@@ -2,6 +2,7 @@
 
 namespace App\Jav\Notifications;
 
+use App\Core\Jobs\Middlewares\XCrawlerMiddleware;
 use App\Jav\Models\Movie;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -9,7 +10,6 @@ use Illuminate\Notifications\Messages\SlackAttachment;
 use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Routing\UrlGenerator;
-use Spatie\RateLimitedMiddleware\RateLimited;
 
 class MovieCreatedNotification extends Notification implements ShouldQueue
 {
@@ -28,12 +28,7 @@ class MovieCreatedNotification extends Notification implements ShouldQueue
             return [];
         }
 
-        $rateLimitedMiddleware = (new RateLimited())
-            ->allow(2) // Allow 2 job
-            ->everySecond() // In second
-            ->releaseAfterMinutes(1); // Release back to pool
-
-        return [$rateLimitedMiddleware];
+        return [new XCrawlerMiddleware($this::class, 'notifications')];
     }
 
     /**

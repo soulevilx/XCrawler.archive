@@ -2,9 +2,10 @@
 
 namespace App\Flickr\Jobs;
 
+use App\Core\Jobs\BaseJob;
 use App\Flickr\Services\FlickrService;
 
-class FlickrContacts extends AbstractLimitJob
+class FlickrContacts extends BaseJob
 {
     public function handle(FlickrService $service)
     {

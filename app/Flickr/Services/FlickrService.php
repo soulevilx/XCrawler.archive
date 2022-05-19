@@ -15,7 +15,6 @@ use App\Flickr\Services\Flickr\People;
 use App\Flickr\Services\Flickr\Photos;
 use App\Flickr\Services\Flickr\PhotoSets;
 use App\Flickr\Services\Flickr\Urls;
-
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 use OAuth\Common\Consumer\Credentials;
@@ -55,7 +54,7 @@ class FlickrService
         $credentials = new Credentials($this->apiKey, $this->secret, $callbackUrl);
 
         return app(ServiceFactory::class)
-            ->setHttpClient(new CurlClient())
+            ->setHttpClient(new CurlClient)
             ->createService('Flickr', $credentials, $this->oauthTokenStorage);
     }
 

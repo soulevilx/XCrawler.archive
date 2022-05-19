@@ -46,6 +46,7 @@ class FlickrContactsTest extends FlickrTestCase
                 $this->getFixture('contacts.duplicated.json')
             );
 
+        $serviceMocker->shouldReceive('setHttpClient')->andReturnSelf();
         $serviceMocker->shouldReceive('createService')
             ->andReturn($this->flickrMocker);
 

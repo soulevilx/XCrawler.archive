@@ -2,11 +2,12 @@
 
 namespace App\Flickr\Jobs;
 
+use App\Core\Jobs\BaseJob;
 use App\Core\Models\State;
 use App\Flickr\Models\FlickrProcess;
 use App\Flickr\Services\FlickrService;
 
-abstract class AbstractProcessJob extends AbstractLimitJob
+abstract class AbstractProcessJob extends BaseJob
 {
     protected FlickrService $service;
 

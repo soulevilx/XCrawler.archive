@@ -2,22 +2,15 @@
 
 namespace App\Jav\Jobs\XCity\Idol;
 
+use App\Core\Jobs\BaseJob;
 use App\Core\Services\Facades\Application;
 use App\Jav\Crawlers\XCityIdolCrawler;
-use App\Jav\Jobs\Traits\HasCrawlingMiddleware;
 use App\Jav\Models\XCityIdol;
 use App\Jav\Services\XCityIdolService;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
 
-class FetchIdolLinks implements ShouldQueue
+class FetchIdolLinks extends BaseJob
 {
-    use Dispatchable;
-    use InteractsWithQueue;
-    use Queueable;
-    use HasCrawlingMiddleware;
+    protected string $serviceName = 'xcity';
 
     public function __construct(public string $kana, public int $page = 1, public bool $updateCurrentPage = true)
     {

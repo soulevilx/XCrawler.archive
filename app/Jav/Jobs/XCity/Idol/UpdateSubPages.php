@@ -2,21 +2,14 @@
 
 namespace App\Jav\Jobs\XCity\Idol;
 
+use App\Core\Jobs\BaseJob;
 use App\Core\Services\Facades\Application;
 use App\Jav\Crawlers\XCityIdolCrawler;
-use App\Jav\Jobs\Traits\HasCrawlingMiddleware;
 use App\Jav\Services\XCityIdolService;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
 
-class UpdateSubPages implements ShouldQueue
+class UpdateSubPages extends BaseJob
 {
-    use Dispatchable;
-    use InteractsWithQueue;
-    use Queueable;
-    use HasCrawlingMiddleware;
+    protected string $serviceName = 'xcity';
 
     public function handle(XCityIdolCrawler $crawler)
     {

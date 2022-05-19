@@ -37,8 +37,6 @@
         "laravel/sanctum": "^2.11",
         "laravel/slack-notification-channel": "^2.3",
         "laravel/tinker": "^2.6",
-        "sentry/sentry-laravel": "^2.9",
-        "spatie/laravel-rate-limited-job-middleware": "^1.5",
         "studio/laravel-totem": "^8.3"
     },
     "require-dev": {
