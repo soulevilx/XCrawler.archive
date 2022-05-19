@@ -7,7 +7,7 @@ use App\Jav\Services\R18Service;
 
 class ReleaseFetch extends BaseJob
 {
-    protected string $service = R18Service::SERVICE_NAME;
+    protected string $serviceName = R18Service::SERVICE_NAME;
 
     public function __construct(public string $url, public string $type)
     {

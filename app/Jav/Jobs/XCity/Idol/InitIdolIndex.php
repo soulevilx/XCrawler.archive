@@ -13,7 +13,7 @@ use App\Jav\Services\XCityIdolService;
  */
 class InitIdolIndex extends BaseJob
 {
-    protected string $service = 'xcity';
+    protected string $serviceName = 'xcity';
 
     public function __construct(public string $kana, public int $page = 1)
     {

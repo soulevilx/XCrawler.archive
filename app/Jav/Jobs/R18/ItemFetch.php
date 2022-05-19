@@ -9,7 +9,7 @@ use App\Jav\Services\R18Service;
 
 class ItemFetch extends BaseJob
 {
-    protected string $service = R18Service::SERVICE_NAME;
+    protected string $serviceName = R18Service::SERVICE_NAME;
 
     public function __construct(public R18 $model)
     {

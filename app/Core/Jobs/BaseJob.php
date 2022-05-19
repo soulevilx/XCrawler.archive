@@ -17,7 +17,9 @@ class BaseJob implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    protected string $service = 'core';
+    public bool $deleteWhenMissingModels = true;
+
+    protected string $serviceName = 'core';
 
     /**
      * Get the middleware the job should pass through.
@@ -30,13 +32,13 @@ class BaseJob implements ShouldQueue
             return [];
         }
 
-        return [new XCrawlerMiddleware($this::class, $this->service)];
+        return [new XCrawlerMiddleware($this::class, $this->serviceName)];
     }
 
     public function retryUntil()
     {
         return now()->addMinutes(
-            Application::getInt($this->service, 'middleware.retryUntil', 60)
+            Application::getInt($this->serviceName, 'middleware.retryUntil', 60)
         );
     }
 }

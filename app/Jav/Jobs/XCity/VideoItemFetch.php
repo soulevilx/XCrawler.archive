@@ -9,7 +9,7 @@ use App\Jav\Services\XCityVideoService;
 
 class VideoItemFetch extends BaseJob
 {
-    protected string $service = 'xcity';
+    protected string $serviceName = 'xcity';
 
     public function __construct(public XCityVideo $model)
     {

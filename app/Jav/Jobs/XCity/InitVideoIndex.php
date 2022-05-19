@@ -7,7 +7,7 @@ use App\Jav\Crawlers\XCityVideoCrawler;
 
 class InitVideoIndex extends BaseJob
 {
-    protected string $service = 'xcity';
+    protected string $serviceName = 'xcity';
 
     public function __construct(public array $data)
     {

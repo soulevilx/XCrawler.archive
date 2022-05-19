@@ -10,7 +10,7 @@ use App\Jav\Services\XCityIdolService;
 
 class UpdatePagesCount extends BaseJob
 {
-    protected string $service = 'xcity';
+    protected string $serviceName = 'xcity';
 
     public function __construct(public string $kana)
     {

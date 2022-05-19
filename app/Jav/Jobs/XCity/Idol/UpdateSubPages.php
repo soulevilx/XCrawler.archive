@@ -9,7 +9,7 @@ use App\Jav\Services\XCityIdolService;
 
 class UpdateSubPages extends BaseJob
 {
-    protected string $service = 'xcity';
+    protected string $serviceName = 'xcity';
 
     public function handle(XCityIdolCrawler $crawler)
     {

@@ -9,7 +9,7 @@ use App\Jav\Models\XCityVideo;
 
 class GetVideoLinks extends BaseJob
 {
-    protected string $service = 'xcity';
+    protected string $serviceName = 'xcity';
 
     public function __construct(public array $data)
     {

@@ -2,6 +2,7 @@
 
 namespace App\Jav\Notifications;
 
+use App\Core\Jobs\Middlewares\XCrawlerMiddleware;
 use App\Jav\Events\Onejav\OnejavDailyCompleted;
 use App\Jav\Events\Onejav\OnejavReleaseCompleted;
 use App\Jav\Services\OnejavService;
@@ -11,7 +12,6 @@ use Illuminate\Notifications\Messages\SlackAttachment;
 use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Str;
-use Spatie\RateLimitedMiddleware\RateLimited;
 
 class OnejavCompletedNotification extends Notification implements ShouldQueue
 {
@@ -27,12 +27,7 @@ class OnejavCompletedNotification extends Notification implements ShouldQueue
             return [];
         }
 
-        $rateLimitedMiddleware = (new RateLimited)
-            ->allow(2) // Allow 2 job
-            ->everySecond() // In second
-            ->releaseAfterMinutes(1); // Release back to pool
-
-        return [$rateLimitedMiddleware];
+        return [new XCrawlerMiddleware($this::class, 'notifications')];
     }
 
     /**

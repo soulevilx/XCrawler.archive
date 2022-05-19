@@ -8,7 +8,7 @@ use App\Jav\Services\SCuteService;
 
 class ItemFetch extends BaseJob
 {
-    protected string $service = SCuteService::SERVICE_NAME;
+    protected string $serviceName = SCuteService::SERVICE_NAME;
 
     public function __construct(public SCute $model)
     {

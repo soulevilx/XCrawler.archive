@@ -10,7 +10,7 @@ use App\Jav\Services\XCityIdolService;
 
 class FetchIdolLinks extends BaseJob
 {
-    protected string $service = 'xcity';
+    protected string $serviceName = 'xcity';
 
     public function __construct(public string $kana, public int $page = 1, public bool $updateCurrentPage = true)
     {

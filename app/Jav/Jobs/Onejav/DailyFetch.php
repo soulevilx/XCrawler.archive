@@ -7,7 +7,7 @@ use App\Jav\Services\OnejavService;
 
 class DailyFetch extends BaseJob
 {
-    protected string $service = OnejavService::SERVICE_NAME;
+    protected string $serviceName = OnejavService::SERVICE_NAME;
 
     public function handle(OnejavService $service)
     {
