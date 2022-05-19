@@ -2,11 +2,12 @@
 
 namespace App\Flickr\Jobs;
 
+use App\Core\Jobs\BaseJob;
 use App\Flickr\Models\FlickrPhoto;
 use App\Flickr\Services\FlickrService;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 
-class FlickrPhotoSizes extends AbstractLimitJob implements ShouldBeUnique
+class FlickrPhotoSizes extends BaseJob implements ShouldBeUnique
 {
     /**
      * The number of seconds after which the job's unique lock will be released.

@@ -24,7 +24,7 @@ class Flickr extends Command
 
     public function handle(FlickrService $service)
     {
-        $this->output->title('Integration with Flickr');
+        $this->output->title('Integrate with Flickr');
         $url = $service->getAuthUrl();
         $this->output->text($url->getAbsoluteUri());
 

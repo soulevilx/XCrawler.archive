@@ -2,19 +2,12 @@
 
 namespace App\Jav\Jobs\XCity;
 
+use App\Core\Jobs\BaseJob;
 use App\Jav\Crawlers\XCityVideoCrawler;
-use App\Jav\Jobs\Traits\HasCrawlingMiddleware;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
 
-class InitVideoIndex implements ShouldQueue
+class InitVideoIndex extends BaseJob
 {
-    use Dispatchable;
-    use InteractsWithQueue;
-    use Queueable;
-    use HasCrawlingMiddleware;
+    protected string $serviceName = 'xcity';
 
     public function __construct(public array $data)
     {

@@ -2,6 +2,7 @@
 
 namespace App\Core\Console\Commands;
 
+use App\Core\Jobs\Test;
 use App\Core\Services\CleanupService;
 use Illuminate\Console\Command;
 

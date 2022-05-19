@@ -18,6 +18,7 @@ use App\Flickr\Services\Flickr\Urls;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 use OAuth\Common\Consumer\Credentials;
+use OAuth\Common\Http\Client\CurlClient;
 use OAuth\Common\Http\Uri\UriInterface;
 use OAuth\Common\Storage\Memory;
 use OAuth\Common\Storage\TokenStorageInterface;
@@ -52,7 +53,9 @@ class FlickrService
 
         $credentials = new Credentials($this->apiKey, $this->secret, $callbackUrl);
 
-        return app(ServiceFactory::class)->createService('Flickr', $credentials, $this->oauthTokenStorage);
+        return app(ServiceFactory::class)
+            ->setHttpClient(new CurlClient)
+            ->createService('Flickr', $credentials, $this->oauthTokenStorage);
     }
 
     public function getIntegration()
