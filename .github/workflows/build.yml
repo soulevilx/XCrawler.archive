@@ -21,11 +21,10 @@ jobs:
     strategy:
       matrix:
         lint: [ phpstan, phpmd ]
-        php: [ php8.0, php8.1 ]
 
     runs-on:
       - self-hosted
-      - ${{ matrix.php }}
+      - ubuntu
 
     steps:
       - uses: actions/checkout@v3
@@ -79,7 +78,7 @@ jobs:
         test: [ Core, Flickr, Jav ]
     runs-on:
       - self-hosted
-      - ARM64
+      - ubuntu
     #needs: [ rector ]
 
     services:
@@ -137,7 +136,7 @@ jobs:
     name: Test Finished
     runs-on:
       - self-hosted
-      - ARM64
+      - ubuntu
     needs: [ tests ]
 
     steps:
