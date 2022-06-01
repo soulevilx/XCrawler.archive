@@ -2,7 +2,9 @@
 
 namespace App\Core\Providers;
 
+use App\Core\Exceptions\DatabaseError;
 use App\Core\Exceptions\NetworkError;
+use Exception;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
@@ -21,8 +23,9 @@ class BaseServiceProvider extends ServiceProvider
     {
         $this->testCacheConnection();
         $this->testNetwork();
-        $this->testDatabase();
-        $this->testDatabase('mongodb');
+        foreach (['mysql', 'mongodb', 'redis'] as $connection) {
+            $this->testDatabase($connection);
+        }
         $this->loadMigrations();
         $this->loadConfigs();
 
@@ -92,10 +95,7 @@ class BaseServiceProvider extends ServiceProvider
             if ($connected = fsockopen("www.example.com", 80)) {
                 fclose($connected);
             }
-        } catch (\Exception) {
-        }
-
-        if (!$connected) {
+        } catch (Exception) {
             throw new NetworkError();
         }
     }
@@ -107,12 +107,15 @@ class BaseServiceProvider extends ServiceProvider
         }
 
         try {
-            $connected = DB::connection($connection)->getDatabaseName();
-        } catch (\Exception) {
-        }
-
-        if (!$connected) {
-            throw new NetworkError();
+            switch ($connection) {
+                case 'redis':
+                    break;
+                default:
+                    DB::connection($connection)->getPdo();
+                    break;
+            }
+        } catch (Exception $exception) {
+            throw new DatabaseError ($exception->getMessage());
         }
     }
 

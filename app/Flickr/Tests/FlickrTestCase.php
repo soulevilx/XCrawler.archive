@@ -42,6 +42,7 @@ class FlickrTestCase extends TestCase
         $this->urls();
         $this->favorites();
 
+        $serviceMocker->shouldReceive('setHttpClient')->andReturnSelf();
         $serviceMocker->shouldReceive('createService')
             ->andReturn($this->flickrMocker);
 

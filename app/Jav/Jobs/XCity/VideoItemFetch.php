@@ -2,21 +2,14 @@
 
 namespace App\Jav\Jobs\XCity;
 
+use App\Core\Jobs\BaseJob;
 use App\Jav\Models\State;
 use App\Jav\Models\XCityVideo;
 use App\Jav\Services\XCityVideoService;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 
-class VideoItemFetch implements ShouldQueue
+class VideoItemFetch extends BaseJob
 {
-    use Dispatchable;
-    use InteractsWithQueue;
-    use Queueable;
-    use SerializesModels;
+    protected string $serviceName = 'xcity';
 
     public function __construct(public XCityVideo $model)
     {

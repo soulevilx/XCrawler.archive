@@ -46,7 +46,6 @@ class FetchIdolTest extends JavTestCase
         ]);
         FetchIdol::dispatch($model);
 
-        $model->refresh();
-        $this->assertEquals(State::STATE_FAILED, $model->state_code);
+        $this->assertEquals(State::STATE_FAILED, $model->refresh()->state_code);
     }
 }

@@ -2,23 +2,14 @@
 
 namespace App\Jav\Jobs\R18;
 
-use App\Jav\Models\State;
-use App\Jav\Jobs\Traits\R18CrawlingMiddleware;
+use App\Core\Jobs\BaseJob;
 use App\Jav\Models\R18;
+use App\Jav\Models\State;
 use App\Jav\Services\R18Service;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 
-class ItemFetch implements ShouldQueue
+class ItemFetch extends BaseJob
 {
-    use Dispatchable;
-    use InteractsWithQueue;
-    use Queueable;
-    use SerializesModels;
-    use R18CrawlingMiddleware;
+    protected string $serviceName = R18Service::SERVICE_NAME;
 
     public function __construct(public R18 $model)
     {

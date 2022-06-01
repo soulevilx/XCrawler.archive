@@ -2,12 +2,13 @@
 
 namespace App\Flickr\Jobs;
 
+use App\Core\Jobs\BaseJob;
 use App\Core\Models\State;
 use App\Flickr\Models\FlickrDownloadItem as FlickrDownloadItemModel;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Storage;
 
-class FlickrDownloadItem extends AbstractLimitJob
+class FlickrDownloadItem extends BaseJob
 {
     public function __construct(public FlickrDownloadItemModel $downloadItem)
     {

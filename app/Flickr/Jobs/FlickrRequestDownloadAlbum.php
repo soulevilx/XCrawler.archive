@@ -2,6 +2,7 @@
 
 namespace App\Flickr\Jobs;
 
+use App\Core\Jobs\BaseJob;
 use App\Core\Models\State;
 use App\Flickr\Models\FlickrAlbum;
 use App\Flickr\Models\FlickrContact;
@@ -11,7 +12,7 @@ use App\Flickr\Models\FlickrPhoto;
 use App\Flickr\Services\FlickrService;
 use Illuminate\Support\Str;
 
-class FlickrRequestDownloadAlbum extends AbstractLimitJob
+class FlickrRequestDownloadAlbum extends BaseJob
 {
     public function __construct(public int $albumId, public string $nsid)
     {
