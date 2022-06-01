@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jav\Models;
+namespace App\Jav\Models\Index;
 
 use App\Core\Models\BaseMongo;
 

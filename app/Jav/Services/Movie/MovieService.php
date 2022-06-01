@@ -4,9 +4,10 @@ namespace App\Jav\Services\Movie;
 
 use App\Jav\Events\MovieCreated;
 use App\Jav\Events\MovieUpdated;
+use App\Jav\Models\Index\IdolIndex;
+use App\Jav\Models\Index\MovieIndex;
 use App\Jav\Models\Interfaces\MovieInterface;
 use App\Jav\Models\Movie;
-use App\Jav\Models\MovieIndex;
 use App\Jav\Models\R18;
 use App\Jav\Notifications\MovieCreatedNotification;
 use App\Jav\Repositories\MovieRepository;
@@ -76,8 +77,10 @@ class MovieService
     public function createIndex(Movie $movie)
     {
         $movieData = $movie->toArray();
-        $movieData['genres'] = $movie->genres()->pluck('name')->toArray();
-        $movieData['performers'] = $movie->performers()->pluck('name')->toArray();
+        $genres = $movie->genres;
+        $performers = $movie->performers;
+        $movieData['genres'] = $genres->pluck('name')->toArray();
+        $movieData['performers'] = $performers->pluck('name')->toArray();
 
         foreach ($movieData as $key => $value) {
             if (empty($value)) {
@@ -103,5 +106,18 @@ class MovieService
         }
 
         $movie->notify(new MovieCreatedNotification($movie));
+
+        // Create idol index
+        foreach ($performers as $performer) {
+            $idolData = $performer->getAttributes();
+            unset($idolData['id']);
+
+            foreach ($genres as $genre) {
+                $idolData['genre'] = $genre->name;
+                IdolIndex::updateOrCreate([
+                    'name' => $idolData['name'],
+                ], $idolData);
+            }
+        }
     }
 }
