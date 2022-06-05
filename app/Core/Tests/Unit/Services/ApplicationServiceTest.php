@@ -88,11 +88,13 @@ class ApplicationServiceTest extends TestCase
 
     public function testSettingWithDefault()
     {
-        $value = Application::getSetting('onejav', 'base_url', $this->faker->url);
-        $this->assertDatabaseHas('settings', [
-            'onejav',
-            'base_url',
-            $value,
-        ]);
+        $value = Application::getSetting('onejav', 'test', $this->faker->url);
+        $this->assertTrue(Setting::where([
+            'group' => 'onejav',
+            'field' => 'test',
+            'value' => $value,
+        ])->exists());
+
+        $this->assertEquals($value, Application::getSetting('onejav', 'test'));
     }
 }
