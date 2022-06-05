@@ -15,11 +15,15 @@ class ApplicationService
 
     public function getSettings(): array
     {
+        $this->refresh();
+
         return $this->settings;
     }
 
     public function getSetting(string $group, string $field, $default = null)
     {
+        $this->refresh();
+
         if (isset($this->settings[$group]) && isset($this->settings[$group][$field])) {
             return $this->settings[$group][$field];
         }
@@ -89,6 +93,8 @@ class ApplicationService
             ], [
             'value' => $value,
         ]);
+
+        $this->refresh();
 
         return $this;
     }

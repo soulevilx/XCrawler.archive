@@ -85,4 +85,14 @@ class ApplicationServiceTest extends TestCase
         $settings = Application::getSettings();
         $this->assertArrayHasKey($name, $settings);
     }
+
+    public function testSettingWithDefault()
+    {
+        $value = Application::getSetting('onejav', 'base_url', $this->faker->url);
+        $this->assertDatabaseHas('settings', [
+            'onejav',
+            'base_url',
+            $value,
+        ]);
+    }
 }
