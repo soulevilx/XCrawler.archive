@@ -10,14 +10,28 @@ class ApplicationServiceTest extends TestCase
 {
     public function testSettings()
     {
-        extract($this->createSetting());
+        $name = $this->faker->word;
+        $key = $this->faker->word;
+        $value = $this->faker->numerify;
+        Setting::create([
+            'group' => $name,
+            'field' => $key,
+            'value' => $value,
+        ]);
 
         $this->assertEquals($value, Application::getSetting($name, $key));
     }
 
     public function testGetSettingViaStaticMethod()
     {
-        extract($this->createSetting());
+        $name = $this->faker->word;
+        $key = $this->faker->word;
+        $value = $this->faker->numerify;
+        Setting::create([
+            'group' => $name,
+            'field' => $key,
+            'value' => $value,
+        ]);
 
         $this->assertEquals($value, Application::getSetting($name, $key));
         $default = $this->faker->name;
@@ -56,7 +70,14 @@ class ApplicationServiceTest extends TestCase
     public function testGettings()
     {
         Setting::truncate();
-        extract($this->createSetting());
+        $name = $this->faker->word;
+        $key = $this->faker->word;
+        $value = $this->faker->numerify;
+        Setting::create([
+            'group' => $name,
+            'field' => $key,
+            'value' => $value,
+        ]);
 
         $settings = Application::getSettings();
         $this->assertArrayHasKey($name, $settings);
@@ -72,19 +93,5 @@ class ApplicationServiceTest extends TestCase
         ])->exists());
 
         $this->assertEquals($value, Application::getSetting('onejav', 'test'));
-    }
-
-    private function createSetting()
-    {
-        $name = $this->faker->word;
-        $key = $this->faker->word;
-        $value = $this->faker->numerify;
-        Setting::create([
-            'group' => $name,
-            'field' => $key,
-            'value' => $value,
-        ]);
-
-        return ['name' => $name, 'key' => $key, 'value' => $value];
     }
 }
