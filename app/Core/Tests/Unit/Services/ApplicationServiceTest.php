@@ -85,4 +85,16 @@ class ApplicationServiceTest extends TestCase
         $settings = Application::getSettings();
         $this->assertArrayHasKey($name, $settings);
     }
+
+    public function testSettingWithDefault()
+    {
+        $value = Application::getSetting('onejav', 'test', $this->faker->url);
+        $this->assertTrue(Setting::where([
+            'group' => 'onejav',
+            'field' => 'test',
+            'value' => $value,
+        ])->exists());
+
+        $this->assertEquals($value, Application::getSetting('onejav', 'test'));
+    }
 }

@@ -15,17 +15,26 @@ class ApplicationService
 
     public function getSettings(): array
     {
+        $this->refresh();
+
         return $this->settings;
     }
 
-    public function getSetting(string $group, string $field, $default = null)
+    public function getSetting(string $group, string $field, $default = null, bool $saveDefault = true)
     {
-        if (isset($this->settings[$group]) && isset($this->settings[$group][$field])) {
-            return $this->settings[$group][$field];
+        if (!Setting::where([
+            'group' => $group,
+            'field' => $field,
+        ])->exists() && $saveDefault
+        ) {
+            $this->setSetting($group, $field, $default);
+            return $default;
         }
 
-        $this->setSetting($group, $field, $default);
-        return $default;
+        return Setting::where([
+            'group' => $group,
+            'field' => $field,
+        ])->value('value');
     }
 
     public function setSetting(string $group, string $field, $value): ApplicationService
@@ -89,6 +98,8 @@ class ApplicationService
             ], [
             'value' => $value,
         ]);
+
+        $this->refresh();
 
         return $this;
     }
