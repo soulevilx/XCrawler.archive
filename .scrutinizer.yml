@@ -20,15 +20,9 @@ build:
       DB_PASSWORD: ''
       DB_PORT: '3306'
       MONGODB_PORT: '27017'
-      MONGODB_USERNAME: 'root'
-      MONGODB_PASSWORD: ''
+
       MAIL_DRIVER: 'log'
-      TELESCOPE_DB_CONNECTION: 'telescope'
-      TELESCOPE_DB_HOST: '127.0.0.1'
-      TELESCOPE_DB_PORT: '3306'
-      TELESCOPE_DB_DATABASE: 'scrutinizer'
-      TELESCOPE_DB_USERNAME: 'root'
-      TELESCOPE_DB_PASSWORD: ''
+
   services:
     mariadb: '10.8'
     mongodb: 4
