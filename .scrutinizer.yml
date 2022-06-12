@@ -6,8 +6,6 @@ build:
         - redis
         - memcached
         - pcov
-
-    mongodb: '4.0'
     hosts:
       laravel.dev: '127.0.0.1'
     variables:
@@ -22,6 +20,8 @@ build:
       DB_PASSWORD: ''
       DB_PORT: '3306'
       MONGODB_PORT: '27017'
+      MONGODB_USERNAME: 'root'
+      MONGODB_PASSWORD: ''
       MAIL_DRIVER: 'log'
       TELESCOPE_DB_CONNECTION: 'telescope'
       TELESCOPE_DB_HOST: '127.0.0.1'
@@ -30,7 +30,8 @@ build:
       TELESCOPE_DB_USERNAME: 'root'
       TELESCOPE_DB_PASSWORD: ''
   services:
-    mariadb: 10
+    mariadb: '10.8'
+    mongodb: 4
   cache:
     directories:
       - node_modules
