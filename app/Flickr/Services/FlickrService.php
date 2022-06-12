@@ -54,7 +54,7 @@ class FlickrService
         $credentials = new Credentials($this->apiKey, $this->secret, $callbackUrl);
 
         return app(ServiceFactory::class)
-            //->setHttpClient(new CurlClient)
+            ->setHttpClient(new CurlClient)
             ->createService('Flickr', $credentials, $this->oauthTokenStorage);
     }
 
