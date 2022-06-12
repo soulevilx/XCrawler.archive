@@ -22,9 +22,10 @@ class XCityInitIdolIndexTest extends JavTestCase
     public function testInitIdolIndex()
     {
         $kana = $this->faker->randomElement($this->kanas);
+        Application::setSetting(XCityIdolService::SERVICE_NAME, $kana.'_total_pages', null);
         InitIdolIndex::dispatch($kana);
 
-        $this->assertEquals(112, Application::getSetting(XCityIdolService::SERVICE_NAME, $kana.'_total_pages'));
+        $this->assertEquals(112, Application::getInt(XCityIdolService::SERVICE_NAME, $kana.'_total_pages'));
     }
 
     public function testInitIdolIndexWithTotalPagesExists()

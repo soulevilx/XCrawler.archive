@@ -19,7 +19,6 @@ class ApplicationServiceTest extends TestCase
             'value' => $value,
         ]);
 
-        Application::refresh();
         $this->assertEquals($value, Application::getSetting($name, $key));
     }
 
@@ -34,7 +33,6 @@ class ApplicationServiceTest extends TestCase
             'value' => $value,
         ]);
 
-        Application::refresh();
         $this->assertEquals($value, Application::getSetting($name, $key));
         $default = $this->faker->name;
         $this->assertEquals(
@@ -52,7 +50,7 @@ class ApplicationServiceTest extends TestCase
             'field' => $key,
             'value' => 1,
         ]);
-        Application::refresh();
+
         $this->assertEquals(2, Application::inc($name, $key));
     }
 
@@ -66,7 +64,6 @@ class ApplicationServiceTest extends TestCase
             'value' => 10,
         ]);
 
-        Application::refresh();
         $this->assertTrue(Application::getBool($name, $key));
     }
 
@@ -81,7 +78,7 @@ class ApplicationServiceTest extends TestCase
             'field' => $key,
             'value' => $value,
         ]);
-        Application::refresh();
+
         $settings = Application::getSettings();
         $this->assertArrayHasKey($name, $settings);
     }

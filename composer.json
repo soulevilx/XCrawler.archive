@@ -37,7 +37,7 @@
         "laravel/sanctum": "^2.11",
         "laravel/slack-notification-channel": "^2.3",
         "laravel/tinker": "^2.6",
-        "studio/laravel-totem": "^8.3"
+        "studio/laravel-totem": "^8.4"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
