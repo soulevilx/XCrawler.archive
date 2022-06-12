@@ -27,7 +27,7 @@ class SCuteServiceTest extends JavTestCase
 
     public function testRelease()
     {
-        $this->assertEquals(0, Application::getInt(SCuteService::SERVICE_NAME, 'current_page'));
+        $this->assertEquals(1, Application::getInt(SCuteService::SERVICE_NAME, 'current_page', 1));
         $this->assertEquals(121, Application::getInt(SCuteService::SERVICE_NAME, 'total_pages'));
 
         $this->service->release();
@@ -38,7 +38,7 @@ class SCuteServiceTest extends JavTestCase
 
     public function testReleaseFailed()
     {
-        $this->assertEquals(0, Application::getInt(SCuteService::SERVICE_NAME, 'current_page'));
+        $this->assertEquals(1, Application::getInt(SCuteService::SERVICE_NAME, 'current_page', 1));
         $this->assertEquals(121, Application::getInt(SCuteService::SERVICE_NAME, 'total_pages'));
 
         $mocker = $this->getClientMock();

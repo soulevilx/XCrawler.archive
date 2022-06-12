@@ -16,11 +16,10 @@ jobs:
     strategy:
       matrix:
         lint: [ phpstan, phpmd, rector ]
-        php: [ php8.0, php8.1 ]
 
     runs-on:
       - self-hosted
-      - ${{ matrix.php }}
+      - ubuntu
 
     steps:
       - uses: actions/checkout@v3
@@ -43,7 +42,7 @@ jobs:
         test: [ Core, Flickr, Jav ]
     runs-on:
       - self-hosted
-      - database
+      - ubuntu
     needs: [build]
 
     services:
@@ -101,6 +100,7 @@ jobs:
     name: Test Finished
     runs-on:
       - self-hosted
+      - ubuntu
     needs: [tests]
 
     steps:
@@ -126,16 +126,16 @@ jobs:
           status: ${{ job.status }}
           config: .github/config/slack.yml
 
-  deploy_uat:
-    name: Deploy to UAT
-    runs-on:
-      - self-hosted
-      - staging
-    needs: [ test_finished ]
-    steps:
-
-      - name: Deploy to UAT
-        if: success()
-        run: |
-          ~/deploy_uat.sh -s
+#  deploy_uat:
+#    name: Deploy to UAT
+#    runs-on:
+#      - self-hosted
+#      - staging
+#    needs: [ test_finished ]
+#    steps:
+#
+#      - name: Deploy to UAT
+#        if: success()
+#        run: |
+#          ~/deploy_uat.sh -s
 
