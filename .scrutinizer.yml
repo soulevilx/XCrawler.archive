@@ -15,14 +15,11 @@ build:
       API_HOST: 'laravel.dev'
       DB_HOST: '127.0.0.1'
       DB_DATABASE: 'scrutinizer'
-
       DB_USERNAME: 'root'
       DB_PASSWORD: ''
       DB_PORT: '3306'
       MONGODB_PORT: '27017'
-
       MAIL_DRIVER: 'log'
-
   services:
     mariadb: '10.8'
     mongodb: 4
@@ -35,6 +32,7 @@ build:
     before:
       - mysql -uroot -e 'CREATE DATABASE scrutinizer'
   tests:
+    stop_on_failure: true
     before:
       - chmod -R 777 storage
       - chmod -R 777 bootstrap/cache
