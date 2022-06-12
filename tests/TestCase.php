@@ -2,9 +2,9 @@
 
 namespace Tests;
 
+use App\Core\Models\Setting;
 use App\Core\XCrawlerClient;
 use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Response;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -31,6 +31,7 @@ abstract class TestCase extends BaseTestCase
         Notification::fake();
         Mail::fake();
 
+        Setting::truncate();
         $this->seed();
     }
 

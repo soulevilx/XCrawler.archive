@@ -28,6 +28,6 @@ class InitIdolIndex extends BaseJob
         }
 
         $totalPages = $crawler->getPages(XCityIdol::INDEX_URL, ['kana' => $this->kana]);
-        Application::getSetting(XCityIdolService::SERVICE_NAME, $configKey, $totalPages);
+        Application::setSetting(XCityIdolService::SERVICE_NAME, $configKey, $totalPages);
     }
 }

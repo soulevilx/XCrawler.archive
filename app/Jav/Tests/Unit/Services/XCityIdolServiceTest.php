@@ -24,13 +24,14 @@ class XCityIdolServiceTest extends JavTestCase
     {
         $this->service->release();
 
-        $subPages = Application::getSetting(XCityIdolService::SERVICE_NAME, 'sub_pages');
-
-        $this->assertEquals(XCityIdolService::SUBPAGES, $subPages);
+        $this->assertEquals(
+            XCityIdolService::SUBPAGES,
+            Application::getArray(XCityIdolService::SERVICE_NAME, 'sub_pages')
+        );
 
         foreach ($this->kanas as $kana) {
-            $this->assertEquals(112, Application::getSetting(XCityIdolService::SERVICE_NAME, $kana . '_total_pages'));
-            $this->assertEquals(2, Application::getSetting(XCityIdolService::SERVICE_NAME, $kana . '_current_page'));
+            $this->assertEquals(112, Application::getInt(XCityIdolService::SERVICE_NAME, $kana . '_total_pages'));
+            $this->assertEquals(2, Application::getInt(XCityIdolService::SERVICE_NAME, $kana . '_current_page'));
         }
 
         $this->assertDatabaseCount('xcity_idols', 30);
