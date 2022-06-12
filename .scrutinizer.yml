@@ -6,7 +6,7 @@ build:
         - redis
         - memcached
         - pcov
-    mariadb: '10'
+    mysql: '5.7'
     mongodb: '4.0'
     hosts:
       laravel.dev: '127.0.0.1'
