@@ -17,13 +17,6 @@ class R18ReleaseFetchTest extends JavTestCase
 {
     use R18Mocker;
 
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->loadR18Mocker();
-    }
-
     public function testRelease()
     {
         ReleaseFetch::dispatch(R18::MOVIE_LIST_URL, 'release');
