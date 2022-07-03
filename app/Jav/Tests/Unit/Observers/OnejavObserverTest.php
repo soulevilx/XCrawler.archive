@@ -21,8 +21,6 @@ class OnejavObserverTest extends JavTestCase
         Storage::fake('downloads');
         Event::fake([OnejavDownloadCompleted::class]);
 
-        $this->loadOnejavMock();
-
         $client = \Mockery::mock(Client::class);
         $client->shouldReceive('request')
             ->andReturn(new Response());
