@@ -12,11 +12,21 @@ trait OnejavMocker
 {
     protected OnejavCrawler $crawler;
 
-    protected function loadOnejavMock()
+    protected function boot()
     {
         $now = Carbon::now()->format(OnejavService::DAILY_FORMAT);
-
-        $this->invalid();
+        $this->mocks = [
+            [
+                'args' => ['invalid_date', []],
+                'andReturn' => 'Onejav/july_22_2021_date.html',
+            ],
+            [
+                'args' => ['failed', []],
+                'andReturn' => null,
+                'succeed' => false,
+            ],
+            #
+        ];
 
         for ($index = 1; $index <= 5; $index++) {
             $this->mockResponse('new', $index);
@@ -27,8 +37,18 @@ trait OnejavMocker
                 ->shouldReceive('get')
                 ->with($now, $index === 1 ? [] : ['page' => $index])
                 ->andReturn(
-                    $this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021_page_' . $index . '.html')
+                    $this->getSuccessfulMockedResponse(
+                        app(DomResponse::class),
+                        'Onejav/july_22_2021_page_'.$index.'.html'
+                    )
                 );
+        }
+
+        foreach (['waaa088_1', 'ipx873'] as $item) {
+            $this->mocks[] = [
+                'args' => ['/torrent/'.$item, []],
+                'andReturn' => 'Onejav/'.$item.'.html',
+            ];
         }
 
         // FC
@@ -37,42 +57,22 @@ trait OnejavMocker
             ->withSomeOfArgs('fc')
             ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/fc.html'));
 
-        // Item
-        $this->xcrawlerMocker
-            ->shouldReceive('get')
-            ->with('/torrent/waaa088_1',[])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/item.html'));
-
         $this->service = $this->getService();
         $this->crawler = new OnejavCrawler($this->xcrawlerMocker);
     }
 
-    private function invalid()
-    {
-        $this->xcrawlerMocker
-            ->shouldReceive('get')
-            ->with('invalid_date', [])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'Onejav/july_22_2021_date.html'));
-
-        $this->xcrawlerMocker
-            ->shouldReceive('get')
-            ->with('failed', [])
-            ->andReturn($this->getErrorMockedResponse(app(DomResponse::class)));
-    }
-
     private function mockResponse(string $name, ?int $page = null)
     {
-        $fixtureFile = 'Onejav/' . Str::slug(Str::replace('/', '_', $name), '_') . '_page_' . $page . '.html';
+        $fixtureFile = 'Onejav/'.Str::slug(Str::replace('/', '_', $name), '_').'_page_'.$page.'.html';
 
-        $this->xcrawlerMocker
-            ->shouldReceive('get')
-            ->with($name, $page === 1 ? [] : ['page' => $page])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), $fixtureFile));
-
-        $this->xcrawlerMocker
-            ->shouldReceive('get')
-            ->with($name, ['page' => $page])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), $fixtureFile));
+        $this->mocks[] = [
+            'args' => [$name, $page === 1 ? [] : ['page' => $page]],
+            'andReturn' => $fixtureFile,
+        ];
+        $this->mocks[] = $this->mocks[] = [
+            'args' => [$name, ['page' => $page]],
+            'andReturn' => $fixtureFile,
+        ];
     }
 
     protected function getService(): OnejavService
