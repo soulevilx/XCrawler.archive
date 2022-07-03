@@ -16,7 +16,6 @@ class OnejavTest extends JavTestCase
     {
         parent::setUp();
 
-        $this->loadOnejavMock();
         Queue::fake();
     }
 

@@ -12,55 +12,49 @@ trait R18Mocker
 {
     protected R18Crawler $crawler;
 
-    protected function loadR18Mocker()
+    public function boot()
     {
-        $this->xcrawlerMocker
-            ->shouldReceive('get')
-            ->with(R18::MOVIE_LIST_URL, [])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'R18/movie_list.html'));
-
-        $this->xcrawlerMocker
-            ->shouldReceive('get')
-            ->with(R18::MOVIE_LIST_URL . '/page=1', [])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'R18/movie_list.html'));
-
-        $this->xcrawlerMocker
-            ->shouldReceive('get')
-            ->with(R18::MOVIE_LIST_URL . '/page=2', [])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'R18/movie_list.html'));
-
-        $this->xcrawlerMocker
-            ->shouldReceive('get')
-            ->with('videos/rankings/movies/?type=daily', [])
-            ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'R18/daily_ranking.html'));
+        $this->mocks = [
+           [
+               'args' => [R18::MOVIE_LIST_URL, []],
+               'andReturn' => 'R18/movie_list.html',
+           ],
+           [
+               'args' => [R18::MOVIE_LIST_URL . '/page=1', []],
+               'andReturn' => 'R18/movie_list.html',
+           ],
+           [
+               'args' => [R18::MOVIE_LIST_URL . '/page=2', []],
+               'andReturn' => 'R18/movie_list.html',
+           ],
+           [
+               'args' => ['videos/rankings/movies/?type=daily', []],
+               'andReturn' => 'R18/daily_ranking.html',
+           ],
+           [
+               'args' => ['/api/v4f/contents/0', []],
+               'andReturn' => null,
+               'succeed' => false,
+               'response' => app(JsonResponse::class)
+           ],
+        ];
 
         foreach (['s1', 'moodyz'] as $id) {
-            $this->xcrawlerMocker
-                ->shouldReceive('get')
-                ->with('videos/channels/' . $id, [])
-                ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'R18/'. $id.'.html'));
+            $this->mocks[] = [
+               'args' => ['videos/channels/' . $id, []],
+               'andReturn' => 'R18/'. $id.'.html',
+            ];
         }
-
-
         foreach (['rki00506', 'pfes00054'] as $id) {
-            $this->xcrawlerMocker
-                ->shouldReceive('get')
-                ->with('/api/v4f/contents/' . $id, [])
-                ->andReturn($this->getSuccessfulMockedResponse(app(JsonResponse::class), 'R18/item_'. $id. '.json'));
+            $this->mocks[] = [
+               'args' => ['/api/v4f/contents/' . $id, []],
+               'andReturn' => 'R18/item_'. $id. '.json',
+                'response' => app(JsonResponse::class)
+            ];
         }
-
-        $this->failed();
 
         $this->service = $this->getService();
         $this->crawler = app(R18Crawler::class);
-    }
-
-    private function failed()
-    {
-        $this->xcrawlerMocker
-            ->shouldReceive('get')
-            ->with('/api/v4f/contents/0', [])
-            ->andReturn($this->getErrorMockedResponse(app(JsonResponse::class)));
     }
 
     protected function getService(): R18Service

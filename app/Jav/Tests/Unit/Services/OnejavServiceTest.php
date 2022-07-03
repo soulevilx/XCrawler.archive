@@ -27,8 +27,6 @@ class OnejavServiceTest extends JavTestCase
     {
         parent::setUp();
 
-        $this->loadOnejavMock();
-
         Event::fake([
             OnejavDailyCompleted::class,
             OnejavReleaseCompleted::class,

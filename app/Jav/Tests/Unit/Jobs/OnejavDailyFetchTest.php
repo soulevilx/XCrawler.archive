@@ -10,13 +10,6 @@ class OnejavDailyFetchTest extends JavTestCase
 {
     use OnejavMocker;
 
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->loadOnejavMock();
-    }
-
     public function testDailyFetchJob()
     {
         DailyFetch::dispatch();

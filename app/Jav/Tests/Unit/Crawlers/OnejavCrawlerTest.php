@@ -12,13 +12,6 @@ class OnejavCrawlerTest extends JavTestCase
 {
     use OnejavMocker;
 
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->loadOnejavMock();
-    }
-
     public function testGetItemsOnPage()
     {
         $items = $this->crawler->getItems(Carbon::now()->format(OnejavService::DAILY_FORMAT));
@@ -125,5 +118,16 @@ class OnejavCrawlerTest extends JavTestCase
         $this->assertArrayHasKey('description', $item);
         $this->assertArrayHasKey('performers', $item);
         $this->assertArrayHasKey('torrent', $item);
+    }
+
+    public function testGetItems()
+    {
+        foreach (['waaa088_1', 'ipx873'] as $item) {
+            $items = $this->crawler->getItems('/torrent/' . $item);
+            $item = $items->first();
+            $this->assertIsArray($item->genres);
+            $this->assertIsArray($item->performers);
+            $this->assertIsString($item->description);
+        }
     }
 }

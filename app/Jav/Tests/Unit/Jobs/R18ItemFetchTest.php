@@ -17,20 +17,11 @@ class R18ItemFetchTest extends JavTestCase
 {
     use R18Mocker;
 
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->xcrawlerMocker
-            ->shouldReceive('get')
-            ->andReturn($this->getSuccessfulMockedResponse(app(JsonResponse::class), 'R18/item_rki00506.json'));
-
-        $this->loadR18Mocker();
-    }
-
     public function testItemFetch()
     {
-        $model = R18::factory()->create();
+        $model = R18::factory()->create([
+            'content_id' => 'rki00506',
+        ]);
         ItemFetch::dispatch($model);
 
         $model->refresh();
