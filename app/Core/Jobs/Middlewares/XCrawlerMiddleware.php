@@ -21,7 +21,7 @@ class XCrawlerMiddleware
      */
     public function handle($job, $next)
     {
-        $key = config('app.key').$this->class;
+        $key = config('app.key').$this->class . config('app.server_id');
         Redis::throttle($key)
             ->block(Application::getInt($this->service, 'middleware.block', 0))
             ->allow(Application::getInt($this->service, 'middleware.allow', 1))
