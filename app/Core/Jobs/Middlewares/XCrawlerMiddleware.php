@@ -21,7 +21,7 @@ class XCrawlerMiddleware
      */
     public function handle($job, $next)
     {
-        Redis::throttle(md5(config('app.key').$this->class.config('app.server_id')))
+        Redis::throttle($this->generateKey())
             ->block(Application::getInt($this->service, 'middleware.block', 0))
             ->allow(Application::getInt($this->service, 'middleware.allow', 1))
             ->every(Application::getInt($this->service, 'middleware.every', 1))
@@ -35,5 +35,14 @@ class XCrawlerMiddleware
 
                 $job->release(Application::getInt($this->service, 'middleware.release', 10));
             });
+    }
+
+    private function generateKey()
+    {
+        return md5(serialize([
+            config('app.key'),
+            $this->class,
+            config('app.server_ip'),
+        ]));
     }
 }
