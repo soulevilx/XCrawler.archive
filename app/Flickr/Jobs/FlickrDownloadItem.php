@@ -3,10 +3,9 @@
 namespace App\Flickr\Jobs;
 
 use App\Core\Jobs\BaseJob;
+use App\Core\Jobs\DownloadItem;
 use App\Core\Models\State;
 use App\Flickr\Models\FlickrDownloadItem as FlickrDownloadItemModel;
-use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Storage;
 
 class FlickrDownloadItem extends BaseJob
 {
@@ -22,19 +21,6 @@ class FlickrDownloadItem extends BaseJob
 
         $url = $photo->getLargestSizeUrl();
 
-        $dir = '/Flickr/' . $download->path;
-        $storage = Storage::drive('downloads');
-
-        if (!$storage->exists($dir)) {
-            $storage->createDir($dir);
-        }
-        $file = fopen($storage->path($dir) . '/' . basename($url), 'wb');
-
-        if (!app()->environment('testing')) {
-            $client = app(Client::class);
-            $client->request('GET', $url, ['sink' => $file]);
-        }
-
-        $this->downloadItem->setState(State::STATE_COMPLETED);
+        DownloadItem::dispatch('/Flickr/' . $download->path, $url,  $this->downloadItem);
     }
 }
