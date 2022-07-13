@@ -37,11 +37,14 @@ class FlickrDownloadItem extends BaseJob
         if (!app()->environment('testing')) {
             $client = app(Client::class);
             $client->request('GET', $downloadUrl, ['sink' => $file]);
+            if ($service->put($saveToDir, $saveToFile)) {
+                unlink($saveToFile);
+                $this->downloadItem->setState(State::STATE_COMPLETED);
+            }
+
+            return;
         }
 
-        if ($service->put($saveToDir, $saveToFile)) {
-            unlink($saveToFile);
-            $this->downloadItem->setState(State::STATE_COMPLETED);
-        }
+        $this->downloadItem->setState(State::STATE_COMPLETED);
     }
 }
