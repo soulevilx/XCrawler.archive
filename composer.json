@@ -38,8 +38,7 @@
         "laravel/slack-notification-channel": "^2.3",
         "laravel/tinker": "^2.6",
         "nao-pon/flysystem-google-drive": "~1.1",
-        "phpseclib/phpseclib": "^3.0",
-        "studio/laravel-totem": "^8.4"
+        "phpseclib/phpseclib": "^3.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
