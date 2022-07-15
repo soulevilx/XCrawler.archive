@@ -105,9 +105,9 @@ return [
     */
 
     'trim' => [
-        'recent' => 60,
-        'pending' => 60,
-        'completed' => 60,
+        'recent' => 1440,
+        'pending' => 1440,
+        'completed' => 1440,
         'recent_failed' => 10080,
         'failed' => 10080,
         'monitored' => 10080,
@@ -157,7 +157,7 @@ return [
     |
     */
 
-    'memory_limit' => (int)env('HORIZON_MEMORY', 1024) * 2,
+    'memory_limit' => (int) env('HORIZON_MEMORY', 1024) * 2,
 
     /*
     |--------------------------------------------------------------------------
@@ -172,7 +172,7 @@ return [
 
     'defaults' => [
         'default' => [
-            'connection' => 'rabbitmq',
+            'connection' => 'redis',
             'queue' => ['default'],
             'balance' => 'false',
             'maxProcesses' => env('HORIZON_DEFAULT_MAX_PROCESSES', 10),
@@ -183,7 +183,7 @@ return [
             'retry_after' => 1800,
         ],
         'crawling' => [
-            'connection' => 'rabbitmq',
+            'connection' => 'redis',
             'queue' => ['crawling'],
             'balance' => 'false',
             'maxProcesses' => env('HORIZON_CRAWLING_MAX_PROCESSES', 5),
@@ -194,7 +194,7 @@ return [
             'retry_after' => 1800,
         ],
         'api' => [
-            'connection' => 'rabbitmq',
+            'connection' => 'redis',
             'queue' => ['api'],
             'balance' => 'false',
             'maxProcesses' => env('HORIZON_API_MAX_PROCESSES', 10),
@@ -204,9 +204,8 @@ return [
             'timeout' => 7000,
             'retry_after' => 1800,
         ],
-
         'download' => [
-            'connection' => 'rabbitmq',
+            'connection' => 'redis',
             'queue' => ['download'],
             'balance' => 'false',
             'maxProcesses' => env('HORIZON_API_MAX_PROCESSES', 10),
@@ -217,7 +216,6 @@ return [
             'retry_after' => 1800,
         ],
     ],
-
     'environments' => [
         'production' => [
         ],
