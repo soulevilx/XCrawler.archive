@@ -172,7 +172,7 @@ return [
 
     'defaults' => [
         'default' => [
-            'connection' => 'redis',
+            'connection' => 'rabbitmq',
             'queue' => ['default'],
             'balance' => 'false',
             'maxProcesses' => env('HORIZON_DEFAULT_MAX_PROCESSES', 10),
@@ -183,7 +183,7 @@ return [
             'retry_after' => 1800,
         ],
         'crawling' => [
-            'connection' => 'redis',
+            'connection' => 'rabbitmq',
             'queue' => ['crawling'],
             'balance' => 'false',
             'maxProcesses' => env('HORIZON_CRAWLING_MAX_PROCESSES', 5),
@@ -194,7 +194,7 @@ return [
             'retry_after' => 1800,
         ],
         'api' => [
-            'connection' => 'redis',
+            'connection' => 'rabbitmq',
             'queue' => ['api'],
             'balance' => 'false',
             'maxProcesses' => env('HORIZON_API_MAX_PROCESSES', 10),
@@ -206,7 +206,7 @@ return [
         ],
 
         'download' => [
-            'connection' => 'redis',
+            'connection' => 'rabbitmq',
             'queue' => ['download'],
             'balance' => 'false',
             'maxProcesses' => env('HORIZON_API_MAX_PROCESSES', 10),
