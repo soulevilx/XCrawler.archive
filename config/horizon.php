@@ -2,6 +2,25 @@
 
 use Illuminate\Support\Str;
 
+$workers = [];
+foreach (['default', 'crawling', 'api', 'download'] as $key) {
+    $processes = env('HORIZON_'.strtoupper($key).'_MAX_PROCESSES');
+    if (empty($processes)) {
+        continue;
+    }
+
+    $workers[$key] = [
+        'connection' => env('HORIZON_CONNECTION', 'redis'),
+        'queue' => [$key],
+        'balance' => env('HORIZON_BALANCE', false),
+        'maxProcesses' => (int) $processes,
+        'memory' => env('HORIZON_MEMORY', 1024),
+        'tries' => env('HORIZON_TRIES', 3),
+        'nice' => 0,
+        'timeout' => 7000,
+        'retry_after' => 1800,
+    ];
+}
 return [
     /*
     |--------------------------------------------------------------------------
@@ -62,7 +81,7 @@ return [
                 [env('APP_NAME', 'laravel'), env('APP_ENV')])
             ,
             '_')
-        . '_horizon:'
+        .'_horizon:'
     ),
 
     /*
@@ -170,52 +189,7 @@ return [
     |
     */
 
-    'defaults' => [
-        'default' => [
-            'connection' => 'redis',
-            'queue' => ['default'],
-            'balance' => 'false',
-            'maxProcesses' => env('HORIZON_DEFAULT_MAX_PROCESSES', 10),
-            'memory' => env('HORIZON_MEMORY', 1024),
-            'tries' => env('HORIZON_TRIES', 3),
-            'nice' => 0,
-            'timeout' => 7000,
-            'retry_after' => 1800,
-        ],
-        'crawling' => [
-            'connection' => 'redis',
-            'queue' => ['crawling'],
-            'balance' => 'false',
-            'maxProcesses' => env('HORIZON_CRAWLING_MAX_PROCESSES', 5),
-            'memory' => env('HORIZON_MEMORY', 1024),
-            'tries' => env('HORIZON_TRIES', 3),
-            'nice' => 0,
-            'timeout' => 7000,
-            'retry_after' => 1800,
-        ],
-        'api' => [
-            'connection' => 'redis',
-            'queue' => ['api'],
-            'balance' => 'false',
-            'maxProcesses' => env('HORIZON_API_MAX_PROCESSES', 10),
-            'memory' => env('HORIZON_MEMORY', 1024),
-            'tries' => env('HORIZON_TRIES', 3),
-            'nice' => 0,
-            'timeout' => 7000,
-            'retry_after' => 1800,
-        ],
-        'download' => [
-            'connection' => 'redis',
-            'queue' => ['download'],
-            'balance' => 'false',
-            'maxProcesses' => env('HORIZON_API_MAX_PROCESSES', 10),
-            'memory' => env('HORIZON_MEMORY', 1024),
-            'tries' => env('HORIZON_TRIES', 3),
-            'nice' => 0,
-            'timeout' => 7000,
-            'retry_after' => 1800,
-        ],
-    ],
+    'defaults' => $workers,
     'environments' => [
         'production' => [
         ],
