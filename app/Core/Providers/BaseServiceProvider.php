@@ -23,7 +23,7 @@ class BaseServiceProvider extends ServiceProvider
     {
         $this->testCacheConnection();
         $this->testNetwork();
-        foreach (['mysql', 'mongodb', 'redis'] as $connection) {
+        foreach (['mysql', 'mongodb'] as $connection) {
             $this->testDatabase($connection);
         }
         $this->loadMigrations();
@@ -107,13 +107,7 @@ class BaseServiceProvider extends ServiceProvider
         }
 
         try {
-            switch ($connection) {
-                case 'redis':
-                    break;
-                default:
-                    DB::connection($connection)->getPdo();
-                    break;
-            }
+            DB::connection($connection)->getPdo();
         } catch (Exception $exception) {
             throw new DatabaseError ($exception->getMessage());
         }
