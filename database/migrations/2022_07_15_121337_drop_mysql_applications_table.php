@@ -1,11 +1,9 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class DropMysqlApplicationsTable extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      *
@@ -13,7 +11,9 @@ class DropMysqlApplicationsTable extends Migration
      */
     public function up()
     {
-        Schema::drop('applications');
+        if (Schema::hasTable('applications')) {
+            Schema::drop('applications');
+        }
     }
 
     /**
@@ -25,4 +25,4 @@ class DropMysqlApplicationsTable extends Migration
     {
         //
     }
-}
+};
