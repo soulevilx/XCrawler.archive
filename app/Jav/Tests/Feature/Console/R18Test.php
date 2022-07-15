@@ -18,7 +18,6 @@ class R18Test extends JavTestCase
     {
         parent::setUp();
 
-        $this->loadR18Mocker();
         Queue::fake();
     }
 

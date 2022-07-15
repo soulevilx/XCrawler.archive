@@ -24,20 +24,20 @@
     "require": {
         "php": ">=8.0",
         "ext-curl": "*",
-        "defstudio/telegraph": "^1.6",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
-        "guzzlehttp/guzzle": "^7.3",
+        "guzzlehttp/guzzle": "^7.4",
         "jenssegers/mongodb": "^3.8",
         "jooservices/oauth": "^0.9.0",
         "jooservices/xcrawler-client": "^0.5",
-        "kevinrob/guzzle-cache-middleware": "^3.4",
+        "kevinrob/guzzle-cache-middleware": "^4.0",
         "laravel/framework": "^8",
         "laravel/horizon": "^5.7",
         "laravel/sanctum": "^2.11",
         "laravel/slack-notification-channel": "^2.3",
         "laravel/tinker": "^2.6",
-        "studio/laravel-totem": "^8.3"
+        "nao-pon/flysystem-google-drive": "~1.1",
+        "phpseclib/phpseclib": "^3.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",

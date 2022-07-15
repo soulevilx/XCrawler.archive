@@ -12,13 +12,6 @@ class OnejavReleaseFetchTest extends JavTestCase
 {
     use OnejavMocker;
 
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->loadOnejavMock();
-    }
-
     public function testReleaseFetchJob()
     {
         ReleaseFetch::dispatch();

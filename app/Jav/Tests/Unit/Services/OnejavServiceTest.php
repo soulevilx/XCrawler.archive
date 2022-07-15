@@ -27,8 +27,6 @@ class OnejavServiceTest extends JavTestCase
     {
         parent::setUp();
 
-        $this->loadOnejavMock();
-
         Event::fake([
             OnejavDailyCompleted::class,
             OnejavReleaseCompleted::class,
@@ -142,6 +140,7 @@ class OnejavServiceTest extends JavTestCase
     public function testRelease()
     {
         Application::setSetting('onejav', 'total_pages', 2);
+        Application::setSetting('onejav', 'current_page', 1);
 
         $items = $this->service->release();
 
@@ -150,20 +149,22 @@ class OnejavServiceTest extends JavTestCase
         $this->assertDatabaseCount('onejav', $items->count());
         $this->assertDatabaseCount('movies', $items->count());
 
-        $this->assertEquals(2, Application::getSetting('onejav', 'current_page'));
+        $this->assertEquals(2, Application::getInt('onejav', 'current_page'));
         Event::assertDispatched(OnejavReleaseCompleted::class);
     }
 
     public function testReleaseAtEndOfPages()
     {
         Application::setSetting('onejav', 'total_pages', 2);
-        $this->service->release();
-
-        $this->assertEquals(2, Application::getSetting('onejav', 'current_page'));
+        Application::setSetting('onejav', 'current_page', 1);
 
         $this->service->release();
 
-        $this->assertEquals(1, Application::getSetting('onejav', 'current_page'));
+        $this->assertEquals(2, Application::getInt('onejav', 'current_page'));
+
+        $this->service->release();
+
+        $this->assertEquals(1, Application::getInt('onejav', 'current_page'));
 
         Event::assertDispatched(OnejavReleaseCompleted::class);
     }

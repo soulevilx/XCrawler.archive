@@ -26,12 +26,12 @@ class Kernel extends ConsoleKernel
         $schedule->command('jav:onejav daily')->dailyAt('14:00');
 
         // R18
-        $schedule->command('jav:r18 release')->everyFiveMinutes();
+        $schedule->command('jav:r18 release')->everyMinute();
         $schedule->command('jav:r18 daily')->dailyAt('12:00');
         $schedule->command('jav:r18 item');
 
         // XCity Idol
-        $schedule->command('jav:xcity-idol release')->everyFiveMinutes();
+        $schedule->command('jav:xcity-idol release')->everyMinute();
         $schedule->command('jav:xcity-idol daily')->dailyAt('12:00');
         // Update sub pages
         $schedule->command('jav:xcity-idol sub-pages')->weekly();
@@ -40,7 +40,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('jav:xcity-idol item');
 
         // XCity Video
-        $schedule->command('jav:xcity-video release')->everyFiveMinutes();
+        $schedule->command('jav:xcity-video release')->everyMinute();
         $schedule->command('jav:xcity-video daily')->dailyAt('12:00');
         $schedule->command('jav:xcity-video item');
 

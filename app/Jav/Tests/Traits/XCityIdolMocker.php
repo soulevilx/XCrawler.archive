@@ -39,6 +39,10 @@ trait XCityIdolMocker
                 ->shouldReceive('get')
                 ->with('idol/', ['kana' => $kana, 'page' => 2])
                 ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'XCity/idols.html'));
+            $this->xcrawlerMocker
+                ->shouldReceive('get')
+                ->with('idol/', ['kana' => $kana, 'page' => 3])
+                ->andReturn($this->getSuccessfulMockedResponse(app(DomResponse::class), 'XCity/idols.html'));
         }
 
         foreach ($this->idolIds as $idolId) {

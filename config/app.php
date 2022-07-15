@@ -127,6 +127,9 @@ return [
 
     'key' => env('APP_KEY'),
 
+    'server_id' => env('SERVER_ID'),
+    'server_ip' => env('SERVER_IP'),
+
     'cipher' => 'AES-256-CBC',
 
     /*
@@ -183,7 +186,6 @@ return [
         FlickrServiceProvider::class,
         FlickrEventServiceProvider::class,
 
-        Studio\Totem\Providers\TotemServiceProvider::class,
         Jenssegers\Mongodb\MongodbServiceProvider::class,
     ],
 

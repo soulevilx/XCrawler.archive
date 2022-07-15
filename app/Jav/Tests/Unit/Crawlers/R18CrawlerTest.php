@@ -10,13 +10,6 @@ class R18CrawlerTest extends JavTestCase
 {
     use R18Mocker;
 
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->loadR18Mocker();
-    }
-
     public function testGetLinks()
     {
         $items = $this->crawler->getItemLinks(R18::MOVIE_LIST_URL);

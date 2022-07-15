@@ -14,10 +14,12 @@ class OnejavEventSubscriber
 {
     public function handleOnejavCompleted(OnejavDailyCompleted|OnejavReleaseCompleted $event)
     {
-        if (Application::getBool(OnejavService::SERVICE_NAME, 'send_notifications', false)) {
-            Notification::route('slack', env('SLACK_NOTIFICATION'))
-                ->notify(new OnejavCompletedNotification($event));
+        if (!Application::getBool(OnejavService::SERVICE_NAME, 'send_notifications', false)) {
+            return;
         }
+
+        Notification::route('slack', Application::getString('jav', 'slack_url'))
+            ->notify(new OnejavCompletedNotification($event));
     }
 
     /**

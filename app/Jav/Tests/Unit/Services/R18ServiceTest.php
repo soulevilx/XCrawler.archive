@@ -24,7 +24,6 @@ class R18ServiceTest extends JavTestCase
     {
         parent::setUp();
 
-        $this->loadR18Mocker();
         Application::setSetting(R18Service::SERVICE_NAME, 'release_total_pages', 2);
         Application::setSetting(R18Service::SERVICE_NAME, 'release_current_page', 1);
     }
