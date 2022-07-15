@@ -24,7 +24,6 @@
     "require": {
         "php": ">=8.0",
         "ext-curl": "*",
-        "defstudio/telegraph": "^1.6",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.4",
@@ -38,9 +37,7 @@
         "laravel/slack-notification-channel": "^2.3",
         "laravel/tinker": "^2.6",
         "nao-pon/flysystem-google-drive": "~1.1",
-        "php-amqplib/php-amqplib": "^3.2",
-        "phpseclib/phpseclib": "^3.0",
-        "vladimir-yuldashev/laravel-queue-rabbitmq": "^11.0"
+        "phpseclib/phpseclib": "^3.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
