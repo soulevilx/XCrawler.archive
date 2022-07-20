@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('flickr_photos', function (Blueprint $table) {
-           $table->index(['sizes', 'deleted_at']);
+           $table->index('deleted_at');
         });
     }
 
