@@ -13,7 +13,7 @@ class FlickrPhoto extends AbstractFlickrCommand
      *
      * @var string
      */
-    protected $signature = 'flickr:photo {task} {--limit=15}';
+    protected $signature = 'flickr:photo {task}';
 
     /**
      * The console command description.
