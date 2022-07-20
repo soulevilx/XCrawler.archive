@@ -12,10 +12,12 @@ class DropTotemTables extends Migration
      */
     public function up()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::drop('tasks');
         Schema::drop('task_frequencies');
         Schema::drop('task_results');
         Schema::drop('frequency_parameters');
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
