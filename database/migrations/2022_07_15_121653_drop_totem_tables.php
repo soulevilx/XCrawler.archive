@@ -13,10 +13,9 @@ class DropTotemTables extends Migration
     public function up()
     {
         Schema::disableForeignKeyConstraints();
-        Schema::drop('tasks');
-        Schema::drop('task_frequencies');
-        Schema::drop('task_results');
-        Schema::drop('frequency_parameters');
+        foreach (['tasks', 'task_frequencies', 'task_results', 'frequency_parameters'] as $table) {
+            Schema::dropIfExists($table);
+        }
         Schema::enableForeignKeyConstraints();
     }
 
