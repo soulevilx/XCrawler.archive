@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bd30eabeaa6b1e5492d4702f01603782",
+    "content-hash": "b76cc13b2e7047db1f6455d3b6905aa2",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -764,16 +764,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.258.0",
+            "version": "v0.259.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "71eb32534aba05e373fe317c1373a9645065881c"
+                "reference": "3f68a8b8f825974bc0318b8f7268a09216d5fee1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/71eb32534aba05e373fe317c1373a9645065881c",
-                "reference": "71eb32534aba05e373fe317c1373a9645065881c",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/3f68a8b8f825974bc0318b8f7268a09216d5fee1",
+                "reference": "3f68a8b8f825974bc0318b8f7268a09216d5fee1",
                 "shasum": ""
             },
             "require": {
@@ -802,9 +802,9 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.258.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.259.0"
             },
-            "time": "2022-07-18T01:10:11+00:00"
+            "time": "2022-07-24T01:26:12+00:00"
         },
         {
             "name": "google/auth",
@@ -1607,16 +1607,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.83.22",
+            "version": "v8.83.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "96aecced5126d48e277e5339193c376fe82b6565"
+                "reference": "bdc707f8b9bcad289b24cd182d98ec7480ac4491"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/96aecced5126d48e277e5339193c376fe82b6565",
-                "reference": "96aecced5126d48e277e5339193c376fe82b6565",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/bdc707f8b9bcad289b24cd182d98ec7480ac4491",
+                "reference": "bdc707f8b9bcad289b24cd182d98ec7480ac4491",
                 "shasum": ""
             },
             "require": {
@@ -1776,20 +1776,20 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2022-07-22T14:16:24+00:00"
+            "time": "2022-07-26T13:30:00+00:00"
         },
         {
             "name": "laravel/horizon",
-            "version": "v5.9.9",
+            "version": "v5.9.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/horizon.git",
-                "reference": "93f5d74e1b6126d0de4416c230cb35aaddbe51bc"
+                "reference": "09b2031b3077f22aaca07f1dbe4ee2cc8eacad78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/horizon/zipball/93f5d74e1b6126d0de4416c230cb35aaddbe51bc",
-                "reference": "93f5d74e1b6126d0de4416c230cb35aaddbe51bc",
+                "url": "https://api.github.com/repos/laravel/horizon/zipball/09b2031b3077f22aaca07f1dbe4ee2cc8eacad78",
+                "reference": "09b2031b3077f22aaca07f1dbe4ee2cc8eacad78",
                 "shasum": ""
             },
             "require": {
@@ -1851,9 +1851,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel/horizon/issues",
-                "source": "https://github.com/laravel/horizon/tree/v5.9.9"
+                "source": "https://github.com/laravel/horizon/tree/v5.9.10"
             },
-            "time": "2022-07-11T18:08:25+00:00"
+            "time": "2022-07-25T13:24:03+00:00"
         },
         {
             "name": "laravel/sanctum",
@@ -2499,22 +2499,22 @@
         },
         {
             "name": "mongodb/mongodb",
-            "version": "1.13.0",
+            "version": "1.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mongodb/mongo-php-library.git",
-                "reference": "a9d82890fe0c104cf795e6c759c92484d12c027a"
+                "reference": "e4a7594ac4b31635fa77455c4038a7013024ba28"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mongodb/mongo-php-library/zipball/a9d82890fe0c104cf795e6c759c92484d12c027a",
-                "reference": "a9d82890fe0c104cf795e6c759c92484d12c027a",
+                "url": "https://api.github.com/repos/mongodb/mongo-php-library/zipball/e4a7594ac4b31635fa77455c4038a7013024ba28",
+                "reference": "e4a7594ac4b31635fa77455c4038a7013024ba28",
                 "shasum": ""
             },
             "require": {
                 "ext-hash": "*",
                 "ext-json": "*",
-                "ext-mongodb": "^1.14.0",
+                "ext-mongodb": "^1.13.0",
                 "jean85/pretty-package-versions": "^1.2 || ^2.0.1",
                 "php": "^7.2 || ^8.0",
                 "symfony/polyfill-php80": "^1.19"
@@ -2527,7 +2527,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.13.x-dev"
+                    "dev-master": "1.12.x-dev"
                 }
             },
             "autoload": {
@@ -2562,9 +2562,9 @@
             ],
             "support": {
                 "issues": "https://github.com/mongodb/mongo-php-library/issues",
-                "source": "https://github.com/mongodb/mongo-php-library/tree/1.13.0"
+                "source": "https://github.com/mongodb/mongo-php-library/tree/1.12.0"
             },
-            "time": "2022-07-14T05:07:37+00:00"
+            "time": "2022-03-23T20:18:39+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -2768,16 +2768,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.59.1",
+            "version": "2.60.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "a9000603ea337c8df16cc41f8b6be95a65f4d0f5"
+                "reference": "00a259ae02b003c563158b54fb6743252b638ea6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/a9000603ea337c8df16cc41f8b6be95a65f4d0f5",
-                "reference": "a9000603ea337c8df16cc41f8b6be95a65f4d0f5",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/00a259ae02b003c563158b54fb6743252b638ea6",
+                "reference": "00a259ae02b003c563158b54fb6743252b638ea6",
                 "shasum": ""
             },
             "require": {
@@ -2866,7 +2866,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-06-29T21:43:55+00:00"
+            "time": "2022-07-27T15:57:48+00:00"
         },
         {
             "name": "nette/schema",
@@ -7212,98 +7212,6 @@
             "time": "2022-02-12T12:37:34+00:00"
         },
         {
-            "name": "brianium/paratest",
-            "version": "v6.6.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/paratestphp/paratest.git",
-                "reference": "ae5803ce4558f855c7d955baa2d90b93ec40c4b7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/paratestphp/paratest/zipball/ae5803ce4558f855c7d955baa2d90b93ec40c4b7",
-                "reference": "ae5803ce4558f855c7d955baa2d90b93ec40c4b7",
-                "shasum": ""
-            },
-            "require": {
-                "ext-dom": "*",
-                "ext-pcre": "*",
-                "ext-reflection": "*",
-                "ext-simplexml": "*",
-                "jean85/pretty-package-versions": "^2.0.5",
-                "php": "^7.3 || ^8.0",
-                "phpunit/php-code-coverage": "^9.2.15",
-                "phpunit/php-file-iterator": "^3.0.6",
-                "phpunit/php-timer": "^5.0.3",
-                "phpunit/phpunit": "^9.5.21",
-                "sebastian/environment": "^5.1.4",
-                "symfony/console": "^5.4.9 || ^6.1.2",
-                "symfony/process": "^5.4.8 || ^6.1.0"
-            },
-            "require-dev": {
-                "doctrine/coding-standard": "^9.0.0",
-                "ext-pcov": "*",
-                "ext-posix": "*",
-                "infection/infection": "^0.26.13",
-                "malukenho/mcbumpface": "^1.1.5",
-                "squizlabs/php_codesniffer": "^3.7.1",
-                "symfony/filesystem": "^5.4.9 || ^6.1.0",
-                "vimeo/psalm": "^4.24.0"
-            },
-            "bin": [
-                "bin/paratest",
-                "bin/paratest.bat",
-                "bin/paratest_for_phpstorm"
-            ],
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "ParaTest\\": [
-                        "src/"
-                    ]
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Brian Scaturro",
-                    "email": "scaturrob@gmail.com",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Filippo Tessarotto",
-                    "email": "zoeslam@gmail.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Parallel testing for PHP",
-            "homepage": "https://github.com/paratestphp/paratest",
-            "keywords": [
-                "concurrent",
-                "parallel",
-                "phpunit",
-                "testing"
-            ],
-            "support": {
-                "issues": "https://github.com/paratestphp/paratest/issues",
-                "source": "https://github.com/paratestphp/paratest/tree/v6.6.1"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/sponsors/Slamdunk",
-                    "type": "github"
-                },
-                {
-                    "url": "https://paypal.me/filippotessarotto",
-                    "type": "paypal"
-                }
-            ],
-            "time": "2022-07-22T14:07:17+00:00"
-        },
-        {
             "name": "composer/package-versions-deprecated",
             "version": "1.11.99.5",
             "source": {
@@ -7953,34 +7861,31 @@
         },
         {
             "name": "doctrine/event-manager",
-            "version": "1.1.1",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/event-manager.git",
-                "reference": "41370af6a30faa9dc0368c4a6814d596e81aba7f"
+                "reference": "eb2ecf80e3093e8f3c2769ac838e27d8ede8e683"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/event-manager/zipball/41370af6a30faa9dc0368c4a6814d596e81aba7f",
-                "reference": "41370af6a30faa9dc0368c4a6814d596e81aba7f",
+                "url": "https://api.github.com/repos/doctrine/event-manager/zipball/eb2ecf80e3093e8f3c2769ac838e27d8ede8e683",
+                "reference": "eb2ecf80e3093e8f3c2769ac838e27d8ede8e683",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1 || ^8.0"
             },
             "conflict": {
-                "doctrine/common": "<2.9@dev"
+                "doctrine/common": "<2.9"
             },
             "require-dev": {
-                "doctrine/coding-standard": "^6.0",
-                "phpunit/phpunit": "^7.0"
+                "doctrine/coding-standard": "^9",
+                "phpstan/phpstan": "~1.4.10 || ^1.5.4",
+                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.5",
+                "vimeo/psalm": "^4.22"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Doctrine\\Common\\": "lib/Doctrine/Common"
@@ -8027,7 +7932,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/event-manager/issues",
-                "source": "https://github.com/doctrine/event-manager/tree/1.1.x"
+                "source": "https://github.com/doctrine/event-manager/tree/1.1.2"
             },
             "funding": [
                 {
@@ -8043,7 +7948,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-05-29T18:28:51+00:00"
+            "time": "2022-07-27T22:18:11+00:00"
         },
         {
             "name": "doctrine/instantiator",
