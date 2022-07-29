@@ -35,7 +35,7 @@
         "laravel/horizon": "^5.7",
         "laravel/sanctum": "^2.11",
         "laravel/slack-notification-channel": "^2.3",
-        "laravel/tinker": "^2.6",
+        "laravel/tinker": "^2.7",
         "nao-pon/flysystem-google-drive": "~1.1",
         "phpseclib/phpseclib": "^3.0"
     },
@@ -43,18 +43,17 @@
         "barryvdh/laravel-debugbar": "^3.6",
         "barryvdh/laravel-ide-helper": "^2.10",
         "beyondcode/laravel-dump-server": "^1.7",
-        "brianium/paratest": "^6.4",
         "facade/ignition": "^2",
-        "fakerphp/faker": "^1.9.1",
+        "fakerphp/faker": "^1.20",
         "friendsofphp/php-cs-fixer": "^3.0",
         "mockery/mockery": "^1.4",
         "nunomaduro/collision": "^5",
-        "phpstan/phpstan": "^1.5",
+        "phpstan/phpstan": "^1.8",
         "phpunit/phpunit": "^9.5",
         "phpmd/phpmd": "^2.12",
         "rector/rector": "^0.12",
-        "squizlabs/php_codesniffer": "^3.6",
-        "vimeo/psalm": "^4.22"
+        "squizlabs/php_codesniffer": "^3.7",
+        "vimeo/psalm": "^4.24"
     },
     "autoload": {
         "psr-4": {
