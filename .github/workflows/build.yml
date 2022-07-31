@@ -35,7 +35,7 @@ jobs:
       - name: Setup application
         if: success()
         run: |
-          echo $BACKPACK &gt;&gt; auth.json
+          echo $BACKPACK auth.json
           cat auth.json
           php -r "file_exists('.env') || copy('.env.example', '.env');"
           composer install --no-ansi --no-scripts --no-progress --prefer-dist
