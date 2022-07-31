@@ -37,3 +37,4 @@ yarn-error.log
 /Docker/mariadb/
 /Docker/mongodb/
 /public/packages/
+/public/vendor/
