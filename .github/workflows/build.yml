@@ -32,16 +32,19 @@ jobs:
           fetch-depth: 0
       #      PHP will be installed on server by itself
 
-      - name: Setup application
-        if: success()
+      - name: Create auth.json
         run: |
           echo $BACKPACK >> auth.json
           cat auth.json
-          php -r "file_exists('.env') || copy('.env.example', '.env');"
-          composer install --no-ansi --no-scripts --no-progress --prefer-dist
         shell: bash
         env:
-          BACKPACK : ${{secrets.BACKPACK}}
+          BACKPACK: ${{secrets.BACKPACK}}
+
+      - name: Setup application
+        if: success()
+        run: |
+          php -r "file_exists('.env') || copy('.env.example', '.env');"
+          composer install --no-ansi --no-scripts --no-progress --prefer-dist
 
       - name: Lint
         run: composer ${{ matrix.lint }}
@@ -57,6 +60,14 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+
+      - name: Create auth.json
+        run: |
+          echo $BACKPACK >> auth.json
+          cat auth.json
+        shell: bash
+        env:
+          BACKPACK: ${{secrets.BACKPACK}}
 
       - name: Setup application
         if: success()
@@ -113,6 +124,14 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+
+      - name: Create auth.json
+        run: |
+          echo $BACKPACK >> auth.json
+          cat auth.json
+        shell: bash
+        env:
+          BACKPACK: ${{secrets.BACKPACK}}
 
       - name: Setup application
         if: success()
