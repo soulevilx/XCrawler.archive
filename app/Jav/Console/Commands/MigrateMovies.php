@@ -25,8 +25,11 @@ class MigrateMovies extends Command
     public function handle()
     {
         $service = app(MovieService::class);
+        $this->output->progressStart();
         foreach (Movie::cursor() as $movie) {
+            $this->output->progressAdvance();
             $service->createIndex($movie);
         }
+        $this->output->progressFinish();
     }
 }
