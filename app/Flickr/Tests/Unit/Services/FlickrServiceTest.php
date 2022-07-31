@@ -90,7 +90,8 @@ class FlickrServiceTest extends FlickrTestCase
         $this->assertDatabaseHas('client_requests', [
             'service' => FlickrService::SERVICE_NAME,
             'endpoint' => 'flickr.contacts.getList',
-            'error' => 'The possible values are: name and time.'
+            'is_succeed' => false,
+            'response' => 'The possible values are: name and time.'
         ], BaseMongo::CONNECTION_NAME);
         Event::assertDispatched(FlickrRequestFailed::class);
     }
@@ -139,7 +140,8 @@ class FlickrServiceTest extends FlickrTestCase
         $this->assertDatabaseHas('client_requests', [
             'service' => FlickrService::SERVICE_NAME,
             'endpoint' => 'flickr.people.getInfo',
-            'error' => People::ERROR_MESSAGES_MAP[People::ERROR_CODE_USER_DELETED],
+            'is_succeed' => false,
+            'response' => People::ERROR_MESSAGES_MAP[People::ERROR_CODE_USER_DELETED],
         ], BaseMongo::CONNECTION_NAME);
 
         Event::dispatched(FlickrRequestFailed::class);
@@ -180,7 +182,6 @@ class FlickrServiceTest extends FlickrTestCase
         $this->assertDatabaseHas('client_requests', [
             'service' => FlickrService::SERVICE_NAME,
             'endpoint' => 'flickr.photosets.getInfo',
-
         ], BaseMongo::CONNECTION_NAME);
     }
 
