@@ -2,9 +2,8 @@
 
 namespace App\Flickr\Services;
 
-use App\Core\Events\Client\ClientRequested;
-use App\Core\Events\Client\ClientRequestFailed;
 use App\Core\Models\Integration;
+use App\Flickr\Events\FlickrRequested;
 use App\Flickr\Events\FlickrRequestFailed;
 use App\Flickr\Exceptions\FlickrGeneralException;
 use App\Flickr\Jobs\FlickrRequestDownloadAlbum;
@@ -105,13 +104,11 @@ class FlickrService
             true
         );
 
-        Event::dispatch(new ClientRequested(
-            self::SERVICE_NAME,
-            [],
+        Event::dispatch(new FlickrRequested(
+            'POST',
             $path,
             $params,
-            'POST',
-            null
+            $jsonResponse
         ));
 
         if (isset($jsonResponse['stat']) && $jsonResponse['stat'] !== 'fail') {
@@ -124,15 +121,6 @@ class FlickrService
             $jsonResponse['message'] ?? '',
             $jsonResponse['code'] ?? null
         );
-
-        Event::dispatch(new ClientRequestFailed(
-            self::SERVICE_NAME,
-            [],
-            $path,
-            $params,
-            'POST',
-            $exception
-        ));
 
         throw new $exception;
     }

@@ -6,6 +6,8 @@ use App\Core\Events\Client\ClientRequested;
 use App\Core\Events\Client\ClientRequestFailed;
 use App\Core\Models\ClientRequest;
 use App\Core\Services\Facades\Application;
+use App\Flickr\Events\FlickrRequested;
+use App\Flickr\Services\FlickrService;
 use Illuminate\Events\Dispatcher;
 
 class ClientRequestEventSubscriber
@@ -22,16 +24,28 @@ class ClientRequestEventSubscriber
         ];
 
         if ($event instanceof ClientRequested) {
-
-            $data['is_succeed'] = $event?->response?->isSuccessful();
+            $data['is_succeed'] = $event->response?->isSuccessful();
         }
 
         if ($event instanceof ClientRequestFailed) {
             $data['is_succeed'] = false;
-            $data['error'] = $event?->exception->getMessage();
+            $data['response'] = $event?->exception->getMessage();
         }
 
         ClientRequest::create($data);
+    }
+
+    public function handleFlickrRequested(FlickrRequested $event)
+    {
+        ClientRequest::create([
+            'service' => FlickrService::SERVICE_NAME,
+            'method' => $event->method,
+            'options' => null,
+            'endpoint' => $event->path,
+            'payload' => $event->params,
+            'is_succeed' => $event->isSucceed(),
+            'response' => $event->jsonResponse['message'] ?? null,
+        ]);
     }
 
     /**
@@ -47,5 +61,9 @@ class ClientRequestEventSubscriber
             ClientRequested::class,
             ClientRequestFailed::class,
         ], self::class.'@handleClientRequest');
+
+        $events->listen([
+            FlickrRequested::class,
+        ], self::class.'@handleFlickrRequested');
     }
 }
