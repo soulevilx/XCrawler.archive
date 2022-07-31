@@ -29,7 +29,7 @@ class ClientRequestEventSubscriber
 
         if ($event instanceof ClientRequestFailed) {
             $data['is_succeed'] = false;
-            $data['error'] = $event?->exception->getMessage();
+            $data['response'] = $event?->exception->getMessage();
         }
 
         ClientRequest::create($data);
