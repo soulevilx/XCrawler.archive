@@ -33,7 +33,8 @@ class FlickrServiceTest extends FlickrTestCase
         $this->assertDatabaseHas('client_requests', [
             'service' => FlickrService::SERVICE_NAME,
             'endpoint' => $endpoint,
-            'error' => People::ERROR_MESSAGES_MAP[$code]
+            'is_succeed' => false,
+            'response' => People::ERROR_MESSAGES_MAP[$code]
 
         ], BaseMongo::CONNECTION_NAME);
 

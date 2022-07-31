@@ -43,7 +43,8 @@ class ClientRequestEventSubscriber
             'options' => null,
             'endpoint' => $event->path,
             'payload' => $event->params,
-            'is_succeed' => $event->isSucceed()
+            'is_succeed' => $event->isSucceed(),
+            'response' => $event->jsonResponse['message'] ?? null,
         ]);
     }
 
