@@ -24,6 +24,7 @@
     "require": {
         "php": ">=8.0",
         "ext-curl": "*",
+        "backpack/crud": "^5.2",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.4",
@@ -40,7 +41,6 @@
         "phpseclib/phpseclib": "^3.0"
     },
     "require-dev": {
-        "backpack/devtools": "^1.0",
         "barryvdh/laravel-debugbar": "^3.6",
         "barryvdh/laravel-ide-helper": "^2.10",
         "beyondcode/laravel-dump-server": "^1.7",
@@ -126,11 +126,6 @@
         "process-timeout": 0
     },
     "minimum-stability": "dev",
-    "prefer-stable": true,
-    "repositories": {
-        "backpack/devtools": {
-            "type": "composer",
-            "url": "https://repo.backpackforlaravel.com"
-        }
-    }
+    "prefer-stable": true
+
 }
