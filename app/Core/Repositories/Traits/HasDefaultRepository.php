@@ -3,6 +3,7 @@
 namespace App\Core\Repositories\Traits;
 
 use App\Core\Models\State;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
@@ -92,5 +93,23 @@ trait HasDefaultRepository
     public function update(array $attributes): bool
     {
         return $this->model->update($attributes);
+    }
+
+    public function total(): int
+    {
+        return $this->model->count();
+    }
+
+    public function totalToday(): int
+    {
+        $now = Carbon::now();
+        return $this->model
+            ->where('created_at', '>=', $now->startOfDay())
+            ->count();
+    }
+
+    public function latest()
+    {
+        return $this->model->latest()->first();
     }
 }
