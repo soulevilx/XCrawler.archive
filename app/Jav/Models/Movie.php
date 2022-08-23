@@ -4,6 +4,7 @@ namespace App\Jav\Models;
 
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\WordPressPost;
+use App\Jav\Models\Traits\HasCover;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -36,6 +37,7 @@ class Movie extends Model
     use HasFactory;
     use SoftDeletes;
     use Notifiable;
+    use HasCover;
 
     protected $table = 'movies';
 
@@ -133,5 +135,20 @@ class Movie extends Model
     public function series()
     {
         return is_array($this->series) ? implode(', ', $this->series) : $this->series;
+    }
+
+    public function getDvdId(): ?string
+    {
+        return $this->dvd_id ?? null;
+    }
+
+    public function getContentId(): ?string
+    {
+        return $this->content_id ?? $this->dvd_id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name ?? null;
     }
 }

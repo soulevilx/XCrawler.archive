@@ -12,7 +12,6 @@ class DashboardController extends CrudController
 {
     public function index()
     {
-
         return view('welcome')
         ->with(
             'repositories',

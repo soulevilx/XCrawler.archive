@@ -1,6 +1,9 @@
 <?php
 
 use App\Core\Http\Controllers\DashboardController;
+use App\Jav\Http\Controllers\MovieController;
+use App\Jav\Http\Controllers\OnejavController;
+use App\Jav\Http\Controllers\R18Controller;
 use Illuminate\Support\Facades\Route;
 
 // --------------------------
@@ -17,5 +20,9 @@ Route::group([
     ),
     'namespace'  => 'App\Http\Controllers\Admin',
 ], function () { // custom admin routes
-    Route::get('/welcome', [DashboardController::class, 'index']);
+    Route::get('/dashboard', [DashboardController::class, 'index']);
+
+    Route::get('/onejav', [OnejavController::class, 'index'])->name('onejav.index');
+    Route::get('/movies', [MovieController::class, 'index'])->name('movies.index');
+    Route::get('/r18', [R18Controller::class, 'index'])->name('r18.index');
 }); // this should be the absolute last line of this file

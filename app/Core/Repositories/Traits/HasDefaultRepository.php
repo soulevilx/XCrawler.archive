@@ -3,8 +3,10 @@
 namespace App\Core\Repositories\Traits;
 
 use App\Core\Models\State;
+use App\Core\Repositories\FilterRepository;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
 trait HasDefaultRepository
@@ -111,5 +113,10 @@ trait HasDefaultRepository
     public function latest()
     {
         return $this->model->latest()->first();
+    }
+
+    public function filter(Request $request): FilterRepository
+    {
+        return (new FilterRepository(clone $this->model, $request));
     }
 }

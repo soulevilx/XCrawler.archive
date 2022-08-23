@@ -25,6 +25,7 @@
         "php": ">=8.0",
         "ext-curl": "*",
         "backpack/crud": "^5.2",
+        "elasticsearch/elasticsearch": "^8.3",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.4",

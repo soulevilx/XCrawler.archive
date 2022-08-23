@@ -69,4 +69,9 @@ class Onejav extends Model implements MovieInterface
     {
         return $this->morphMany(Download::class, 'model');
     }
+
+    public function r18()
+    {
+        return $this->hasOne(R18::class, 'dvd_id', 'dvd_id');
+    }
 }
