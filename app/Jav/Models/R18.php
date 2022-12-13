@@ -5,6 +5,7 @@ namespace App\Jav\Models;
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
 use App\Jav\Models\Interfaces\MovieInterface;
+use App\Jav\Models\Traits\HasCover;
 use App\Jav\Models\Traits\HasMovie;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -33,6 +34,7 @@ class R18 extends Model implements MovieInterface
     use SoftDeletes;
     use HasMovie;
     use HasStates;
+    use HasCover;
 
     public const MOVIE_DETAIL_ENDPOINT = '/api/v4f/contents';
 

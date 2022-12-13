@@ -4,6 +4,7 @@ namespace App\Jav\Models;
 
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\Traits\HasStates;
+use App\Jav\Models\Traits\HasCover;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -15,6 +16,7 @@ class XCityVideo extends Model
     use HasFactory;
     use SoftDeletes;
     use HasStates;
+    use HasCover;
 
     public const INDEX_URL = 'avod/list';
     public const PER_PAGE = 90;

@@ -36,3 +36,5 @@ yarn-error.log
 /postgres-data/
 /Docker/mariadb/
 /Docker/mongodb/
+/public/packages/
+/public/vendor/

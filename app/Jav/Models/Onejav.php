@@ -5,6 +5,7 @@ namespace App\Jav\Models;
 use App\Core\Models\Download;
 use App\Core\Models\Traits\HasFactory;
 use App\Jav\Models\Interfaces\MovieInterface;
+use App\Jav\Models\Traits\HasCover;
 use App\Jav\Models\Traits\HasMovie;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -26,6 +27,7 @@ class Onejav extends Model implements MovieInterface
     use SoftDeletes;
     use HasMovie;
     use Notifiable;
+    use HasCover;
 
     protected $table = 'onejav';
 
@@ -66,5 +68,10 @@ class Onejav extends Model implements MovieInterface
     public function downloads()
     {
         return $this->morphMany(Download::class, 'model');
+    }
+
+    public function r18()
+    {
+        return $this->hasOne(R18::class, 'dvd_id', 'dvd_id');
     }
 }

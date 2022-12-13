@@ -8,6 +8,7 @@ use App\Jav\Services\R18Service;
 use App\Jav\Services\SCuteService;
 use App\Jav\Services\XCityIdolService;
 use App\Jav\Services\XCityVideoService;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -55,5 +56,10 @@ class DatabaseSeeder extends Seeder
         ];
 
         Application::setSettings($settings);
+        User::create([
+            'name' => 'Viet Vu',
+            'email' => 'soulevilx@gmail.com',
+            'password' => bcrypt('admin')
+        ]);
     }
 }

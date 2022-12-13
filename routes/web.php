@@ -1,6 +1,7 @@
 <?php
 
-use App\Core\Http\Controllers\IndexController;
+use App\Core\Http\Controllers\DashboardController;
+use App\Jav\Http\Controllers\OnejavController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,4 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [IndexController::class, 'index'])->name('index.view');
+Route::middleware([])->group(function () {
+
+});

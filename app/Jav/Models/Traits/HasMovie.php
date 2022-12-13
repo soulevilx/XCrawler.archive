@@ -43,7 +43,7 @@ trait HasMovie
 
     public function getContentId(): ?string
     {
-        return $this->content_id ?? null;
+        return $this->content_id ?? $this->dvd_id;
     }
 
     public function getName(): ?string

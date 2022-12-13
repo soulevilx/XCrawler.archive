@@ -9,5 +9,6 @@ parameters:
         - */Database/*
         - */Routes/*
         - 'rector.php'
+        - 'app/Http/Middleware/CheckIfAdmin.php'
 
     ignoreErrors:
