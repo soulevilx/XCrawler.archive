@@ -1,40 +1,35 @@
 version: "3.9"  # optional since v1.27.0
 services:
 
-    database:
+    mariadb:
         image: mariadb
-        ports:
-            - 3307:3306
         environment:
-            MYSQL_ROOT_PASSWORD: root
-            MYSQL_ALLOW_EMPTY_ROOT_PASSWORD: no
-            MYSQL_USER: root
-            MYSQL_PASSWORD: root
-            MYSQL_DATABASE: xcrawler
+            MARIADB_ROOT_PASSWORD: root
+            MARIADB_USER: xcrawler
+            MARIADB_PASSWORD: xcrawler
+            MARIADB_DATABASE: xcrawler
         volumes:
-            - ./Docker/mariadb:/var/lib/mysql
+            - ./Docker/mariadb/db:/var/lib/mysql
         restart: unless-stopped
 
     redis:
         image: redis
-        ports:
-            - 3308:6379
+        volumes:
+            - ./Docker/redis/data:/data
         restart: unless-stopped
 
     mongodb:
         image: mongo
-        ports:
-            - 3309:27017
-        restart: unless-stopped
         volumes:
-        - ./Docker/mongodb:/data/db
+        - ./Docker/mongodb/db:/data/db
+        - ./Docker/mongodb/configdb:/data/configdb
+        restart: unless-stopped
 
     php:
         build:
             context: .
             dockerfile: ./Docker/Dockerfile
         #image: php:8.1
-        restart: unless-stopped
         tty: true
         environment:
             SERVICE_NAME: app
@@ -42,3 +37,4 @@ services:
         working_dir: /var/www
         volumes:
             - ./:/var/www
+        restart: unless-stopped
