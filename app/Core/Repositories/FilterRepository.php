@@ -30,6 +30,8 @@ class FilterRepository
         }
 
         foreach ($this->request->toArray() as $key => $value) {
+            if (is_array($value))
+                continue;
             Cookie::queue('filter.'.$key, $value, 10);
         }
     }
@@ -41,8 +43,8 @@ class FilterRepository
 
     private function order()
     {
-        $orderBy = $this->request->input('orderBy');
-        $orderDirection = $this->request->input('orderDirection');
+        $orderBy = $this->request->input('orderBy', 'created_at');
+        $orderDirection = $this->request->input('orderDirection', 'ASC');
 
         if (is_array($orderBy)) {
             foreach ($orderBy as $column => $direction) {

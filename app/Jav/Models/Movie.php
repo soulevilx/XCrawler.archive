@@ -2,6 +2,7 @@
 
 namespace App\Jav\Models;
 
+use App\Core\Models\Download;
 use App\Core\Models\Traits\HasFactory;
 use App\Core\Models\WordPressPost;
 use App\Jav\Models\Traits\HasCover;
@@ -150,5 +151,10 @@ class Movie extends Model
     public function getName(): ?string
     {
         return $this->name ?? null;
+    }
+
+    public function download()
+    {
+        return $this->morphTo(Download::class);
     }
 }

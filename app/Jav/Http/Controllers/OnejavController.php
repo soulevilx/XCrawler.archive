@@ -11,6 +11,6 @@ class OnejavController extends CrudController
     public function index(Request $request)
     {
         return view('movies.index')
-            ->with('movies', app(OnejavRespository::class)->filter()->get($request));
+            ->with('movies', app(OnejavRespository::class)->filter($request)->get());
     }
 }

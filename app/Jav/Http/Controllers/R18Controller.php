@@ -12,6 +12,6 @@ class R18Controller extends CrudController
     public function index(Request $request)
     {
         return view('movies.index')
-            ->with('movies', app(R18Repository::class)->filter()->get($request));
+            ->with('movies', app(R18Repository::class)->filter($request)->get());
     }
 }

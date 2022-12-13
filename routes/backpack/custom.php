@@ -25,4 +25,6 @@ Route::group([
     Route::get('/onejav', [OnejavController::class, 'index'])->name('onejav.index');
     Route::get('/movies', [MovieController::class, 'index'])->name('movies.index');
     Route::get('/r18', [R18Controller::class, 'index'])->name('r18.index');
+
+    Route::post('/movies/download/{movie}', [\App\Jav\Http\Controllers\DownloadController::class, 'download'])->name('movies.download');
 }); // this should be the absolute last line of this file

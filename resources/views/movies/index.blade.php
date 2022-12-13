@@ -5,30 +5,16 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-            <a class="navbar-brand" href="#">Hidden brand</a>
+            <a class="navbar-brand" href="#"></a>
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled">Disabled</a>
-                </li>
+
             </ul>
             <form class="form-inline my-2 my-lg-0" action="{{route(Route::currentRouteName())}}">
-                @include('includes.select', ['values' => ['created', 'dvd_id'], 'key' => 'orderDirection'])
-                @include('includes.select', ['values' => ['asc', 'desc'], 'key' => 'orderBy'])
+                @include('includes.checkbox', ['values' => ['r18', 'onejav'], 'key' => 'has[]'])
+                @include('includes.select', ['values' => ['created_at', 'dvd_id'], 'key' => 'orderBy'])
 
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-
-                    <div class="input-group-prepend">
-                        <button class="btn btn-outline-secondary" type="button">Button</button>
-                    </div>
-
-
+                <button class="btn btn-outline my-2 my-sm-2" type="submit">Search</button>
             </form>
 
         </div>
@@ -60,7 +46,7 @@
                         <div class="card-footer">
                             <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                                 <div class="btn-group mr-2" role="group" aria-label="">
-                                    <form action="" method="post">
+                                    <form action="{{route('movies.download', $movie)}}" method="post">
                                         <button type="submit" class="btn btn-primary has-tooltip" data-toggle="tooltip"
                                                 data-placement="bottom"
                                                 title="{{\Illuminate\Support\Facades\Config::get('services.jav.download_dir')}}">
@@ -68,6 +54,7 @@
                                                 class="fas fa-download"></i></button>
                                         <a href="#" class="badge badge-secondary"></a>
                                         <span class="badge badge-dark"></span>
+                                        @csrf
                                     </form>
                                 </div>
 
@@ -147,5 +134,5 @@
             @endforeach
         </div>
     </div>
-    {{ $movies->links() }}
+    {{ $movies->withQueryString()->links() }}
 @endsection
